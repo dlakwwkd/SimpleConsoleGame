@@ -21,6 +21,9 @@
     <ClInclude Include="targetver.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Console</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -28,6 +31,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Console</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
