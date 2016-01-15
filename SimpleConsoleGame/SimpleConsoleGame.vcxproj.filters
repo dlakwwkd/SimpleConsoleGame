@@ -24,6 +24,9 @@
     <ClInclude Include="Console.h">
       <Filter>Console</Filter>
     </ClInclude>
+    <ClInclude Include="AssertPack.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -35,5 +38,16 @@
     <ClCompile Include="Console.cpp">
       <Filter>Console</Filter>
     </ClCompile>
+    <ClCompile Include="AssertPack.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AssertPack.inl">
+      <Filter>Base</Filter>
+    </None>
+    <None Include="Console.inl">
+      <Filter>Console</Filter>
+    </None>
   </ItemGroup>
 </Project>
