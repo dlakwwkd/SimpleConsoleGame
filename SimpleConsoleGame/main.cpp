@@ -4,14 +4,14 @@
 int main()
 {
 //     /* 테스트 코드 */
-//     Assert::OverflowCheck(MAXLONG, TYPE(long));
-//     Assert::OverflowCheck(MAXINT, TYPE(int));
-//     Assert::OverflowCheck(MAXSHORT, TYPE(short));
-//     Assert::OverflowCheck(MAXCHAR, TYPE(char));
-//     Assert::OverflowCheck(MAXSHORT + 1, TYPE(short));
-//     Assert::OverflowCheck(MAXSHORT, TYPE(char));
-//     Assert::OverflowCheck(-1, TYPE(short));
-//     Assert::OverflowCheck((short)-10, TYPE(short));
+//     Assert::OverflowCheck(MAXLONG,      Type<long>::value);
+//     Assert::OverflowCheck(MAXINT,       Type<int>::value);
+//     Assert::OverflowCheck(MAXSHORT,     Type<short>::value);
+//     Assert::OverflowCheck(MAXCHAR,      Type<char>::value);
+//     Assert::OverflowCheck(MAXSHORT + 1, Type<short>::value);
+//     Assert::OverflowCheck(MAXSHORT,     Type<char>::value);
+//     Assert::OverflowCheck(-1,           Type<short>::value);
+//     Assert::OverflowCheck((short)-10,   Type<short>::value);
 
     auto console = Console::GetInstance();
     console->Init(COLS, LINES);

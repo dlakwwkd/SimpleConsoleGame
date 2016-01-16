@@ -28,15 +28,15 @@ public:
     void Init(COORD screenSize);
     void Release();
 
-    void Print(COORD pos, const std::wstring& text)                 const;
-    void SetColor(Color textColor, Color bgColor = Color::BLACK)    const;
-    void Clear()                                                    const;
-    void SwapBuffer();
-
-    inline void         Init(int x, int y);
-    inline void         Print(int x, int y, const std::wstring& text)   const;
     inline static Color DarkenColor(Color color);
 
+    inline void         Init(int x, int y);
+    inline void         Print(int x, int y, const std::wstring& text)           const;
+
+    inline void         Print(COORD pos, const std::wstring& text)              const;
+    inline void         SetColor(Color textColor, Color bgColor = Color::BLACK) const;
+    inline void         Clear()                                                 const;
+    inline void         SwapBuffer();
 private:
     Console();
     ~Console();
