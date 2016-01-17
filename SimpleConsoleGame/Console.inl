@@ -9,12 +9,12 @@ inline Color Console::DarkenColor(Color color)
 
 inline void Console::Init(int x, int y)
 {
-    Init({ Safe::IntegralCast(x, Type<SHORT>::value), Safe::IntegralCast(y, Type<SHORT>::value) });
+    Init({ Safe::IntegralCast<SHORT>(x), Safe::IntegralCast<SHORT>(y) });
 }
 
 inline void Console::Print(int x, int y, const std::wstring& text) const
 {
-    Print({ Safe::IntegralCast(x, Type<SHORT>::value), Safe::IntegralCast(y, Type<SHORT>::value) }, text);
+    Print({ Safe::IntegralCast<SHORT>(x), Safe::IntegralCast<SHORT>(y) }, text);
 }
 
 
