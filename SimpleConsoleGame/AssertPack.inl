@@ -9,7 +9,7 @@ namespace BitCarc
     }
 
     template<typename T, typename S>
-    inline constexpr S      CarcRestBits(const S& source)   // 매개변수가 리터럴일 경우 컴파일 타임 리턴
+    inline constexpr S CarcRestBits(const S& source)   // 매개변수가 리터럴일 경우 컴파일 타임 리턴
     {
         static_assert(std::is_integral<T>::value && std::is_integral<S>::value, "it's not integral type!");
         static_assert(BitSize<T>() <= 32, "it's over shift operator limit");

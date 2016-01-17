@@ -18,6 +18,7 @@
 #include <type_traits>
 #include <cassert>
 #include <bitset>
+#include <memory>
 #include <iostream>
 #include <sstream>
 #include <string>

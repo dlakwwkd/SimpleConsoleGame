@@ -13,6 +13,9 @@
     <Filter Include="Base\Timer">
       <UniqueIdentifier>{4e888752-23b9-424b-85f8-de1c13585fc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Base\GameManager">
+      <UniqueIdentifier>{f51a288f-0971-42d4-be2d-99ce5176f376}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -33,6 +36,9 @@
     <ClInclude Include="Timer.h">
       <Filter>Base\Timer</Filter>
     </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Base\GameManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -50,6 +56,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Base\Timer</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Base\GameManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="AssertPack.inl">
@@ -57,6 +66,9 @@
     </None>
     <None Include="Console.inl">
       <Filter>Base\Console</Filter>
+    </None>
+    <None Include="Timer.inl">
+      <Filter>Base\Timer</Filter>
     </None>
   </ItemGroup>
 </Project>
