@@ -3,7 +3,7 @@
 #include "Console.h"
 #include "Timer.h"
 
-static Color    g_Color = Color::BLUE;
+static Color    g_Color = BLUE;
 static int      g_X     = 0;
 static int      g_Y     = 0;
 

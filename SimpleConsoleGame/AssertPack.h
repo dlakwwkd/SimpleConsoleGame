@@ -4,10 +4,10 @@
 //template<typename T> constexpr T Type() { return 0; }
 //template<typename T> struct Type { static constexpr T value = 0; };
 
-namespace BitCarc   // 비트 단위 연산을 제공해주는 함수들
+namespace BitCalc   // 비트 단위 연산을 제공해주는 함수들
 {
     template<typename T>                inline constexpr size_t BitSize();
-    template<typename T, typename S>    inline constexpr S      CarcRestBits(const S& source);
+    template<typename T, typename S>    inline constexpr S      CalcRestBits(const S& source);
 }
 namespace Assert    // 릴리즈 빌드에선 컴파일 되지 않음이 보장되는 디버깅용 함수들
 {
