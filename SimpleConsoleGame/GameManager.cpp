@@ -2,12 +2,10 @@
 #include "GameManager.h"
 #include "Console.h"
 #include "Timer.h"
+#include "GameA.h"
 
-static Color    g_Color = BLUE;
-static int      g_X     = 0;
-static int      g_Y     = 0;
 
-GameManager::GameManager() : m_Timer(nullptr), m_IsGameRun(false)
+GameManager::GameManager() : m_Timer(nullptr), m_IsRun(false), m_IsPlay(false)
 {
 }
 
@@ -17,11 +15,44 @@ GameManager::~GameManager()
     Release();
 }
 
+void GameManager::Run()
+{
+    if (m_IsRun)
+    {
+        return;
+    }
+    Init();
+    MainLoop();
+    Release();
+}
+
+void GameManager::Play()
+{
+    if (m_IsPlay || !m_CurGame)
+    {
+        return;
+    }
+    m_IsPlay = true;
+    m_Timer->Init();
+    m_CurGame->Init();
+    GameLoop();
+    m_CurGame->Release();
+    m_CurGame.reset();
+}
+
+
+
 void GameManager::Init()
 {
-    Console::GetInstance()->Init(COLS, LINES);
+    Console::GetInstance()->Init();
     m_Timer = std::make_unique<Timer>();
-    m_IsGameRun = true;
+    m_GameList = 
+    {
+        std::make_shared<GameA>(),
+        std::make_shared<GameA>()
+    };
+    m_IsRun = true;
+    m_IsPlay = false;
 }
 
 void GameManager::Release()
@@ -29,50 +60,28 @@ void GameManager::Release()
     Console::GetInstance()->Release();
 }
 
-
-
-void GameManager::Run()
+void GameManager::MainLoop()
 {
-    Init();
-    GameLoop();
-    Release();
+    while (m_IsRun)
+    {
+        GameSelect();
+        Play();
+    }
 }
 
 void GameManager::GameLoop()
 {
-    m_Timer->Init();
-    while (m_IsGameRun)
+    while (m_IsPlay)
     {
         m_Timer->Tick();
-        Update(m_Timer->DeltaTime());
-        Render();
+        m_CurGame->Update(m_Timer->DeltaTime());
+        m_CurGame->Render();
     }
 }
 
 
 
-void GameManager::Update(float dt)
+void GameManager::GameSelect()
 {
-    static float limit = 0.5f;
-    static float stack = 0.0f;
-    stack += dt;
-    if (stack < limit)
-        return;
-    stack = 0.0f;
-
-    g_Color = Color(g_Color + 1);
-    if (g_Color > WHITE)  g_Color = BLUE;
-    if (++g_X >= COLS)    g_X = 0;
-    if (++g_Y >= LINES)   g_Y = 0;
-}
-
-void GameManager::Render()
-{
-    auto console = Console::GetInstance();
-    console->Clear();
-
-    console->SetColor(g_Color, Console::DarkenColor(g_Color));
-    console->Print(g_X, g_Y, std::to_wstring(g_X));
-
-    console->SwapBuffer();
+    m_CurGame = m_GameList[0];
 }

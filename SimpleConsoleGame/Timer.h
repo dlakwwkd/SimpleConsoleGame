@@ -3,10 +3,12 @@ class Timer
 {
 public:
     Timer();
+    ~Timer();
 
     inline void     Init();
     inline void     Tick();
     inline float    DeltaTime() const;
+
 private:
     double          m_SecondsPerCount;
     double          m_DeltaTime;

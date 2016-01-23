@@ -1,15 +1,8 @@
 ﻿#include "AssertPack.h"
 
-inline Color Console::DarkenColor(Color color)
+inline void Console::Init(int width, int height)
 {
-    return color > 7 ? Color(color - 8) : color;
-}
-
-
-
-inline void Console::Init(int x, int y)
-{
-    Init({ Safe::IntegralCast<SHORT>(x), Safe::IntegralCast<SHORT>(y) });
+    Init({ Safe::IntegralCast<SHORT>(width), Safe::IntegralCast<SHORT>(height) });
 }
 
 inline void Console::Print(int x, int y, const std::wstring& text) const

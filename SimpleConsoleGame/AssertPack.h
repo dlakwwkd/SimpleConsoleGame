@@ -1,9 +1,5 @@
 ﻿// AssertPack.h : "AssertPack.inl"의 선언부만을 담기 위한 헤더
 #pragma once
-
-//template<typename T> constexpr T Type() { return 0; }
-//template<typename T> struct Type { static constexpr T value = 0; };
-
 namespace BitCalc   // 비트 단위 연산을 제공해주는 함수들
 {
     template<typename T>                inline constexpr size_t BitSize();
