@@ -63,9 +63,6 @@
     <ClInclude Include="GameBase.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Color.hpp">
-      <Filter>Base\Console</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

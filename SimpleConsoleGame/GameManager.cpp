@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "Console.h"
 #include "Timer.h"
+#include "Menu.h"
 #include "GameA.h"
 
 
@@ -26,20 +27,6 @@ void GameManager::Run()
     Release();
 }
 
-void GameManager::Play()
-{
-    if (m_IsPlay || !m_CurGame)
-    {
-        return;
-    }
-    m_IsPlay = true;
-    m_Timer->Init();
-    m_CurGame->Init();
-    GameLoop();
-    m_CurGame->Release();
-    m_CurGame.reset();
-}
-
 
 
 void GameManager::Init()
@@ -57,15 +44,21 @@ void GameManager::Init()
 
 void GameManager::Release()
 {
+    m_IsPlay = false;
+    m_IsRun = false;
+    m_GameList.clear();
+    m_Timer.reset();
     Console::GetInstance()->Release();
 }
+
+
 
 void GameManager::MainLoop()
 {
     while (m_IsRun)
     {
         GameSelect();
-        Play();
+        PlayGame();
     }
 }
 
@@ -83,5 +76,24 @@ void GameManager::GameLoop()
 
 void GameManager::GameSelect()
 {
+
+
+
     m_CurGame = m_GameList[0];
+}
+
+void GameManager::PlayGame()
+{
+    if (m_IsPlay || !m_CurGame)
+    {
+        return;
+    }
+    m_IsPlay = true;
+    m_Timer->Init();
+    m_CurGame->Init();
+
+    GameLoop();
+
+    m_CurGame->Release();
+    m_CurGame.reset();
 }

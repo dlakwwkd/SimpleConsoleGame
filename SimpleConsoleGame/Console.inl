@@ -1,5 +1,33 @@
 ﻿#include "AssertPack.h"
 
+inline Console::Color& operator++(Console::Color& color)
+{
+    WORD idx = static_cast<WORD>(color);
+
+    if (++idx == static_cast<WORD>(Console::Color::GREY))
+    {
+        color = Console::Color::BLACK;
+    }
+    else if (idx > static_cast<WORD>(Console::Color::WHITE))
+    {
+        color = Console::Color::GREY;
+    }
+    else
+        color = static_cast<Console::Color>(idx);
+    return color;
+}
+
+
+
+inline Console::Color Console::DarkenColor(const Color& color)
+{
+    WORD idx = static_cast<WORD>(color);
+    WORD comp = static_cast<WORD>(Color::GREY);
+    return idx < comp ? color : static_cast<Color>(idx - comp);
+}
+
+
+
 inline void Console::Init(int width, int height)
 {
     Init({ Safe::IntegralCast<SHORT>(width), Safe::IntegralCast<SHORT>(height) });

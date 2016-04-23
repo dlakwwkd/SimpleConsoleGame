@@ -15,7 +15,6 @@ public:
         return &instance;
     }
     void Run();
-    void Play();
 
     void ReturnMain() { m_IsPlay = false; }
     void Shutdown() { m_IsRun = false; }
@@ -38,4 +37,5 @@ private:
     void GameLoop();
 
     void GameSelect();
+    void PlayGame();
 };
