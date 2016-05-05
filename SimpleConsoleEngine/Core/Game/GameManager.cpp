@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "GameManager.h"
 #include "IGame.h"
 #include "../Timer/Timer.h"

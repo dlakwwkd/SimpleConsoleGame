@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Core/Game/IGame.h"
 SCE_USE
 
