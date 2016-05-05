@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Base">
+      <UniqueIdentifier>{8d27438f-c0aa-4188-bcf0-47680e9c0d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{7ef0805b-18d1-4ed8-bc1d-33c7318281c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2f164ddc-cb11-4079-8d10-34ae40609a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Console">
+      <UniqueIdentifier>{bbce8a80-267a-48e6-aece-3dccd01a9492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Command">
+      <UniqueIdentifier>{c3df189a-df9f-45b3-8c39-d9fd9c367e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Timer">
+      <UniqueIdentifier>{048a7a6a-dde6-43b9-ad24-2bbc1fd75ede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Menu">
+      <UniqueIdentifier>{f19f337f-e9df-4c6c-a514-5540b3f5e4f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Game">
+      <UniqueIdentifier>{e66a3e9d-1423-4fff-ad32-b4107228c652}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Util\Macros.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\stdafx.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\targetver.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Timer\Timer.h">
+      <Filter>Core\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Console\Console.h">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Menu\Menu.h">
+      <Filter>Core\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Command\Command.h">
+      <Filter>Core\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\AssertPack.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\GameManager.h">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\IGame.h">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Base\dllmain.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\stdafx.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Timer\Timer.cpp">
+      <Filter>Core\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Console\Console.cpp">
+      <Filter>Core\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Menu\Menu.cpp">
+      <Filter>Core\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Command\Command.cpp">
+      <Filter>Core\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\AssertPack.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\GameManager.cpp">
+      <Filter>Core\Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Core\Timer\Timer.inl">
+      <Filter>Core\Timer</Filter>
+    </None>
+    <None Include="Core\Console\Console.inl">
+      <Filter>Core\Console</Filter>
+    </None>
+    <None Include="Util\AssertPack.inl">
+      <Filter>Util</Filter>
+    </None>
+    <None Include="Core\Game\GameManager.inl">
+      <Filter>Core\Game</Filter>
+    </None>
+  </ItemGroup>
+</Project>

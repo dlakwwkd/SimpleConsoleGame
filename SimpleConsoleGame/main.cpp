@@ -1,10 +1,9 @@
 ﻿#include "stdafx.h"
-#include "GameManager.h"
-#include "AssertPack.h"
+#include "Core/Game/GameManager.h"
+#include "Game.h"
 
 int main()
 {
-    auto GM = GameManager::GetInstance();
-    GM->Run();
+    SCE::GameManager::GetInstance().Run<Game>();
     return 0;
 }
