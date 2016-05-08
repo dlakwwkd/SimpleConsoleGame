@@ -170,6 +170,7 @@
     <ClCompile Include="Core\Command\Command.cpp" />
     <ClCompile Include="Core\Console\Console.cpp" />
     <ClCompile Include="Core\Game\GameManager.cpp" />
+    <ClCompile Include="Core\Game\Object.cpp" />
     <ClCompile Include="Core\Menu\Menu.cpp" />
     <ClCompile Include="Core\Timer\Timer.cpp" />
     <ClCompile Include="Util\AssertPack.cpp" />

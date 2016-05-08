@@ -98,6 +98,7 @@
     <ClCompile Include="Core\Game\GameManager.cpp">
       <Filter>Core\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Game\Object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Timer\Timer.inl">
