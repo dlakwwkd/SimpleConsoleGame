@@ -1,9 +1,8 @@
 ﻿#pragma once
 #include "Core/Game/IGame.h"
-SCE_USE
 
 
-class Game : public IGame
+class Game : public SCE::IGame
 {
 public:
     Game();

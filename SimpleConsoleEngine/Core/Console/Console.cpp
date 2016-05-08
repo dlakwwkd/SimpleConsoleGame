@@ -3,7 +3,9 @@
 SCE_START
 
 
-Console::Console() : m_ScreenIndex(0), m_ScreenSize({ 0,0 })
+Console::Console()
+:   m_ScreenIndex(0),
+    m_ScreenSize({ 0,0 })
 {
 }
 
@@ -13,10 +15,10 @@ Console::~Console()
     Release();
 }
 
-void Console::Init(COORD screenSize)
+void Console::Init(const Coord& screenSize)
 {
     std::ostringstream oss;
-    oss << "mode con: lines=" << screenSize.Y << " cols=" << screenSize.X;
+    oss << "mode con: lines=" << screenSize.m_Y << " cols=" << screenSize.m_X;
     system(oss.str().c_str());
     m_ScreenSize = screenSize;
 

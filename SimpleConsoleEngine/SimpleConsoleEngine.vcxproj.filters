@@ -60,6 +60,12 @@
     <ClInclude Include="Core\Game\IGame.h">
       <Filter>Core\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Console\Color.hpp">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Console\Coord.hpp">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\dllmain.cpp">

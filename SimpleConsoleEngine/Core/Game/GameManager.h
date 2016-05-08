@@ -6,13 +6,13 @@ class Timer;
 
 class SCE_API GameManager
 {
-    CREATE_SINGLETON_V(GameManager)
+    CREATE_SINGLETON(GameManager)
 public:
     template<typename GameType>
     inline void Run();
 
-    void ReturnMain() { m_IsPlay = false; }
-    void Shutdown() { m_IsRun = m_IsPlay = false; }
+    inline void ReturnMain() noexcept { m_IsPlay = false; }
+    inline void Shutdown() noexcept { m_IsRun = m_IsPlay = false; }
 
 private:
     void Init();

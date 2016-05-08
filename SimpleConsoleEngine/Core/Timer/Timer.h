@@ -10,7 +10,8 @@ public:
     inline void     Init() noexcept;
     inline void     Tick() noexcept;
     inline float    DeltaTime() const noexcept;
-
+    
+    DELETE_DEF_OPER(Timer)
 private:
     double          m_SecondsPerCount;
     double          m_DeltaTime;

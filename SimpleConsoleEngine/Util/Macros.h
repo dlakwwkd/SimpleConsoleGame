@@ -17,6 +17,10 @@
 //────────────────────────────────────────────────────────────────────────────────────────────────────
 // 매크로 함수
 //────────────────────────────────────────────────────────────────────────────────────────────────────
+#define DELETE_COPY(T) T(const T&)  = delete;   T& operator=(const T&)  = delete;
+#define DELETE_MOVE(T) T(T&&)       = delete;   T& operator=(T&&)       = delete;
+#define DELETE_DEF_OPER(T) DELETE_COPY(T) DELETE_MOVE(T)
+
 #define _CREATE_SINGLETON(T) \
 public: \
     static T& GetInstance() \
@@ -24,10 +28,7 @@ public: \
         static T instance; \
         return instance; \
     } \
-    T(const T&)             = delete; \
-    T(T&&)                  = delete; \
-    T& operator=(const T&)  = delete; \
-    T& operator=(T&&)       = delete; \
+    DELETE_DEF_OPER(T) \
 private: \
     T();
 
