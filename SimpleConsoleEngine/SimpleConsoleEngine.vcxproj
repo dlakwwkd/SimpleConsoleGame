@@ -153,8 +153,10 @@
     <ClInclude Include="Core\Console\Color.hpp" />
     <ClInclude Include="Core\Console\Console.h" />
     <ClInclude Include="Core\Console\Coord.hpp" />
+    <ClInclude Include="Core\Console\Shape.hpp" />
     <ClInclude Include="Core\Game\IGame.h" />
     <ClInclude Include="Core\Game\GameManager.h" />
+    <ClInclude Include="Core\Game\Object.h" />
     <ClInclude Include="Core\Menu\Menu.h" />
     <ClInclude Include="Core\Timer\Timer.h" />
     <ClInclude Include="Util\AssertPack.h" />

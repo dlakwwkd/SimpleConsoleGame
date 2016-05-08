@@ -2,23 +2,18 @@
 SCE_START
 
 
-inline void Console::Init(int width, int height)
-{
-    auto&& screenSize = Coord(width, height);
-    Init(screenSize);
-}
-
-inline void Console::Print(int x, int y, const std::wstring& text) const noexcept
-{
-    auto&& pos = Coord(x, y);
-    Print(pos, text);
-}
-
 inline void Console::Print(const Coord& pos, const std::wstring& text) const noexcept
 {
     DWORD dw;
     SetConsoleCursorPosition(m_ScreenBuffer[m_ScreenIndex], { pos.m_X, pos.m_Y });
     WriteConsole(m_ScreenBuffer[m_ScreenIndex], text.c_str(), static_cast<DWORD>(text.length()), &dw, nullptr);
+}
+
+inline void Console::Print(const Coord& pos, const wchar_t& word) const noexcept
+{
+    DWORD dw;
+    SetConsoleCursorPosition(m_ScreenBuffer[m_ScreenIndex], { pos.m_X, pos.m_Y });
+    WriteConsole(m_ScreenBuffer[m_ScreenIndex], &word, 1U, &dw, nullptr);
 }
 
 inline void Console::SetColor(Color textColor, Color bgColor) const noexcept

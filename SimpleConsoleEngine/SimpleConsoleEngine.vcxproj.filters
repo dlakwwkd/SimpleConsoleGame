@@ -66,6 +66,12 @@
     <ClInclude Include="Core\Console\Coord.hpp">
       <Filter>Core\Console</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Game\Object.h">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Console\Shape.hpp">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\dllmain.cpp">

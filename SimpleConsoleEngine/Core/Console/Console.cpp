@@ -4,7 +4,8 @@ SCE_START
 
 
 Console::Console()
-:   m_ScreenIndex(0),
+:   m_ScreenBuffer{ nullptr, nullptr },
+    m_ScreenIndex(0),
     m_ScreenSize({ 0,0 })
 {
 }
