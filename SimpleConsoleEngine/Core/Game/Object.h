@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "../../Util/Macros.h"
 #include "../Console/Coord.hpp"
 #include "../Console/Shape.hpp"
 SCE_START
@@ -8,7 +7,6 @@ SCE_START
 class SCE_API Object
 {
 public:
-    Object() {}
     virtual ~Object() {}
     virtual void Init()             = 0;
     virtual void Release()          = 0;

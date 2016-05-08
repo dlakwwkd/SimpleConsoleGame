@@ -44,7 +44,7 @@ void Game::Update(float dt)
     ++s_Color;
 
     m_Unit->SetPos({ s_X, s_Y });
-    m_Unit->SetShape(Shape(std::to_wstring(s_X).front(), s_Color, ::DarkenColor(s_Color)));
+    m_Unit->SetShape(Shape(std::to_wstring(s_X).back(), s_Color, ::DarkenColor(s_Color)));
     m_Unit->Update(dt);
 }
 

@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleConsoleEngine", "SimpleConsoleEngine\SimpleConsoleEngine.vcxproj", "{6E8BC1AA-C199-4B76-B7D0-F42FD3F57C15}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleConsoleGame", "SimpleConsoleGame\SimpleConsoleGame.vcxproj", "{EF723ADD-FEBB-46AD-9A36-10A4D3C48154}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6E8BC1AA-C199-4B76-B7D0-F42FD3F57C15} = {6E8BC1AA-C199-4B76-B7D0-F42FD3F57C15}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
