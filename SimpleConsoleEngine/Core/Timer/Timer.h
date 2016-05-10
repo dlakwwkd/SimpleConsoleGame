@@ -4,6 +4,7 @@ SCE_START
 
 class SCE_API Timer
 {
+    SPECIALFUNC_SET(Timer, delete)
 public:
     Timer() noexcept;
 
@@ -11,7 +12,6 @@ public:
     inline void     Tick() noexcept;
     inline float    DeltaTime() const noexcept;
     
-    DELETE_DEF_OPER(Timer)
 private:
     double          m_SecondsPerCount;
     double          m_DeltaTime;

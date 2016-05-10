@@ -6,7 +6,7 @@ SCE_START
 class SCE_API IGame
 {
 public:
-    virtual ~IGame() {}
+    virtual ~IGame()                = default;
     virtual void Init()             = 0;
     virtual void Release()          = 0;
     virtual void Update(float dt)   = 0;
