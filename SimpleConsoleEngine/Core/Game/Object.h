@@ -6,8 +6,10 @@ SCE_START
 
 class SCE_API Object
 {
+    SPECIALFUNC_SET(Object, default)
 public:
-    virtual ~Object() {}
+    Object()                        = default;
+    virtual ~Object()               = default;
     virtual void Init()             = 0;
     virtual void Release()          = 0;
     virtual void Update(float dt)   = 0;

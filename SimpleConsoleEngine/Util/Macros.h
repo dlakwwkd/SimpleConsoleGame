@@ -14,12 +14,24 @@
 #define SCE_USE     using namespace SimpleConsoleEngine;
 #define SCE         SimpleConsoleEngine
 
+
 //────────────────────────────────────────────────────────────────────────────────────────────────────
 // 매크로 함수
 //────────────────────────────────────────────────────────────────────────────────────────────────────
-#define DELETE_COPY(T) T(const T&)  = delete;   T& operator=(const T&)  = delete;
-#define DELETE_MOVE(T) T(T&&)       = delete;   T& operator=(T&&)       = delete;
-#define DELETE_DEF_OPER(T) DELETE_COPY(T) DELETE_MOVE(T)
+#define SPECIALFUNC_COPY_SET(T, SET) \
+public: \
+    T(const T&)             = SET; \
+    T& operator=(const T&)  = SET; \
+private:
+
+#define SPECIALFUNC_MOVE_SET(T, SET) \
+public: \
+    T(T&&)              = SET; \
+    T& operator=(T&&)   = SET; \
+private:
+
+#define SPECIALFUNC_SET(T, SET) SPECIALFUNC_COPY_SET(T, SET) SPECIALFUNC_MOVE_SET(T, SET)
+
 
 #define _CREATE_SINGLETON(T) \
 public: \
@@ -28,7 +40,7 @@ public: \
         static T instance; \
         return instance; \
     } \
-    DELETE_DEF_OPER(T) \
+    SPECIALFUNC_SET(T, delete) \
 private: \
     T();
 

@@ -8,8 +8,4 @@ Menu::Menu()
 }
 
 
-Menu::~Menu()
-{
-}
-
 SCE_END
