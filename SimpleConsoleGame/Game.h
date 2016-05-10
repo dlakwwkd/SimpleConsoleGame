@@ -7,7 +7,7 @@ class Game : public SCE::IGame
 {
 public:
     Game();
-    virtual ~Game();
+    ~Game() override;
 
     void Init()             override;
     void Release()          override;

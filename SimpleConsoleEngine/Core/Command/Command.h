@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "KeyInfo.hpp"
 SCE_START
 
 

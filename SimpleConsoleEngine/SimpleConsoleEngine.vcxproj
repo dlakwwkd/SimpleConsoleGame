@@ -150,6 +150,7 @@
     <ClInclude Include="Base\stdafx.h" />
     <ClInclude Include="Base\targetver.h" />
     <ClInclude Include="Core\Command\Command.h" />
+    <ClInclude Include="Core\Command\KeyInfo.hpp" />
     <ClInclude Include="Core\Console\Color.hpp" />
     <ClInclude Include="Core\Console\Console.h" />
     <ClInclude Include="Core\Console\Coord.hpp" />

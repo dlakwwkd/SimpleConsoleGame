@@ -1,5 +1,4 @@
-#pragma once
-#include "../../Util/Macros.h"
+﻿#pragma once
 SCE_START
 
 
