@@ -22,9 +22,10 @@ void Unit::Release()
 
 void Unit::Update(float dt)
 {
+
 }
 
 void Unit::Render() const noexcept
 {
-    __super::Render();
+    Object::Render();
 }

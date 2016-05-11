@@ -72,7 +72,8 @@
     <ClInclude Include="Core\Console\Shape.hpp">
       <Filter>Core\Console</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Command\KeyInfo.hpp" />
+    <ClInclude Include="Core\Game\Vec2.h" />
+    <ClInclude Include="Base\BaseInclude.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\dllmain.cpp">
@@ -100,6 +101,7 @@
       <Filter>Core\Game</Filter>
     </ClCompile>
     <ClCompile Include="Core\Game\Object.cpp" />
+    <ClCompile Include="Core\Game\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Timer\Timer.inl">
@@ -114,5 +116,6 @@
     <None Include="Core\Game\GameManager.inl">
       <Filter>Core\Game</Filter>
     </None>
+    <None Include="Core\Game\Vec2.inl" />
   </ItemGroup>
 </Project>

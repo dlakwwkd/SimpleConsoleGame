@@ -3,13 +3,4 @@
 SCE_START
 
 
-Command::Command()
-{
-}
-
-
-Command::~Command()
-{
-}
-
 SCE_END

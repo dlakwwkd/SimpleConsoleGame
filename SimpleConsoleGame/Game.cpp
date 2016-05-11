@@ -1,8 +1,9 @@
 ﻿#include "stdafx.h"
-#include "Core/Console/Console.h"
-#include "Core/Game/GameManager.h"
 #include "Game.h"
 #include "Unit.h"
+#include "Core/Game/GameManager.h"
+#include "Core/Console/Console.h"
+#include "Core/Command/Command.h"
 SCE_USE
 
 
@@ -17,18 +18,22 @@ Game::~Game()
 
 void Game::Init()
 {
-    m_Unit = Safe::New<Unit>();
+    m_Command = std::make_unique<Command>();
+    m_Unit = std::make_unique<Unit>();
 }
 
 void Game::Release()
 {
-    Safe::Delete(m_Unit);
+    m_Unit.reset();
+    m_Command.reset();
 }
 
 
 
 void Game::Update(float dt)
 {
+    CommandProc(dt);
+
     static float limit = 0.5f;
     static float stack = 0.0f;
     stack += dt;
@@ -56,4 +61,14 @@ void Game::Render()
     m_Unit->Render();
 
     console.SwapBuffer();
+}
+
+
+
+void Game::CommandProc(float dt)
+{
+    if (m_Command->IsKeyPress(Command::UP))
+    {
+        m_Unit->AddMovePower(Vec2(0.0f, -dt));
+    }
 }

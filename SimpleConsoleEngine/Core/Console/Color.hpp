@@ -39,7 +39,7 @@ inline Color& operator++(Color& color) noexcept
     return color;
 }
 
-inline Color DarkenColor(const Color& color) noexcept
+inline Color DarkenColor(Color color) noexcept
 {
     auto idx = static_cast<unsigned short>(color);
     auto comp = static_cast<unsigned short>(Color::GREY);

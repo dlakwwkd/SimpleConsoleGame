@@ -147,10 +147,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Base\BaseInclude.h" />
     <ClInclude Include="Base\stdafx.h" />
     <ClInclude Include="Base\targetver.h" />
     <ClInclude Include="Core\Command\Command.h" />
-    <ClInclude Include="Core\Command\KeyInfo.hpp" />
     <ClInclude Include="Core\Console\Color.hpp" />
     <ClInclude Include="Core\Console\Console.h" />
     <ClInclude Include="Core\Console\Coord.hpp" />
@@ -158,6 +158,7 @@
     <ClInclude Include="Core\Game\IGame.h" />
     <ClInclude Include="Core\Game\GameManager.h" />
     <ClInclude Include="Core\Game\Object.h" />
+    <ClInclude Include="Core\Game\Vec2.h" />
     <ClInclude Include="Core\Menu\Menu.h" />
     <ClInclude Include="Core\Timer\Timer.h" />
     <ClInclude Include="Util\AssertPack.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Core\Console\Console.cpp" />
     <ClCompile Include="Core\Game\GameManager.cpp" />
     <ClCompile Include="Core\Game\Object.cpp" />
+    <ClCompile Include="Core\Game\Vec2.cpp" />
     <ClCompile Include="Core\Menu\Menu.cpp" />
     <ClCompile Include="Core\Timer\Timer.cpp" />
     <ClCompile Include="Util\AssertPack.cpp" />
@@ -179,6 +181,7 @@
   <ItemGroup>
     <None Include="Core\Console\Console.inl" />
     <None Include="Core\Game\GameManager.inl" />
+    <None Include="Core\Game\Vec2.inl" />
     <None Include="Core\Timer\Timer.inl" />
     <None Include="Util\AssertPack.inl" />
   </ItemGroup>

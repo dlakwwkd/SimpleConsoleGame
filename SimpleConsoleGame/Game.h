@@ -1,10 +1,14 @@
 ﻿#pragma once
 #include "Core/Game/IGame.h"
+SCE_START
+class Command;
+SCE_END
 class Unit;
 
 
 class Game : public SCE::IGame
 {
+    SPECIALFUNC_SET(Game, delete)
 public:
     Game();
     ~Game() override;
@@ -15,5 +19,9 @@ public:
     void Render()           override;
 
 private:
-    Unit* m_Unit;
+    void CommandProc(float dt);
+
+private:
+    std::unique_ptr<SCE::Command>   m_Command;
+    std::unique_ptr<Unit>           m_Unit;
 };
