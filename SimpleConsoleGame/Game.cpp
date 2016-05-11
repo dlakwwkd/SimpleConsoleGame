@@ -33,24 +33,28 @@ void Game::Release()
 void Game::Update(float dt)
 {
     CommandProc(dt);
-
-    static float limit = 0.5f;
-    static float stack = 0.0f;
-    stack += dt;
-    if (stack < limit)
-        return;
-    stack = 0.0f;
-
-    static int s_X = 0;
-    static int s_Y = 0;
-    static Color s_Color = Color::BLUE;
-    if (++s_X >= DEF_CONSOLE_SIZE.m_X)  s_X = 0;
-    if (++s_Y >= DEF_CONSOLE_SIZE.m_Y)  s_Y = 0;
-    ++s_Color;
-
-    m_Unit->SetPos({ s_X, s_Y });
-    m_Unit->SetShape(Shape(std::to_wstring(s_X).back(), s_Color, ::DarkenColor(s_Color)));
     m_Unit->Update(dt);
+
+    static Color color = Color::GREY;
+    static Color bgColor = Color::BLACK;
+
+
+    static float limit1 = 0.1f;
+    static float limit2 = 0.5f;
+    static float stack1 = 0.0f;
+    static float stack2 = 0.0f;
+    stack1 += dt;
+    stack2 += dt;
+    if (stack1 > limit1)
+    {
+        m_Unit->SetShape(Shape(L'★', ++color, bgColor));
+        stack1 = 0.0f;
+    }
+    if (stack2 > limit2)
+    {
+        //++bgColor;
+        stack2 = 0.0f;
+    }
 }
 
 void Game::Render()
@@ -70,5 +74,17 @@ void Game::CommandProc(float dt)
     if (m_Command->IsKeyPress(Command::UP))
     {
         m_Unit->AddMovePower(Vec2(0.0f, -dt));
+    }
+    if (m_Command->IsKeyPress(Command::DOWN))
+    {
+        m_Unit->AddMovePower(Vec2(0.0f, +dt));
+    }
+    if (m_Command->IsKeyPress(Command::LEFT))
+    {
+        m_Unit->AddMovePower(Vec2(-dt, 0.0f));
+    }
+    if (m_Command->IsKeyPress(Command::RIGHT))
+    {
+        m_Unit->AddMovePower(Vec2(+dt, 0.0f));
     }
 }
