@@ -57,9 +57,6 @@
     <ClInclude Include="Core\Game\GameManager.h">
       <Filter>Core\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\IGame.h">
-      <Filter>Core\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Console\Color.hpp">
       <Filter>Core\Console</Filter>
     </ClInclude>
@@ -74,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="Core\Game\Vec2.h" />
     <ClInclude Include="Base\BaseInclude.h" />
+    <ClInclude Include="Core\Game\GameBase.h">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\dllmain.cpp">

@@ -1,6 +1,6 @@
 ﻿#pragma once
 SCE_START
-class IGame;
+class GameBase;
 class Timer;
 
 
@@ -21,10 +21,10 @@ private:
     void GameLoop();
 
 private:
-    IGame*  m_Game;
-    Timer*  m_Timer;
-    bool    m_IsRun;
-    bool    m_IsPlay;
+    GameBase*   m_Game;
+    Timer*      m_Timer;
+    bool        m_IsRun;
+    bool        m_IsPlay;
 };
 
 SCE_END

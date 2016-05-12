@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Core/Game/IGame.h"
+#include "Core/Game/GameBase.h"
 SCE_START
 class Command;
 SCE_END
@@ -7,7 +7,7 @@ class Unit;
 class Mob;
 
 
-class Game : public SCE::IGame
+class Game : public SCE::GameBase
 {
     SPECIALFUNC_SET(Game, delete)
 public:
@@ -26,7 +26,4 @@ private:
     std::unique_ptr<SCE::Command>   m_Command;
     std::unique_ptr<Unit>           m_Unit;
     std::vector<Mob>                m_MobList;
-
-    size_t                          m_FrameCount;
-    size_t                          m_FrameRate;
 };

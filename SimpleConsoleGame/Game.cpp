@@ -21,10 +21,11 @@ Game::~Game()
 void Game::Init()
 {
     srand((unsigned int)time(NULL));
+    SetRenderLimitFrame(60);
 
     m_Command = std::make_unique<Command>();
     m_Unit = std::make_unique<Unit>();
-    m_MobList.resize(10);
+    m_MobList.resize(100);
     for (auto& mob : m_MobList)
     {
         mob.Init();
@@ -42,42 +43,24 @@ void Game::Release()
 
 void Game::Update(float dt)
 {
-    static float accumDt = 0.0f;
-    ++m_FrameCount;
-    accumDt += dt;
-    if (accumDt > 1.0f)
-    {
-        m_FrameRate = m_FrameCount;
-        m_FrameCount = 0;
-        accumDt = 0.0f;
-    }
+    FrameCalc(dt);
     CommandProc(dt);
 
-    m_Unit->Update(dt);
     for (auto& mob : m_MobList)
     {
-        mob.AI();
+        mob.AI(dt);
         mob.Update(dt);
     }
+    m_Unit->Update(dt);
 
     static Color color = Color::GREY;
-    static Color bgColor = Color::BLACK;
-
-    static float limit1 = 0.1f;
-    static float stack1 = 0.0f;
-    stack1 += dt;
-    if (stack1 > limit1)
+    static float limit = 0.1f;
+    static float stack = 0.0f;
+    stack += dt;
+    if (stack > limit)
     {
-        m_Unit->SetShape(Shape(L'▣', ++color, bgColor));
-        stack1 = 0.0f;
-    }
-    static float limit2 = 0.5f;
-    static float stack2 = 0.0f;
-    stack2 += dt;
-    if (stack2 > limit2)
-    {
-        //++bgColor;
-        stack2 = 0.0f;
+        m_Unit->SetShape(Shape(L'▣', ++color, Color::BLACK));
+        stack = 0.0f;
     }
 }
 
@@ -92,8 +75,12 @@ void Game::Render()
     }
     m_Unit->Render();
 
+    std::wostringstream oss;
+    oss << L"UpdateFrame: " << m_FrameRate << L"\n"
+        << L"RenderFrame: " << m_RenderCount << L"/" << m_RenderRate;
     console.SetColor(Color::WHITE);
-    console.Print(Coord(0, 0), std::to_wstring(m_FrameRate));
+    console.Print(Coord(0, 0), oss.str().c_str());
+
     console.SwapBuffer();
 }
 
@@ -101,6 +88,11 @@ void Game::Render()
 
 void Game::CommandProc(float dt)
 {
+    if (m_Command->IsKeyPress(Command::ESC))
+    {
+        GameManager::GetInstance().Shutdown();
+        return;
+    }
     if (m_Command->IsKeyPress(Command::UP))
     {
         m_Unit->AddMovePower(Vec2(0.0f, -dt));

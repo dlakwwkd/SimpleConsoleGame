@@ -57,11 +57,13 @@ void Mob::Render() const
 
 
 
-void Mob::AI()
+void Mob::AI(float dt)
 {
-    if (rand() % 1000 == 0)
+    int randNum = static_cast<int>(1.0f / dt);
+    randNum = std::max<int>(3, randNum);
+    if (rand() % randNum == 0)
     {
-        auto toX = static_cast<float>(rand() % DEF_CONSOLE_SIZE.m_X / 2);
+        auto toX = static_cast<float>(rand() % DEF_CONSOLE_SIZE.m_X / 2 - 1);
         auto toY = static_cast<float>(rand() % DEF_CONSOLE_SIZE.m_Y);
         m_ToPos = Vec2(toX, toY);
         m_ToPosShow->SetCoord(Coord(static_cast<short>(m_ToPos.m_X * 2.0f), static_cast<short>(m_ToPos.m_Y)));

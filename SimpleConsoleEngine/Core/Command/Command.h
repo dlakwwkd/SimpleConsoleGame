@@ -7,7 +7,9 @@ class SCE_API Command
 public:
     enum KeyType : size_t
     {
-        UP = 0,
+        ENTER = 0,
+        ESC,
+        UP,
         DOWN,
         LEFT,
         RIGHT,
@@ -18,7 +20,7 @@ public:
         TOTAL_KEY_NUM
     };
 public:
-    Command() : m_KeyArr{ VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, 'z', 'x', 'c', 'v' }
+    Command() : m_KeyArr{ VK_RETURN, VK_ESCAPE, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, 'z', 'x', 'c', 'v' }
     {
     }
 

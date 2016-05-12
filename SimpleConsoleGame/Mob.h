@@ -15,7 +15,7 @@ public:
     void Update(float dt)   override;
     void Render() const     override;
 
-    void AI();
+    void AI(float dt);
 
 private:
     SCE::Vec2               m_ToPos;

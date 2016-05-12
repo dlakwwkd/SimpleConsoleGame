@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GameManager.h"
-#include "IGame.h"
+#include "GameBase.h"
 #include "../Timer/Timer.h"
 #include "../Console/Console.h"
 #include "../../Util/AssertPack.h"
@@ -18,8 +18,6 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-    Safe::Delete(m_Timer);
-    Safe::Delete(m_Game);
 }
 
 void GameManager::Init()
@@ -62,8 +60,13 @@ void GameManager::GameLoop()
     while (m_IsPlay)
     {
         m_Timer->Tick();
-        m_Game->Update(m_Timer->DeltaTime());
-        m_Game->Render();
+        float dt = m_Timer->DeltaTime();
+
+        m_Game->Update(dt);
+        if (m_Game->RenderLimitCheck(dt))
+        {
+            m_Game->Render();
+        }
     }
 }
 

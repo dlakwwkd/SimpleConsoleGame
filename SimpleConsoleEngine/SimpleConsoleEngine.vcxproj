@@ -135,6 +135,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;SIMPLECONSOLEENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)Base\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,7 +156,7 @@
     <ClInclude Include="Core\Console\Console.h" />
     <ClInclude Include="Core\Console\Coord.hpp" />
     <ClInclude Include="Core\Console\Shape.hpp" />
-    <ClInclude Include="Core\Game\IGame.h" />
+    <ClInclude Include="Core\Game\GameBase.h" />
     <ClInclude Include="Core\Game\GameManager.h" />
     <ClInclude Include="Core\Game\Object.h" />
     <ClInclude Include="Core\Game\Vec2.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Base\dllmain.cpp" />
     <ClCompile Include="Base\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Core\Command\Command.cpp" />
     <ClCompile Include="Core\Console\Console.cpp" />
