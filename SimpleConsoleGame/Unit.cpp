@@ -36,7 +36,7 @@ void Unit::Update(float dt)
     SyncCoordFromPos();
 }
 
-void Unit::Render() const
+void Unit::Render()
 {
     Object::Render();
 }

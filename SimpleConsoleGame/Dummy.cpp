@@ -15,7 +15,7 @@ void Dummy::Update(float dt)
 {
 }
 
-void Dummy::Render() const
+void Dummy::Render()
 {
     Object::Render();
 }

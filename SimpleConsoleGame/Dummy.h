@@ -12,5 +12,5 @@ public:
     void Init()             override;
     void Release()          override;
     void Update(float dt)   override;
-    void Render() const     override;
+    void Render()           override;
 };

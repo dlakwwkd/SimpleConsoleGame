@@ -24,7 +24,7 @@ namespace Assert
 {
     // 변환하려는 타입의 비트범위 바깥에 유효비트가 있는지 체크하는 함수
     template<typename T, typename S>
-    inline void OverflowCheck(const S& source) noexcept
+    inline constexpr void OverflowCheck(const S& source) noexcept
     {
         static_assert(std::is_integral<T>::value && std::is_integral<S>::value, "it's not integral type!");
         assert((!BitCalc::CalcRestBits<T>(source) || !~BitCalc::CalcRestBits<T>(source)) && "it's overflow!");
@@ -35,7 +35,7 @@ namespace Safe
 {
     // 대상이 정수형 타입이고, 데이터 손실이 발생하지 않음이 확인되면, 캐스팅을 진행하는 함수
     template<typename T, typename S>
-    inline T IntegralCast(const S& source) noexcept
+    inline constexpr T IntegralCast(const S& source) noexcept
     {
         Assert::OverflowCheck<T>(source);
         return static_cast<T>(source);

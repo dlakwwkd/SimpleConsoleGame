@@ -17,7 +17,7 @@ public:
     virtual void Init()             = 0;
     virtual void Release()          = 0;
     virtual void Update(float dt)   = 0;
-    virtual void Render() const { if (m_IsShow) m_Shape.Render(m_Coord); }
+    virtual void Render() { if (m_IsShow) m_Shape.Render(m_Coord); }
     
     inline void     SetCoord(const Coord& coord) noexcept { m_Coord = coord; }
     inline void     SetShape(const Shape& shape) noexcept { m_Shape = shape; }

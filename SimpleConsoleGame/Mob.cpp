@@ -49,7 +49,7 @@ void Mob::Update(float dt)
     Unit::Update(dt);
 }
 
-void Mob::Render() const
+void Mob::Render()
 {
     m_ToPosShow->Render();
     Object::Render();

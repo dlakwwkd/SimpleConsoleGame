@@ -16,9 +16,9 @@ public:
     }
     virtual ~Shape() = default;
 
-    inline void Render(const Coord& pos) const noexcept
+    inline void Render(const Coord& pos) noexcept
     {
-        const auto& console = Console::GetInstance();
+        auto& console = Console::GetInstance();
         console.SetColor(m_Color, m_BGColor);
         console.Print(pos, m_Data);
     }
