@@ -3,7 +3,7 @@
 #include "Coord.hpp"
 SCE_START
 
-const Coord DEF_CONSOLE_SIZE = { 135, 35 };
+const Coord DEF_CONSOLE_SIZE = { 150, 50 };
 
 
 class SCE_API Console

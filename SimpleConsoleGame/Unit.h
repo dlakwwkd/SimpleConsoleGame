@@ -10,10 +10,12 @@ public:
     Unit();
     ~Unit() override;
 
-    void Init()                     override;
-    void Release()                  override;
-    void Update(float dt)           override;
-    void Render() const noexcept    override;
+    void Init()             override;
+    void Release()          override;
+    void Update(float dt)   override;
+    void Render() const     override;
+
+    void PosFixInScreanBoundary() noexcept;
 
     inline void AddMovePower(const SCE::Vec2& addPower) noexcept { m_MovePower += addPower; }
     inline void MovePowerFixInLimit() noexcept
@@ -30,7 +32,7 @@ public:
     }
     inline void SyncCoordFromPos() noexcept
     {
-        m_Coord.m_X = static_cast<decltype(m_Coord.m_X)>(m_Pos.m_X);
+        m_Coord.m_X = static_cast<decltype(m_Coord.m_X)>(m_Pos.m_X) * 2;
         m_Coord.m_Y = static_cast<decltype(m_Coord.m_Y)>(m_Pos.m_Y);
     }
 

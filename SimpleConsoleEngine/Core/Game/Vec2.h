@@ -21,20 +21,21 @@ public:
 
     inline float Length() const noexcept;
     inline float LengthSquared() const noexcept;
+    inline Vec2& Normalize() noexcept;
 
-    inline const Vec2   operator+   (const Vec2 &v) const noexcept;
-    inline const Vec2   operator-   (const Vec2 &v) const noexcept;
-    inline const Vec2   operator*   (float s)       const noexcept;
-    inline const Vec2   operator/   (float s)       const noexcept;
-    inline const Vec2   operator-   ()              const noexcept;
+    inline Vec2     operator+   (const Vec2 &v) const noexcept;
+    inline Vec2     operator-   (const Vec2 &v) const noexcept;
+    inline Vec2     operator*   (float s)       const noexcept;
+    inline Vec2     operator/   (float s)       const noexcept;
+    inline Vec2     operator-   ()              const noexcept;
 
-    inline Vec2&        operator+=  (const Vec2 &v) noexcept;
-    inline Vec2&        operator-=  (const Vec2 &v) noexcept;
-    inline Vec2&        operator*=  (float s)       noexcept;
-    inline Vec2&        operator/=  (float s)       noexcept;
+    inline Vec2&    operator+=  (const Vec2 &v) noexcept;
+    inline Vec2&    operator-=  (const Vec2 &v) noexcept;
+    inline Vec2&    operator*=  (float s)       noexcept;
+    inline Vec2&    operator/=  (float s)       noexcept;
 
-    inline bool         operator==  (const Vec2 &v) const noexcept;
-    inline bool         operator!=  (const Vec2 &v) const noexcept;
+    inline bool     operator==  (const Vec2 &v) const noexcept;
+    inline bool     operator!=  (const Vec2 &v) const noexcept;
 
 public:
     float m_X;

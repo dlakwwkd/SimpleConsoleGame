@@ -8,11 +8,15 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="Mob.h" />
+    <ClInclude Include="Dummy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="Mob.cpp" />
+    <ClCompile Include="Dummy.cpp" />
   </ItemGroup>
 </Project>
