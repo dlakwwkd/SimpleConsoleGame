@@ -17,6 +17,7 @@ public:
 
     void PosFixInScreanBoundary() noexcept;
 
+    inline void SetSpeed(float speed) noexcept { m_Speed = speed; }
     inline void AddMovePower(const SCE::Vec2& addPower) noexcept { m_MovePower += addPower; }
     inline void MovePowerFixInLimit() noexcept
     {

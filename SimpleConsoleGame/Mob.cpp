@@ -71,7 +71,7 @@ void Mob::AI(float dt)
         auto toY = static_cast<float>(rand() % console.GetScreenHeight() - 1);
         m_ToPos.Set(toX, toY);
         m_ToPosShow->SetCoord(static_cast<short>(m_ToPos.m_X * 2.0f), static_cast<short>(m_ToPos.m_Y));
-        m_ToPosShow->SetShow(true);
+        m_ToPosShow->SetShow(false);
 
         Vec2 displacement = m_ToPos - m_Pos;
         float distance = displacement.Length();

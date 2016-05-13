@@ -22,11 +22,34 @@ Game::~Game()
 void Game::Init()
 {
     srand((unsigned int)time(NULL));
-    SetRenderFrameLimit(60);
+    SetRenderFrameLimit(30);
 
     m_Command = std::make_unique<Command>();
     m_Hero = std::make_unique<Hero>();
-    m_MobList.resize(10);
+    m_MobList.resize(30);
+    for (size_t i = 0; i < 30; ++i)
+    {
+        if (i < 5)
+        {
+            m_MobList[i].SetShape(Shape(L'●', Color::BLUE));
+            m_MobList[i].SetSpeed(120.0f);
+        }
+        else if (i < 12)
+        {
+            m_MobList[i].SetShape(Shape(L'火', Color::RED));
+            m_MobList[i].SetSpeed(70.0f);
+        }
+        else if (i < 20)
+        {
+            m_MobList[i].SetShape(Shape(L'⊙', Color::GREEN));
+            m_MobList[i].SetSpeed(30.0f);
+        }
+        else
+        {
+            m_MobList[i].SetShape(Shape(L'★', Color::YELLOW));
+            m_MobList[i].SetSpeed(10.0f);
+        }
+    }
 }
 
 void Game::Release()
@@ -90,6 +113,9 @@ void Game::CommandProc(float dt)
     if (m_Command->IsKeyPress(Command::RIGHT))
     {
         m_Hero->AddMovePower(Vec2::RIGHT * dt);
+    }
+    if (m_Command->IsKeyPress(Command::BUTTON_A))
+    {
     }
 }
 
