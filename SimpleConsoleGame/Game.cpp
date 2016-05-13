@@ -25,6 +25,7 @@ void Game::Init()
 
     m_Command = std::make_unique<Command>();
     m_Unit = std::make_unique<Unit>();
+    m_Unit->SetShape(Shape(L'▣'));
     m_MobList.resize(100);
     for (auto& mob : m_MobList)
     {
@@ -59,7 +60,7 @@ void Game::Update(float dt)
     stack += dt;
     if (stack > limit)
     {
-        m_Unit->SetShape(Shape(L'▣', ++color, Color::BLACK));
+        m_Unit->SetColor(++color);
         stack = 0.0f;
     }
 }
@@ -77,7 +78,8 @@ void Game::Render()
 
     std::wostringstream oss;
     oss << L"UpdateFrame: " << m_FrameRate << L"\n"
-        << L"RenderFrame: " << m_RenderCount << L"/" << m_RenderRate;
+        << L"RenderFrame: " << m_RenderCount << L"/" << m_RenderRate << L"\n"
+        << L"DrawCall: " << console.GetDrawCallNum();
     console.SetColor(Color::WHITE);
     console.Print(Coord(0, 0), oss.str().c_str());
 

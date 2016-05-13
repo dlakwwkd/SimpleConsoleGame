@@ -2,18 +2,20 @@
 SCE_START
 
 
-inline void Console::Print(const Coord& pos, const std::wstring& text) const noexcept
+inline void Console::Print(const Coord& pos, const std::wstring& text) noexcept
 {
     DWORD dw;
     SetConsoleCursorPosition(m_ScreenBuffer[m_ScreenIndex], { pos.m_X, pos.m_Y });
     WriteConsole(m_ScreenBuffer[m_ScreenIndex], text.c_str(), static_cast<DWORD>(text.length()), &dw, nullptr);
+    ++m_DrawCall;
 }
 
-inline void Console::Print(const Coord& pos, const wchar_t& word) const noexcept
+inline void Console::Print(const Coord& pos, const wchar_t& word) noexcept
 {
     DWORD dw;
     SetConsoleCursorPosition(m_ScreenBuffer[m_ScreenIndex], { pos.m_X, pos.m_Y });
     WriteConsole(m_ScreenBuffer[m_ScreenIndex], &word, 1U, &dw, nullptr);
+    ++m_DrawCall;
 }
 
 inline void Console::SetColor(Color textColor, Color bgColor) const noexcept
@@ -34,6 +36,7 @@ inline void Console::SwapBuffer() noexcept
 {
     SetConsoleActiveScreenBuffer(m_ScreenBuffer[m_ScreenIndex]);
     m_ScreenIndex = !m_ScreenIndex;
+    m_DrawCall = 0;
 }
 
 SCE_END

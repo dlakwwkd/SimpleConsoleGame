@@ -24,6 +24,13 @@ public:
     inline Coord    GetCoord() const noexcept { return m_Coord; }
     inline Shape    GetShape() const noexcept { return m_Shape; }
 
+    inline void     SetForm(wchar_t form) noexcept { m_Shape.SetForm(form); }
+    inline void     SetColor(Color color) noexcept { m_Shape.SetColor(color); }
+    inline void     SetBGColor(Color bgColor) noexcept { m_Shape.SetBGColor(bgColor); }
+    inline wchar_t  GetForm() const noexcept { return m_Shape.GetForm(); }
+    inline Color    GetColor() const noexcept { return m_Shape.GetColor(); }
+    inline Color    GetBGColor() const noexcept { return m_Shape.GetBGColor(); }
+
     inline void     SetShow(bool isShow) noexcept { m_IsShow = isShow; }
     inline bool     IsShow() const noexcept { return m_IsShow; }
 

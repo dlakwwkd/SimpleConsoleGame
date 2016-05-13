@@ -16,9 +16,9 @@ Mob::~Mob()
 
 void Mob::Init()
 {
-    SetShape(Shape(L'●', Color::YELLOW, Color::BLACK));
+    SetShape(Shape(L'●', Color::YELLOW));
     m_ToPosShow = std::make_unique<Dummy>();
-    m_ToPosShow->SetShape(Shape(L'＋', Color::RED, Color::BLACK));
+    m_ToPosShow->SetShape(Shape(L'＋', Color::RED));
     m_ToPosShow->SetShow(false);
 }
 
