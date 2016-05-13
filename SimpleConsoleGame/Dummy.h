@@ -6,7 +6,7 @@ class Dummy : public SCE::Object
 {
     SPECIALFUNC_SET(Dummy, default)
 public:
-    Dummy() = default;
+    Dummy() noexcept = default;
     ~Dummy() override = default;
 
     void Init()             override;

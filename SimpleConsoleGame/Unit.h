@@ -7,7 +7,7 @@ class Unit : public SCE::Object
 {
     SPECIALFUNC_SET(Unit, default)
 public:
-    Unit();
+    Unit() noexcept;
     ~Unit() override;
 
     void Init()             override;

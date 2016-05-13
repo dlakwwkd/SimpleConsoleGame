@@ -4,7 +4,7 @@
 SCE_USE
 
 
-Unit::Unit()
+Unit::Unit() noexcept
 :   m_Pos{0.0f, 0.0f},
     m_MovePower{0.0f, 0.0f},
     m_MovePowerLimit(1.0f),

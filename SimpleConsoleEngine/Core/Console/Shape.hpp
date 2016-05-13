@@ -7,7 +7,12 @@ class SCE_API Shape
 {
     SPECIALFUNC_SET(Shape, default)
 public:
-    Shape() noexcept : m_Form(L' '), m_Color(Color::WHITE), m_BGColor(Color::BLACK) {}
+    Shape() noexcept
+    :   m_Form(L' '),
+        m_Color(Color::WHITE),
+        m_BGColor(Color::BLACK)
+    {
+    }
     Shape(const wchar_t& data, const Color& color = Color::WHITE, const Color& bgColor = Color::BLACK) noexcept
     :   m_Form(data),
         m_Color(color),

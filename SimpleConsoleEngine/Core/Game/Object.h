@@ -8,7 +8,7 @@ class SCE_API Object
 {
     SPECIALFUNC_SET(Object, default)
 public:
-    Object()
+    Object() noexcept
     :   m_IsShow(true),
         m_Depth(0),
         m_Coord{ 0,0 }

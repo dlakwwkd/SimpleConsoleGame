@@ -5,6 +5,7 @@ SCE_START
 
 class SCE_API GameBase
 {
+    SPECIALFUNC_SET(GameBase, default)
 public:
     GameBase() noexcept
     :   m_FrameRate(0),
