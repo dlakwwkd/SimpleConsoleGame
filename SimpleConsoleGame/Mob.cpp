@@ -19,9 +19,11 @@ Mob::~Mob()
 void Mob::Init()
 {
     SetShape(Shape(L'●', Color::YELLOW));
+    SetDepth(1);
     m_ToPosShow = std::make_unique<Dummy>();
     m_ToPosShow->SetShape(Shape(L'＋', Color::RED));
     m_ToPosShow->SetShow(false);
+    m_ToPosShow->SetDepth(0);
 }
 
 void Mob::Release()

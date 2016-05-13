@@ -103,5 +103,5 @@ void Game::FrameShow()
         << L"DrawCall: " << console.GetDrawCallNum();
 
     console.SetColor(Color::WHITE);
-    console.Print(Coord(0, 0), oss.str().c_str());
+    console.PrintText(Coord(0, 0), oss.str().c_str());
 }

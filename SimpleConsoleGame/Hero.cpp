@@ -19,6 +19,7 @@ Hero::~Hero()
 void Hero::Init()
 {
     SetShape(Shape(L'▣', Color::GREEN));
+    SetDepth(2);
 }
 
 void Hero::Release()

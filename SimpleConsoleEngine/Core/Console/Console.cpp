@@ -7,7 +7,8 @@ Console::Console()
 :   m_ScreenBuffer{ nullptr, nullptr },
     m_ScreenIndex(0),
     m_ScreenSize{ 0,0 },
-    m_DrawCall(0)
+    m_DrawCall(0),
+    m_DepthBuffer{ {0} }
 {
 }
 

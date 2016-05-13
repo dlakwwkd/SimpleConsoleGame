@@ -23,11 +23,14 @@ public:
     inline Color    GetColor() const noexcept { return m_Color; }
     inline Color    GetBGColor() const noexcept { return m_BGColor; }
 
-    inline void Render(const Coord& pos) noexcept
+    inline void Render(const Coord& pos, BYTE depth = 0) noexcept
     {
         auto& console = Console::GetInstance();
-        console.SetColor(m_Color, m_BGColor);
-        console.Print(pos, m_Form);
+        if (console.DepthCheck(pos, depth))
+        {
+            console.SetColor(m_Color, m_BGColor);
+            console.Print(pos, m_Form);
+        }
     }
 
 private:

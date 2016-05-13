@@ -14,11 +14,12 @@ public:
     void Init(const Coord& screenSize = DEF_CONSOLE_SIZE);
     void Release();
 
-    inline void     Print(const Coord& pos, const std::wstring& text) noexcept;
-    inline void     Print(const Coord& pos, const wchar_t& word) noexcept;
+    inline void     PrintText(const Coord& pos, const std::wstring& text) noexcept;
+    inline void     Print(const Coord& pos, wchar_t word) noexcept;
     inline void     SetColor(Color textColor, Color bgColor = Color::BLACK) const noexcept;
-    inline void     Clear() const noexcept;
+    inline void     Clear() noexcept;
     inline void     SwapBuffer() noexcept;
+    inline bool     DepthCheck(const Coord& pos, BYTE depth = 0) noexcept;
     inline size_t   GetDrawCallNum() const noexcept { return m_DrawCall; }
 
 private:
@@ -26,6 +27,8 @@ private:
     BYTE    m_ScreenIndex;
     Coord   m_ScreenSize;
     size_t  m_DrawCall;
+
+    BYTE    m_DepthBuffer[MAX_CONSOLE_SIZE.m_Y][MAX_CONSOLE_SIZE.m_X];
 };
 
 
