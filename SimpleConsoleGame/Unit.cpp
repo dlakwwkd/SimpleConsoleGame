@@ -45,27 +45,29 @@ void Unit::Render()
 
 void Unit::PosFixInScreanBoundary() noexcept
 {
-    auto xBound = static_cast<float>(DEF_CONSOLE_SIZE.m_X / 2 - 2);
-    auto yBound = static_cast<float>(DEF_CONSOLE_SIZE.m_Y - 1);
+    auto bound = Vec2(Console::GetInstance().GetScreenSize());
+    bound.m_X -= 1.0f;
+    bound.m_Y -= 2.0f;
 
-    if (m_Pos.m_X < 0)
+    if (m_Pos.m_X < 0.0f)
     {
         m_Pos.m_X = 0.0f;
         m_MovePower.m_X = 0.0f;
     }
-    else if (m_Pos.m_X > xBound)
+    else if (m_Pos.m_X > bound.m_X)
     {
-        m_Pos.m_X = xBound;
+        m_Pos.m_X = bound.m_X;
         m_MovePower.m_X = 0.0f;
     }
-    if (m_Pos.m_Y < 0)
+
+    if (m_Pos.m_Y < 0.0f)
     {
         m_Pos.m_Y = 0.0f;
         m_MovePower.m_Y = 0.0f;
     }
-    else if (m_Pos.m_Y > yBound)
+    else if (m_Pos.m_Y > bound.m_Y)
     {
-        m_Pos.m_Y = yBound;
+        m_Pos.m_Y = bound.m_Y;
         m_MovePower.m_Y = 0.0f;
     }
 }

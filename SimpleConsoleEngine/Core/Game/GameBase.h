@@ -19,7 +19,7 @@ public:
     virtual void Update(float dt)   = 0;
     virtual void Render()           = 0;
 
-    inline void SetRenderLimitFrame(size_t limitFrame)
+    inline void SetRenderFrameLimit(size_t limitFrame)
     {
         m_RenderLimit = 1.0f / limitFrame;
     }

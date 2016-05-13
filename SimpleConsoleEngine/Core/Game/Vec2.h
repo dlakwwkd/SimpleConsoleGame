@@ -17,11 +17,16 @@ public:
         m_Y(y)
     {
     }
-    inline Vec2(const Coord& coord) noexcept;
+    inline Vec2(Coord&& coord) noexcept;
 
-    inline float Length() const noexcept;
-    inline float LengthSquared() const noexcept;
-    inline Vec2& Normalize() noexcept;
+    inline void     Set(float x, float y) noexcept;
+    inline void     SetZero() noexcept;
+    inline float    Length() const noexcept;
+    inline float    LengthSquared() const noexcept;
+    inline float    Distance(const Vec2& other) const noexcept;
+    inline float    DistanceSquared(const Vec2& other) const noexcept;
+    inline Vec2     Direction(const Vec2& other) const noexcept;
+    inline Vec2&    Normalize() noexcept;
 
     inline Vec2     operator+   (const Vec2 &v) const noexcept;
     inline Vec2     operator-   (const Vec2 &v) const noexcept;
@@ -40,6 +45,13 @@ public:
 public:
     float m_X;
     float m_Y;
+
+    static const Vec2 ZERO;
+    static const Vec2 ONE;
+    static const Vec2 UP;
+    static const Vec2 DOWN;
+    static const Vec2 LEFT;
+    static const Vec2 RIGHT;
 };
 
 SCE_END

@@ -35,19 +35,18 @@ void Mob::Release()
 void Mob::Update(float dt)
 {
     Vec2 displacement = m_ToPos - m_Pos;
-    float length = displacement.Length();
-    if (length < 1.0f)
+    float distance = displacement.Length();
+    if (distance < 1.0f)
     {
-        m_MovePower = { 0.0f, 0.0f };
+        m_MovePower.SetZero();
         m_ToPosShow->SetShow(false);
     }
     else
     {
-        Vec2 dir = displacement / length;
         float maxMoveDist = m_Speed / m_MovePowerFrict;
-        if (length > maxMoveDist)
+        if (distance > maxMoveDist)
         {
-            m_MovePower = dir * m_MovePowerLimit;
+            m_MovePower = displacement * (m_MovePowerLimit / distance);
         }
     }
     Unit::Update(dt);
@@ -67,30 +66,30 @@ void Mob::AI(float dt)
     randNum = std::max<int>(3, randNum);
     if (rand() % randNum == 0)
     {
-        auto toX = static_cast<float>(rand() % DEF_CONSOLE_SIZE.m_X / 2 - 1);
-        auto toY = static_cast<float>(rand() % DEF_CONSOLE_SIZE.m_Y);
-        m_ToPos = Vec2(toX, toY);
-        m_ToPosShow->SetCoord(Coord(static_cast<short>(m_ToPos.m_X * 2.0f), static_cast<short>(m_ToPos.m_Y)));
+        auto& console = Console::GetInstance();
+        auto toX = static_cast<float>(rand() % console.GetScreenWidth() / 2);
+        auto toY = static_cast<float>(rand() % console.GetScreenHeight() - 1);
+        m_ToPos.Set(toX, toY);
+        m_ToPosShow->SetCoord(static_cast<short>(m_ToPos.m_X * 2.0f), static_cast<short>(m_ToPos.m_Y));
         m_ToPosShow->SetShow(true);
 
         Vec2 displacement = m_ToPos - m_Pos;
-        float length = displacement.Length();
-        if (length < 1.0f)
+        float distance = displacement.Length();
+        if (distance < 1.0f)
         {
-            m_MovePower = { 0.0f, 0.0f };
+            m_MovePower.SetZero();
+            m_ToPosShow->SetShow(false);
         }
         else
         {
-            Vec2 dir = displacement / length;
             float maxMoveDist = m_Speed / m_MovePowerFrict;
-            if (length > maxMoveDist)
+            if (distance > maxMoveDist)
             {
-                m_MovePower = dir * m_MovePowerLimit;
+                m_MovePower = displacement * (m_MovePowerLimit / distance);
             }
             else
             {
-                float distRatio = length / maxMoveDist;
-                m_MovePower = dir * (m_MovePowerLimit * distRatio);
+                m_MovePower = displacement * (m_MovePowerLimit / maxMoveDist);
             }
         }
     }

@@ -3,13 +3,22 @@
 SCE_START
 
 
-inline Vec2::Vec2(const Coord& coord) noexcept
+inline Vec2::Vec2(Coord&& coord) noexcept
 {
-    m_X = static_cast<float>(coord.m_X);
+    m_X = static_cast<float>(coord.m_X / 2);
     m_Y = static_cast<float>(coord.m_Y);
 }
 
+inline void Vec2::Set(float x, float y) noexcept
+{
+    m_X = x;
+    m_Y = y;
+}
 
+inline void Vec2::SetZero() noexcept
+{
+    Set(0.0f, 0.0f);
+}
 
 inline float Vec2::Length() const noexcept
 {
@@ -19,6 +28,23 @@ inline float Vec2::Length() const noexcept
 inline float Vec2::LengthSquared() const noexcept
 {
     return m_X * m_X + m_Y * m_Y;
+}
+
+inline float Vec2::Distance(const Vec2& other) const noexcept
+{
+    return std::hypotf(other.m_X - m_X, other.m_Y - m_Y);
+}
+
+inline float Vec2::DistanceSquared(const Vec2& other) const noexcept
+{
+    float dx = other.m_X - m_X;
+    float dy = other.m_Y - m_Y;
+    return dx * dx + dy * dy;
+}
+
+inline Vec2 Vec2::Direction(const Vec2& other) const noexcept
+{
+    return (other - *this).Normalize();
 }
 
 inline Vec2& Vec2::Normalize() noexcept

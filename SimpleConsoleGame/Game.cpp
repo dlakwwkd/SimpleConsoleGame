@@ -22,11 +22,11 @@ Game::~Game()
 void Game::Init()
 {
     srand((unsigned int)time(NULL));
-    SetRenderLimitFrame(60);
+    SetRenderFrameLimit(60);
 
     m_Command = std::make_unique<Command>();
     m_Hero = std::make_unique<Hero>();
-    m_MobList.resize(100);
+    m_MobList.resize(10);
 }
 
 void Game::Release()
@@ -77,19 +77,19 @@ void Game::CommandProc(float dt)
     }
     if (m_Command->IsKeyPress(Command::UP))
     {
-        m_Hero->AddMovePower(Vec2(0.0f, -dt));
+        m_Hero->AddMovePower(Vec2::UP * dt);
     }
     if (m_Command->IsKeyPress(Command::DOWN))
     {
-        m_Hero->AddMovePower(Vec2(0.0f, +dt));
+        m_Hero->AddMovePower(Vec2::DOWN * dt);
     }
     if (m_Command->IsKeyPress(Command::LEFT))
     {
-        m_Hero->AddMovePower(Vec2(-dt, 0.0f));
+        m_Hero->AddMovePower(Vec2::LEFT * dt);
     }
     if (m_Command->IsKeyPress(Command::RIGHT))
     {
-        m_Hero->AddMovePower(Vec2(+dt, 0.0f));
+        m_Hero->AddMovePower(Vec2::RIGHT * dt);
     }
 }
 
@@ -98,10 +98,10 @@ void Game::FrameShow()
     auto& console = Console::GetInstance();
 
     std::wostringstream oss;
-    oss << L"UpdateFrame: " << m_FrameRate << L"\n"
-        << L"RenderFrame: " << m_RenderCount << L"/" << m_RenderRate << L"\n"
+    oss << L"UpdateFrame: " << m_FrameRate << L"\t"
+        << L"RenderFrame: " << m_RenderCount << L"/" << m_RenderRate << L"\t"
         << L"DrawCall: " << console.GetDrawCallNum();
 
     console.SetColor(Color::WHITE);
-    console.PrintText(Coord(0, 0), oss.str().c_str());
+    console.PrintText(Coord(0, console.GetScreenHeight() - 1), oss.str().c_str());
 }

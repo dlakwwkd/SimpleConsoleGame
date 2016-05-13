@@ -23,7 +23,7 @@ public:
         float length = m_MovePower.Length();
         if (length < 0.0001f)
         {
-            m_MovePower = { 0.0f, 0.0f };
+            m_MovePower.SetZero();
         }
         else if (length > m_MovePowerLimit)
         {
@@ -32,7 +32,7 @@ public:
     }
     inline void SyncCoordFromPos() noexcept
     {
-        m_Coord.m_X = static_cast<decltype(m_Coord.m_X)>(m_Pos.m_X) * 2;
+        m_Coord.m_X = static_cast<decltype(m_Coord.m_X)>(m_Pos.m_X * 2.0f);
         m_Coord.m_Y = static_cast<decltype(m_Coord.m_Y)>(m_Pos.m_Y);
     }
 
