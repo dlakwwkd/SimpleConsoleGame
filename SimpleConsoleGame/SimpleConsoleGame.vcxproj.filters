@@ -10,6 +10,7 @@
     <ClInclude Include="Unit.h" />
     <ClInclude Include="Mob.h" />
     <ClInclude Include="Dummy.h" />
+    <ClInclude Include="Hero.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -18,5 +19,6 @@
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="Mob.cpp" />
     <ClCompile Include="Dummy.cpp" />
+    <ClCompile Include="Hero.cpp" />
   </ItemGroup>
 </Project>

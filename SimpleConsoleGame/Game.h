@@ -4,6 +4,7 @@ SCE_START
 class Command;
 SCE_END
 class Unit;
+class Hero;
 class Mob;
 
 
@@ -21,9 +22,10 @@ public:
 
 private:
     void CommandProc(float dt);
+    void FrameShow();
 
 private:
     std::unique_ptr<SCE::Command>   m_Command;
-    std::unique_ptr<Unit>           m_Unit;
+    std::unique_ptr<Hero>           m_Hero;
     std::vector<Mob>                m_MobList;
 };

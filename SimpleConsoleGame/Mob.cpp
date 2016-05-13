@@ -7,11 +7,13 @@ SCE_USE
 
 Mob::Mob()
 {
+    Init();
 }
 
 
 Mob::~Mob()
 {
+    Release();
 }
 
 void Mob::Init()

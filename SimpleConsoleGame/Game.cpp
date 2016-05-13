@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
 #include "Unit.h"
+#include "Hero.h"
 #include "Mob.h"
 #include "Dummy.h"
 #include "Core/Game/GameManager.h"
@@ -24,19 +25,14 @@ void Game::Init()
     SetRenderLimitFrame(60);
 
     m_Command = std::make_unique<Command>();
-    m_Unit = std::make_unique<Unit>();
-    m_Unit->SetShape(Shape(L'▣'));
+    m_Hero = std::make_unique<Hero>();
     m_MobList.resize(100);
-    for (auto& mob : m_MobList)
-    {
-        mob.Init();
-    }
 }
 
 void Game::Release()
 {
     m_MobList.clear();
-    m_Unit.reset();
+    m_Hero.reset();
     m_Command.reset();
 }
 
@@ -52,17 +48,7 @@ void Game::Update(float dt)
         mob.AI(dt);
         mob.Update(dt);
     }
-    m_Unit->Update(dt);
-
-    static Color color = Color::GREY;
-    static float limit = 0.1f;
-    static float stack = 0.0f;
-    stack += dt;
-    if (stack > limit)
-    {
-        m_Unit->SetColor(++color);
-        stack = 0.0f;
-    }
+    m_Hero->Update(dt);
 }
 
 void Game::Render()
@@ -74,15 +60,9 @@ void Game::Render()
     {
         mob.Render();
     }
-    m_Unit->Render();
+    m_Hero->Render();
 
-    std::wostringstream oss;
-    oss << L"UpdateFrame: " << m_FrameRate << L"\n"
-        << L"RenderFrame: " << m_RenderCount << L"/" << m_RenderRate << L"\n"
-        << L"DrawCall: " << console.GetDrawCallNum();
-    console.SetColor(Color::WHITE);
-    console.Print(Coord(0, 0), oss.str().c_str());
-
+    FrameShow();
     console.SwapBuffer();
 }
 
@@ -97,18 +77,31 @@ void Game::CommandProc(float dt)
     }
     if (m_Command->IsKeyPress(Command::UP))
     {
-        m_Unit->AddMovePower(Vec2(0.0f, -dt));
+        m_Hero->AddMovePower(Vec2(0.0f, -dt));
     }
     if (m_Command->IsKeyPress(Command::DOWN))
     {
-        m_Unit->AddMovePower(Vec2(0.0f, +dt));
+        m_Hero->AddMovePower(Vec2(0.0f, +dt));
     }
     if (m_Command->IsKeyPress(Command::LEFT))
     {
-        m_Unit->AddMovePower(Vec2(-dt, 0.0f));
+        m_Hero->AddMovePower(Vec2(-dt, 0.0f));
     }
     if (m_Command->IsKeyPress(Command::RIGHT))
     {
-        m_Unit->AddMovePower(Vec2(+dt, 0.0f));
+        m_Hero->AddMovePower(Vec2(+dt, 0.0f));
     }
+}
+
+void Game::FrameShow()
+{
+    auto& console = Console::GetInstance();
+
+    std::wostringstream oss;
+    oss << L"UpdateFrame: " << m_FrameRate << L"\n"
+        << L"RenderFrame: " << m_RenderCount << L"/" << m_RenderRate << L"\n"
+        << L"DrawCall: " << console.GetDrawCallNum();
+
+    console.SetColor(Color::WHITE);
+    console.Print(Coord(0, 0), oss.str().c_str());
 }
