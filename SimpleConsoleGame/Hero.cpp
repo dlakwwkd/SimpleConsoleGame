@@ -18,6 +18,7 @@ Hero::~Hero()
 
 void Hero::Init()
 {
+    Unit::Init();
     SetShape(Shape(L'▣', Color::GREEN));
     SetDepth(5);
 }

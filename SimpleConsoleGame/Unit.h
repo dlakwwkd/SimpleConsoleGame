@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Core/Game/Object.h"
 #include "Core/Game/Vec2.h"
+#include "Core/Console/Console.h"
 
 
 class Unit : public SCE::Object
@@ -15,8 +16,6 @@ public:
     void Update(float dt)   override;
     void Render()           override;
 
-    void PosFixInScreanBoundary() noexcept;
-
     inline void SetSpeed(float speed) noexcept { m_Speed = speed; }
     inline void AddMovePower(const SCE::Vec2& addPower) noexcept { m_MovePower += addPower; }
     inline void MovePowerFixInLimit() noexcept
@@ -29,6 +28,35 @@ public:
         else if (length > m_MovePowerLimit)
         {
             m_MovePower *= m_MovePowerLimit / length;
+        }
+    }
+    inline void PosFixInScreanBoundary() noexcept
+    {
+        static auto& console = SCE::Console::GetInstance();
+        auto bound = SCE::Vec2(console.GetScreenSize());
+        bound.m_X -= 1.0f;
+        bound.m_Y -= 2.0f;
+
+        if (m_Pos.m_X < 0.0f)
+        {
+            m_Pos.m_X = 0.0f;
+            m_MovePower.m_X = 0.0f;
+        }
+        else if (m_Pos.m_X > bound.m_X)
+        {
+            m_Pos.m_X = bound.m_X;
+            m_MovePower.m_X = 0.0f;
+        }
+
+        if (m_Pos.m_Y < 0.0f)
+        {
+            m_Pos.m_Y = 0.0f;
+            m_MovePower.m_Y = 0.0f;
+        }
+        else if (m_Pos.m_Y > bound.m_Y)
+        {
+            m_Pos.m_Y = bound.m_Y;
+            m_MovePower.m_Y = 0.0f;
         }
     }
     inline void SyncCoordFromPos() noexcept

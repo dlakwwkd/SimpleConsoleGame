@@ -34,8 +34,6 @@ void GameManager::Release()
     m_IsRun = false;
     Safe::Delete(m_Timer);
     Console::GetInstance().Release();
-
-    Safe::Delete(m_Game);
 }
 
 void GameManager::MainLoop()

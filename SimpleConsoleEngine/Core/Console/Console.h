@@ -3,7 +3,7 @@
 #include "Coord.hpp"
 SCE_START
 
-constexpr Coord DEF_CONSOLE_SIZE = { 150, 50 };
+constexpr Coord DEF_CONSOLE_SIZE = { 65, 10 };
 constexpr Coord MAX_CONSOLE_SIZE = { 238, 70 };
 
 

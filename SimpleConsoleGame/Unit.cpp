@@ -40,34 +40,3 @@ void Unit::Render()
 {
     Object::Render();
 }
-
-
-
-void Unit::PosFixInScreanBoundary() noexcept
-{
-    auto bound = Vec2(Console::GetInstance().GetScreenSize());
-    bound.m_X -= 1.0f;
-    bound.m_Y -= 2.0f;
-
-    if (m_Pos.m_X < 0.0f)
-    {
-        m_Pos.m_X = 0.0f;
-        m_MovePower.m_X = 0.0f;
-    }
-    else if (m_Pos.m_X > bound.m_X)
-    {
-        m_Pos.m_X = bound.m_X;
-        m_MovePower.m_X = 0.0f;
-    }
-
-    if (m_Pos.m_Y < 0.0f)
-    {
-        m_Pos.m_Y = 0.0f;
-        m_MovePower.m_Y = 0.0f;
-    }
-    else if (m_Pos.m_Y > bound.m_Y)
-    {
-        m_Pos.m_Y = bound.m_Y;
-        m_MovePower.m_Y = 0.0f;
-    }
-}

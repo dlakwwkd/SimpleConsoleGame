@@ -16,6 +16,7 @@ inline void GameManager::Run()
         Init();
         MainLoop();
         Release();
+        Safe::Delete(m_Game);
     }
 }
 

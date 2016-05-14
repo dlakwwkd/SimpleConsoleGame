@@ -18,6 +18,7 @@ Mob::~Mob()
 
 void Mob::Init()
 {
+    Unit::Init();
     SetShape(Shape(L'●', Color::YELLOW));
     SetDepth(1);
     m_ToPosShow = std::make_unique<Dummy>();
@@ -66,7 +67,7 @@ void Mob::AI(float dt)
     randNum = std::max<int>(3, randNum);
     if (rand() % randNum == 0)
     {
-        auto& console = Console::GetInstance();
+        static auto& console = Console::GetInstance();
         auto toX = static_cast<float>(rand() % console.GetScreenWidth() / 2);
         auto toY = static_cast<float>(rand() % console.GetScreenHeight() - 1);
         m_ToPos.Set(toX, toY);

@@ -26,7 +26,7 @@ void Game::Init()
 
     m_Command = std::make_unique<Command>();
     m_Hero = std::make_unique<Hero>();
-    m_MobList.resize(30);
+    m_MobList.resize(3000);
     for (size_t i = 0; i < 30; ++i)
     {
         if (i < 5)
@@ -76,7 +76,7 @@ void Game::Update(float dt)
 
 void Game::Render()
 {
-    auto& console = Console::GetInstance();
+    static auto& console = Console::GetInstance();
     console.Clear();
 
     for (auto& mob : m_MobList)
@@ -121,7 +121,7 @@ void Game::CommandProc(float dt)
 
 void Game::FrameShow()
 {
-    auto& console = Console::GetInstance();
+    static auto& console = Console::GetInstance();
 
     std::wostringstream oss;
     oss << L"UpdateFrame: " << m_FrameRate << L"\t"
