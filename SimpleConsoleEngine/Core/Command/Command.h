@@ -24,7 +24,7 @@ public:
     {
     }
 
-    inline int GetKey(KeyType type) const noexcept
+    int GetKey(KeyType type) const noexcept
     {
         if (type < m_KeyArr.size())
         {
@@ -33,7 +33,7 @@ public:
         assert(false && "KeyType is invalid");
         return 0;
     }
-    inline void SetKey(KeyType type, int key) noexcept
+    void SetKey(KeyType type, int key) noexcept
     {
         if (type < m_KeyArr.size())
         {
@@ -41,7 +41,7 @@ public:
         }
         assert(false && "KeyType is invalid");
     }
-    inline bool IsKeyPress(KeyType type) const noexcept
+    bool IsKeyPress(KeyType type) const noexcept
     {
         if (type < m_KeyArr.size())
         {

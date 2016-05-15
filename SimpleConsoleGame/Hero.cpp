@@ -44,5 +44,5 @@ void Hero::Update(float dt)
 
 void Hero::Render()
 {
-    Object::Render();
+    Unit::Render();
 }

@@ -26,28 +26,36 @@ void Game::Init()
 
     m_Command = std::make_unique<Command>();
     m_Hero = std::make_unique<Hero>();
-    m_MobList.resize(30);
-    for (size_t i = 0; i < 30; ++i)
+
+    size_t mobNum = 100;
+    size_t section = mobNum / 4;
+    m_MobList.resize(mobNum);
+    for (size_t i = 0; i < mobNum; ++i)
     {
-        if (i < 5)
+        auto& mob = m_MobList[i];
+        if (i < section)
         {
-            m_MobList[i].SetShape(Shape(L'●', Color::BLUE));
-            m_MobList[i].SetSpeed(120.0f);
+            mob.SetShape(Shape(L'●', Color::BLUE));
+            mob.SetSpeed(120.0f);
+            mob.SetAIRatio(0.5f);
         }
-        else if (i < 12)
+        else if (i < section * 2)
         {
-            m_MobList[i].SetShape(Shape(L'火', Color::RED));
-            m_MobList[i].SetSpeed(70.0f);
+            mob.SetShape(Shape(L'火', Color::RED));
+            mob.SetSpeed(70.0f);
+            mob.SetAIRatio(1.0f);
         }
-        else if (i < 20)
+        else if (i < section * 3)
         {
-            m_MobList[i].SetShape(Shape(L'⊙', Color::GREEN));
-            m_MobList[i].SetSpeed(30.0f);
+            mob.SetShape(Shape(L'⊙', Color::GREEN));
+            mob.SetSpeed(30.0f);
+            mob.SetAIRatio(1.5f);
         }
         else
         {
-            m_MobList[i].SetShape(Shape(L'★', Color::YELLOW));
-            m_MobList[i].SetSpeed(10.0f);
+            mob.SetShape(Shape(L'★', Color::YELLOW));
+            mob.SetSpeed(10.0f);
+            mob.SetAIRatio(2.0f);
         }
     }
 }

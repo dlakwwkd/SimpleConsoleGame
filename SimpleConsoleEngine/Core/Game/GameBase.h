@@ -20,11 +20,11 @@ public:
     virtual void Update(float dt)   = 0;
     virtual void Render()           = 0;
 
-    inline void SetRenderFrameLimit(size_t limitFrame)
+    void SetRenderFrameLimit(size_t limitFrame)
     {
         m_RenderLimit = 1.0f / limitFrame;
     }
-    inline bool RenderLimitCheck(float dt)
+    bool RenderLimitCheck(float dt)
     {
         static float accumDt = 0;
         accumDt += dt;
@@ -36,7 +36,7 @@ public:
         }
         return false;
     }
-    inline void FrameCalc(float dt)
+    void FrameCalc(float dt)
     {
         static float accumDt = 0;
         static size_t count = 0;

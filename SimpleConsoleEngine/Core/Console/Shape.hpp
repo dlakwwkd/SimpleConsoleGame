@@ -21,14 +21,14 @@ public:
     }
     virtual ~Shape() = default;
 
-    inline void     SetForm(wchar_t form) noexcept { m_Form = form; }
-    inline void     SetColor(Color color) noexcept { m_Color = color; }
-    inline void     SetBGColor(Color bgColor) noexcept { m_BGColor = bgColor; }
-    inline wchar_t  GetForm() const noexcept { return m_Form; }
-    inline Color    GetColor() const noexcept { return m_Color; }
-    inline Color    GetBGColor() const noexcept { return m_BGColor; }
+    void    SetForm(wchar_t form) noexcept { m_Form = form; }
+    void    SetColor(Color color) noexcept { m_Color = color; }
+    void    SetBGColor(Color bgColor) noexcept { m_BGColor = bgColor; }
+    wchar_t GetForm() const noexcept { return m_Form; }
+    Color   GetColor() const noexcept { return m_Color; }
+    Color   GetBGColor() const noexcept { return m_BGColor; }
 
-    inline void Render(const Coord& pos, BYTE depth = 0) noexcept
+    void Render(const Coord& pos, BYTE depth = 0) noexcept
     {
         auto& console = Console::GetInstance();
         if (console.DepthCheck(pos, depth))

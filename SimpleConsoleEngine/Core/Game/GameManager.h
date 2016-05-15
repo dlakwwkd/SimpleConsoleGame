@@ -9,10 +9,10 @@ class SCE_API GameManager
     CREATE_SINGLETON(GameManager)
 public:
     template<typename GameType>
-    inline void Run();
+    void Run();
 
-    inline void ReturnMain() noexcept { m_IsPlay = false; }
-    inline void Shutdown() noexcept { m_IsRun = m_IsPlay = false; }
+    void ReturnMain() noexcept { m_IsPlay = false; }
+    void Shutdown() noexcept { m_IsRun = m_IsPlay = false; }
 
 private:
     void Init();

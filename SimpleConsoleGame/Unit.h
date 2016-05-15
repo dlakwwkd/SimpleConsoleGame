@@ -16,9 +16,9 @@ public:
     void Update(float dt)   override;
     void Render()           override;
 
-    inline void SetSpeed(float speed) noexcept { m_Speed = speed; }
-    inline void AddMovePower(const SCE::Vec2& addPower) noexcept { m_MovePower += addPower; }
-    inline void MovePowerFixInLimit() noexcept
+    void SetSpeed(float speed) noexcept { m_Speed = speed; }
+    void AddMovePower(const SCE::Vec2& addPower) noexcept { m_MovePower += addPower; }
+    void MovePowerFixInLimit() noexcept
     {
         float length = m_MovePower.Length();
         if (length < 0.0001f)
@@ -30,7 +30,7 @@ public:
             m_MovePower *= m_MovePowerLimit / length;
         }
     }
-    inline void PosFixInScreanBoundary() noexcept
+    __forceinline void PosFixInScreanBoundary() noexcept
     {
         static auto& console = SCE::Console::GetInstance();
         auto bound = SCE::Vec2(console.GetScreenSize());
@@ -57,7 +57,7 @@ public:
             m_MovePower.m_Y = 0.0f;
         }
     }
-    inline void SyncCoordFromPos() noexcept
+    void SyncCoordFromPos() noexcept
     {
         m_Coord.m_X = static_cast<decltype(m_Coord.m_X)>(m_Pos.m_X * 2.0f);
         m_Coord.m_Y = static_cast<decltype(m_Coord.m_Y)>(m_Pos.m_Y);

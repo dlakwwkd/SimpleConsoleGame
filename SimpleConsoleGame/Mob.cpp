@@ -6,6 +6,10 @@ SCE_USE
 
 
 Mob::Mob()
+:   m_ToPos{ 0.0f,0.0f },
+    m_AccumDt(0.0f),
+    m_AIRatio(1.0f),
+    m_ToPosChangeProbability(0.2f)
 {
     Init();
 }
@@ -25,6 +29,7 @@ void Mob::Init()
     m_ToPosShow->SetShape(Shape(L'＋', Color::RED));
     m_ToPosShow->SetShow(false);
     m_ToPosShow->SetDepth(0);
+    m_AccumDt = 0.0f;
 }
 
 void Mob::Release()
@@ -56,16 +61,22 @@ void Mob::Update(float dt)
 void Mob::Render()
 {
     m_ToPosShow->Render();
-    Object::Render();
+    Unit::Render();
 }
 
 
 
 void Mob::AI(float dt)
 {
-    int randNum = static_cast<int>(1.0f / dt);
-    randNum = std::max<int>(3, randNum);
-    if (rand() % randNum == 0)
+    m_AccumDt += dt;
+    if (m_AccumDt < m_AIRatio)
+    {
+        return;
+    }
+    m_AccumDt = 0.0f;
+
+    int randRange = static_cast<int>(1.0f / m_ToPosChangeProbability);
+    if (rand() % randRange == 0)
     {
         static auto& console = Console::GetInstance();
         auto toX = static_cast<float>(rand() % console.GetScreenWidth() / 2);
