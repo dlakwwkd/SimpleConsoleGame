@@ -22,11 +22,11 @@ Game::~Game()
 void Game::Init()
 {
     srand((unsigned int)time(NULL));
-    SetRenderFrameLimit(30);
+    SetRenderFrameLimit(60);
 
     m_Command = std::make_unique<Command>();
     m_Hero = std::make_unique<Hero>();
-    m_MobList.resize(3000);
+    m_MobList.resize(30);
     for (size_t i = 0; i < 30; ++i)
     {
         if (i < 5)
@@ -129,5 +129,5 @@ void Game::FrameShow()
         << L"DrawCall: " << console.GetDrawCallNum();
 
     console.SetColor(Color::WHITE);
-    console.PrintText(Coord(0, console.GetScreenHeight() - 1), oss.str().c_str());
+    console.PrintText(Coord(0, console.GetScreenHeight() + 1), oss.str().c_str());
 }

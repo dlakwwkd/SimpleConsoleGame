@@ -28,7 +28,7 @@ inline void Console::SetColor(Color textColor, Color bgColor) const noexcept
 inline void Console::Clear() noexcept
 {
     DWORD dw;
-    DWORD screenSize = m_ScreenSize.m_X * m_ScreenSize.m_Y;
+    DWORD screenSize = (m_ScreenSize.m_X + 2) * (m_ScreenSize.m_Y + 2);
     FillConsoleOutputCharacter(m_ScreenBuffer[m_ScreenIndex], L' ', screenSize, { 0,0 }, &dw);
     FillConsoleOutputAttribute(m_ScreenBuffer[m_ScreenIndex], NULL, screenSize, { 0,0 }, &dw);
 
@@ -44,8 +44,8 @@ inline void Console::SwapBuffer() noexcept
 
 inline bool Console::DepthCheck(const Coord& pos, BYTE depth) noexcept
 {
-    if (pos.m_X < 0 || pos.m_X >= m_ScreenSize.m_X ||
-        pos.m_Y < 0 || pos.m_Y >= m_ScreenSize.m_Y ||
+    if (pos.m_X < 0 || pos.m_X > m_ScreenSize.m_X ||
+        pos.m_Y < 0 || pos.m_Y > m_ScreenSize.m_Y ||
         m_DepthBuffer[pos.m_Y][pos.m_X] > depth)
     {
         return false;

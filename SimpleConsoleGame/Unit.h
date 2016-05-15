@@ -34,8 +34,6 @@ public:
     {
         static auto& console = SCE::Console::GetInstance();
         auto bound = SCE::Vec2(console.GetScreenSize());
-        bound.m_X -= 1.0f;
-        bound.m_Y -= 2.0f;
 
         if (m_Pos.m_X < 0.0f)
         {

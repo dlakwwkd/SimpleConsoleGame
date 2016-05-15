@@ -20,7 +20,7 @@ Console::~Console()
 void Console::Init(const Coord& screenSize)
 {
     std::ostringstream oss;
-    oss << "mode con: lines=" << screenSize.m_Y << " cols=" << screenSize.m_X;
+    oss << "mode con: lines=" << screenSize.m_Y + 2 << " cols=" << screenSize.m_X + 2;
     system(oss.str().c_str());
     m_ScreenSize = screenSize;
 
