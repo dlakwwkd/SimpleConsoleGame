@@ -20,14 +20,14 @@
 //────────────────────────────────────────────────────────────────────────────────────────────────────
 #define SPECIALFUNC_COPY_SET(T, SET) \
 public: \
-    T(const T&)             = SET; \
-    T& operator=(const T&)  = SET; \
+    T(const T&) noexcept            = SET; \
+    T& operator=(const T&) noexcept = SET; \
 private:
 
 #define SPECIALFUNC_MOVE_SET(T, SET) \
 public: \
-    T(T&&)              = SET; \
-    T& operator=(T&&)   = SET; \
+    T(T&&) noexcept             = SET; \
+    T& operator=(T&&) noexcept  = SET; \
 private:
 
 #define SPECIALFUNC_SET(T, SET) SPECIALFUNC_COPY_SET(T, SET) SPECIALFUNC_MOVE_SET(T, SET)
