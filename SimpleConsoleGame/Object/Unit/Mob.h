@@ -1,5 +1,8 @@
 ﻿#pragma once
 #include "Unit.h"
+SCE_START
+class Timer;
+SCE_END
 class Dummy;
 
 
@@ -16,14 +19,13 @@ public:
     void Render()           override;
 
     void AI(float dt);
+    void SetAIRatio(float ratio);
 
-    void SetAIRatio(float ratio) noexcept { m_AIRatio = ratio; }
     void SetToPosChangeProbability(float prob) noexcept { m_ToPosChangeProbability = prob; }
 
 private:
-    SCE::Vec2               m_ToPos;
-    std::unique_ptr<Dummy>  m_ToPosShow;
-    float                   m_AccumDt;
-    float                   m_AIRatio;
-    float                   m_ToPosChangeProbability;
+    std::unique_ptr<SCE::Timer> m_AITimer;
+    std::unique_ptr<Dummy>      m_ToPosShow;
+    SCE::Vec2                   m_ToPos;
+    float                       m_ToPosChangeProbability;
 };

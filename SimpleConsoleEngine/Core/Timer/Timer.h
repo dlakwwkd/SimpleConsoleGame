@@ -2,21 +2,33 @@
 SCE_START
 
 
-class SCE_API Timer
+class Timer
 {
     SPECIALFUNC_SET(Timer, delete)
 public:
-    Timer() noexcept;
+    SCE_API inline Timer() noexcept;
+    SCE_API inline Timer(float duration) noexcept;
 
-    inline void     Init() noexcept;
-    inline void     Tick() noexcept;
-    inline float    DeltaTime() const noexcept;
-    
+    SCE_API inline void     Init() noexcept;
+    SCE_API inline void     Tick() noexcept;
+    SCE_API inline float    DeltaTime() const noexcept;
+
+    SCE_API inline void     AccumDt() noexcept;
+    SCE_API inline void     AccumDt(float dt) noexcept;
+    SCE_API inline bool     DurationCheck() noexcept;
+    SCE_API inline bool     DurationCheck(float duration) noexcept;
+    SCE_API inline void     SetDuration(float duration) noexcept;
+
 private:
-    double          m_SecondsPerCount;
-    double          m_DeltaTime;
-    __int64         m_PrevTime;
-    __int64         m_CurrTime;
+    using TickTime  = std::chrono::system_clock::time_point;
+    using Seconds   = std::chrono::duration<float>;
+
+    TickTime    m_PrevTime;
+    TickTime    m_CurrTime;
+    Seconds     m_DeltaTime;
+
+    float       m_AccumDt;
+    float       m_Duration;
 };
 
 SCE_END

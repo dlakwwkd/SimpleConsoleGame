@@ -2,15 +2,14 @@
 #include "Mob.h"
 //----------------------------------------------------------------------------------------------------
 #include "SimpleConsoleEngine/Core/Console/Shape.hpp"
+#include "SimpleConsoleEngine/Core/Timer/Timer.h"
 //----------------------------------------------------------------------------------------------------
 #include "Object/Dummy.h"
 SCE_USE
 
 
 Mob::Mob()
-:   m_ToPos{ 0.0f,0.0f },
-    m_AccumDt(0.0f),
-    m_AIRatio(1.0f),
+:   m_ToPos{ 0.0f, 0.0f },
     m_ToPosChangeProbability(0.2f)
 {
     Init();
@@ -31,11 +30,12 @@ void Mob::Init()
     m_ToPosShow->SetShape(Shape(L'＋', Color::RED));
     m_ToPosShow->SetShow(false);
     m_ToPosShow->SetDepth(0);
-    m_AccumDt = 0.0f;
+    m_AITimer = std::make_unique<Timer>(1.0f);
 }
 
 void Mob::Release()
 {
+    m_AITimer.reset();
     m_ToPosShow.reset();
     Unit::Release();
 }
@@ -70,13 +70,11 @@ void Mob::Render()
 
 void Mob::AI(float dt)
 {
-    m_AccumDt += dt;
-    if (m_AccumDt < m_AIRatio)
+    m_AITimer->AccumDt(dt);
+    if (!m_AITimer->DurationCheck())
     {
         return;
     }
-    m_AccumDt = 0.0f;
-
     int randRange = static_cast<int>(1.0f / m_ToPosChangeProbability);
     if (rand() % randRange == 0)
     {
@@ -106,5 +104,13 @@ void Mob::AI(float dt)
                 m_MovePower = displacement * (m_MovePowerLimit / maxMoveDist);
             }
         }
+    }
+}
+
+void Mob::SetAIRatio(float ratio)
+{
+    if (m_AITimer)
+    {
+        m_AITimer->SetDuration(ratio);
     }
 }

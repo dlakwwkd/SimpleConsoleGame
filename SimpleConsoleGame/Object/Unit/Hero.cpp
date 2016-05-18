@@ -2,6 +2,7 @@
 #include "Hero.h"
 //----------------------------------------------------------------------------------------------------
 #include "SimpleConsoleEngine/Core/Console/Shape.hpp"
+#include "SimpleConsoleEngine/Core/Timer/Timer.h"
 //----------------------------------------------------------------------------------------------------
 #include "Object/Dummy.h"
 SCE_USE
@@ -33,13 +34,11 @@ void Hero::Release()
 void Hero::Update(float dt)
 {
     static Color color = GetColor();
-    static float limit = 0.1f;
-    static float stack = 0.0f;
-    stack += dt;
-    if (stack > limit)
+    static Timer timer(0.1f);
+    timer.AccumDt(dt);
+    if (timer.DurationCheck())
     {
         SetColor(++color);
-        stack = 0.0f;
     }
     Unit::Update(dt);
 }
