@@ -35,6 +35,5 @@ private:
     BYTE    m_DepthBuffer[MAX_CONSOLE_SIZE.m_Y][MAX_CONSOLE_SIZE.m_X];
 };
 
-
 SCE_END
 #include "Console.inl"

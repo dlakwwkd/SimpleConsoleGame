@@ -1,7 +1,9 @@
 ﻿#include "stdafx.h"
 #include "Mob.h"
-#include "Dummy.h"
-#include "Core/Console/Shape.hpp"
+//----------------------------------------------------------------------------------------------------
+#include "SimpleConsoleEngine/Core/Console/Shape.hpp"
+//----------------------------------------------------------------------------------------------------
+#include "Object/Dummy.h"
 SCE_USE
 
 

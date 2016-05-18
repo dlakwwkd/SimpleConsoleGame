@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Core/Game/Object.h"
+#include "SimpleConsoleEngine/Core/Game/Object.h"
 
 
 class Dummy : public SCE::Object

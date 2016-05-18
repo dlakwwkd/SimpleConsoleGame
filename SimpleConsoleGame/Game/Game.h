@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Core/Game/GameBase.h"
+#include "SimpleConsoleEngine/Core/Game/GameBase.h"
 SCE_START
 class Command;
 SCE_END

@@ -1,5 +1,4 @@
-﻿#include "../../Util/AssertPack.h"
-SCE_START
+﻿SCE_START
 
 
 template<typename GameType>

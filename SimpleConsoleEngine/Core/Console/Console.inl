@@ -1,5 +1,4 @@
-﻿#include "../../Util/AssertPack.h"
-SCE_START
+﻿SCE_START
 
 
 inline void Console::PrintText(const Coord& pos, const std::wstring& text) noexcept

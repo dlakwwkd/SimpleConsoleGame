@@ -1,6 +1,4 @@
-﻿#include "Vec2.h"
-#pragma once
-SCE_START
+﻿SCE_START
 
 
 inline Vec2::Vec2(const Coord& coord) noexcept
@@ -69,5 +67,3 @@ inline bool     Vec2::operator==(const Vec2 &v) const noexcept  { return m_X == 
 inline bool     Vec2::operator!=(const Vec2 &v) const noexcept  { return m_X != v.m_X || m_Y != v.m_Y; }
 
 SCE_END
-
-

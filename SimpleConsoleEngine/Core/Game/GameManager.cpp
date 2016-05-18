@@ -1,9 +1,8 @@
 ﻿#include "stdafx.h"
 #include "GameManager.h"
 #include "GameBase.h"
-#include "../Timer/Timer.h"
-#include "../Console/Console.h"
-#include "../../Util/AssertPack.h"
+#include "Core/Console/Console.h"
+#include "Core/Timer/Timer.h"
 SCE_START
 
 

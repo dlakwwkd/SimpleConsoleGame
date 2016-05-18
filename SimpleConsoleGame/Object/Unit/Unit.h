@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "Core/Game/Object.h"
-#include "Core/Game/Vec2.h"
-#include "Core/Console/Console.h"
+#include "SimpleConsoleEngine/Core/Game/Object.h"
+#include "SimpleConsoleEngine/Core/Game/Vec2.h"
+#include "SimpleConsoleEngine/Core/Console/Console.h"
 
 
 class Unit : public SCE::Object

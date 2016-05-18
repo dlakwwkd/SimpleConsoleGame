@@ -1,12 +1,14 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
-#include "Unit.h"
-#include "Hero.h"
-#include "Mob.h"
-#include "Dummy.h"
-#include "Core/Game/GameManager.h"
-#include "Core/Console/Console.h"
-#include "Core/Command/Command.h"
+//----------------------------------------------------------------------------------------------------
+#include "SimpleConsoleEngine/Core/Game/GameManager.h"
+#include "SimpleConsoleEngine/Core/Console/Console.h"
+#include "SimpleConsoleEngine/Core/Command/Command.h"
+//----------------------------------------------------------------------------------------------------
+#include "Object/Unit/Unit.h"
+#include "Object/Unit/Hero.h"
+#include "Object/Unit/Mob.h"
+#include "Object/Dummy.h"
 SCE_USE
 
 

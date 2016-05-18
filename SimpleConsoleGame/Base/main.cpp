@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
-#include "Core/Game/GameManager.h"
-#include "Game.h"
+#include "SimpleConsoleEngine/Core/Game/GameManager.h"
+#include "Game/Game.h"
 
 int main()
 {

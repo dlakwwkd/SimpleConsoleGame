@@ -1,5 +1,4 @@
-﻿#include "AssertPack.h"
-
+﻿
 
 namespace BitCalc
 {

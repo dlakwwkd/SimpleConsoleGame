@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "../../Util/Macros.h"
 SCE_START
 
 
@@ -60,5 +59,3 @@ protected:
 };
 
 SCE_END
-
-
