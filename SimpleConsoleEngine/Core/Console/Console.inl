@@ -20,7 +20,7 @@ inline void Console::Print(const Coord& pos, wchar_t word) noexcept
 
 inline void Console::SetColor(Color textColor, Color bgColor) const noexcept
 {
-    WORD&& color = static_cast<WORD>(textColor) + (static_cast<WORD>(bgColor) << 4);
+    WORD color = static_cast<WORD>(textColor) + (static_cast<WORD>(bgColor) << 4);
     SetConsoleTextAttribute(m_ScreenBuffer[m_ScreenIndex], color);
 }
 

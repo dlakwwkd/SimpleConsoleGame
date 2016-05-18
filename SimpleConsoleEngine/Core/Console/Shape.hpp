@@ -19,6 +19,12 @@ public:
         m_BGColor(bgColor)
     {
     }
+    Shape(wchar_t&& data, Color&& color = Color::WHITE, Color&& bgColor = Color::BLACK) noexcept
+    :   m_Form(std::move(data)),
+        m_Color(std::move(color)),
+        m_BGColor(std::move(bgColor))
+    {
+    }
     virtual ~Shape() = default;
 
     void    SetForm(wchar_t form) noexcept { m_Form = form; }
@@ -30,7 +36,7 @@ public:
 
     void Render(const Coord& pos, BYTE depth = 0) noexcept
     {
-        auto& console = Console::GetInstance();
+        static auto& console = Console::GetInstance();
         if (console.DepthCheck(pos, depth))
         {
             console.SetColor(m_Color, m_BGColor);

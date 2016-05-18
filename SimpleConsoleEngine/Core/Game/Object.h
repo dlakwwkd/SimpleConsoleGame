@@ -30,9 +30,14 @@ public:
 
     void    SetShow(bool isShow) noexcept { m_IsShow = isShow; }
     void    SetDepth(BYTE depth) noexcept { m_Depth = depth; }
-    void    SetCoord(const Coord& coord) noexcept { m_Coord = coord; }
+
     void    SetCoord(short x, short y) noexcept { m_Coord.m_X = x; m_Coord.m_Y = y; }
+    void    SetCoord(const Coord& coord) noexcept { m_Coord = coord; }
+    void    SetCoord(Coord&& coord) noexcept { m_Coord = std::move(coord); }
+
     void    SetShape(const Shape& shape) noexcept { m_Shape = shape; }
+    void    SetShape(Shape&& shape) noexcept { m_Shape = std::move(shape); }
+
     void    SetForm(wchar_t form) noexcept { m_Shape.SetForm(form); }
     void    SetColor(Color color) noexcept { m_Shape.SetColor(color); }
     void    SetBGColor(Color bgColor) noexcept { m_Shape.SetBGColor(bgColor); }

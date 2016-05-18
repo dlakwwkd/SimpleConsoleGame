@@ -17,7 +17,7 @@ public:
         m_Y(y)
     {
     }
-    inline Vec2(Coord&& coord) noexcept;
+    inline Vec2(const Coord& coord) noexcept;
 
     inline void     Set(float x, float y) noexcept;
     inline void     SetZero() noexcept;

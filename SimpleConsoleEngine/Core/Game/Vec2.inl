@@ -3,7 +3,7 @@
 SCE_START
 
 
-inline Vec2::Vec2(Coord&& coord) noexcept
+inline Vec2::Vec2(const Coord& coord) noexcept
 {
     m_X = static_cast<float>(coord.m_X / 2);
     m_Y = static_cast<float>(coord.m_Y);
