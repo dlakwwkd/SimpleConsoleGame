@@ -51,7 +51,7 @@ void Hero::Render()
 
     Dummy dummy;
     dummy.SetShape(Shape(L'+', Color::MAGENTA));
-    auto length = static_cast<size_t>(power * m_Speed / m_MovePowerLimit);
+    auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict);
     for (size_t i = 0; i < length; ++i)
     {
         temp += dir;
