@@ -33,7 +33,7 @@ public:
     __forceinline void PosFixInScreanBoundary() noexcept
     {
         static auto& console = SCE::Console::GetInstance();
-        auto bound = SCE::Vec2(console.GetScreenSize());
+        SCE::Vec2 bound(console.GetScreenSize());
 
         if (m_Pos.m_X < 0.0f)
         {
