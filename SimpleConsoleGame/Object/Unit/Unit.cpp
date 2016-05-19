@@ -36,7 +36,7 @@ void Unit::Update(float dt)
     m_MovePower -= m_MovePower * (m_MovePowerFrict * dt);       // 마찰로 인한 속력 저하
 
     PosFixInScreanBoundary();
-    SyncCoordFromPos();
+    SetCoord(m_Pos);
 }
 
 void Unit::Render()
@@ -51,9 +51,7 @@ void Unit::Render()
     for (size_t i = 0; i < length; ++i)
     {
         temp += dir;
-        auto x = static_cast<short>(temp.m_X * 2.0f);
-        auto y = static_cast<short>(temp.m_Y);
-        dummy.SetCoord(Coord(x, y));
+        dummy.SetCoord(temp);
         dummy.Render();
     }
 

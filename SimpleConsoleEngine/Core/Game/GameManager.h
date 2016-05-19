@@ -8,7 +8,7 @@ class SCE_API GameManager
 {
     CREATE_SINGLETON(GameManager)
 public:
-    template<typename GameType>
+    template<typename GameType, BASETYPE_CHECK(GameType, GameBase)>
     void Run();
 
     void ReturnMain() noexcept { m_IsPlay = false; }

@@ -1,10 +1,9 @@
 ﻿SCE_START
 
 
-template<typename GameType>
+template<typename GameType, typename>
 void GameManager::Run()
 {
-    static_assert(std::is_convertible<GameType, GameBase>::value, "only allowed when GameBase");
     if (m_IsRun || m_Game)
     {
         return;

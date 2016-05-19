@@ -14,10 +14,10 @@ public:
     void Init(const Coord& screenSize = DEF_CONSOLE_SIZE);
     void Release();
 
-    auto GetDrawCallNum() const noexcept { return m_DrawCall; }
-    auto GetScreenSize() const noexcept { return m_ScreenSize; }
-    auto GetScreenWidth() const noexcept { return m_ScreenSize.m_X; }
-    auto GetScreenHeight() const noexcept { return m_ScreenSize.m_Y; }
+    size_t  GetDrawCallNum() const noexcept { return m_DrawCall; }
+    Coord   GetScreenSize() const noexcept { return m_ScreenSize; }
+    short   GetScreenWidth() const noexcept { return m_ScreenSize.m_X; }
+    short   GetScreenHeight() const noexcept { return m_ScreenSize.m_Y; }
 
     inline void PrintText(const Coord& pos, const std::wstring& text) noexcept;
     inline void Print(const Coord& pos, wchar_t word) noexcept;

@@ -57,11 +57,6 @@ public:
             m_MovePower.m_Y = 0.0f;
         }
     }
-    void SyncCoordFromPos() noexcept
-    {
-        m_Coord.m_X = static_cast<decltype(m_Coord.m_X)>(m_Pos.m_X * 2.0f);
-        m_Coord.m_Y = static_cast<decltype(m_Coord.m_Y)>(m_Pos.m_Y);
-    }
 
 protected:
     SCE::Vec2   m_Pos;
