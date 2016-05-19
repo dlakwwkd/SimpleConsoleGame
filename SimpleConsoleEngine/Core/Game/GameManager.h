@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Scheduler.hpp"
 SCE_START
 class GameBase;
 class Timer;
@@ -13,6 +14,13 @@ public:
 
     void ReturnMain() noexcept { m_IsPlay = false; }
     void Shutdown() noexcept { m_IsRun = m_IsPlay = false; }
+
+    template<typename F, typename... Args>
+    void CallFuncAfter(float after, F&& function, Args&&... args)
+    {
+        static auto& scheduler = Scheduler::GetInstance();
+        scheduler.PushTask(after, std::forward<F>(function), std::forward<Args>(args)...);
+    }
 
 private:
     void Init();

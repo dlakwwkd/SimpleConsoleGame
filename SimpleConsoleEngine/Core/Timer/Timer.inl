@@ -1,5 +1,4 @@
-﻿#include "Timer.h"
-SCE_START
+﻿SCE_START
 
 
 inline Timer::Timer() noexcept

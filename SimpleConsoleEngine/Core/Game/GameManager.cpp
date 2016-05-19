@@ -54,8 +54,11 @@ void GameManager::MainLoop()
 
 void GameManager::GameLoop()
 {
+    static auto& scheduler = Scheduler::GetInstance();
     while (m_IsPlay)
     {
+        scheduler.DoTask();
+
         m_Timer->Tick();
         float dt = m_Timer->DeltaTime();
 
@@ -65,6 +68,7 @@ void GameManager::GameLoop()
             m_Game->Render();
         }
     }
+    scheduler.Release();
 }
 
 

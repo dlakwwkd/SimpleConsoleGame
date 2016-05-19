@@ -45,5 +45,5 @@ private:                        \
 #define CREATE_SINGLETON(T)     _CREATE_SINGLETON(T) ~T();
 #define CREATE_SINGLETON_V(T)   _CREATE_SINGLETON(T) virtual ~T();
 //----------------------------------------------------------------------------------------------------
-#define SAMETYPE_CHECK(T, Type) typename = std::enable_if_t<   std::is_same<        Type, std::decay_t<T>   >::value    >
-#define BASETYPE_CHECK(T, Base) typename = std::enable_if_t<   std::is_base_of<     Base, std::decay_t<T>   >::value    >
+#define SAMETYPE_CHECK(T, Type) typename = std::enable_if_t<    std::is_same<       Type, std::decay_t<T>   >::value    >
+#define BASETYPE_CHECK(T, Base) typename = std::enable_if_t<    std::is_base_of<    Base, std::decay_t<T>   >::value    >
