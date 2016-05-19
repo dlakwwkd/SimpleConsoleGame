@@ -30,7 +30,7 @@ void Game::Init()
     m_Command = std::make_unique<Command>();
     m_Hero = std::make_unique<Hero>();
 
-    size_t mobNum = 100;
+    size_t mobNum = 10;
     size_t section = mobNum / 4;
     m_MobList.resize(mobNum);
     for (size_t i = 0; i < mobNum; ++i)
@@ -38,7 +38,7 @@ void Game::Init()
         auto& mob = m_MobList[i];
         if (i < section)
         {
-            mob.SetShape(Shape(L'●', Color::BLUE));
+            mob.SetShape(Shape(L'◐', Color::BLUE));
             mob.SetSpeed(120.0f);
             mob.SetAIRatio(0.5f);
         }
@@ -50,7 +50,7 @@ void Game::Init()
         }
         else if (i < section * 3)
         {
-            mob.SetShape(Shape(L'⊙', Color::GREEN));
+            mob.SetShape(Shape(L'●', Color::CYAN));
             mob.SetSpeed(30.0f);
             mob.SetAIRatio(1.5f);
         }

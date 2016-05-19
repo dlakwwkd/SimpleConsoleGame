@@ -27,7 +27,7 @@ void Mob::Init()
     SetShape(Shape(L'●', Color::YELLOW));
     SetDepth(1);
     m_ToPosShow = std::make_unique<Dummy>();
-    m_ToPosShow->SetShape(Shape(L'＋', Color::RED));
+    m_ToPosShow->SetShape(Shape(L'⊙', Color::GREEN));
     m_ToPosShow->SetShow(false);
     m_ToPosShow->SetDepth(0);
     m_AITimer = std::make_unique<Timer>(1.0f);
@@ -83,7 +83,7 @@ void Mob::AI(float dt)
         auto toY = static_cast<float>(rand() % console.GetScreenHeight() - 1);
         m_ToPos.Set(toX, toY);
         m_ToPosShow->SetCoord(static_cast<short>(m_ToPos.m_X * 2.0f), static_cast<short>(m_ToPos.m_Y));
-        m_ToPosShow->SetShow(false);
+        m_ToPosShow->SetShow(true);
 
         Vec2 displacement = m_ToPos - m_Pos;
         float distance = displacement.Length();

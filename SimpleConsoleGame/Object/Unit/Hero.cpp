@@ -45,21 +45,5 @@ void Hero::Update(float dt)
 
 void Hero::Render()
 {
-    float power = m_MovePower.Length();
-    Vec2 dir = m_MovePower / power;
-    Vec2 temp = m_Pos;
-
-    Dummy dummy;
-    dummy.SetShape(Shape(L'+', Color::MAGENTA));
-    auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict);
-    for (size_t i = 0; i < length; ++i)
-    {
-        temp += dir;
-        auto x = static_cast<short>(temp.m_X * 2.0f);
-        auto y = static_cast<short>(temp.m_Y);
-        dummy.SetCoord(Coord(x, y));
-        dummy.Render();
-    }
-
     Unit::Render();
 }
