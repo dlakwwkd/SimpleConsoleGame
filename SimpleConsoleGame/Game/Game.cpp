@@ -30,7 +30,7 @@ void Game::Init()
     m_Command = std::make_unique<Command>();
     m_Hero = std::make_unique<Hero>();
 
-    size_t mobNum = 10;
+    size_t mobNum = 20;
     size_t section = mobNum / 4;
     m_MobList.resize(mobNum);
     for (size_t i = 0; i < mobNum; ++i)
@@ -104,28 +104,28 @@ void Game::Render()
 
 void Game::CommandProc(float dt)
 {
-    if (m_Command->IsKeyPress(Command::ESC))
+    if (m_Command->IsKeyPress<Command::ESC>())
     {
         GameManager::GetInstance().Shutdown();
         return;
     }
-    if (m_Command->IsKeyPress(Command::UP))
+    if (m_Command->IsKeyPress<Command::UP>())
     {
         m_Hero->AddMovePower(Vec2::UP * dt);
     }
-    if (m_Command->IsKeyPress(Command::DOWN))
+    if (m_Command->IsKeyPress<Command::DOWN>())
     {
         m_Hero->AddMovePower(Vec2::DOWN * dt);
     }
-    if (m_Command->IsKeyPress(Command::LEFT))
+    if (m_Command->IsKeyPress<Command::LEFT>())
     {
         m_Hero->AddMovePower(Vec2::LEFT * dt);
     }
-    if (m_Command->IsKeyPress(Command::RIGHT))
+    if (m_Command->IsKeyPress<Command::RIGHT>())
     {
         m_Hero->AddMovePower(Vec2::RIGHT * dt);
     }
-    if (m_Command->IsKeyPress(Command::BUTTON_A))
+    if (m_Command->IsKeyPress<Command::BUTTON_A>())
     {
     }
 }

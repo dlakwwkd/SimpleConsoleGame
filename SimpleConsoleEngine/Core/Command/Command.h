@@ -20,35 +20,29 @@ public:
         TOTAL_KEY_NUM
     };
 public:
-    Command() : m_KeyArr{ VK_RETURN, VK_ESCAPE, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, 'Z', 'X', 'C', 'V' }
+    constexpr Command() : m_KeyArr{ VK_RETURN, VK_ESCAPE, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, 'Z', 'X', 'C', 'V' }
     {
     }
 
-    int GetKey(KeyType type) const noexcept
+    template<KeyType type>
+    constexpr int GetKey() const noexcept
     {
-        if (type < m_KeyArr.size())
-        {
-            return m_KeyArr[type];
-        }
-        assert(false && "KeyType is invalid");
-        return 0;
+        static_assert(type < KeyType::TOTAL_KEY_NUM, "KeyType is invalid");
+        return m_KeyArr[type];
     }
-    void SetKey(KeyType type, int key) noexcept
+
+    template<KeyType type>
+    void SetKey(int key) noexcept
     {
-        if (type < m_KeyArr.size())
-        {
-            m_KeyArr[type] = key;
-        }
-        assert(false && "KeyType is invalid");
+        static_assert(type < KeyType::TOTAL_KEY_NUM, "KeyType is invalid");
+        m_KeyArr[type] = key;
     }
-    bool IsKeyPress(KeyType type) const noexcept
+
+    template<KeyType type>
+    bool IsKeyPress() const noexcept
     {
-        if (type < m_KeyArr.size())
-        {
-            return GetAsyncKeyState(m_KeyArr[type]) & 0x8000 ? true : false;
-        }
-        assert(false && "KeyType is invalid");
-        return false;
+        static_assert(type < KeyType::TOTAL_KEY_NUM, "KeyType is invalid");
+        return GetAsyncKeyState(m_KeyArr[type]) & 0x8000 ? true : false;
     }
 
 private:
