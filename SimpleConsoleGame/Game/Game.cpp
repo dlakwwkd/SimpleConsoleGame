@@ -61,6 +61,18 @@ void Game::Init()
             mob.SetAIRatio(2.0f);
         }
     }
+
+    // 테스트 용 코드
+    auto& gm = GameManager::GetInstance();
+    gm.CallFuncAfter(3.0f,
+        [](auto&& moblist)
+        {
+            for (size_t i = 0; i < moblist.size(); ++i)
+            {
+                Sleep(1);
+            }
+        },
+        m_MobList);
 }
 
 void Game::Release()

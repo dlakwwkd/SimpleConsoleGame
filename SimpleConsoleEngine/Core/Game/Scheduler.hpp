@@ -4,13 +4,33 @@ SCE_START
 
 class Scheduler
 {
-    CREATE_SINGLETON(Scheduler)
-public:
-    template<typename F, typename... Args>
-    void PushTask(float after, F&& function, Args&&... args)
+    SPECIALFUNC_SET(Scheduler, delete)
+    using TickTime = std::chrono::system_clock::time_point;
+    using Functor = std::function<void()>;
+
+    struct Task
     {
-        auto dueTimeTick = m_CurrentTick + std::chrono::milliseconds(static_cast<int64_t>(after * 1000.0f));
-        m_TaskQueue.push(Task([function, args...](){ function(args...); }, dueTimeTick));
+        TickTime    m_ExecutionTick;
+        Functor     m_Task;
+
+        Task(TickTime time, Functor&& task) noexcept
+        :   m_ExecutionTick(time),
+            m_Task(std::move(task))
+        {
+        }
+        bool operator > (const Task& rhs) const noexcept { return m_ExecutionTick > rhs.m_ExecutionTick; }
+    };
+    using TaskQueue = std::priority_queue<Task, std::vector<Task>, std::greater<Task>>;
+
+public:
+    Scheduler() : m_CurrentTick(std::chrono::system_clock::now())
+    {
+    }
+
+    void PushTask(float after, Functor&& task)
+    {
+        TickTime dueTimeTick = m_CurrentTick + std::chrono::milliseconds(static_cast<int64_t>(after * 1000.0f));
+        m_TaskQueue.emplace(Task(dueTimeTick, std::move(task)));
     }
 
     void DoTask()
@@ -18,7 +38,7 @@ public:
         m_CurrentTick = std::chrono::system_clock::now();
         while (!m_TaskQueue.empty())
         {
-            Task task = m_TaskQueue.top();
+            const Task& task = m_TaskQueue.top();
             if (m_CurrentTick < task.m_ExecutionTick)
             {
                 break;
@@ -37,29 +57,8 @@ public:
     }
 
 private:
-    using TickTime  = std::chrono::system_clock::time_point;
-
-    struct Task
-    {
-        std::function<void()>   m_Task;
-        TickTime                m_ExecutionTick;
-
-        Task(std::function<void()>&& task, TickTime&& time)
-        :   m_Task(std::move(task)),
-            m_ExecutionTick(std::move(time))
-        {
-        }
-        bool operator > (const Task& rhs) const noexcept { return m_ExecutionTick > rhs.m_ExecutionTick; }
-    };
-    using TaskQueue = std::priority_queue<Task, std::vector<Task>, std::greater<Task>>;
-
     TaskQueue   m_TaskQueue;
     TickTime    m_CurrentTick;
 };
-
-#ifdef SIMPLECONSOLEENGINE_EXPORTS
-Scheduler::Scheduler() : m_CurrentTick(std::chrono::system_clock::now()) {}
-Scheduler::~Scheduler(){}
-#endif
 
 SCE_END

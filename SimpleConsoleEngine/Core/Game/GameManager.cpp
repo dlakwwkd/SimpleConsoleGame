@@ -8,6 +8,7 @@ SCE_START
 
 GameManager::GameManager()
 :   m_Game(nullptr),
+    m_Scheduler(nullptr),
     m_Timer(nullptr),
     m_IsRun(false),
     m_IsPlay(false)
@@ -22,8 +23,16 @@ GameManager::~GameManager()
 void GameManager::Init()
 {
     Console::GetInstance().Init();
+    m_Scheduler = Safe::New<Scheduler>();
     m_Timer = Safe::New<Timer>();
-    m_IsRun = m_Timer ? true : false;
+    if (m_Scheduler && m_Timer)
+    {
+        m_IsRun = true;
+    }
+    else
+    {
+        m_IsRun = false;
+    }
     m_IsPlay = false;
 }
 
@@ -32,6 +41,7 @@ void GameManager::Release()
     m_IsPlay = false;
     m_IsRun = false;
     Safe::Delete(m_Timer);
+    Safe::Delete(m_Scheduler);
     Console::GetInstance().Release();
 }
 
@@ -54,10 +64,9 @@ void GameManager::MainLoop()
 
 void GameManager::GameLoop()
 {
-    static auto& scheduler = Scheduler::GetInstance();
     while (m_IsPlay)
     {
-        scheduler.DoTask();
+        m_Scheduler->DoTask();
 
         m_Timer->Tick();
         float dt = m_Timer->DeltaTime();
@@ -68,7 +77,7 @@ void GameManager::GameLoop()
             m_Game->Render();
         }
     }
-    scheduler.Release();
+    m_Scheduler->Release();
 }
 
 

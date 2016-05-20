@@ -24,8 +24,8 @@ public:
     void SetToPosChangeProbability(float prob) noexcept { m_ToPosChangeProbability = prob; }
 
 private:
-    std::unique_ptr<SCE::Timer> m_AITimer;
-    std::unique_ptr<Dummy>      m_ToPosShow;
+    std::shared_ptr<SCE::Timer> m_AITimer;
+    std::shared_ptr<Dummy>      m_ToPosShow;
     SCE::Vec2                   m_ToPos;
     float                       m_ToPosChangeProbability;
 };
