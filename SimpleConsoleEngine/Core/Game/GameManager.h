@@ -13,7 +13,10 @@ public:
     void Run();
 
     template<typename F, typename... Args>
-    void CallFuncAfter(float after, F&& function, Args&&... args);
+    void CallFuncAfterS(float after, F&& functor, Args&&... args);
+
+    template<typename T, typename F, typename... Args>
+    void CallFuncAfterM(float after, T instance, F memfunc, Args&&... args);
 
     void ReturnMain() noexcept { m_IsPlay = false; }
     void Shutdown() noexcept { m_IsRun = m_IsPlay = false; }

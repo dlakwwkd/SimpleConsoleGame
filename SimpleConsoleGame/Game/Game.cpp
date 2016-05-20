@@ -64,12 +64,14 @@ void Game::Init()
 
     // 테스트 용 코드
     auto& gm = GameManager::GetInstance();
-    gm.CallFuncAfter(3.0f,
+    gm.CallFuncAfterM(8.0f, &gm, &GameManager::ReturnMain);     // 게임 초기화
+    gm.CallFuncAfterM(2.0f, this, &Game::CommandProc, 10.0f);   // 순간가속
+    gm.CallFuncAfterS(4.0f,                                     // 순간정지
         [](auto&& moblist)
         {
             for (size_t i = 0; i < moblist.size(); ++i)
             {
-                Sleep(1);
+                Sleep(50);
             }
         },
         m_MobList);
