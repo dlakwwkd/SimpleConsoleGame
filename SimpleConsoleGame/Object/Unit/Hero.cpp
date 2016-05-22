@@ -34,11 +34,19 @@ void Hero::Release()
 void Hero::Update(float dt)
 {
     static Color color = GetColor();
-    static Timer timer(0.1f);
+    static Timer timer(1.0f);
     timer.AccumDt(dt);
     if (timer.DurationCheck())
     {
         SetColor(++color);
+
+        std::thread([]()
+        {
+            Beep(524, 120);
+            Beep(660, 120);
+            Beep(784, 120);
+        }
+        ).detach();
     }
     Unit::Update(dt);
 }
