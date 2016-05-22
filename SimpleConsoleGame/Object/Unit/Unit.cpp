@@ -46,7 +46,7 @@ void Unit::Render()
     Vec2 temp = m_Pos;
 
     Dummy dummy;
-    dummy.SetShape(Shape(L'+', Color::MAGENTA));
+    dummy.SetShape(Shape(L'+', Color::BLUE));
     auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict);
     for (size_t i = 0; i < length; ++i)
     {

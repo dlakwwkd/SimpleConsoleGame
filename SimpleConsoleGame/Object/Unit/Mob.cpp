@@ -27,7 +27,7 @@ void Mob::Init()
     SetShape(Shape(L'●', Color::YELLOW));
     SetDepth(1);
     m_ToPosShow = std::make_shared<Dummy>();
-    m_ToPosShow->SetShape(Shape(L'⊙', Color::GREEN));
+    m_ToPosShow->SetShape(Shape(L'✘', Color::MAGENTA));
     m_ToPosShow->SetShow(false);
     m_ToPosShow->SetDepth(0);
     m_AITimer = std::make_shared<Timer>(1.0f);

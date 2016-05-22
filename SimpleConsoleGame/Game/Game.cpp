@@ -30,27 +30,33 @@ void Game::Init()
     m_Command = std::make_unique<Command>();
     m_Hero = std::make_unique<Hero>();
 
-    size_t mobNum = 20;
-    size_t section = mobNum / 4;
+    size_t mobNum = 30;
+    size_t section = mobNum / 5;
     m_MobList.resize(mobNum);
     for (size_t i = 0; i < mobNum; ++i)
     {
         auto& mob = m_MobList[i];
         if (i < section)
         {
-            mob.SetShape(Shape(L'◐', Color::BLUE));
+            mob.SetShape(Shape(L'☠', Color::GREY));
             mob.SetSpeed(120.0f);
             mob.SetAIRatio(0.5f);
         }
         else if (i < section * 2)
         {
-            mob.SetShape(Shape(L'火', Color::RED));
+            mob.SetShape(Shape(L'❒', Color::RED));
             mob.SetSpeed(70.0f);
             mob.SetAIRatio(1.0f);
         }
         else if (i < section * 3)
         {
-            mob.SetShape(Shape(L'●', Color::CYAN));
+            mob.SetShape(Shape(L'☘', Color::GREEN));
+            mob.SetSpeed(30.0f);
+            mob.SetAIRatio(1.5f);
+        }
+        else if (i < section * 4)
+        {
+            mob.SetShape(Shape(L'♋', Color::CYAN));
             mob.SetSpeed(30.0f);
             mob.SetAIRatio(1.5f);
         }
@@ -62,6 +68,7 @@ void Game::Init()
         }
     }
 
+    /*
     // 테스트 용 코드
     auto& gm = GameManager::GetInstance();
     gm.CallFuncAfterM(8.0f, &gm, &GameManager::ReturnMain);     // 게임 초기화
@@ -75,6 +82,7 @@ void Game::Init()
             }
         },
         m_MobList);
+    */
 }
 
 void Game::Release()
