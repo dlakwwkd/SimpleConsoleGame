@@ -25,6 +25,15 @@
     <ClInclude Include="Object\Unit\Unit.h">
       <Filter>Object\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Unit\Missile.h">
+      <Filter>Object\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Effect\Effect.h">
+      <Filter>Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill\Skill.h">
+      <Filter>SKill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\stdafx.cpp">
@@ -48,6 +57,15 @@
     <ClCompile Include="Object\Unit\Unit.cpp">
       <Filter>Object\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Unit\Missile.cpp">
+      <Filter>Object\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Effect\Effect.cpp">
+      <Filter>Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill\Skill.cpp">
+      <Filter>SKill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -61,6 +79,12 @@
     </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{51b631fb-c3ed-4225-af41-fe5739430894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Effect">
+      <UniqueIdentifier>{ae656f65-ef11-467f-a823-a276ee54d64c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SKill">
+      <UniqueIdentifier>{911416fa-345e-4e77-b617-1b9d4ff10c9b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

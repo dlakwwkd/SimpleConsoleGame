@@ -149,9 +149,12 @@
     <ClInclude Include="Base\targetver.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Object\Dummy.h" />
+    <ClInclude Include="Object\Effect\Effect.h" />
     <ClInclude Include="Object\Unit\Hero.h" />
+    <ClInclude Include="Object\Unit\Missile.h" />
     <ClInclude Include="Object\Unit\Mob.h" />
     <ClInclude Include="Object\Unit\Unit.h" />
+    <ClInclude Include="Skill\Skill.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\main.cpp" />
@@ -163,9 +166,12 @@
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Object\Dummy.cpp" />
+    <ClCompile Include="Object\Effect\Effect.cpp" />
     <ClCompile Include="Object\Unit\Hero.cpp" />
+    <ClCompile Include="Object\Unit\Missile.cpp" />
     <ClCompile Include="Object\Unit\Mob.cpp" />
     <ClCompile Include="Object\Unit\Unit.cpp" />
+    <ClCompile Include="Skill\Skill.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
