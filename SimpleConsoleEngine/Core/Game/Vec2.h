@@ -27,6 +27,7 @@ public:
     inline float    DistanceSquared(const Vec2& other) const noexcept;
     inline Vec2     Direction(const Vec2& other) const noexcept;
     inline Vec2&    Normalize() noexcept;
+    inline Vec2     GetNormalized() noexcept;
 
     inline Vec2     operator+   (const Vec2 &v) const noexcept;
     inline Vec2     operator-   (const Vec2 &v) const noexcept;

@@ -38,9 +38,9 @@ void Console::Init(const Coord& screenSize)
     else if (desktopSize.bottom >= 900)
         fontSize = 20;
     else if (desktopSize.bottom >= 768)
-        fontSize = 18;
-    else
         fontSize = 16;
+    else
+        fontSize = 14;
 
     m_STDHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 

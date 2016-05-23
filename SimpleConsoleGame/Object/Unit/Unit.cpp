@@ -47,7 +47,7 @@ void Unit::Render()
 
     Dummy dummy;
     dummy.SetShape(Shape(L'+', Color::BLUE));
-    auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict);
+    auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict / m_MovePowerLimit);
     for (size_t i = 0; i < length; ++i)
     {
         temp += dir;

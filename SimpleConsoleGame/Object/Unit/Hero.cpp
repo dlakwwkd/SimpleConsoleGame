@@ -24,6 +24,9 @@ void Hero::Init()
     Unit::Init();
     SetShape(Shape(L'▣', Color::GREEN));
     SetDepth(5);
+    m_MovePowerLimit = 0.2f;
+    m_MovePowerFrict = 5.0f;
+    m_Speed = 50.0f;
 }
 
 void Hero::Release()
