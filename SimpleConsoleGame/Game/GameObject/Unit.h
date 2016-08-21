@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "SimpleConsoleEngine/Core/Game/GameObject.h"
-#include "SimpleConsoleEngine/Core/Game/Vec2.h"
+#include "SimpleConsoleEngine/Core/Math/Vec2.h"
 #include "SimpleConsoleEngine/Core/Console/Console.h"
 
 
@@ -33,28 +33,28 @@ public:
     __forceinline void PosFixInScreanBoundary() noexcept
     {
         static auto& console = SCE::Console::GetInstance();
-        SCE::Vec2 bound(console.GetScreenSize());
+        SCE::Vec2 bound(SCE::Coord::ConvertToVec2(console.GetScreenSize()));
 
-        if (m_Pos.m_X < 0.0f)
+        if (m_Pos.GetX() < 0.0f)
         {
-            m_Pos.m_X = 0.0f;
-            m_MovePower.m_X = 0.0f;
+            m_Pos.SetX(0.0f);
+            m_MovePower.SetX(0.0f);
         }
-        else if (m_Pos.m_X > bound.m_X)
+        else if (m_Pos.GetX() > bound.GetX())
         {
-            m_Pos.m_X = bound.m_X;
-            m_MovePower.m_X = 0.0f;
+            m_Pos.SetX(bound.GetX());
+            m_MovePower.SetX(0.0f);
         }
 
-        if (m_Pos.m_Y < 0.0f)
+        if (m_Pos.GetY() < 0.0f)
         {
-            m_Pos.m_Y = 0.0f;
-            m_MovePower.m_Y = 0.0f;
+            m_Pos.SetY(0.0f);
+            m_MovePower.SetY(0.0f);
         }
-        else if (m_Pos.m_Y > bound.m_Y)
+        else if (m_Pos.GetY() > bound.GetY())
         {
-            m_Pos.m_Y = bound.m_Y;
-            m_MovePower.m_Y = 0.0f;
+            m_Pos.SetY(bound.GetY());
+            m_MovePower.SetY(0.0f);
         }
     }
 

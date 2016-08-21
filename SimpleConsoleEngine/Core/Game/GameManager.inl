@@ -1,8 +1,7 @@
-﻿#include "GameManager.h"
-SCE_START
+﻿SCE_START
 
 
-template<typename GameType, typename>
+template<CHECKED_T(GameType)>
 void GameManager::Run()
 {
     if (m_IsRun || m_Game)

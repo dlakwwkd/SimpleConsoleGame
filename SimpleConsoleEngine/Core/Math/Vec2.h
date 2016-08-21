@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "../Console/Coord.hpp"
 SCE_START
 
 
@@ -17,8 +16,11 @@ public:
         m_Y(y)
     {
     }
-    inline Vec2(const Coord& coord) noexcept;
 
+    inline float    GetX() const noexcept;
+    inline float    GetY() const noexcept;
+    inline void     SetX(float x) noexcept;
+    inline void     SetY(float y) noexcept;
     inline void     Set(float x, float y) noexcept;
     inline void     SetZero() noexcept;
     inline float    Length() const noexcept;
@@ -44,15 +46,16 @@ public:
     inline bool     operator!=  (const Vec2 &v) const noexcept;
 
 public:
-    float m_X;
-    float m_Y;
-
     static const Vec2 ZERO;
     static const Vec2 ONE;
     static const Vec2 UP;
     static const Vec2 DOWN;
     static const Vec2 LEFT;
     static const Vec2 RIGHT;
+
+private:
+    float m_X;
+    float m_Y;
 };
 
 SCE_END

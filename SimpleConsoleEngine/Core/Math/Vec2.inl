@@ -2,10 +2,24 @@
 SCE_START
 
 
-inline Vec2::Vec2(const Coord& coord) noexcept
+inline float Vec2::GetX() const noexcept
 {
-    m_X = static_cast<float>(coord.m_X / 2);
-    m_Y = static_cast<float>(coord.m_Y);
+    return m_X;
+}
+
+inline float Vec2::GetY() const noexcept
+{
+    return m_Y;
+}
+
+inline void Vec2::SetX(float x) noexcept
+{
+    m_X = x;
+}
+
+inline void Vec2::SetY(float y) noexcept
+{
+    m_Y = y;
 }
 
 inline void Vec2::Set(float x, float y) noexcept

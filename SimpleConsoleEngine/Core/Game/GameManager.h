@@ -9,7 +9,7 @@ class SCE_API GameManager
 {
     CREATE_SINGLETON(GameManager)
 public:
-    template<typename GameType, BASETYPE_CHECK(GameType, GameBase)>
+    template<IS_BASE_OF(GameType, GameBase)>
     void Run();
 
     template<typename F, typename... Args>

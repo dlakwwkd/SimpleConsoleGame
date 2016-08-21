@@ -17,6 +17,7 @@
 //----------------------------------------------------------------------------------------------------
 // 매크로 함수
 //----------------------------------------------------------------------------------------------------
+// 이동,복사 생성자/대입 연산자
 #define SPECIALFUNC_COPY_SET(T, SET)    \
 public:                                 \
     T(const T&)             = SET;      \
@@ -30,7 +31,9 @@ public:                                 \
 private:
 
 #define SPECIALFUNC_SET(T, SET) SPECIALFUNC_COPY_SET(T, SET) SPECIALFUNC_MOVE_SET(T, SET)
+
 //----------------------------------------------------------------------------------------------------
+// 싱글톤
 #define _CREATE_SINGLETON(T)    \
 public:                         \
     static T& GetInstance()     \
@@ -44,6 +47,9 @@ private:                        \
 
 #define CREATE_SINGLETON(T)     _CREATE_SINGLETON(T) ~T();
 #define CREATE_SINGLETON_V(T)   _CREATE_SINGLETON(T) virtual ~T();
+
 //----------------------------------------------------------------------------------------------------
-#define SAMETYPE_CHECK(T, Type) typename = std::enable_if_t<    std::is_same<       Type, std::decay_t<T>   >::value    >
-#define BASETYPE_CHECK(T, Base) typename = std::enable_if_t<    std::is_base_of<    Base, std::decay_t<T>   >::value    >
+// 템플릿 태그 체크 (Refer to Effective Modern C++)
+#define CHECKED_T(T)        typename T, typename
+#define IS_SAME(T, Other)   typename T, typename = std::enable_if_t<std::is_same<Other, std::decay_t<T>>::value>
+#define IS_BASE_OF(T, Base) typename T, typename = std::enable_if_t<std::is_base_of<Base, std::decay_t<T>>::value>
