@@ -10,6 +10,7 @@
 #include "GameObject/Unit.h"
 #include "GameObject/Unit/Hero.h"
 #include "GameObject/Unit/Mob.h"
+#include "GameObject/Unit/Missile.h"
 SCE_USE
 
 
@@ -44,13 +45,13 @@ void Game::Init()
         }
         else if (i < section * 2)
         {
-            mob.SetShape(Shape(L'❒', Color::RED));
+            mob.SetShape(Shape(L'☣', Color::RED));
             mob.SetSpeed(70.0f);
             mob.SetAIRatio(1.0f);
         }
         else if (i < section * 3)
         {
-            mob.SetShape(Shape(L'☘', Color::GREEN));
+            mob.SetShape(Shape(L'☯', Color::GREEN));
             mob.SetSpeed(30.0f);
             mob.SetAIRatio(1.5f);
         }

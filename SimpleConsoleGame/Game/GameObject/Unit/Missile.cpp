@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "Mob.h"
+#include "Missile.h"
 //----------------------------------------------------------------------------------------------------
 #include "SimpleConsoleEngine/Core/Console/Shape.hpp"
 #include "SimpleConsoleEngine/Core/Timer/Timer.h"
@@ -8,7 +8,7 @@
 SCE_USE
 
 
-Mob::Mob()
+Missile::Missile()
 :   m_ToPos{ 0.0f, 0.0f },
     m_ToPosChangeProbability(0.2f)
 {
@@ -16,12 +16,12 @@ Mob::Mob()
 }
 
 
-Mob::~Mob()
+Missile::~Missile()
 {
     Release();
 }
 
-void Mob::Init()
+void Missile::Init()
 {
     Unit::Init();
     SetShape(Shape(L'●', Color::YELLOW));
@@ -33,14 +33,14 @@ void Mob::Init()
     m_AITimer = std::make_shared<Timer>(1.0f);
 }
 
-void Mob::Release()
+void Missile::Release()
 {
     m_AITimer.reset();
     m_ToPosShow.reset();
     Unit::Release();
 }
 
-void Mob::Update(float dt)
+void Missile::Update(float dt)
 {
     Vec2 displacement = m_ToPos - m_Pos;
     float distance = displacement.Length();
@@ -60,7 +60,7 @@ void Mob::Update(float dt)
     Unit::Update(dt);
 }
 
-void Mob::Render()
+void Missile::Render()
 {
     m_ToPosShow->Render();
     Unit::Render();
@@ -68,7 +68,7 @@ void Mob::Render()
 
 
 
-void Mob::AI(float dt)
+void Missile::AI(float dt)
 {
     m_AITimer->AccumDt(dt);
     if (!m_AITimer->DurationCheck())
@@ -107,7 +107,7 @@ void Mob::AI(float dt)
     }
 }
 
-void Mob::SetAIRatio(float ratio)
+void Missile::SetAIRatio(float ratio)
 {
     if (m_AITimer)
     {

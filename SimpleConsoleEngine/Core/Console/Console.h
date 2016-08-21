@@ -27,12 +27,15 @@ public:
     inline bool DepthCheck(const Coord& pos, BYTE depth = 0) noexcept;
 
 private:
-    HANDLE  m_ScreenBuffer[2];
-    BYTE    m_ScreenIndex;
-    Coord   m_ScreenSize;
-    size_t  m_DrawCall;
+    CONSOLE_FONT_INFOEX m_CFIOrigin;
+    HANDLE              m_STDHandle;
 
-    BYTE    m_DepthBuffer[MAX_CONSOLE_SIZE.m_Y][MAX_CONSOLE_SIZE.m_X];
+    HANDLE              m_ScreenBuffer[2];
+    BYTE                m_ScreenIndex;
+    Coord               m_ScreenSize;
+    size_t              m_DrawCall;
+
+    BYTE                m_DepthBuffer[MAX_CONSOLE_SIZE.m_Y][MAX_CONSOLE_SIZE.m_X];
 };
 
 SCE_END

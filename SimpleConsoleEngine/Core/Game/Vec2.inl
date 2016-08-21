@@ -1,4 +1,5 @@
-﻿SCE_START
+﻿#include "Vec2.h"
+SCE_START
 
 
 inline Vec2::Vec2(const Coord& coord) noexcept
@@ -48,6 +49,11 @@ inline Vec2 Vec2::Direction(const Vec2& other) const noexcept
 inline Vec2& Vec2::Normalize() noexcept
 {
     return *this /= Length();
+}
+
+inline Vec2 Vec2::GetNormalized() noexcept
+{
+    return *this / Length();
 }
 
 
