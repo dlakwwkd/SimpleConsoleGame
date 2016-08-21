@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "SimpleConsoleEngine/Core/Game/Object.h"
+#include "SimpleConsoleEngine/Core/Game/GameObject.h"
 
 
-class Dummy : public SCE::Object
+class Dummy : public SCE::GameObject
 {
     SPECIALFUNC_SET(Dummy, default)
 public:

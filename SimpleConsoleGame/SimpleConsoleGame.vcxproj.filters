@@ -13,17 +13,17 @@
     <ClInclude Include="Game\Game.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Dummy.h">
-      <Filter>Object</Filter>
+    <ClInclude Include="Game\GameObject\Dummy.h">
+      <Filter>Game\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Unit\Hero.h">
-      <Filter>Object\Unit</Filter>
+    <ClInclude Include="Game\GameObject\Unit\Hero.h">
+      <Filter>Game\GameObject\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Unit\Mob.h">
-      <Filter>Object\Unit</Filter>
+    <ClInclude Include="Game\GameObject\Unit\Mob.h">
+      <Filter>Game\GameObject\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Unit\Unit.h">
-      <Filter>Object\Unit</Filter>
+    <ClInclude Include="Game\GameObject\Unit.h">
+      <Filter>Game\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -36,31 +36,31 @@
     <ClCompile Include="Game\Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Dummy.cpp">
-      <Filter>Object</Filter>
+    <ClCompile Include="Game\GameObject\Dummy.cpp">
+      <Filter>Game\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Unit\Hero.cpp">
-      <Filter>Object\Unit</Filter>
+    <ClCompile Include="Game\GameObject\Unit\Hero.cpp">
+      <Filter>Game\GameObject\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Unit\Mob.cpp">
-      <Filter>Object\Unit</Filter>
+    <ClCompile Include="Game\GameObject\Unit\Mob.cpp">
+      <Filter>Game\GameObject\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Unit\Unit.cpp">
-      <Filter>Object\Unit</Filter>
+    <ClCompile Include="Game\GameObject\Unit.cpp">
+      <Filter>Game\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
       <UniqueIdentifier>{862fc5ef-0a80-4580-b967-bdee8824e426}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{03195cb5-6c1a-40b5-a41e-2575d50e3e3d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Unit">
-      <UniqueIdentifier>{3765c486-1023-4c08-a7e0-2cabc942f96f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{51b631fb-c3ed-4225-af41-fe5739430894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject">
+      <UniqueIdentifier>{03195cb5-6c1a-40b5-a41e-2575d50e3e3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Unit">
+      <UniqueIdentifier>{3765c486-1023-4c08-a7e0-2cabc942f96f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

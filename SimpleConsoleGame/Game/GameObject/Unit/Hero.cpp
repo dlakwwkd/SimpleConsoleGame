@@ -4,7 +4,7 @@
 #include "SimpleConsoleEngine/Core/Console/Shape.hpp"
 #include "SimpleConsoleEngine/Core/Timer/Timer.h"
 //----------------------------------------------------------------------------------------------------
-#include "Object/Dummy.h"
+#include "../Dummy.h"
 SCE_USE
 
 

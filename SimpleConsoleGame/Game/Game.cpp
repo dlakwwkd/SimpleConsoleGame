@@ -6,10 +6,10 @@
 #include "SimpleConsoleEngine/Core/Command/Command.h"
 #include "SimpleConsoleEngine/Core/Timer/Timer.h"
 //----------------------------------------------------------------------------------------------------
-#include "Object/Unit/Unit.h"
-#include "Object/Unit/Hero.h"
-#include "Object/Unit/Mob.h"
-#include "Object/Dummy.h"
+#include "GameObject/Dummy.h"
+#include "GameObject/Unit.h"
+#include "GameObject/Unit/Hero.h"
+#include "GameObject/Unit/Mob.h"
 SCE_USE
 
 

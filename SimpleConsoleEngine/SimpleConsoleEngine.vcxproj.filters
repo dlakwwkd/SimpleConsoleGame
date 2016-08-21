@@ -63,9 +63,6 @@
     <ClInclude Include="Core\Console\Coord.hpp">
       <Filter>Core\Console</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\Object.h">
-      <Filter>Core\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Console\Shape.hpp">
       <Filter>Core\Console</Filter>
     </ClInclude>
@@ -79,6 +76,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Core\Game\Scheduler.hpp">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\GameObject.h">
       <Filter>Core\Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -110,7 +110,7 @@
     <ClCompile Include="Core\Game\Vec2.cpp">
       <Filter>Core\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Game\Object.cpp">
+    <ClCompile Include="Core\Game\GameObject.cpp">
       <Filter>Core\Game</Filter>
     </ClCompile>
   </ItemGroup>

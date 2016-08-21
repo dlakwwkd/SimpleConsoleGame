@@ -5,7 +5,7 @@ SCE_START
 class SCE_API Command
 {
 public:
-    enum KeyType : size_t
+    enum KeyType
     {
         ENTER = 0,
         ESC,
@@ -20,7 +20,20 @@ public:
         TOTAL_KEY_NUM
     };
 public:
-    constexpr Command() : m_KeyArr{ VK_RETURN, VK_ESCAPE, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, 'Z', 'X', 'C', 'V' }
+    constexpr Command()
+        : m_KeyArr
+            {
+                VK_RETURN,
+                VK_ESCAPE,
+                VK_UP,
+                VK_DOWN,
+                VK_LEFT,
+                VK_RIGHT,
+                'Z',
+                'X',
+                'C',
+                'V'
+            }
     {
     }
 

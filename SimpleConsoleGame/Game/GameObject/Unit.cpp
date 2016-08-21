@@ -3,7 +3,7 @@
 //----------------------------------------------------------------------------------------------------
 #include "SimpleConsoleEngine/Core/Console/Console.h"
 //----------------------------------------------------------------------------------------------------
-#include "Object/Dummy.h"
+#include "Dummy.h"
 SCE_USE
 
 
@@ -55,5 +55,5 @@ void Unit::Render()
         dummy.Render();
     }
 
-    Object::Render();
+    GameObject::Render();
 }

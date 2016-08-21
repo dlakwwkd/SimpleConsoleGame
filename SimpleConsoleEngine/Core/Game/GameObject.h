@@ -5,17 +5,17 @@
 SCE_START
 
 
-class SCE_API Object
+class SCE_API GameObject
 {
-    SPECIALFUNC_SET(Object, default)
+    SPECIALFUNC_SET(GameObject, default)
 public:
-    Object() noexcept
+    GameObject() noexcept
     :   m_IsShow(true),
         m_Depth(0),
         m_Coord{ 0,0 }
     {
     }
-    virtual ~Object()               = default;
+    virtual ~GameObject()               = default;
     virtual void Init()             = 0;
     virtual void Release()          = 0;
     virtual void Update(float dt)   = 0;

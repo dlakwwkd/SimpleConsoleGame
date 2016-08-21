@@ -17,5 +17,5 @@ void Dummy::Update(float dt)
 
 void Dummy::Render()
 {
-    Object::Render();
+    GameObject::Render();
 }

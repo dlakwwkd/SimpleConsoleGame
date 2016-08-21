@@ -155,7 +155,7 @@
     <ClInclude Include="Core\Console\Shape.hpp" />
     <ClInclude Include="Core\Game\GameBase.h" />
     <ClInclude Include="Core\Game\GameManager.h" />
-    <ClInclude Include="Core\Game\Object.h" />
+    <ClInclude Include="Core\Game\GameObject.h" />
     <ClInclude Include="Core\Game\Scheduler.hpp" />
     <ClInclude Include="Core\Game\Vec2.h" />
     <ClInclude Include="Core\Menu\Menu.h" />
@@ -174,7 +174,7 @@
     <ClCompile Include="Core\Command\Command.cpp" />
     <ClCompile Include="Core\Console\Console.cpp" />
     <ClCompile Include="Core\Game\GameManager.cpp" />
-    <ClCompile Include="Core\Game\Object.cpp" />
+    <ClCompile Include="Core\Game\GameObject.cpp" />
     <ClCompile Include="Core\Game\Vec2.cpp" />
     <ClCompile Include="Core\Menu\Menu.cpp" />
     <ClCompile Include="Core\Timer\Timer.cpp" />

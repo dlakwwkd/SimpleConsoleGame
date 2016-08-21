@@ -148,10 +148,10 @@
     <ClInclude Include="Base\stdafx.h" />
     <ClInclude Include="Base\targetver.h" />
     <ClInclude Include="Game\Game.h" />
-    <ClInclude Include="Object\Dummy.h" />
-    <ClInclude Include="Object\Unit\Hero.h" />
-    <ClInclude Include="Object\Unit\Mob.h" />
-    <ClInclude Include="Object\Unit\Unit.h" />
+    <ClInclude Include="Game\GameObject\Dummy.h" />
+    <ClInclude Include="Game\GameObject\Unit.h" />
+    <ClInclude Include="Game\GameObject\Unit\Hero.h" />
+    <ClInclude Include="Game\GameObject\Unit\Mob.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\main.cpp" />
@@ -162,10 +162,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
-    <ClCompile Include="Object\Dummy.cpp" />
-    <ClCompile Include="Object\Unit\Hero.cpp" />
-    <ClCompile Include="Object\Unit\Mob.cpp" />
-    <ClCompile Include="Object\Unit\Unit.cpp" />
+    <ClCompile Include="Game\GameObject\Dummy.cpp" />
+    <ClCompile Include="Game\GameObject\Unit.cpp" />
+    <ClCompile Include="Game\GameObject\Unit\Hero.cpp" />
+    <ClCompile Include="Game\GameObject\Unit\Mob.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

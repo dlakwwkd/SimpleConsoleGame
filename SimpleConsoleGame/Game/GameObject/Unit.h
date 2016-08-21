@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "SimpleConsoleEngine/Core/Game/Object.h"
+#include "SimpleConsoleEngine/Core/Game/GameObject.h"
 #include "SimpleConsoleEngine/Core/Game/Vec2.h"
 #include "SimpleConsoleEngine/Core/Console/Console.h"
 
 
-class Unit : public SCE::Object
+class Unit : public SCE::GameObject
 {
     SPECIALFUNC_SET(Unit, default)
 public:

@@ -1,6 +1,4 @@
-﻿
-
-namespace BitCalc
+﻿namespace BitCalc
 {
     // 무조건 컴파일 타임 리턴 <- 사실 여기엔 inline, noexcept 등의 키워드가 필요없지만 통일성을 위해 붙여줌
     template<typename T>
