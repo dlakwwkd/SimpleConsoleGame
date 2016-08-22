@@ -5,23 +5,18 @@ SCE_START
 
 
 GameObject::GameObject() noexcept
-:   m_ComponentMap(nullptr)
 {
-    m_ComponentMap = Safe::New<ComponentMap>();
 }
 
 GameObject::~GameObject()
 {
     Release();
-    Safe::Delete(m_ComponentMap);
 }
 
 
 
 GameObject::GameObject(const GameObject& source) noexcept
-:   m_ComponentMap(nullptr)
 {
-    m_ComponentMap = Safe::New<ComponentMap>();
     ComponentMapDeepCopy(source.m_ComponentMap);
 }
 
@@ -40,7 +35,6 @@ GameObject& GameObject::operator=(const GameObject& source) noexcept
 GameObject& GameObject::operator=(GameObject&& source) noexcept
 {
     Release();
-    Safe::Delete(m_ComponentMap);
     m_ComponentMap = std::move(source.m_ComponentMap);
     return *this;
 }
@@ -73,31 +67,27 @@ void GameObject::Render()
 
 void GameObject::ComponentMapClear()
 {
-    for (auto& iter : *m_ComponentMap)
+    for (auto& iter : m_ComponentMap)
     {
-        auto component = iter.second;
+        auto& component = iter.second;
         if (component == nullptr)
             continue;
 
         component->Release();
-        Safe::Delete(component);
     }
-    m_ComponentMap->clear();
+    m_ComponentMap.clear();
 }
 
-bool GameObject::ComponentMapDeepCopy(const ComponentMap* source)
+bool GameObject::ComponentMapDeepCopy(const ComponentMap& source)
 {
-    if (source == nullptr)
-        return false;
-
     ComponentMapClear();
-    for (auto& iter : *source)
+    for (auto& iter : source)
     {
-        auto component = iter.second;
+        auto& component = iter.second;
         if (component == nullptr)
             continue;
 
-        m_ComponentMap->insert(std::make_pair(iter.first, component->CopyCreate()));
+        m_ComponentMap.insert(std::make_pair(iter.first, component->Copy()));
     }
     return true;
 }

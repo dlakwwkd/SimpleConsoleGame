@@ -15,8 +15,7 @@ Unit::Unit() noexcept
     m_MovePowerFrict(1.5f),
     m_Speed(100.0f)
 {
-    auto render = IComponent::Create<CmdRenderComponent>();
-    InsertComponent<CmdRenderComponent>(render);
+    InsertComponent<CmdRenderComponent>();
 }
 
 

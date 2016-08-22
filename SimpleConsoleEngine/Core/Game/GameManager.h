@@ -28,11 +28,11 @@ private:
     void GameLoop();
 
 private:
-    GameBase*   m_Game;
-    Scheduler*  m_Scheduler;
-    Timer*      m_Timer;
-    bool        m_IsRun;
-    bool        m_IsPlay;
+    std::unique_ptr<GameBase>   m_Game;
+    std::unique_ptr<Scheduler>  m_Scheduler;
+    std::unique_ptr<Timer>      m_Timer;
+    bool                        m_IsRun;
+    bool                        m_IsPlay;
 };
 
 SCE_END

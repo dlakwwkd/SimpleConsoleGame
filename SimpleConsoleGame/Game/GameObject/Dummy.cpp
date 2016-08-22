@@ -6,8 +6,7 @@ SCE_USE
 
 Dummy::Dummy() noexcept
 {
-    auto render = IComponent::Create<CmdRenderComponent>();
-    InsertComponent<CmdRenderComponent>(render);
+    InsertComponent<CmdRenderComponent>();
     Init();
 }
 

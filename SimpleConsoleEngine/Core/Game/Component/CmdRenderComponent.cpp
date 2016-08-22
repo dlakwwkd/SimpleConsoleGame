@@ -8,9 +8,9 @@ std::string CmdRenderComponent::GetComponentName() const
     return CONVERT_STRING(CmdRenderComponent);
 }
 
-IComponent* CmdRenderComponent::CopyCreate() const
+IComponent::IComponentPtr CmdRenderComponent::Copy() const
 {
-    return Create(*this);
+    return std::make_shared<CmdRenderComponent>(*this);
 }
 
 

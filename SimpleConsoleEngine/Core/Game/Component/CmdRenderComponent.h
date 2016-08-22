@@ -15,12 +15,12 @@ public:
     {
     }
 
-    virtual std::string GetComponentName() const override;
-    virtual IComponent* CopyCreate() const override;
+    virtual std::string     GetComponentName() const override;
+    virtual IComponentPtr   Copy() const override;
 
-    virtual void        Init() override;
-    virtual void        Release() override;
-    virtual void        Render() override;
+    virtual void            Init() override;
+    virtual void            Release() override;
+    virtual void            Render() override;
 
     bool    IsShow() const noexcept { return m_IsShow; }
     BYTE    GetDepth() const noexcept { return m_Depth; }

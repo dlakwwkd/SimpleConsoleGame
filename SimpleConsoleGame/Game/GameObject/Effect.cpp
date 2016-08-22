@@ -6,8 +6,7 @@ SCE_USE
 
 Effect::Effect() noexcept
 {
-    auto render = IComponent::Create<CmdRenderComponent>();
-    InsertComponent<CmdRenderComponent>(render);
+    InsertComponent<CmdRenderComponent>();
     Init();
 }
 

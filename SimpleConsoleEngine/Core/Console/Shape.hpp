@@ -13,16 +13,10 @@ public:
         m_BGColor(Color::BLACK)
     {
     }
-    Shape(const wchar_t& data, const Color& color = Color::WHITE, const Color& bgColor = Color::BLACK) noexcept
+    Shape(wchar_t data, Color color = Color::WHITE, Color bgColor = Color::BLACK) noexcept
     :   m_Form(data),
         m_Color(color),
         m_BGColor(bgColor)
-    {
-    }
-    Shape(wchar_t&& data, Color&& color = Color::WHITE, Color&& bgColor = Color::BLACK) noexcept
-    :   m_Form(std::move(data)),
-        m_Color(std::move(color)),
-        m_BGColor(std::move(bgColor))
     {
     }
     virtual ~Shape() = default;

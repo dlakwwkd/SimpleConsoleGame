@@ -8,13 +8,13 @@ void GameManager::Run()
     {
         return;
     }
-    m_Game = Safe::New<GameType>();
+    m_Game = std::make_unique<GameType>();
     if (m_Game)
     {
         Init();
         MainLoop();
         Release();
-        Safe::Delete(m_Game);
+        m_Game.reset();
     }
 }
 

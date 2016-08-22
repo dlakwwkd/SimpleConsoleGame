@@ -7,10 +7,7 @@ SCE_START
 
 
 GameManager::GameManager()
-:   m_Game(nullptr),
-    m_Scheduler(nullptr),
-    m_Timer(nullptr),
-    m_IsRun(false),
+:   m_IsRun(false),
     m_IsPlay(false)
 {
 }
@@ -23,8 +20,8 @@ GameManager::~GameManager()
 void GameManager::Init()
 {
     Console::GetInstance().Init();
-    m_Scheduler = Safe::New<Scheduler>();
-    m_Timer = Safe::New<Timer>();
+    m_Scheduler = std::make_unique<Scheduler>();
+    m_Timer = std::make_unique<Timer>();
     if (m_Scheduler && m_Timer)
     {
         m_IsRun = true;
@@ -40,8 +37,8 @@ void GameManager::Release()
 {
     m_IsPlay = false;
     m_IsRun = false;
-    Safe::Delete(m_Timer);
-    Safe::Delete(m_Scheduler);
+    m_Timer.reset();
+    m_Scheduler.reset();
     Console::GetInstance().Release();
 }
 
