@@ -3,7 +3,7 @@
 SCE_START
 
 
-class SCE_API RenderComponent : public ComponentBase<RenderComponent>
+class SCE_API IRenderComponent : public IComponentCRTP<IRenderComponent>
 {
 public:
     virtual std::string GetComponentName() const = 0;

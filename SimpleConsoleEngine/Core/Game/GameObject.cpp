@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GameObject.h"
-#include "Component/RenderComponent.h"
+#include "Component/IRenderComponent.h"
 SCE_START
 
 
@@ -62,7 +62,7 @@ void GameObject::Update(float dt)
 
 void GameObject::Render()
 {
-    auto render = GetComponent<RenderComponent>();
+    auto render = GetComponent<IRenderComponent>();
     if (render != nullptr)
     {
         render->Render();

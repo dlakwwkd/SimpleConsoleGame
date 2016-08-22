@@ -1,11 +1,11 @@
 #pragma once
-#include "RenderComponent.h"
+#include "IRenderComponent.h"
 #include "../../Console/Coord.hpp"
 #include "../../Console/Shape.hpp"
 SCE_START
 
 
-class SCE_API CmdRenderComponent : public RenderComponent
+class SCE_API CmdRenderComponent : public IRenderComponent
 {
 public:
     CmdRenderComponent()

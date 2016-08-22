@@ -26,7 +26,7 @@ public:
 
 
 template<typename Derived>
-class SCE_API ComponentBase : public IComponent
+class SCE_API IComponentCRTP : public IComponent
 {
     static _component_identifier s_ComponentIdentifier;
 public:

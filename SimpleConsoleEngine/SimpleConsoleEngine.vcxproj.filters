@@ -93,7 +93,7 @@
     <ClInclude Include="Core\Game\Component\CmdRenderComponent.h">
       <Filter>Core\Game\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\Component\RenderComponent.h">
+    <ClInclude Include="Core\Game\Component\IRenderComponent.h">
       <Filter>Core\Game\Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -131,7 +131,7 @@
     <ClCompile Include="Core\Game\Component\CmdRenderComponent.cpp">
       <Filter>Core\Game\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Game\Component\RenderComponent.cpp">
+    <ClCompile Include="Core\Game\Component\IRenderComponent.cpp">
       <Filter>Core\Game\Component</Filter>
     </ClCompile>
   </ItemGroup>

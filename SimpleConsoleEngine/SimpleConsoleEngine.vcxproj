@@ -154,7 +154,7 @@
     <ClInclude Include="Core\Console\Coord.hpp" />
     <ClInclude Include="Core\Console\Shape.hpp" />
     <ClInclude Include="Core\Game\Component\CmdRenderComponent.h" />
-    <ClInclude Include="Core\Game\Component\RenderComponent.h" />
+    <ClInclude Include="Core\Game\Component\IRenderComponent.h" />
     <ClInclude Include="Core\Game\GameBase.h" />
     <ClInclude Include="Core\Game\GameManager.h" />
     <ClInclude Include="Core\Game\GameObject.h" />
@@ -177,7 +177,7 @@
     <ClCompile Include="Core\Command\Command.cpp" />
     <ClCompile Include="Core\Console\Console.cpp" />
     <ClCompile Include="Core\Game\Component\CmdRenderComponent.cpp" />
-    <ClCompile Include="Core\Game\Component\RenderComponent.cpp" />
+    <ClCompile Include="Core\Game\Component\IRenderComponent.cpp" />
     <ClCompile Include="Core\Game\GameManager.cpp" />
     <ClCompile Include="Core\Game\GameObject.cpp" />
     <ClCompile Include="Core\Math\Vec2.cpp" />
