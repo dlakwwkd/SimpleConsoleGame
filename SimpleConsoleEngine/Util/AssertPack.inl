@@ -39,10 +39,10 @@ namespace Safe
     }
 
     // 메모리 할당 실패 시, assert 발생시키는 new
-    template<typename T>
-    inline T* New() noexcept
+    template<typename T, typename... Args>
+    inline T* New(Args&&... args) noexcept
     {
-        T* ret = new(std::nothrow) T();
+        T* ret = new(std::nothrow) T(std::forward<Args>(args)...);
         assert(ret != nullptr && "new operate failed!");
         return ret;
     }

@@ -80,5 +80,8 @@
     <Filter Include="Game\GameObject\Unit">
       <UniqueIdentifier>{3765c486-1023-4c08-a7e0-2cabc942f96f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Component">
+      <UniqueIdentifier>{88ead016-2853-4bd4-b319-75420312a764}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

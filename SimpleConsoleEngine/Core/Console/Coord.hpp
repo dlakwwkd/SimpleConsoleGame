@@ -13,6 +13,11 @@ struct SCE_API Coord
         m_Y(0)
     {
     }
+    Coord(const Vec2& vec2)
+    :   m_X(static_cast<short>(vec2.GetX() * 2.0f)),
+        m_Y(static_cast<short>(vec2.GetY()))
+    {
+    }
     template<typename T>
     constexpr Coord(T x, T y) noexcept
     :   m_X(Safe::IntegralCast<decltype(m_X)>(x)),

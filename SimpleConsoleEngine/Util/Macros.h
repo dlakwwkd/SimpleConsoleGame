@@ -53,3 +53,7 @@ private:                        \
 #define CHECKED_T(T)        typename T, typename
 #define IS_SAME(T, Other)   typename T, typename = std::enable_if_t<std::is_same<Other, std::decay_t<T>>::value>
 #define IS_BASE_OF(T, Base) typename T, typename = std::enable_if_t<std::is_base_of<Base, std::decay_t<T>>::value>
+
+//----------------------------------------------------------------------------------------------------
+// 컴포넌트
+#define CONVERT_STRING(T) std::string(#T)

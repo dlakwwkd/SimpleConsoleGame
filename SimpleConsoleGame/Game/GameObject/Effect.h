@@ -6,8 +6,8 @@ class Effect : public SCE::GameObject
 {
     SPECIALFUNC_SET(Effect, default)
 public:
-    Effect() noexcept = default;
-    ~Effect() override = default;
+    Effect() noexcept;
+    ~Effect() override;
 
     void Init()             override;
     void Release()          override;

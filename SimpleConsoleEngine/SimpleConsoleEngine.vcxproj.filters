@@ -28,6 +28,9 @@
     <Filter Include="Core\Math">
       <UniqueIdentifier>{2a7548d6-0a98-46d4-96f1-56f901066a58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Game\Component">
+      <UniqueIdentifier>{43c1a22f-32f4-4522-b843-010b609582e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -84,6 +87,15 @@
     <ClInclude Include="Core\Math\Vec2.h">
       <Filter>Core\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Game\IComponent.h">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Component\CmdRenderComponent.h">
+      <Filter>Core\Game\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Component\RenderComponent.h">
+      <Filter>Core\Game\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\dllmain.cpp">
@@ -115,6 +127,12 @@
     </ClCompile>
     <ClCompile Include="Core\Math\Vec2.cpp">
       <Filter>Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Component\CmdRenderComponent.cpp">
+      <Filter>Core\Game\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Component\RenderComponent.cpp">
+      <Filter>Core\Game\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

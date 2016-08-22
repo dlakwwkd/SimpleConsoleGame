@@ -1,57 +1,57 @@
 ﻿#pragma once
-#include "../Console/Coord.hpp"
-#include "../Console/Shape.hpp"
-#include "../Math/Vec2.h"
+#include "IComponent.h"
 SCE_START
 
 
 class SCE_API GameObject
 {
-    SPECIALFUNC_SET(GameObject, default)
+    using ComponentMap = std::map<size_t, IComponent*>;
 public:
-    GameObject() noexcept
-    :   m_IsShow(true),
-        m_Depth(0),
-        m_Coord{ 0,0 }
+    GameObject() noexcept;
+    virtual ~GameObject();
+
+    GameObject(const GameObject& source) noexcept;
+    GameObject(GameObject&& source) noexcept;
+    GameObject& operator=(const GameObject& source) noexcept;
+    GameObject& operator=(GameObject&& source) noexcept;
+
+    virtual void Init();
+    virtual void Release();
+    virtual void Update(float dt);
+    virtual void Render();
+
+    template<IS_BASE_OF(T, IComponent)>
+    bool    InsertComponent(IComponent* component)
     {
-    }
-    virtual ~GameObject()               = default;
-    virtual void Init()             = 0;
-    virtual void Release()          = 0;
-    virtual void Update(float dt)   = 0;
-    virtual void Render() { if (m_IsShow) m_Shape.Render(m_Coord, m_Depth); }
+        if (component == nullptr)
+            return false;
 
-    bool    IsShow() const noexcept { return m_IsShow; }
-    BYTE    GetDepth() const noexcept { return m_Depth; }
-    Coord   GetCoord() const noexcept { return m_Coord; }
-    Shape   GetShape() const noexcept { return m_Shape; }
-    wchar_t GetForm() const noexcept { return m_Shape.GetForm(); }
-    Color   GetColor() const noexcept { return m_Shape.GetColor(); }
-    Color   GetBGColor() const noexcept { return m_Shape.GetBGColor(); }
+        size_t componentId = T::GetComponentId();
+        auto iter = m_ComponentMap->find(componentId);
+        if (iter != m_ComponentMap->end())
+            return false;
 
-    void    SetShow(bool isShow) noexcept { m_IsShow = isShow; }
-    void    SetDepth(BYTE depth) noexcept { m_Depth = depth; }
-
-    template<IS_SAME(T, Coord)>
-    void    SetCoord(T&& coord) noexcept { m_Coord = std::forward<T>(coord); }
-    void    SetCoord(short x, short y) noexcept { m_Coord.m_X = x; m_Coord.m_Y = y; }
-    void    SetCoord(const Vec2& pos) noexcept
-    {
-        m_Coord.m_X = static_cast<short>(pos.GetX() * 2.0f);
-        m_Coord.m_Y = static_cast<short>(pos.GetY());
+        m_ComponentMap->insert(std::make_pair(componentId, component));
+        return true;
     }
 
-    template<IS_SAME(T, Shape)>
-    void    SetShape(T&& shape) noexcept { m_Shape = std::forward<T>(shape); }
-    void    SetForm(wchar_t form) noexcept { m_Shape.SetForm(form); }
-    void    SetColor(Color color) noexcept { m_Shape.SetColor(color); }
-    void    SetBGColor(Color bgColor) noexcept { m_Shape.SetBGColor(bgColor); }
+    template<IS_BASE_OF(T, IComponent)>
+    T*      GetComponent()
+    {
+        size_t componentId = T::GetComponentId();
+        auto iter = m_ComponentMap->find(componentId);
+        if (iter == m_ComponentMap->end())
+            return nullptr;
+
+        return dynamic_cast<T*>(iter->second);
+    }
 
 private:
-    bool    m_IsShow;
-    BYTE    m_Depth;
-    Coord   m_Coord;
-    Shape   m_Shape;
+    void    ComponentMapClear();
+    bool    ComponentMapDeepCopy(const ComponentMap* source);
+
+private:
+    ComponentMap*   m_ComponentMap;
 };
 
 SCE_END

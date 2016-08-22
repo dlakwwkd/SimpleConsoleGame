@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "Mob.h"
 //----------------------------------------------------------------------------------------------------
-#include "SimpleConsoleEngine/Core/Console/Shape.hpp"
 #include "SimpleConsoleEngine/Core/Timer/Timer.h"
+#include "SimpleConsoleEngine/Core/Game/Component/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
 SCE_USE
@@ -23,13 +23,22 @@ Mob::~Mob()
 
 void Mob::Init()
 {
-    Unit::Init();
-    SetShape(Shape(L'●', Color::YELLOW));
-    SetDepth(3);
+    auto render = GetComponent<CmdRenderComponent>();
+    if (render == nullptr)
+        return;
+
+    render->SetShape(Shape(L'●', Color::YELLOW));
+    render->SetDepth(3);
+
     m_ToPosShow = std::make_shared<Dummy>();
-    m_ToPosShow->SetShape(Shape(L'✘', Color::MAGENTA));
-    m_ToPosShow->SetShow(false);
-    m_ToPosShow->SetDepth(1);
+    auto dummyRender = m_ToPosShow->GetComponent<CmdRenderComponent>();
+    if (dummyRender == nullptr)
+        return;
+
+    dummyRender->SetShape(Shape(L'✘', Color::MAGENTA));
+    dummyRender->SetShow(false);
+    dummyRender->SetDepth(1);
+
     m_AITimer = std::make_shared<Timer>(1.0f);
 }
 
@@ -37,7 +46,6 @@ void Mob::Release()
 {
     m_AITimer.reset();
     m_ToPosShow.reset();
-    Unit::Release();
 }
 
 void Mob::Update(float dt)
@@ -47,7 +55,11 @@ void Mob::Update(float dt)
     if (distance < 1.0f)
     {
         m_MovePower.SetZero();
-        m_ToPosShow->SetShow(false);
+        auto render = m_ToPosShow->GetComponent<CmdRenderComponent>();
+        if (render != nullptr)
+        {
+            render->SetShow(false);
+        }
     }
     else
     {
@@ -82,15 +94,20 @@ void Mob::AI(float dt)
         auto toX = static_cast<float>(rand() % console.GetScreenWidth() / 2);
         auto toY = static_cast<float>(rand() % console.GetScreenHeight() - 1);
         m_ToPos.Set(toX, toY);
-        m_ToPosShow->SetCoord(static_cast<short>(m_ToPos.GetX() * 2.0f), static_cast<short>(m_ToPos.GetY()));
-        m_ToPosShow->SetShow(true);
+
+        auto render = m_ToPosShow->GetComponent<CmdRenderComponent>();
+        if (render != nullptr)
+        {
+            render->SetCoord(static_cast<short>(m_ToPos.GetX() * 2.0f), static_cast<short>(m_ToPos.GetY()));
+            render->SetShow(true);
+        }
 
         Vec2 displacement = m_ToPos - m_Pos;
         float distance = displacement.Length();
         if (distance < 1.0f)
         {
             m_MovePower.SetZero();
-            m_ToPosShow->SetShow(false);
+            render->SetShow(false);
         }
         else
         {

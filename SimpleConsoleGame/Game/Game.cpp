@@ -1,10 +1,11 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
 //----------------------------------------------------------------------------------------------------
-#include "SimpleConsoleEngine/Core/Game/GameManager.h"
-#include "SimpleConsoleEngine/Core/Console/Console.h"
-#include "SimpleConsoleEngine/Core/Command/Command.h"
 #include "SimpleConsoleEngine/Core/Timer/Timer.h"
+#include "SimpleConsoleEngine/Core/Command/Command.h"
+#include "SimpleConsoleEngine/Core/Console/Console.h"
+#include "SimpleConsoleEngine/Core/Game/GameManager.h"
+#include "SimpleConsoleEngine/Core/Game/Component/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "GameObject/Dummy.h"
 #include "GameObject/Unit.h"
@@ -37,33 +38,37 @@ void Game::Init()
     for (size_t i = 0; i < mobNum; ++i)
     {
         auto& mob = m_MobList[i];
+        auto render = mob.GetComponent<CmdRenderComponent>();
+        if (render == nullptr)
+            continue;
+
         if (i < section)
         {
-            mob.SetShape(Shape(L'☠', Color::GREY));
+            render->SetShape(Shape(L'☠', Color::GREY));
             mob.SetSpeed(120.0f);
             mob.SetAIRatio(0.5f);
         }
         else if (i < section * 2)
         {
-            mob.SetShape(Shape(L'☣', Color::RED));
+            render->SetShape(Shape(L'☣', Color::RED));
             mob.SetSpeed(70.0f);
             mob.SetAIRatio(1.0f);
         }
         else if (i < section * 3)
         {
-            mob.SetShape(Shape(L'☯', Color::GREEN));
+            render->SetShape(Shape(L'☯', Color::GREEN));
             mob.SetSpeed(30.0f);
             mob.SetAIRatio(1.5f);
         }
         else if (i < section * 4)
         {
-            mob.SetShape(Shape(L'♋', Color::CYAN));
+            render->SetShape(Shape(L'♋', Color::CYAN));
             mob.SetSpeed(30.0f);
             mob.SetAIRatio(1.5f);
         }
         else
         {
-            mob.SetShape(Shape(L'★', Color::YELLOW));
+            render->SetShape(Shape(L'★', Color::YELLOW));
             mob.SetSpeed(10.0f);
             mob.SetAIRatio(2.0f);
         }

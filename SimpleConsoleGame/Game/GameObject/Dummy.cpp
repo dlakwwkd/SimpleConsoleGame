@@ -1,7 +1,21 @@
 ﻿#include "stdafx.h"
 #include "Dummy.h"
+#include "SimpleConsoleEngine/Core/Game/Component/CmdRenderComponent.h"
 SCE_USE
 
+
+Dummy::Dummy() noexcept
+{
+    auto render = IComponent::Create<CmdRenderComponent>();
+    InsertComponent<CmdRenderComponent>(render);
+    Init();
+}
+
+
+Dummy::~Dummy()
+{
+    Release();
+}
 
 void Dummy::Init()
 {

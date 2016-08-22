@@ -6,8 +6,8 @@ class Dummy : public SCE::GameObject
 {
     SPECIALFUNC_SET(Dummy, default)
 public:
-    Dummy() noexcept = default;
-    ~Dummy() override = default;
+    Dummy() noexcept;
+    ~Dummy() override;
 
     void Init()             override;
     void Release()          override;

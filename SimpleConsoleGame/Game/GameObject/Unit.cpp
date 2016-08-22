@@ -2,6 +2,7 @@
 #include "Unit.h"
 //----------------------------------------------------------------------------------------------------
 #include "SimpleConsoleEngine/Core/Console/Console.h"
+#include "SimpleConsoleEngine/Core/Game/Component/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "Dummy.h"
 SCE_USE
@@ -14,6 +15,8 @@ Unit::Unit() noexcept
     m_MovePowerFrict(1.5f),
     m_Speed(100.0f)
 {
+    auto render = IComponent::Create<CmdRenderComponent>();
+    InsertComponent<CmdRenderComponent>(render);
 }
 
 
@@ -36,7 +39,11 @@ void Unit::Update(float dt)
     m_MovePower -= m_MovePower * (m_MovePowerFrict * dt);       // 마찰로 인한 속력 저하
 
     PosFixInScreanBoundary();
-    SetCoord(m_Pos);
+    auto render = GetComponent<CmdRenderComponent>();
+    if (render != nullptr)
+    {
+        render->SetCoord(Coord(m_Pos));
+    }
 }
 
 void Unit::Render()
@@ -46,14 +53,18 @@ void Unit::Render()
     Vec2 temp = m_Pos;
 
     Dummy dummy;
-    dummy.SetShape(Shape(L'+', Color::BLUE));
-    auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict / m_MovePowerLimit);
-    for (size_t i = 0; i < length; ++i)
+    auto render = dummy.GetComponent<CmdRenderComponent>();
+    if (render != nullptr)
     {
-        temp += dir;
-        dummy.SetCoord(temp);
-        dummy.Render();
-    }
+        render->SetShape(Shape(L'+', Color::BLUE));
+        auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict / m_MovePowerLimit);
+        for (size_t i = 0; i < length; ++i)
+        {
+            temp += dir;
+            render->SetCoord(Coord(temp));
+            dummy.Render();
+        }
 
+    }
     GameObject::Render();
 }
