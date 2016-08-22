@@ -2,7 +2,7 @@
 SCE_START
 
 
-class SCE_API Command
+class Command
 {
 public:
     enum KeyType

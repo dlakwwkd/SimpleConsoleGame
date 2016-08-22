@@ -2,7 +2,7 @@
 SCE_START
 
 
-class SCE_API GameBase
+class GameBase
 {
     SPECIALFUNC_SET(GameBase, default)
 public:

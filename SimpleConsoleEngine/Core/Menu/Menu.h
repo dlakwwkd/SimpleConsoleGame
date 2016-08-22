@@ -2,7 +2,7 @@
 SCE_START
 
 
-class SCE_API Menu
+class Menu
 {
 public:
     Menu();

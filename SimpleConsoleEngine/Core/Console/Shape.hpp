@@ -3,7 +3,7 @@
 SCE_START
 
 
-class SCE_API Shape
+class Shape
 {
     SPECIALFUNC_SET(Shape, default)
 public:

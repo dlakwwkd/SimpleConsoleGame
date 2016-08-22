@@ -3,7 +3,7 @@
 SCE_START
 
 
-class SCE_API GameObject
+class GameObject
 {
     using ComponentMap = std::map<size_t, IComponent*>;
 public:

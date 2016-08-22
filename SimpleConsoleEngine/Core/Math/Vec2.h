@@ -2,7 +2,7 @@
 SCE_START
 
 
-class SCE_API Vec2
+class Vec2
 {
     SPECIALFUNC_SET(Vec2, default)
 public:

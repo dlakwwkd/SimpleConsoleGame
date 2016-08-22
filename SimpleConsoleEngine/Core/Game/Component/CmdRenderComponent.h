@@ -5,7 +5,7 @@
 SCE_START
 
 
-class SCE_API CmdRenderComponent : public IRenderComponent
+class CmdRenderComponent : public IRenderComponent
 {
 public:
     CmdRenderComponent()

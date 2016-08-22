@@ -7,7 +7,7 @@ constexpr Coord DEF_CONSOLE_SIZE = { 130, 35 };
 constexpr Coord MAX_CONSOLE_SIZE = { 238, 70 };
 
 
-class SCE_API Console
+class Console
 {
     CREATE_SINGLETON(Console)
 public:

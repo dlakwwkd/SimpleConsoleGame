@@ -98,9 +98,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Base\dllmain.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="Base\stdafx.cpp">
       <Filter>Base</Filter>
     </ClCompile>

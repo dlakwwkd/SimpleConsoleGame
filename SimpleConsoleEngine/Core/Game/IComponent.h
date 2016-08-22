@@ -3,7 +3,7 @@ SCE_START
 struct _component_identifier {};
 
 
-class SCE_API IComponent
+class IComponent
 {
 public:
     template<IS_BASE_OF(T, IComponent)>
@@ -26,7 +26,7 @@ public:
 
 
 template<typename Derived>
-class SCE_API IComponentCRTP : public IComponent
+class IComponentCRTP : public IComponent
 {
     static _component_identifier s_ComponentIdentifier;
 public:

@@ -3,7 +3,7 @@
 SCE_START
 
 
-struct SCE_API Coord
+struct Coord
 {
     short m_X;
     short m_Y;

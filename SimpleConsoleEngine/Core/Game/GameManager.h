@@ -5,7 +5,7 @@ class GameBase;
 class Timer;
 
 
-class SCE_API GameManager
+class GameManager
 {
     CREATE_SINGLETON(GameManager)
 public:
