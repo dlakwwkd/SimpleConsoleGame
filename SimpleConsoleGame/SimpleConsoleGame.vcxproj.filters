@@ -84,4 +84,9 @@
       <UniqueIdentifier>{88ead016-2853-4bd4-b319-75420312a764}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Game\GameObject\Unit.inl">
+      <Filter>Game\GameObject</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -20,7 +20,7 @@ public:
         TOTAL_KEY_NUM
     };
 public:
-    constexpr Command()
+    constexpr Command() noexcept
         : m_KeyArr
             {
                 VK_RETURN,

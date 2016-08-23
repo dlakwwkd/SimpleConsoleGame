@@ -27,7 +27,6 @@ Game::~Game()
 void Game::Init()
 {
     srand((unsigned int)time(NULL));
-    SetRenderFrameLimit(60);
 
     m_Command = std::make_unique<Command>();
     m_Hero = std::make_unique<Hero>();
@@ -102,9 +101,7 @@ void Game::Release()
 
 void Game::Update(float dt)
 {
-    FrameCalc(dt);
     CommandProc(dt);
-
     for (auto& mob : m_MobList)
     {
         mob.AI(dt);
@@ -115,17 +112,11 @@ void Game::Update(float dt)
 
 void Game::Render()
 {
-    static auto& console = Console::GetInstance();
-    console.Clear();
-
     for (auto& mob : m_MobList)
     {
         mob.Render();
     }
     m_Hero->Render();
-
-    FrameShow();
-    console.SwapBuffer();
 }
 
 
@@ -156,17 +147,4 @@ void Game::CommandProc(float dt)
     if (m_Command->IsKeyPress<Command::BUTTON_A>())
     {
     }
-}
-
-void Game::FrameShow()
-{
-    static auto& console = Console::GetInstance();
-
-    std::wostringstream oss;
-    oss << L"UpdateFrame: " << m_FrameRate << L"\t"
-        << L"RenderFrame: " << m_RenderCount << L"/" << m_RenderRate << L"\t"
-        << L"DrawCall: " << console.GetDrawCallNum();
-
-    console.SetColor(Color::WHITE);
-    console.PrintText(Coord(0, console.GetScreenHeight() + 1), oss.str().c_str());
 }

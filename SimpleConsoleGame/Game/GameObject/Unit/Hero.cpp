@@ -38,31 +38,31 @@ void Hero::Release()
 
 void Hero::Update(float dt)
 {
+    Unit::Update(dt);
+}
+
+void Hero::Render()
+{
     auto render = GetComponent<CmdRenderComponent>();
     if (render == nullptr)
         return;
 
     static Color color = render->GetColor();
     static Timer timer(1.0f);
-    timer.AccumDt(dt);
+    timer.Tick();
+    timer.AccumDt();
     if (timer.DurationCheck())
     {
         render->SetColor(++color);
-
         /*
         std::thread([]()
         {
-            Beep(524, 120);
-            Beep(660, 120);
-            Beep(784, 120);
+        Beep(524, 120);
+        Beep(660, 120);
+        Beep(784, 120);
         }
         ).detach();
         */
     }
-    Unit::Update(dt);
-}
-
-void Hero::Render()
-{
     Unit::Render();
 }

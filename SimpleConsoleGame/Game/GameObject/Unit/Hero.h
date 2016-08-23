@@ -7,10 +7,10 @@ class Hero : public Unit
     SPECIALFUNC_SET(Hero, default)
 public:
     Hero();
-    ~Hero() override;
+    virtual ~Hero() override;
 
-    void Init()             override;
-    void Release()          override;
-    void Update(float dt)   override;
-    void Render()           override;
+    virtual void Init()             override;
+    virtual void Release()          override;
+    virtual void Update(float dt)   override;
+    virtual void Render()           override;
 };

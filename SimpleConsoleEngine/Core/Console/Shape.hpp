@@ -19,7 +19,6 @@ public:
         m_BGColor(bgColor)
     {
     }
-    virtual ~Shape() = default;
 
     void    SetForm(wchar_t form) noexcept { m_Form = form; }
     void    SetColor(Color color) noexcept { m_Color = color; }

@@ -1,5 +1,4 @@
-﻿#include "Vec2.h"
-SCE_START
+﻿SCE_START
 
 
 inline float Vec2::GetX() const noexcept

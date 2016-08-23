@@ -7,10 +7,10 @@ class Dummy : public SCE::GameObject
     SPECIALFUNC_SET(Dummy, default)
 public:
     Dummy() noexcept;
-    ~Dummy() override;
+    virtual ~Dummy() override;
 
-    void Init()             override;
-    void Release()          override;
-    void Update(float dt)   override;
-    void Render()           override;
+    virtual void Init()             override;
+    virtual void Release()          override;
+    virtual void Update(float dt)   override;
+    virtual void Render()           override;
 };

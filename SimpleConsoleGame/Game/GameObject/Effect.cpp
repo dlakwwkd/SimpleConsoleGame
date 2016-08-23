@@ -7,7 +7,6 @@ SCE_USE
 Effect::Effect() noexcept
 {
     InsertComponent<CmdRenderComponent>();
-    Init();
 }
 
 

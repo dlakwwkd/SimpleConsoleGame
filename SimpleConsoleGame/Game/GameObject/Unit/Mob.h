@@ -11,12 +11,12 @@ class Mob : public Unit
     SPECIALFUNC_SET(Mob, default)
 public:
     Mob();
-    ~Mob() override;
+    virtual ~Mob() override;
 
-    void Init()             override;
-    void Release()          override;
-    void Update(float dt)   override;
-    void Render()           override;
+    virtual void Init()             override;
+    virtual void Release()          override;
+    virtual void Update(float dt)   override;
+    virtual void Render()           override;
 
     void AI(float dt);
     void SetAIRatio(float ratio);
@@ -25,7 +25,6 @@ public:
 
 private:
     std::shared_ptr<SCE::Timer> m_AITimer;
-    std::shared_ptr<Dummy>      m_ToPosShow;
     SCE::Vec2                   m_ToPos;
     float                       m_ToPosChangeProbability;
 };

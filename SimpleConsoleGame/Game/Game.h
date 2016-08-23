@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "SimpleConsoleEngine/Core/Game/GameBase.h"
+#include "SimpleConsoleEngine/Core/Game/IGameBase.h"
 SCE_START
 class Command;
 SCE_END
@@ -8,21 +8,20 @@ class Hero;
 class Mob;
 
 
-class Game : public SCE::GameBase
+class Game : public SCE::IGameBase
 {
     SPECIALFUNC_SET(Game, delete)
 public:
     Game();
-    ~Game() override;
+    virtual ~Game() override;
 
-    void Init()             override;
-    void Release()          override;
-    void Update(float dt)   override;
-    void Render()           override;
+    virtual void Init()             override;
+    virtual void Release()          override;
+    virtual void Update(float dt)   override;
+    virtual void Render()           override;
 
 private:
     void CommandProc(float dt);
-    void FrameShow();
 
 private:
     std::unique_ptr<SCE::Command>   m_Command;

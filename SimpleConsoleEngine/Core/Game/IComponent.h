@@ -1,6 +1,6 @@
 #pragma once
 SCE_START
-struct _component_identifier {};
+struct _identifier {};
 
 
 class IComponent
@@ -19,11 +19,11 @@ public:
 template<typename Derived>
 class IComponentCRTP : public IComponent
 {
-    static _component_identifier s_ComponentIdentifier;
+    static _identifier      s_Identifier;
 public:
-    static size_t       GetComponentId()
+    static size_t           GetComponentId()
     {
-        return reinterpret_cast<size_t>(&s_ComponentIdentifier);
+        return reinterpret_cast<size_t>(&s_Identifier);
     }
 public:
     virtual std::string     GetComponentName() const = 0;

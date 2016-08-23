@@ -7,7 +7,6 @@ SCE_USE
 Dummy::Dummy() noexcept
 {
     InsertComponent<CmdRenderComponent>();
-    Init();
 }
 
 

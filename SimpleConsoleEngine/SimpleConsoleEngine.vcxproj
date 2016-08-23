@@ -155,7 +155,7 @@
     <ClInclude Include="Core\Console\Shape.hpp" />
     <ClInclude Include="Core\Game\Component\CmdRenderComponent.h" />
     <ClInclude Include="Core\Game\Component\IRenderComponent.h" />
-    <ClInclude Include="Core\Game\GameBase.h" />
+    <ClInclude Include="Core\Game\IGameBase.h" />
     <ClInclude Include="Core\Game\GameManager.h" />
     <ClInclude Include="Core\Game\GameObject.h" />
     <ClInclude Include="Core\Game\IComponent.h" />

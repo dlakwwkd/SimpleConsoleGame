@@ -72,9 +72,6 @@
     <ClInclude Include="Core\Console\Shape.hpp">
       <Filter>Core\Console</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\GameBase.h">
-      <Filter>Core\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Base\BaseInclude.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -95,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="Core\Game\Component\IRenderComponent.h">
       <Filter>Core\Game\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\IGameBase.h">
+      <Filter>Core\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

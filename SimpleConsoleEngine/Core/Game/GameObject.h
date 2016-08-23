@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "IComponent.h"
 SCE_START
+class IComponent;
 
 
 class GameObject
@@ -45,8 +45,8 @@ public:
     }
 
 private:
-    void    ComponentMapClear();
-    bool    ComponentMapDeepCopy(const ComponentMap& source);
+    void ComponentMapClear();
+    bool ComponentMapDeepCopy(const ComponentMap& source);
 
 private:
     ComponentMap m_ComponentMap;

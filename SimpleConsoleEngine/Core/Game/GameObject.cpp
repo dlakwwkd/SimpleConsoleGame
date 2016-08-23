@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GameObject.h"
+#include "IComponent.h"
 #include "Component/IRenderComponent.h"
 SCE_START
 

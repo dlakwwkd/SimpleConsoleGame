@@ -1,14 +1,18 @@
 ﻿#include "stdafx.h"
 #include "GameManager.h"
-#include "GameBase.h"
-#include "Core/Console/Console.h"
+#include "IGameBase.h"
+#include "Scheduler.hpp"
 #include "Core/Timer/Timer.h"
+#include "Core/Console/Console.h"
 SCE_START
 
 
 GameManager::GameManager()
 :   m_IsRun(false),
-    m_IsPlay(false)
+    m_IsPlay(false),
+    m_FrameCount(0),
+    m_RenderCount(0),
+    m_RenderLimit(0)
 {
 }
 
@@ -31,6 +35,9 @@ void GameManager::Init()
         m_IsRun = false;
     }
     m_IsPlay = false;
+    m_FrameCount = 0;
+    m_RenderCount = 0;
+    m_RenderLimit = 0;
 }
 
 void GameManager::Release()
@@ -61,21 +68,85 @@ void GameManager::MainLoop()
 
 void GameManager::GameLoop()
 {
+    SetRenderLimit(60);
     while (m_IsPlay)
     {
         m_Scheduler->DoTask();
-
-        m_Timer->Tick();
-        float dt = m_Timer->DeltaTime();
-
-        m_Game->Update(dt);
-        if (m_Game->RenderLimitCheck(dt))
+        UpdateProcess();
+        if (RenderLimitCheck())
         {
-            m_Game->Render();
+            RenderProcess();
         }
     }
     m_Scheduler->Release();
 }
 
+
+
+void GameManager::UpdateProcess()
+{
+    float dt = FrameProgress();
+    m_Game->Update(dt);
+}
+
+void GameManager::RenderProcess()
+{
+    static auto& console = Console::GetInstance();
+    console.Clear();
+
+    m_Game->Render();
+
+    PrintFrame();
+    console.SwapBuffer();
+}
+
+
+
+float GameManager::FrameProgress() noexcept
+{
+    ++m_FrameCount;
+    m_Timer->Tick();
+    return m_Timer->DeltaTime();
+}
+
+void GameManager::SetRenderLimit(size_t limitFrame) noexcept
+{
+    m_RenderLimit = limitFrame;
+    m_Timer->SetDuration(1.0f / limitFrame);
+}
+
+bool GameManager::RenderLimitCheck() noexcept
+{
+    m_Timer->AccumDt();
+    if (m_Timer->DurationCheck())
+    {
+        ++m_RenderCount;
+        return true;
+    }
+    return false;
+}
+
+void GameManager::PrintFrame()
+{
+    static auto& console = Console::GetInstance();
+    static size_t frameRate = 0;
+    static size_t renderRate = 0;
+    static Timer timer(1.f);
+    timer.Tick();
+    timer.AccumDt();
+    if (timer.DurationCheck())
+    {
+        frameRate = m_FrameCount;
+        renderRate = m_RenderCount;
+        m_FrameCount = 0;
+        m_RenderCount = 0;
+    }
+    std::wostringstream oss;
+    oss << L"UpdateFrame: " << frameRate << L"\t"
+        << L"RenderFrame: " << renderRate << L"/" << m_RenderLimit << L"\t"
+        << L"DrawCall: " << console.GetDrawCallNum();
+    console.SetColor(Color::WHITE);
+    console.PrintText(Coord(0, console.GetScreenHeight() + 1), oss.str().c_str());
+}
 
 SCE_END

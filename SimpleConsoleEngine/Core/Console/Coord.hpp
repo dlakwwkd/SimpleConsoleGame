@@ -13,7 +13,7 @@ struct Coord
         m_Y(0)
     {
     }
-    Coord(const Vec2& vec2)
+    Coord(const Vec2& vec2) noexcept
     :   m_X(static_cast<short>(vec2.GetX() * 2.0f)),
         m_Y(static_cast<short>(vec2.GetY()))
     {
@@ -25,7 +25,7 @@ struct Coord
     {
     }
 
-    static Vec2 ConvertToVec2(const Coord& coord)
+    static Vec2 ConvertToVec2(const Coord& coord) noexcept
     {
         return Vec2(
             static_cast<float>(coord.m_X) * 0.5f,
