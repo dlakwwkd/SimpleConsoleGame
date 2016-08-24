@@ -1,13 +1,13 @@
 ﻿#pragma once
-#include "SimpleConsoleEngine/Core/Game/GameObject.h"
-#include "SimpleConsoleEngine/Core/Math/Vec2.h"
+#include "Core/Game/Composite/GameObject.h"
+#include "Core/Math/Vec2.h"
 
 
 class Unit : public SCE::GameObject
 {
     SPECIALFUNC_SET(Unit, default)
 public:
-    Unit() noexcept;
+    Unit();
     virtual ~Unit() override;
 
     virtual void    Init()             override;

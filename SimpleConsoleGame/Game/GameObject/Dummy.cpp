@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 #include "Dummy.h"
-#include "SimpleConsoleEngine/Core/Game/Component/CmdRenderComponent.h"
+#include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 SCE_USE
 
 
-Dummy::Dummy() noexcept
+Dummy::Dummy()
 {
-    InsertComponent<CmdRenderComponent>();
+    AddComponent<CmdRenderComponent>();
 }
 
 

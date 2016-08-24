@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "Mob.h"
 //----------------------------------------------------------------------------------------------------
-#include "SimpleConsoleEngine/Core/Timer/Timer.h"
-#include "SimpleConsoleEngine/Core/Game/Component/CmdRenderComponent.h"
+#include "Core/Timer/Timer.h"
+#include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
 SCE_USE

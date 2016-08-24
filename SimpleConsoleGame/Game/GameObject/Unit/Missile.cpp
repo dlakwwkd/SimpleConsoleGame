@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "Missile.h"
 //----------------------------------------------------------------------------------------------------
-#include "SimpleConsoleEngine/Core/Console/Shape.hpp"
-#include "SimpleConsoleEngine/Core/Timer/Timer.h"
+#include "Core/Console/Shape.hpp"
+#include "Core/Timer/Timer.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
 SCE_USE

@@ -1,7 +1,7 @@
 ﻿#pragma once
 SCE_START
-class IGameBase;
 class Scheduler;
+class IGameBase;
 class Timer;
 
 
@@ -36,8 +36,8 @@ private:
     void    PrintFrame();
 
 private:
-    std::unique_ptr<IGameBase>  m_Game;
     std::unique_ptr<Scheduler>  m_Scheduler;
+    std::unique_ptr<IGameBase>  m_Game;
     std::unique_ptr<Timer>      m_Timer;
     bool                        m_IsRun;
     bool                        m_IsPlay;

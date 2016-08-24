@@ -1,23 +1,23 @@
 #pragma once
-#include "IRenderComponent.h"
-#include "../../Console/Coord.hpp"
-#include "../../Console/Shape.hpp"
+#include "../IRenderComponent.h"
+#include "../../../Console/Coord.hpp"
+#include "../../../Console/Shape.hpp"
 SCE_START
 
 
 class CmdRenderComponent : public IRenderComponent
 {
 public:
-    CmdRenderComponent()
+    CmdRenderComponent() noexcept
     :   m_IsShow(true),
         m_Depth(0),
         m_Coord{ 0,0 }
     {
     }
+    virtual ~CmdRenderComponent() override = default;
 
     virtual std::string     GetComponentName() const override;
     virtual IComponentPtr   Copy() const override;
-
     virtual void            Init() override;
     virtual void            Release() override;
     virtual void            Render() override;

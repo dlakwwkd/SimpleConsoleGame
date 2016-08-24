@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 #include "Effect.h"
-#include "SimpleConsoleEngine/Core/Game/Component/CmdRenderComponent.h"
+#include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 SCE_USE
 
 
-Effect::Effect() noexcept
+Effect::Effect()
 {
-    InsertComponent<CmdRenderComponent>();
+    AddComponent<CmdRenderComponent>();
 }
 
 

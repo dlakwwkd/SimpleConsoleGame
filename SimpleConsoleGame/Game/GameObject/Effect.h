@@ -1,12 +1,12 @@
 ﻿#pragma once
-#include "SimpleConsoleEngine/Core/Game/GameObject.h"
+#include "Core/Game/Composite/GameObject.h"
 
 
 class Effect : public SCE::GameObject
 {
     SPECIALFUNC_SET(Effect, default)
 public:
-    Effect() noexcept;
+    Effect();
     virtual ~Effect() override;
 
     virtual void Init()             override;

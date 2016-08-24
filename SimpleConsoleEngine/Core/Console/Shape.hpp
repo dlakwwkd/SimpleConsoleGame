@@ -27,7 +27,7 @@ public:
     Color   GetColor() const noexcept { return m_Color; }
     Color   GetBGColor() const noexcept { return m_BGColor; }
 
-    void Render(const Coord& pos, BYTE depth = 0) noexcept
+    void    Render(const Coord& pos, BYTE depth = 0) noexcept
     {
         static auto& console = Console::GetInstance();
         if (console.DepthCheck(pos, depth))

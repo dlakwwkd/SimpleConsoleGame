@@ -1,11 +1,11 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
 //----------------------------------------------------------------------------------------------------
-#include "SimpleConsoleEngine/Core/Timer/Timer.h"
-#include "SimpleConsoleEngine/Core/Command/Command.h"
-#include "SimpleConsoleEngine/Core/Console/Console.h"
-#include "SimpleConsoleEngine/Core/Game/GameManager.h"
-#include "SimpleConsoleEngine/Core/Game/Component/CmdRenderComponent.h"
+#include "Core/Timer/Timer.h"
+#include "Core/Command/Command.h"
+#include "Core/Console/Console.h"
+#include "Core/Game/GameManager.h"
+#include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "GameObject/Dummy.h"
 #include "GameObject/Unit.h"

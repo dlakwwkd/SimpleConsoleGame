@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #include "GameManager.h"
-#include "IGameBase.h"
 #include "Scheduler.hpp"
-#include "Core/Timer/Timer.h"
-#include "Core/Console/Console.h"
+#include "Interface/IGameBase.h"
+#include "../Core/Timer/Timer.h"
+#include "../Core/Console/Console.h"
 SCE_START
 
 

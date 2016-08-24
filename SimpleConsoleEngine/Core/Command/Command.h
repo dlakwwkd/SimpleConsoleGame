@@ -21,19 +21,19 @@ public:
     };
 public:
     constexpr Command() noexcept
-        : m_KeyArr
-            {
-                VK_RETURN,
-                VK_ESCAPE,
-                VK_UP,
-                VK_DOWN,
-                VK_LEFT,
-                VK_RIGHT,
-                'Z',
-                'X',
-                'C',
-                'V'
-            }
+    :   m_KeyArr
+        {
+            VK_RETURN,
+            VK_ESCAPE,
+            VK_UP,
+            VK_DOWN,
+            VK_LEFT,
+            VK_RIGHT,
+            'Z',
+            'X',
+            'C',
+            'V'
+        }
     {
     }
 

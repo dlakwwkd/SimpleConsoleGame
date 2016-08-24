@@ -153,12 +153,13 @@
     <ClInclude Include="Core\Console\Console.h" />
     <ClInclude Include="Core\Console\Coord.hpp" />
     <ClInclude Include="Core\Console\Shape.hpp" />
-    <ClInclude Include="Core\Game\Component\CmdRenderComponent.h" />
     <ClInclude Include="Core\Game\Component\IRenderComponent.h" />
-    <ClInclude Include="Core\Game\IGameBase.h" />
+    <ClInclude Include="Core\Game\Component\RenderComponent\CmdRenderComponent.h" />
+    <ClInclude Include="Core\Game\CompositeBase.h" />
+    <ClInclude Include="Core\Game\Composite\GameObject.h" />
     <ClInclude Include="Core\Game\GameManager.h" />
-    <ClInclude Include="Core\Game\GameObject.h" />
-    <ClInclude Include="Core\Game\IComponent.h" />
+    <ClInclude Include="Core\Game\Interface\IComponent.h" />
+    <ClInclude Include="Core\Game\Interface\IGameBase.h" />
     <ClInclude Include="Core\Game\Scheduler.hpp" />
     <ClInclude Include="Core\Math\Vec2.h" />
     <ClInclude Include="Core\Menu\Menu.h" />
@@ -175,10 +176,11 @@
     </ClCompile>
     <ClCompile Include="Core\Command\Command.cpp" />
     <ClCompile Include="Core\Console\Console.cpp" />
-    <ClCompile Include="Core\Game\Component\CmdRenderComponent.cpp" />
     <ClCompile Include="Core\Game\Component\IRenderComponent.cpp" />
+    <ClCompile Include="Core\Game\Component\RenderComponent\CmdRenderComponent.cpp" />
+    <ClCompile Include="Core\Game\CompositeBase.cpp" />
+    <ClCompile Include="Core\Game\Composite\GameObject.cpp" />
     <ClCompile Include="Core\Game\GameManager.cpp" />
-    <ClCompile Include="Core\Game\GameObject.cpp" />
     <ClCompile Include="Core\Math\Vec2.cpp" />
     <ClCompile Include="Core\Menu\Menu.cpp" />
     <ClCompile Include="Core\Timer\Timer.cpp" />
@@ -186,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Console\Console.inl" />
+    <None Include="Core\Game\CompositeBase.inl" />
     <None Include="Core\Game\GameManager.inl" />
     <None Include="Core\Math\Vec2.inl" />
     <None Include="Core\Timer\Timer.inl" />

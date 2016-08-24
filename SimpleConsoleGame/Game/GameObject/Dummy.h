@@ -1,12 +1,12 @@
 ﻿#pragma once
-#include "SimpleConsoleEngine/Core/Game/GameObject.h"
+#include "Core/Game/Composite/GameObject.h"
 
 
 class Dummy : public SCE::GameObject
 {
     SPECIALFUNC_SET(Dummy, default)
 public:
-    Dummy() noexcept;
+    Dummy();
     virtual ~Dummy() override;
 
     virtual void Init()             override;

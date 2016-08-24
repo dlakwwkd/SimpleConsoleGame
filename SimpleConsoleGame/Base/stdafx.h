@@ -5,6 +5,6 @@
 #include <tchar.h>
 #include <windows.h>
 
-#include "SimpleConsoleEngine/Base/BaseInclude.h"
-#include "SimpleConsoleEngine/Util/Macros.h"
-#include "SimpleConsoleEngine/Util/AssertPack.h"
+#include "Base/BaseInclude.h"
+#include "Util/Macros.h"
+#include "Util/AssertPack.h"

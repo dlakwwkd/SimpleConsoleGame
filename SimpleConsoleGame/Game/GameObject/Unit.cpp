@@ -1,21 +1,21 @@
 ﻿#include "stdafx.h"
 #include "Unit.h"
 //----------------------------------------------------------------------------------------------------
-#include "SimpleConsoleEngine/Core/Console/Console.h"
-#include "SimpleConsoleEngine/Core/Game/Component/CmdRenderComponent.h"
+#include "Core/Console/Console.h"
+#include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "Dummy.h"
 SCE_USE
 
 
-Unit::Unit() noexcept
+Unit::Unit()
 :   m_Pos{0.0f, 0.0f},
     m_MovePower{0.0f, 0.0f},
     m_MovePowerLimit(1.0f),
     m_MovePowerFrict(1.5f),
     m_Speed(100.0f)
 {
-    InsertComponent<CmdRenderComponent>();
+    AddComponent<CmdRenderComponent>();
 }
 
 

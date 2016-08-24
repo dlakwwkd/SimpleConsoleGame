@@ -31,6 +31,15 @@
     <Filter Include="Core\Game\Component">
       <UniqueIdentifier>{43c1a22f-32f4-4522-b843-010b609582e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Game\Composite">
+      <UniqueIdentifier>{bbffb91e-ee53-48a3-9b58-07ff93707e40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Game\Interface">
+      <UniqueIdentifier>{43e0041e-2880-4a68-a4aa-17e29d1c0179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Game\Component\RenderComponent">
+      <UniqueIdentifier>{b8f6d6b8-455b-4078-9c07-cc1a4e9b2cde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -78,23 +87,26 @@
     <ClInclude Include="Core\Game\Scheduler.hpp">
       <Filter>Core\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\GameObject.h">
-      <Filter>Core\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Math\Vec2.h">
       <Filter>Core\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Game\IComponent.h">
-      <Filter>Core\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Game\Component\CmdRenderComponent.h">
-      <Filter>Core\Game\Component</Filter>
     </ClInclude>
     <ClInclude Include="Core\Game\Component\IRenderComponent.h">
       <Filter>Core\Game\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\IGameBase.h">
+    <ClInclude Include="Core\Game\CompositeBase.h">
       <Filter>Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Composite\GameObject.h">
+      <Filter>Core\Game\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Interface\IComponent.h">
+      <Filter>Core\Game\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Interface\IGameBase.h">
+      <Filter>Core\Game\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Component\RenderComponent\CmdRenderComponent.h">
+      <Filter>Core\Game\Component\RenderComponent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -119,17 +131,20 @@
     <ClCompile Include="Core\Game\GameManager.cpp">
       <Filter>Core\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Game\GameObject.cpp">
-      <Filter>Core\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Math\Vec2.cpp">
       <Filter>Core\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Game\Component\CmdRenderComponent.cpp">
-      <Filter>Core\Game\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Game\Component\IRenderComponent.cpp">
       <Filter>Core\Game\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\CompositeBase.cpp">
+      <Filter>Core\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Composite\GameObject.cpp">
+      <Filter>Core\Game\Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Component\RenderComponent\CmdRenderComponent.cpp">
+      <Filter>Core\Game\Component\RenderComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +162,9 @@
     </None>
     <None Include="Core\Math\Vec2.inl">
       <Filter>Core\Math</Filter>
+    </None>
+    <None Include="Core\Game\CompositeBase.inl">
+      <Filter>Core\Game</Filter>
     </None>
   </ItemGroup>
 </Project>
