@@ -71,4 +71,79 @@ void Console::Release()
     SetCurrentConsoleFontEx(m_STDHandle, FALSE, &m_CFIOrigin);
 }
 
+
+
+size_t Console::GetDrawCallNum() const
+{
+    return m_DrawCall;
+}
+
+Coord Console::GetScreenSize() const
+{
+    return m_ScreenSize;
+}
+
+short Console::GetScreenWidth() const
+{
+    return m_ScreenSize.m_X;
+}
+
+short Console::GetScreenHeight() const
+{
+    return m_ScreenSize.m_Y;
+}
+
+
+
+void Console::PrintText(const Coord& pos, const std::wstring& text)
+{
+    DWORD dw;
+    SetConsoleCursorPosition(m_ScreenBuffer[m_ScreenIndex], { pos.m_X, pos.m_Y });
+    WriteConsole(m_ScreenBuffer[m_ScreenIndex], text.c_str(), static_cast<DWORD>(text.length()), &dw, nullptr);
+    ++m_DrawCall;
+}
+
+void Console::Print(const Coord& pos, wchar_t word)
+{
+    DWORD dw;
+    SetConsoleCursorPosition(m_ScreenBuffer[m_ScreenIndex], { pos.m_X, pos.m_Y });
+    WriteConsole(m_ScreenBuffer[m_ScreenIndex], &word, 1U, &dw, nullptr);
+    ++m_DrawCall;
+}
+
+void Console::SetColor(Color textColor, Color bgColor) const
+{
+    WORD color = static_cast<WORD>(textColor) + (static_cast<WORD>(bgColor) << 4);
+    SetConsoleTextAttribute(m_ScreenBuffer[m_ScreenIndex], color);
+}
+
+void Console::Clear()
+{
+    DWORD dw;
+    DWORD screenSize = (m_ScreenSize.m_X + 2) * (m_ScreenSize.m_Y + 2);
+    FillConsoleOutputCharacter(m_ScreenBuffer[m_ScreenIndex], L' ', screenSize, { 0,0 }, &dw);
+    FillConsoleOutputAttribute(m_ScreenBuffer[m_ScreenIndex], NULL, screenSize, { 0,0 }, &dw);
+
+    ZeroMemory(m_DepthBuffer, sizeof(m_DepthBuffer[0][0]) * MAX_CONSOLE_SIZE.m_X * MAX_CONSOLE_SIZE.m_Y);
+}
+
+void Console::SwapBuffer()
+{
+    SetConsoleActiveScreenBuffer(m_ScreenBuffer[m_ScreenIndex]);
+    m_ScreenIndex = !m_ScreenIndex;
+    m_DrawCall = 0;
+}
+
+bool Console::DepthCheck(const Coord& pos, BYTE depth)
+{
+    if (pos.m_X < 0 || pos.m_X > m_ScreenSize.m_X ||
+        pos.m_Y < 0 || pos.m_Y > m_ScreenSize.m_Y ||
+        m_DepthBuffer[pos.m_Y][pos.m_X] > depth)
+    {
+        return false;
+    }
+    m_DepthBuffer[pos.m_Y][pos.m_X] = depth + 1;
+    return true;
+}
+
 SCE_END

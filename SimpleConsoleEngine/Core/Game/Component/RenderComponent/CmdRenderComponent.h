@@ -1,20 +1,15 @@
 #pragma once
 #include "../IRenderComponent.h"
-#include "../../../Console/Coord.hpp"
-#include "../../../Console/Shape.hpp"
+#include "../../../Console/Coord.h"
+#include "../../../Console/Shape.h"
 SCE_START
 
 
 class CmdRenderComponent : public IRenderComponent
 {
 public:
-    CmdRenderComponent() noexcept
-    :   m_IsShow(true),
-        m_Depth(0),
-        m_Coord{ 0,0 }
-    {
-    }
-    virtual ~CmdRenderComponent() override = default;
+    CmdRenderComponent();
+    virtual ~CmdRenderComponent() override;
 
     virtual std::string     GetComponentName() const override;
     virtual IComponentPtr   Copy() const override;
@@ -22,26 +17,26 @@ public:
     virtual void            Release() override;
     virtual void            Render() override;
 
-    bool    IsShow() const noexcept { return m_IsShow; }
-    BYTE    GetDepth() const noexcept { return m_Depth; }
-    Coord   GetCoord() const noexcept { return m_Coord; }
-    Shape   GetShape() const noexcept { return m_Shape; }
-    wchar_t GetForm() const noexcept { return m_Shape.GetForm(); }
-    Color   GetColor() const noexcept { return m_Shape.GetColor(); }
-    Color   GetBGColor() const noexcept { return m_Shape.GetBGColor(); }
+    bool    IsShow() const;
+    BYTE    GetDepth() const;
+    Coord   GetCoord() const;
+    Shape   GetShape() const;
+    wchar_t GetForm() const;
+    Color   GetColor() const;
+    Color   GetBGColor() const;
 
-    void    SetShow(bool isShow) noexcept { m_IsShow = isShow; }
-    void    SetDepth(BYTE depth) noexcept { m_Depth = depth; }
+    void    SetShow(bool isShow);
+    void    SetDepth(BYTE depth);
 
     template<IS_SAME(T, Coord)>
-    void    SetCoord(T&& coord) noexcept { m_Coord = std::forward<T>(coord); }
-    void    SetCoord(short x, short y) noexcept { m_Coord.m_X = x; m_Coord.m_Y = y; }
+    void    SetCoord(T&& coord);
+    void    SetCoord(short x, short y);
 
     template<IS_SAME(T, Shape)>
-    void    SetShape(T&& shape) noexcept { m_Shape = std::forward<T>(shape); }
-    void    SetForm(wchar_t form) noexcept { m_Shape.SetForm(form); }
-    void    SetColor(Color color) noexcept { m_Shape.SetColor(color); }
-    void    SetBGColor(Color bgColor) noexcept { m_Shape.SetBGColor(bgColor); }
+    void    SetShape(T&& shape);
+    void    SetForm(wchar_t form);
+    void    SetColor(Color color);
+    void    SetBGColor(Color bgColor);
 
 private:
     bool    m_IsShow;
@@ -49,5 +44,18 @@ private:
     Coord   m_Coord;
     Shape   m_Shape;
 };
+
+
+template<CHECKED_T(T)>
+void CmdRenderComponent::SetCoord(T&& coord)
+{
+    m_Coord = std::forward<T>(coord);
+}
+
+template<CHECKED_T(T)>
+void CmdRenderComponent::SetShape(T&& shape)
+{
+    m_Shape = std::forward<T>(shape);
+}
 
 SCE_END

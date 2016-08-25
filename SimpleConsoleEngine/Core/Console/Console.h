@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Color.hpp"
-#include "Coord.hpp"
+#include "Coord.h"
 SCE_START
 
 constexpr Coord DEF_CONSOLE_SIZE = { 130, 35 };
@@ -11,20 +11,20 @@ class Console
 {
     CREATE_SINGLETON(Console)
 public:
-    void Init(const Coord& screenSize = DEF_CONSOLE_SIZE);
-    void Release();
+    void    Init(const Coord& screenSize = DEF_CONSOLE_SIZE);
+    void    Release();
 
-    size_t  GetDrawCallNum() const noexcept { return m_DrawCall; }
-    Coord   GetScreenSize() const noexcept { return m_ScreenSize; }
-    short   GetScreenWidth() const noexcept { return m_ScreenSize.m_X; }
-    short   GetScreenHeight() const noexcept { return m_ScreenSize.m_Y; }
+    size_t  GetDrawCallNum() const;
+    Coord   GetScreenSize() const;
+    short   GetScreenWidth() const;
+    short   GetScreenHeight() const;
 
-    inline void PrintText(const Coord& pos, const std::wstring& text) noexcept;
-    inline void Print(const Coord& pos, wchar_t word) noexcept;
-    inline void SetColor(Color textColor, Color bgColor = Color::BLACK) const noexcept;
-    inline void Clear() noexcept;
-    inline void SwapBuffer() noexcept;
-    inline bool DepthCheck(const Coord& pos, BYTE depth = 0) noexcept;
+    void    PrintText(const Coord& pos, const std::wstring& text);
+    void    Print(const Coord& pos, wchar_t word);
+    void    SetColor(Color textColor, Color bgColor = Color::BLACK) const;
+    void    Clear();
+    void    SwapBuffer();
+    bool    DepthCheck(const Coord& pos, BYTE depth = 0);
 
 private:
     CONSOLE_FONT_INFOEX m_CFIOrigin;
@@ -39,4 +39,3 @@ private:
 };
 
 SCE_END
-#include "Console.inl"

@@ -5,8 +5,8 @@ class Skill
 {
     SPECIALFUNC_SET(Skill, default)
 public:
-    Skill() noexcept = default;
-    virtual ~Skill() = default;
+    Skill()             = default;
+    virtual ~Skill()    = default;
 
     virtual void Init();
     virtual void Release();

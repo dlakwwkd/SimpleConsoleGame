@@ -5,7 +5,7 @@ SCE_START
 class IGameBase
 {
 public:
-    IGameBase() noexcept    = default;
+    IGameBase()             = default;
     virtual ~IGameBase()    = default;
 
     virtual void Init()             = 0;

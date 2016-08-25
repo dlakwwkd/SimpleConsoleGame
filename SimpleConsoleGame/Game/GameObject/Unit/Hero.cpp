@@ -2,6 +2,7 @@
 #include "Hero.h"
 //----------------------------------------------------------------------------------------------------
 #include "Core/Timer/Timer.h"
+#include "Core/Console/Console.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"

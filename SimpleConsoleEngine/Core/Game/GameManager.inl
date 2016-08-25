@@ -2,7 +2,7 @@
 
 
 template<CHECKED_T(GameType)>
-inline void GameManager::Run()
+void GameManager::Run()
 {
     if (m_IsRun || m_Game)
     {
@@ -20,7 +20,7 @@ inline void GameManager::Run()
 
 // 람다와 전역함수를 위한 콜펑션
 template<typename F, typename... Args>
-inline void GameManager::CallFuncAfterS(float after, F&& functor, Args&&... args)
+void GameManager::CallFuncAfterS(float after, F&& functor, Args&&... args)
 {
     m_Scheduler->PushTask(after,
         [functor = std::forward<F>(functor), args...]() // args...는 클로저 안에 전부 복사해서 저장
@@ -31,25 +31,13 @@ inline void GameManager::CallFuncAfterS(float after, F&& functor, Args&&... args
 
 // 멤버함수를 위한 콜펑션
 template<typename T, typename F, typename... Args>
-inline void GameManager::CallFuncAfterM(float after, T instance, F memfunc, Args&& ...args)
+void GameManager::CallFuncAfterM(float after, T instance, F memfunc, Args&& ...args)
 {
     static_assert(std::is_member_function_pointer<F>::value &&
         std::is_same<GameManager, std::remove_pointer_t<T>>::value ||   // 안전성을 위해 게임 매니저와 게임의 멤버함수만 콜펑션을 허락한다.
         std::is_base_of<IGameBase, std::remove_pointer_t<T>>::value, "only allow GameManager or Game instance");
 
     m_Scheduler->PushTask(after, std::bind(memfunc, instance, std::forward<Args>(args)...));
-}
-
-
-
-inline void GameManager::ReturnMain() noexcept
-{
-    m_IsPlay = false;
-}
-
-inline void GameManager::Shutdown() noexcept
-{
-    m_IsRun = m_IsPlay = false;
 }
 
 SCE_END

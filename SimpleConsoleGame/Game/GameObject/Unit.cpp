@@ -53,7 +53,19 @@ void Unit::Render()
 
 
 
-void Unit::MovePowerFixInLimit() noexcept
+void Unit::SetSpeed(float speed)
+{
+    m_Speed = speed;
+}
+
+void Unit::AddMovePower(const SCE::Vec2& addPower)
+{
+    m_MovePower += addPower;
+}
+
+
+
+void Unit::MovePowerFixInLimit()
 {
     float length = m_MovePower.Length();
     if (length < 0.0001f)
@@ -66,7 +78,7 @@ void Unit::MovePowerFixInLimit() noexcept
     }
 }
 
-void Unit::PosFixInScreanBoundary() noexcept
+void Unit::PosFixInScreanBoundary()
 {
     static auto& console = SCE::Console::GetInstance();
     SCE::Vec2 bound(SCE::Coord::ConvertToVec2(console.GetScreenSize()));

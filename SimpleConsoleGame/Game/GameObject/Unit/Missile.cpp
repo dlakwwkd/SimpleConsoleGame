@@ -1,7 +1,8 @@
 ﻿#include "stdafx.h"
 #include "Missile.h"
 //----------------------------------------------------------------------------------------------------
-#include "Core/Console/Shape.hpp"
+#include "Core/Console/Shape.h"
+#include "Core/Console/Console.h"
 #include "Core/Timer/Timer.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
@@ -46,10 +47,17 @@ void Missile::Render()
 
 
 
-void Missile::AI(float dt)
+void Missile::SetToPosChangeProbability(float prob)
 {
+    m_ToPosChangeProbability = prob;
 }
 
 void Missile::SetAIRatio(float ratio)
+{
+}
+
+
+
+void Missile::AI(float dt)
 {
 }

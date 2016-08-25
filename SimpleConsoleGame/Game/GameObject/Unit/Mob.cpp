@@ -2,6 +2,7 @@
 #include "Mob.h"
 //----------------------------------------------------------------------------------------------------
 #include "Core/Timer/Timer.h"
+#include "Core/Console/Console.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
@@ -64,6 +65,21 @@ void Mob::Render()
 
 
 
+void Mob::SetToPosChangeProbability(float prob)
+{
+    m_ToPosChangeProbability = prob;
+}
+
+void Mob::SetAIRatio(float ratio)
+{
+    if (m_AITimer)
+    {
+        m_AITimer->SetDuration(ratio);
+    }
+}
+
+
+
 void Mob::AI(float dt)
 {
     m_AITimer->AccumDt(dt);
@@ -96,13 +112,5 @@ void Mob::AI(float dt)
                 m_MovePower = displacement * (m_MovePowerLimit / maxMoveDist);
             }
         }
-    }
-}
-
-void Mob::SetAIRatio(float ratio)
-{
-    if (m_AITimer)
-    {
-        m_AITimer->SetDuration(ratio);
     }
 }

@@ -97,8 +97,6 @@ void Game::Release()
     m_Command.reset();
 }
 
-
-
 void Game::Update(float dt)
 {
     CommandProc(dt);

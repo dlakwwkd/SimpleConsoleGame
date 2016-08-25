@@ -5,7 +5,7 @@ class IComponent;
 
 class CompositeBase
 {
-    SPECIALFUNC_DECLARE_NOEXCEPT(CompositeBase)
+    SPECIALFUNC_DECLARE(CompositeBase)
     using ComponentPtr = std::shared_ptr<IComponent>;
     using ComponentMap = std::map<size_t, ComponentPtr>;
 public:

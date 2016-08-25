@@ -6,44 +6,37 @@ class Vec2
 {
     SPECIALFUNC_SET(Vec2, default)
 public:
-    Vec2() noexcept
-    :   m_X(0.0f),
-        m_Y(0.0f)
-    {
-    }
-    Vec2(float x, float y) noexcept
-    :   m_X(x),
-        m_Y(y)
-    {
-    }
+    Vec2() noexcept;
+    Vec2(float x, float y) noexcept;
 
-    inline float    GetX() const noexcept;
-    inline float    GetY() const noexcept;
-    inline void     SetX(float x) noexcept;
-    inline void     SetY(float y) noexcept;
-    inline void     Set(float x, float y) noexcept;
-    inline void     SetZero() noexcept;
-    inline float    Length() const noexcept;
-    inline float    LengthSquared() const noexcept;
-    inline float    Distance(const Vec2& other) const noexcept;
-    inline float    DistanceSquared(const Vec2& other) const noexcept;
-    inline Vec2     Direction(const Vec2& other) const noexcept;
-    inline Vec2&    Normalize() noexcept;
-    inline Vec2     GetNormalized() noexcept;
+    float    GetX() const noexcept;
+    float    GetY() const noexcept;
+    void     SetX(float x) noexcept;
+    void     SetY(float y) noexcept;
+    void     Set(float x, float y) noexcept;
+    void     SetZero() noexcept;
 
-    inline Vec2     operator+   (const Vec2 &v) const noexcept;
-    inline Vec2     operator-   (const Vec2 &v) const noexcept;
-    inline Vec2     operator*   (float s)       const noexcept;
-    inline Vec2     operator/   (float s)       const noexcept;
-    inline Vec2     operator-   ()              const noexcept;
+    float    Length() const noexcept;
+    float    LengthSquared() const noexcept;
+    float    Distance(const Vec2& other) const noexcept;
+    float    DistanceSquared(const Vec2& other) const noexcept;
+    Vec2     Direction(const Vec2& other) const noexcept;
+    Vec2&    Normalize() noexcept;
+    Vec2     GetNormalized() noexcept;
 
-    inline Vec2&    operator+=  (const Vec2 &v) noexcept;
-    inline Vec2&    operator-=  (const Vec2 &v) noexcept;
-    inline Vec2&    operator*=  (float s)       noexcept;
-    inline Vec2&    operator/=  (float s)       noexcept;
+    Vec2     operator+(const Vec2 &v) const noexcept;
+    Vec2     operator-(const Vec2 &v) const noexcept;
+    Vec2     operator*(float s) const noexcept;
+    Vec2     operator/(float s) const noexcept;
+    Vec2     operator-() const noexcept;
 
-    inline bool     operator==  (const Vec2 &v) const noexcept;
-    inline bool     operator!=  (const Vec2 &v) const noexcept;
+    Vec2&    operator+=(const Vec2 &v) noexcept;
+    Vec2&    operator-=(const Vec2 &v) noexcept;
+    Vec2&    operator*=(float s) noexcept;
+    Vec2&    operator/=(float s) noexcept;
+
+    bool     operator==(const Vec2 &v) const noexcept;
+    bool     operator!=(const Vec2 &v) const noexcept;
 
 public:
     static const Vec2 ZERO;
@@ -59,4 +52,3 @@ private:
 };
 
 SCE_END
-#include "Vec2.inl"

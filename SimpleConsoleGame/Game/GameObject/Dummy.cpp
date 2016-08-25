@@ -1,5 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Dummy.h"
+//----------------------------------------------------------------------------------------------------
+#include "Core/Console/Console.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 SCE_USE
 

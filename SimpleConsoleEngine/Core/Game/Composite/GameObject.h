@@ -5,9 +5,9 @@ SCE_START
 
 class GameObject : public CompositeBase
 {
-    SPECIALFUNC_DECLARE_NOEXCEPT(GameObject)
+    SPECIALFUNC_DECLARE(GameObject)
 public:
-    GameObject() noexcept;
+    GameObject();
     virtual ~GameObject();
 
     virtual void Init();

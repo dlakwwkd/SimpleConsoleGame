@@ -10,16 +10,16 @@ class GameManager
     CREATE_SINGLETON(GameManager)
 public:
     template<IS_BASE_OF(GameType, IGameBase)>
-    inline void Run();
+    void    Run();
 
     template<typename F, typename... Args>
-    inline void CallFuncAfterS(float after, F&& functor, Args&&... args);
+    void    CallFuncAfterS(float after, F&& functor, Args&&... args);
 
     template<typename T, typename F, typename... Args>
-    inline void CallFuncAfterM(float after, T instance, F memfunc, Args&&... args);
+    void    CallFuncAfterM(float after, T instance, F memfunc, Args&&... args);
 
-    inline void ReturnMain() noexcept;
-    inline void Shutdown() noexcept;
+    void    ReturnMain();
+    void    Shutdown();
 
 private:
     void    Init();
@@ -30,9 +30,9 @@ private:
     void    UpdateProcess();
     void    RenderProcess();
 
-    float   FrameProgress() noexcept;
-    void    SetRenderLimit(size_t limitFrame) noexcept;
-    bool    RenderLimitCheck() noexcept;
+    float   FrameProgress();
+    void    SetRenderLimit(size_t limitFrame);
+    bool    RenderLimitCheck();
     void    PrintFrame();
 
 private:

@@ -6,7 +6,7 @@ SCE_START
 class IRenderComponent : public IComponentCRTP<IRenderComponent>
 {
 public:
-    IRenderComponent() noexcept             = default;
+    IRenderComponent()                      = default;
     virtual ~IRenderComponent() override    = default;
 
     virtual std::string     GetComponentName() const    = 0;
@@ -15,6 +15,5 @@ public:
     virtual void            Release()                   = 0;
     virtual void            Render()                    = 0;
 };
-
 
 SCE_END

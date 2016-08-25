@@ -4,9 +4,10 @@
 SCE_START
 
 
-GameObject::GameObject() noexcept
+GameObject::GameObject()
 {
 }
+
 
 GameObject::~GameObject()
 {
@@ -14,27 +15,25 @@ GameObject::~GameObject()
 }
 
 
-
-GameObject::GameObject(const GameObject& source) noexcept
+GameObject::GameObject(const GameObject& source)
 {
 }
 
-GameObject::GameObject(GameObject&& source) noexcept
+GameObject::GameObject(GameObject&& source)
 {
 }
 
-GameObject& GameObject::operator=(const GameObject& source) noexcept
-{
-    Release();
-    return *this;
-}
-
-GameObject& GameObject::operator=(GameObject&& source) noexcept
+GameObject& GameObject::operator=(const GameObject& source)
 {
     Release();
     return *this;
 }
 
+GameObject& GameObject::operator=(GameObject&& source)
+{
+    Release();
+    return *this;
+}
 
 
 void GameObject::Init()

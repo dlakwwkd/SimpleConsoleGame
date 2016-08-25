@@ -18,10 +18,10 @@ public:
     virtual void Update(float dt)   override;
     virtual void Render()           override;
 
-    void AI(float dt);
+    void SetToPosChangeProbability(float prob);
     void SetAIRatio(float ratio);
 
-    void SetToPosChangeProbability(float prob) noexcept { m_ToPosChangeProbability = prob; }
+    void AI(float dt);
 
 private:
     std::shared_ptr<SCE::Timer> m_AITimer;

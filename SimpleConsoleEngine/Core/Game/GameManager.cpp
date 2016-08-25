@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GameManager.h"
-#include "Scheduler.hpp"
+#include "Scheduler.h"
 #include "Interface/IGameBase.h"
 #include "../Core/Timer/Timer.h"
 #include "../Core/Console/Console.h"
@@ -20,6 +20,19 @@ GameManager::GameManager()
 GameManager::~GameManager()
 {
 }
+
+
+void GameManager::ReturnMain()
+{
+    m_IsPlay = false;
+}
+
+void GameManager::Shutdown()
+{
+    m_IsRun = m_IsPlay = false;
+}
+
+
 
 void GameManager::Init()
 {
@@ -102,20 +115,20 @@ void GameManager::RenderProcess()
 
 
 
-float GameManager::FrameProgress() noexcept
+float GameManager::FrameProgress()
 {
     ++m_FrameCount;
     m_Timer->Tick();
     return m_Timer->DeltaTime();
 }
 
-void GameManager::SetRenderLimit(size_t limitFrame) noexcept
+void GameManager::SetRenderLimit(size_t limitFrame)
 {
     m_RenderLimit = limitFrame;
     m_Timer->SetDuration(1.0f / limitFrame);
 }
 
-bool GameManager::RenderLimitCheck() noexcept
+bool GameManager::RenderLimitCheck()
 {
     m_Timer->AccumDt();
     if (m_Timer->DurationCheck())

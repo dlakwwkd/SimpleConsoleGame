@@ -4,23 +4,23 @@
 SCE_START
 
 
-CompositeBase::CompositeBase(const CompositeBase& source) noexcept
+CompositeBase::CompositeBase(const CompositeBase& source)
 {
     ComponentMapDeepCopy(source.m_ComponentMap);
 }
 
-CompositeBase::CompositeBase(CompositeBase&& source) noexcept
+CompositeBase::CompositeBase(CompositeBase&& source)
 :   m_ComponentMap(std::move(source.m_ComponentMap))
 {
 }
 
-CompositeBase& CompositeBase::operator=(const CompositeBase& source) noexcept
+CompositeBase& CompositeBase::operator=(const CompositeBase& source)
 {
     ComponentMapDeepCopy(source.m_ComponentMap);
     return *this;
 }
 
-CompositeBase& CompositeBase::operator=(CompositeBase&& source) noexcept
+CompositeBase& CompositeBase::operator=(CompositeBase&& source)
 {
     ComponentMapClear();
     m_ComponentMap = std::move(source.m_ComponentMap);

@@ -40,20 +40,6 @@
     SPECIALFUNC_COPY_DECLARE(T)     \
     SPECIALFUNC_MOVE_DECLARE(T)
 //----------------------------------------------------------------------------------------------------
-#define SPECIALFUNC_COPY_DECLARE_NOEXCEPT(T)    \
-    public:                                     \
-        T(const T&) noexcept;                   \
-        T& operator=(const T&) noexcept;        \
-    private:
-#define SPECIALFUNC_MOVE_DECLARE_NOEXCEPT(T)    \
-    public:                                     \
-        T(T&&) noexcept;                        \
-        T& operator=(T&&) noexcept;             \
-    private:
-#define SPECIALFUNC_DECLARE_NOEXCEPT(T)         \
-    SPECIALFUNC_COPY_DECLARE_NOEXCEPT(T)        \
-    SPECIALFUNC_MOVE_DECLARE_NOEXCEPT(T)
-//----------------------------------------------------------------------------------------------------
 
 
 //----------------------------------------------------------------------------------------------------

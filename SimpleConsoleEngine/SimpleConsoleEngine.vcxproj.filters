@@ -13,9 +13,6 @@
     <Filter Include="Core\Console">
       <UniqueIdentifier>{bbce8a80-267a-48e6-aece-3dccd01a9492}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Command">
-      <UniqueIdentifier>{c3df189a-df9f-45b3-8c39-d9fd9c367e10}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Timer">
       <UniqueIdentifier>{048a7a6a-dde6-43b9-ad24-2bbc1fd75ede}</UniqueIdentifier>
     </Filter>
@@ -40,6 +37,9 @@
     <Filter Include="Core\Game\Component\RenderComponent">
       <UniqueIdentifier>{b8f6d6b8-455b-4078-9c07-cc1a4e9b2cde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Command">
+      <UniqueIdentifier>{be6b6cbf-d0ab-4560-bc9f-0676206560b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -63,9 +63,6 @@
     <ClInclude Include="Core\Menu\Menu.h">
       <Filter>Core\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Command\Command.h">
-      <Filter>Core\Command</Filter>
-    </ClInclude>
     <ClInclude Include="Util\AssertPack.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -75,17 +72,8 @@
     <ClInclude Include="Core\Console\Color.hpp">
       <Filter>Core\Console</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Console\Coord.hpp">
-      <Filter>Core\Console</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Console\Shape.hpp">
-      <Filter>Core\Console</Filter>
-    </ClInclude>
     <ClInclude Include="Base\BaseInclude.h">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Game\Scheduler.hpp">
-      <Filter>Core\Game</Filter>
     </ClInclude>
     <ClInclude Include="Core\Math\Vec2.h">
       <Filter>Core\Math</Filter>
@@ -108,6 +96,18 @@
     <ClInclude Include="Core\Game\Component\RenderComponent\CmdRenderComponent.h">
       <Filter>Core\Game\Component\RenderComponent</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Command\Command.h">
+      <Filter>Core\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Console\Coord.h">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Console\Shape.h">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Scheduler.h">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\stdafx.cpp">
@@ -121,9 +121,6 @@
     </ClCompile>
     <ClCompile Include="Core\Menu\Menu.cpp">
       <Filter>Core\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Command\Command.cpp">
-      <Filter>Core\Command</Filter>
     </ClCompile>
     <ClCompile Include="Util\AssertPack.cpp">
       <Filter>Util</Filter>
@@ -146,22 +143,25 @@
     <ClCompile Include="Core\Game\Component\RenderComponent\CmdRenderComponent.cpp">
       <Filter>Core\Game\Component\RenderComponent</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Command\Command.cpp">
+      <Filter>Core\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Console\Coord.cpp">
+      <Filter>Core\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Console\Shape.cpp">
+      <Filter>Core\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Scheduler.cpp">
+      <Filter>Core\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\Timer\Timer.inl">
-      <Filter>Core\Timer</Filter>
-    </None>
-    <None Include="Core\Console\Console.inl">
-      <Filter>Core\Console</Filter>
-    </None>
     <None Include="Util\AssertPack.inl">
       <Filter>Util</Filter>
     </None>
     <None Include="Core\Game\GameManager.inl">
       <Filter>Core\Game</Filter>
-    </None>
-    <None Include="Core\Math\Vec2.inl">
-      <Filter>Core\Math</Filter>
     </None>
     <None Include="Core\Game\CompositeBase.inl">
       <Filter>Core\Game</Filter>
