@@ -2,9 +2,20 @@ SCE_START
 
 
 template<CHECKED_T(T)>
+std::shared_ptr<T> CompositeBase::GetComponent()
+{
+    static size_t componentId = T::GetComponentId();
+    auto iter = m_ComponentMap.find(componentId);
+    if (iter == m_ComponentMap.end())
+        return nullptr;
+
+    return std::dynamic_pointer_cast<T>(iter->second);
+}
+
+template<CHECKED_T(T)>
 bool CompositeBase::AddComponent()
 {
-    size_t componentId = T::GetComponentId();
+    static size_t componentId = T::GetComponentId();
     auto iter = m_ComponentMap.find(componentId);
     if (iter != m_ComponentMap.end())
         return false;
@@ -14,14 +25,14 @@ bool CompositeBase::AddComponent()
 }
 
 template<CHECKED_T(T)>
-std::shared_ptr<T> CompositeBase::GetComponent()
+void CompositeBase::RemoveComponent()
 {
-    size_t componentId = T::GetComponentId();
+    static size_t componentId = T::GetComponentId();
     auto iter = m_ComponentMap.find(componentId);
-    if (iter == m_ComponentMap.end())
-        return nullptr;
-
-    return std::dynamic_pointer_cast<T>(iter->second);
+    if (iter != m_ComponentMap.end())
+    {
+        m_ComponentMap.erase(iter);
+    }
 }
 
 SCE_END

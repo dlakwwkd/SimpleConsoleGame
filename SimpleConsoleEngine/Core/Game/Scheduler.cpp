@@ -27,7 +27,7 @@ Scheduler::Scheduler()
 void Scheduler::PushTask(float after, Functor&& task)
 {
     TickTime dueTimeTick = m_CurrentTick + std::chrono::milliseconds(static_cast<int64_t>(after * 1000.0f));
-    m_TaskQueue.emplace(Task(dueTimeTick, std::move(task)));
+    m_TaskQueue.emplace(dueTimeTick, std::move(task));
 }
 
 void Scheduler::DoTask()

@@ -12,10 +12,9 @@ public:
     CompositeBase()             = default;
     virtual ~CompositeBase()    = default;
 
-    template<IS_BASE_OF(T, IComponent)>
-    bool                AddComponent();
-    template<IS_BASE_OF(T, IComponent)>
-    std::shared_ptr<T>  GetComponent();
+    template<IS_BASE_OF(T, IComponent)> std::shared_ptr<T>  GetComponent();
+    template<IS_BASE_OF(T, IComponent)> bool                AddComponent();
+    template<IS_BASE_OF(T, IComponent)> void                RemoveComponent();
 
     void ComponentMapClear();
     void ComponentMapDeepCopy(const ComponentMap& source);
