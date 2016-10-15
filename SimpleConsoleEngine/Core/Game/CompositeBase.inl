@@ -1,7 +1,7 @@
 SCE_START
 
 
-template<CHECKED_T(T)>
+CHECKED_T(T)
 std::shared_ptr<T> CompositeBase::GetComponent()
 {
     static size_t componentId = T::GetComponentId();
@@ -12,7 +12,7 @@ std::shared_ptr<T> CompositeBase::GetComponent()
     return std::dynamic_pointer_cast<T>(iter->second);
 }
 
-template<CHECKED_T(T)>
+CHECKED_T(T)
 bool CompositeBase::AddComponent()
 {
     static size_t componentId = T::GetComponentId();
@@ -24,7 +24,7 @@ bool CompositeBase::AddComponent()
     return true;
 }
 
-template<CHECKED_T(T)>
+CHECKED_T(T)
 void CompositeBase::RemoveComponent()
 {
     static size_t componentId = T::GetComponentId();

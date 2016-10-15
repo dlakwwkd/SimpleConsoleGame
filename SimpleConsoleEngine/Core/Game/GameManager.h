@@ -9,7 +9,7 @@ class GameManager
 {
     CREATE_SINGLETON(GameManager)
 public:
-    template<IS_BASE_OF(GameType, IGameBase)>
+    IS_BASE_OF(GameType, IGameBase)
     void    Run();
 
     template<typename F, typename... Args>

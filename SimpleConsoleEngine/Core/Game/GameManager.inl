@@ -1,7 +1,7 @@
 ﻿SCE_START
 
 
-template<CHECKED_T(GameType)>
+CHECKED_T(GameType)
 void GameManager::Run()
 {
     if (m_IsRun || m_Game)

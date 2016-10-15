@@ -56,9 +56,9 @@ private:                        \
 
 //----------------------------------------------------------------------------------------------------
 // - 템플릿 태그 체크 (Refer to Effective Modern C++)
-#define CHECKED_T(T)        typename T, typename
-#define IS_SAME(T, Other)   typename T, typename = std::enable_if_t<std::is_same<Other, std::decay_t<T>>::value>
-#define IS_BASE_OF(T, Base) typename T, typename = std::enable_if_t<std::is_base_of<Base, std::decay_t<T>>::value>
+#define CHECKED_T(T)        template<typename T, typename>
+#define IS_SAME(T, Other)   template<typename T, typename = std::enable_if_t<std::is_same<Other, std::decay_t<T>>::value>>
+#define IS_BASE_OF(T, Base) template<typename T, typename = std::enable_if_t<std::is_base_of<Base, std::decay_t<T>>::value>>
 
 //----------------------------------------------------------------------------------------------------
 // - 기타

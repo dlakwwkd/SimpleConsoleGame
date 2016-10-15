@@ -28,11 +28,11 @@ public:
     void    SetShow(bool isShow);
     void    SetDepth(BYTE depth);
 
-    template<IS_SAME(T, Coord)>
+    IS_SAME(T, Coord)
     void    SetCoord(T&& coord);
     void    SetCoord(short x, short y);
 
-    template<IS_SAME(T, Shape)>
+    IS_SAME(T, Shape)
     void    SetShape(T&& shape);
     void    SetForm(wchar_t form);
     void    SetColor(Color color);
@@ -46,13 +46,13 @@ private:
 };
 
 
-template<CHECKED_T(T)>
+CHECKED_T(T)
 void CmdRenderComponent::SetCoord(T&& coord)
 {
     m_Coord = std::forward<T>(coord);
 }
 
-template<CHECKED_T(T)>
+CHECKED_T(T)
 void CmdRenderComponent::SetShape(T&& shape)
 {
     m_Shape = std::forward<T>(shape);
