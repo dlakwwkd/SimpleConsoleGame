@@ -53,7 +53,7 @@ namespace Safe
     template<typename T>
     void Delete(T* ptr) noexcept
     {
-        if (ptr)
+        if (ptr != nullptr)
         {
             delete ptr;
             ptr = nullptr;

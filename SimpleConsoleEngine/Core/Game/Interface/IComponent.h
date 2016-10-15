@@ -8,8 +8,8 @@ class IComponent
 protected:
     using IComponentPtr = std::shared_ptr<IComponent>;
 public:
-    IComponent()            = default;
-    virtual ~IComponent()   = default;
+    IComponent() {}
+    virtual ~IComponent() {}
 
     virtual std::string     GetComponentName() const    = 0;
     virtual IComponentPtr   Copy() const                = 0;
@@ -28,8 +28,8 @@ public:
         return reinterpret_cast<size_t>(&s_Identifier);
     }
 public:
-    IComponentCRTP()                    = default;
-    virtual ~IComponentCRTP() override  = default;
+    IComponentCRTP() {}
+    virtual ~IComponentCRTP() override {}
 
     virtual std::string     GetComponentName() const    = 0;
     virtual IComponentPtr   Copy() const                = 0;

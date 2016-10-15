@@ -6,8 +6,8 @@ SCE_START
 class IRenderComponent : public IComponentCRTP<IRenderComponent>
 {
 public:
-    IRenderComponent()                      = default;
-    virtual ~IRenderComponent() override    = default;
+    IRenderComponent() {}
+    virtual ~IRenderComponent() override {}
 
     virtual std::string     GetComponentName() const    = 0;
     virtual IComponentPtr   Copy() const                = 0;

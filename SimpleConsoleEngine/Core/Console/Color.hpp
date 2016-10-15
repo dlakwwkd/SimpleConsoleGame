@@ -31,11 +31,17 @@ inline Color& operator++(Color& color) noexcept
 {
     auto idx = static_cast<unsigned short>(color);
     if (++idx == static_cast<unsigned short>(Color::GREY))
+    {
         color = Color::BLACK;
+    }
     else if (idx > static_cast<unsigned short>(Color::WHITE))
+    {
         color = Color::GREY;
+    }
     else
+    {
         color = static_cast<Color>(idx);
+    }
     return color;
 }
 

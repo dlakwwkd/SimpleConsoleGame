@@ -29,26 +29,13 @@ void Console::Init(const Coord& screenSize)
     system(oss.str().c_str());
     m_ScreenSize = screenSize;
 
-    SHORT fontSize;
-    RECT desktopSize;
-    HWND hDesktop = GetDesktopWindow();
-    GetWindowRect(hDesktop, &desktopSize);
-    if (desktopSize.bottom >= 1200)
-        fontSize = 24;
-    else if (desktopSize.bottom >= 900)
-        fontSize = 20;
-    else if (desktopSize.bottom >= 768)
-        fontSize = 16;
-    else
-        fontSize = 14;
-
     m_STDHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
     CONSOLE_FONT_INFOEX cfi{ sizeof(cfi) };
     GetCurrentConsoleFontEx(m_STDHandle, FALSE, &cfi);
     CopyMemory(&m_CFIOrigin, &cfi, sizeof(cfi));
     CopyMemory(cfi.FaceName, L"굴림체", LF_FACESIZE);
-    cfi.dwFontSize.Y = fontSize;
+    cfi.dwFontSize.Y = GetFontSizeForThisDesktop();
 
     CONSOLE_CURSOR_INFO cci;
     cci.dwSize = 1;
@@ -144,6 +131,33 @@ bool Console::DepthCheck(const Coord& pos, BYTE depth)
     }
     m_DepthBuffer[pos.m_Y][pos.m_X] = depth + 1;
     return true;
+}
+
+
+
+SHORT Console::GetFontSizeForThisDesktop() const
+{
+    SHORT fontSize;
+    RECT desktopSize;
+    HWND hDesktop = GetDesktopWindow();
+    GetWindowRect(hDesktop, &desktopSize);
+    if (desktopSize.bottom >= 1200)
+    {
+        fontSize = 24;
+    }
+    else if (desktopSize.bottom >= 900)
+    {
+        fontSize = 20;
+    }
+    else if (desktopSize.bottom >= 768)
+    {
+        fontSize = 16;
+    }
+    else
+    {
+        fontSize = 14;
+    }
+    return fontSize;
 }
 
 SCE_END

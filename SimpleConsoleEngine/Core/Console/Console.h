@@ -27,6 +27,9 @@ public:
     bool    DepthCheck(const Coord& pos, BYTE depth = 0);
 
 private:
+    SHORT   GetFontSizeForThisDesktop() const;
+
+private:
     CONSOLE_FONT_INFOEX m_CFIOrigin;
     HANDLE              m_STDHandle;
 

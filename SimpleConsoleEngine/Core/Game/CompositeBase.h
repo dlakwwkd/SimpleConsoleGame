@@ -7,7 +7,7 @@ class CompositeBase
 {
     SPECIALFUNC_DECLARE(CompositeBase)
     using ComponentPtr = std::shared_ptr<IComponent>;
-    using ComponentMap = std::map<size_t, ComponentPtr>;
+    using ComponentMap = std::unordered_map<size_t, ComponentPtr>;
 public:
     CompositeBase()             = default;
     virtual ~CompositeBase()    = default;
