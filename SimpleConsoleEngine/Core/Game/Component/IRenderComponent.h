@@ -9,11 +9,12 @@ public:
     IRenderComponent() {}
     virtual ~IRenderComponent() override {}
 
-    virtual std::string     GetComponentName() const    = 0;
-    virtual IComponentPtr   Copy() const                = 0;
-    virtual void            Init()                      = 0;
-    virtual void            Release()                   = 0;
-    virtual void            Render()                    = 0;
+    virtual std::string     GetComponentName() const override   = 0;
+    virtual IComponentPtr   Copy() const override               = 0;
+    virtual void            Init() override                     = 0;
+    virtual void            Release() override                  = 0;
+
+    virtual void            Render()                            = 0;
 };
 
 SCE_END

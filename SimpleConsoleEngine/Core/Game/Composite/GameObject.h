@@ -1,19 +1,20 @@
 ﻿#pragma once
 #include "../CompositeBase.h"
+#include "../Interface/IGameBase.h"
 SCE_START
 
 
-class GameObject : public CompositeBase
+class GameObject : public IGameBase, public CompositeBase
 {
     SPECIALFUNC_DECLARE(GameObject)
 public:
     GameObject();
-    virtual ~GameObject();
+    virtual ~GameObject() override;
 
-    virtual void Init();
-    virtual void Release();
-    virtual void Update(float dt);
-    virtual void Render();
+    virtual void Init() override;
+    virtual void Release() override;
+    virtual void Update(float dt) override;
+    virtual void Render() override;
 };
 
 SCE_END

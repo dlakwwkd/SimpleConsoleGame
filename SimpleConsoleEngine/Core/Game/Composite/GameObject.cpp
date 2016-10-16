@@ -16,22 +16,26 @@ GameObject::~GameObject()
 
 
 GameObject::GameObject(const GameObject& source)
+:   CompositeBase(source)
 {
 }
 
 GameObject::GameObject(GameObject&& source)
+:   CompositeBase(std::move(source))
 {
 }
 
 GameObject& GameObject::operator=(const GameObject& source)
 {
     Release();
+    CompositeBase::operator=(source);
     return *this;
 }
 
 GameObject& GameObject::operator=(GameObject&& source)
 {
     Release();
+    CompositeBase::operator=(std::move(source));
     return *this;
 }
 
