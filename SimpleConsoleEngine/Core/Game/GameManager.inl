@@ -11,9 +11,9 @@ void GameManager::Run()
     m_Game = std::make_unique<GameType>();
     if (m_Game)
     {
-        Init();
+        InitGame();
         MainLoop();
-        Release();
+        ReleaseGame();
         m_Game.reset();
     }
 }

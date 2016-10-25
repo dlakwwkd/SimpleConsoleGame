@@ -22,8 +22,8 @@ public:
     void    Shutdown();
 
 private:
-    void    Init();
-    void    Release();
+    void    InitGame();
+    void    ReleaseGame();
     void    MainLoop();
     void    GameLoop();
 

@@ -116,7 +116,7 @@ void Unit::DirectionShow() const
     if (render == nullptr)
         return;
 
-    render->SetShape(Shape(L'+', Color::BLUE));
+    render->SetShape(Shape(L'+', Color::DARK_BLUE));
     auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict / m_MovePowerLimit);
     for (size_t i = 0; i < length; ++i)
     {

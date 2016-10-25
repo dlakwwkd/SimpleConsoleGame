@@ -34,7 +34,7 @@ void GameManager::Shutdown()
 
 
 
-void GameManager::Init()
+void GameManager::InitGame()
 {
     Console::GetInstance().Init();
     m_Scheduler = std::make_unique<Scheduler>();
@@ -53,7 +53,7 @@ void GameManager::Init()
     m_RenderLimit = 0;
 }
 
-void GameManager::Release()
+void GameManager::ReleaseGame()
 {
     m_IsPlay = false;
     m_IsRun = false;
