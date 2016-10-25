@@ -21,7 +21,6 @@ Unit::Unit()
 
 Unit::~Unit()
 {
-    Release();
 }
 
 void Unit::Init()

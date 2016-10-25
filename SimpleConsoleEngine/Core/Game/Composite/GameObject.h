@@ -11,10 +11,10 @@ public:
     GameObject();
     virtual ~GameObject() override;
 
-    virtual void Init() override;
-    virtual void Release() override;
-    virtual void Update(float dt) override;
-    virtual void Render() override;
+    virtual void Init()             override;
+    virtual void Release()          override;
+    virtual void Update(float dt)   override;
+    virtual void Render()           override;
 };
 
 SCE_END

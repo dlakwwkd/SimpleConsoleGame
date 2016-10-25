@@ -14,7 +14,6 @@ Dummy::Dummy()
 
 Dummy::~Dummy()
 {
-    Release();
 }
 
 void Dummy::Init()

@@ -11,7 +11,6 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
-    Release();
 }
 
 

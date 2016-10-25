@@ -14,7 +14,6 @@ Effect::Effect()
 
 Effect::~Effect()
 {
-    Release();
 }
 
 void Effect::Init()
