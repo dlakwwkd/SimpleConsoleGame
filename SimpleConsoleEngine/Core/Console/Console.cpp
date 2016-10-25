@@ -17,17 +17,12 @@ Console::~Console()
 {
 }
 
-void Console::Init(const Coord& screenSize)
+void Console::Init()
 {
     Release();
 
     HWND hConsole = GetConsoleWindow();
     MoveWindow(hConsole, 0, 0, 0, 0, TRUE);
-
-    std::ostringstream oss;
-    oss << "mode con: lines=" << screenSize.m_Y + 2 << " cols=" << screenSize.m_X + 2;
-    system(oss.str().c_str());
-    m_ScreenSize = screenSize;
 
     m_STDHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -35,7 +30,7 @@ void Console::Init(const Coord& screenSize)
     GetCurrentConsoleFontEx(m_STDHandle, FALSE, &cfi);
     CopyMemory(&m_CFIOrigin, &cfi, sizeof(cfi));
     CopyMemory(cfi.FaceName, L"굴림체", LF_FACESIZE);
-    cfi.dwFontSize.Y = GetFontSizeForThisDesktop();
+    SetScreenAndFontSizeForThisDesktop(cfi.dwFontSize.Y);
 
     CONSOLE_CURSOR_INFO cci;
     cci.dwSize = 1;
@@ -135,29 +130,35 @@ bool Console::DepthCheck(const Coord& pos, BYTE depth)
 
 
 
-SHORT Console::GetFontSizeForThisDesktop() const
+void Console::SetScreenAndFontSizeForThisDesktop(OUT SHORT& fontSize)
 {
-    SHORT fontSize;
     RECT desktopSize;
     HWND hDesktop = GetDesktopWindow();
     GetWindowRect(hDesktop, &desktopSize);
     if (desktopSize.bottom >= 1200)
     {
-        fontSize = 24;
-    }
-    else if (desktopSize.bottom >= 900)
-    {
+        m_ScreenSize = MAX_CONSOLE_SIZE;
         fontSize = 20;
+    }
+    else if (desktopSize.bottom >= 1000)
+    {
+        m_ScreenSize = { 200, 60 };
+        fontSize = 16;
     }
     else if (desktopSize.bottom >= 768)
     {
-        fontSize = 16;
+        m_ScreenSize = { 158, 42 };
+        fontSize = 14;
     }
     else
     {
+        m_ScreenSize = { 150, 40 };
         fontSize = 14;
     }
-    return fontSize;
+    std::ostringstream oss;
+    oss << "mode con: lines="   << m_ScreenSize.m_Y + 2
+        << " cols="             << m_ScreenSize.m_X + 2;
+    system(oss.str().c_str());
 }
 
 SCE_END

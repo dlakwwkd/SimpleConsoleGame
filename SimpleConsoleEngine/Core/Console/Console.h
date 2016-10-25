@@ -3,7 +3,6 @@
 #include "Coord.h"
 SCE_START
 
-constexpr Coord DEF_CONSOLE_SIZE = { 130, 35 };
 constexpr Coord MAX_CONSOLE_SIZE = { 238, 70 };
 
 
@@ -11,7 +10,7 @@ class Console
 {
     CREATE_SINGLETON(Console)
 public:
-    void    Init(const Coord& screenSize = DEF_CONSOLE_SIZE);
+    void    Init();
     void    Release();
 
     size_t  GetDrawCallNum() const;
@@ -27,17 +26,15 @@ public:
     bool    DepthCheck(const Coord& pos, BYTE depth = 0);
 
 private:
-    SHORT   GetFontSizeForThisDesktop() const;
+    void    SetScreenAndFontSizeForThisDesktop(OUT SHORT& fontSize);
 
 private:
     CONSOLE_FONT_INFOEX m_CFIOrigin;
     HANDLE              m_STDHandle;
-
     HANDLE              m_ScreenBuffer[2];
     BYTE                m_ScreenIndex;
     Coord               m_ScreenSize;
     size_t              m_DrawCall;
-
     BYTE                m_DepthBuffer[MAX_CONSOLE_SIZE.m_Y][MAX_CONSOLE_SIZE.m_X];
 };
 

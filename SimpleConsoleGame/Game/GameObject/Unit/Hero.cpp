@@ -28,9 +28,9 @@ void Hero::Init()
 
     render->SetShape(Shape(L'▣', Color::GREEN));
     render->SetDepth(5);
-    m_MovePowerLimit = 0.2f;
-    m_MovePowerFrict = 5.0f;
-    m_Speed = 50.0f;
+    m_MovePowerLimit = 0.25f;
+    m_MovePowerFrict = 4.0f;
+    m_Speed = 75.0f;
 }
 
 void Hero::Release()
@@ -49,7 +49,7 @@ void Hero::Render()
         return;
 
     static Color color = render->GetColor();
-    static Timer timer(1.0f);
+    static Timer timer(0.1f);
     timer.Tick();
     timer.AccumDt();
     if (timer.DurationCheck())
