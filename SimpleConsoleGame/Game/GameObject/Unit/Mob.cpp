@@ -82,6 +82,15 @@ void Mob::SetAIRatio(float ratio)
 
 void Mob::AI(float dt)
 {
+    static Timer timer(0.1f);
+    timer.AccumDt(dt);
+    if (timer.DurationCheck())
+    {
+        if (rand() % 3 == 0)
+        {
+            Hitted(3);
+        }
+    }
     m_AITimer->AccumDt(dt);
     if (!m_AITimer->DurationCheck())
         return;
@@ -112,6 +121,5 @@ void Mob::AI(float dt)
                 m_MovePower = displacement * (m_MovePowerLimit / maxMoveDist);
             }
         }
-        Hitted(30);
     }
 }

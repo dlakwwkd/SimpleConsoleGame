@@ -96,15 +96,12 @@ void Unit::OnDeath()
 
     render->SetCoord(Coord(m_Pos));
     render->SetShape(GetComponent<CmdRenderComponent>()->GetShape());
+    render->SetColor(Color::BLACK);
     render->SetBGColor(Color::RED);
 
     auto& gm = GameManager::GetInstance();
     gm.AddRenderObject(corpse);
-    gm.CallFuncAfterS(3.0f,
-        [corpse = std::move(corpse)]()
-        {
-            GameManager::GetInstance().RemoveRenderObject(corpse);
-        });
+    gm.CallFuncAfterM(1.0f, &gm, &GameManager::RemoveRenderObject, std::move(corpse));
 }
 
 

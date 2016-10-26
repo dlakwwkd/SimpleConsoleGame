@@ -142,6 +142,11 @@ void Game::CommandProc(float dt)
         GameManager::GetInstance().Shutdown();
         return;
     }
+    if (m_Command->IsKeyPress<Command::ENTER>())
+    {
+        GameManager::GetInstance().ReturnMain();
+        return;
+    }
     if (m_Command->IsKeyPress<Command::UP>())
     {
         m_Hero->AddMovePower(Vec2::UP * dt);
