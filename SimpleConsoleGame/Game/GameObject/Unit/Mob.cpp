@@ -112,5 +112,6 @@ void Mob::AI(float dt)
                 m_MovePower = displacement * (m_MovePowerLimit / maxMoveDist);
             }
         }
+        Hitted(30);
     }
 }

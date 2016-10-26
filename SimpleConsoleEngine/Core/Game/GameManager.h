@@ -1,13 +1,15 @@
 ﻿#pragma once
+#include "Scheduler.h"
 SCE_START
-class Scheduler;
 class IGameBase;
 class Timer;
+class GameObject;
 
 
 class GameManager
 {
     CREATE_SINGLETON(GameManager)
+    using ObjectPtr = std::shared_ptr<GameObject>;
 public:
     IS_BASE_OF(GameType, IGameBase)
     void    Run();
@@ -20,6 +22,9 @@ public:
 
     void    ReturnMain();
     void    Shutdown();
+
+    void    AddRenderObject(const ObjectPtr& obj);
+    void    RemoveRenderObject(const ObjectPtr& obj);
 
 private:
     void    InitGame();
@@ -44,6 +49,7 @@ private:
     size_t                      m_FrameCount;
     size_t                      m_RenderCount;
     size_t                      m_RenderLimit;
+    std::list<ObjectPtr>        m_RenderList;
 };
 
 SCE_END

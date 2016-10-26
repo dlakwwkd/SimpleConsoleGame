@@ -3,6 +3,7 @@
 //----------------------------------------------------------------------------------------------------
 #include "Core/Console/Console.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
+#include "Core/Game/GameManager.h"
 //----------------------------------------------------------------------------------------------------
 #include "Dummy.h"
 SCE_USE
@@ -13,7 +14,11 @@ Unit::Unit()
     m_MovePower{0.0f, 0.0f},
     m_MovePowerLimit(1.0f),
     m_MovePowerFrict(1.5f),
-    m_Speed(100.0f)
+    m_Speed(100.0f),
+    m_MaxHp(0),
+    m_CurHp(0),
+    m_IsDeath(false),
+    m_HitRenderFlag(false)
 {
     AddComponent<CmdRenderComponent>();
 }
@@ -33,6 +38,9 @@ void Unit::Release()
 
 void Unit::Update(float dt)
 {
+    if (m_IsDeath)
+        return;
+
     MovePowerFixInLimit();
     m_Pos += m_MovePower * (m_Speed / m_MovePowerLimit * dt);   // 현재 속도만큼 이동
     m_MovePower -= m_MovePower * (m_MovePowerFrict * dt);       // 마찰로 인한 속력 저하
@@ -47,10 +55,77 @@ void Unit::Render()
 
     render->SetCoord(Coord(m_Pos));
     DirectionShow();
-    GameObject::Render();
+
+    if (m_HitRenderFlag)
+    {
+        m_HitRenderFlag = false;
+        auto orgBGColor = render->GetBGColor();
+        render->SetBGColor(Color::MAGENTA);
+        GameObject::Render();
+        render->SetBGColor(orgBGColor);
+    }
+    else
+    {
+        GameObject::Render();
+    }
 }
 
 
+void Unit::Hitted(int damage)
+{
+    if (m_IsDeath)
+        return;
+
+    m_HitRenderFlag = true;
+    m_CurHp -= damage;
+    if (m_CurHp <= 0)
+    {
+        m_CurHp = 0;
+        OnDeath();
+    }
+}
+
+void Unit::OnDeath()
+{
+    m_IsDeath = true;
+
+    auto corpse = std::make_shared<Dummy>();
+    auto render = corpse->GetComponent<CmdRenderComponent>();
+    if (render == nullptr)
+        return;
+
+    render->SetCoord(Coord(m_Pos));
+    render->SetShape(GetComponent<CmdRenderComponent>()->GetShape());
+    render->SetBGColor(Color::RED);
+
+    auto& gm = GameManager::GetInstance();
+    gm.AddRenderObject(corpse);
+    gm.CallFuncAfterS(3.0f,
+        [corpse = std::move(corpse)]()
+        {
+            GameManager::GetInstance().RemoveRenderObject(corpse);
+        });
+}
+
+
+bool Unit::IsDeath() const
+{
+    return m_IsDeath;
+}
+
+
+void Unit::InitHp()
+{
+    m_CurHp = m_MaxHp;
+}
+
+void Unit::SetMaxHp(int maxHp)
+{
+    if (maxHp > 0)
+    {
+        m_MaxHp = maxHp;
+    }
+}
 
 void Unit::SetSpeed(float speed)
 {
@@ -111,17 +186,12 @@ void Unit::DirectionShow() const
     Vec2 dir = m_MovePower / power;
     Vec2 temp = m_Pos;
 
-    Dummy dummy;
-    auto render = dummy.GetComponent<CmdRenderComponent>();
-    if (render == nullptr)
-        return;
-
-    render->SetShape(Shape(L'+', Color::DARK_BLUE));
+    static Dummy dummy;
     auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict / m_MovePowerLimit);
     for (size_t i = 0; i < length; ++i)
     {
         temp += dir;
-        render->SetCoord(Coord(temp));
+        dummy.SetPos(temp);
         dummy.Render();
     }
 }

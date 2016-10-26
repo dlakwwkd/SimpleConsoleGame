@@ -46,30 +46,40 @@ void Game::Init()
             render->SetShape(Shape(L'☠', Color::GREY));
             mob.SetSpeed(120.0f);
             mob.SetAIRatio(0.5f);
+            mob.SetMaxHp(100);
+            mob.InitHp();
         }
         else if (i < section * 2)
         {
             render->SetShape(Shape(L'☣', Color::RED));
             mob.SetSpeed(70.0f);
             mob.SetAIRatio(1.0f);
+            mob.SetMaxHp(100);
+            mob.InitHp();
         }
         else if (i < section * 3)
         {
             render->SetShape(Shape(L'☯', Color::GREEN));
             mob.SetSpeed(30.0f);
             mob.SetAIRatio(1.5f);
+            mob.SetMaxHp(100);
+            mob.InitHp();
         }
         else if (i < section * 4)
         {
             render->SetShape(Shape(L'♋', Color::CYAN));
             mob.SetSpeed(30.0f);
             mob.SetAIRatio(1.5f);
+            mob.SetMaxHp(100);
+            mob.InitHp();
         }
         else
         {
             render->SetShape(Shape(L'★', Color::YELLOW));
             mob.SetSpeed(10.0f);
             mob.SetAIRatio(2.0f);
+            mob.SetMaxHp(100);
+            mob.InitHp();
         }
     }
 
@@ -102,6 +112,9 @@ void Game::Update(float dt)
     CommandProc(dt);
     for (auto& mob : m_MobList)
     {
+        if (mob.IsDeath())
+            continue;
+
         mob.AI(dt);
         mob.Update(dt);
     }
@@ -112,6 +125,9 @@ void Game::Render()
 {
     for (auto& mob : m_MobList)
     {
+        if (mob.IsDeath())
+            continue;
+
         mob.Render();
     }
     m_Hero->Render();

@@ -24,7 +24,7 @@ private:
     void CommandProc(float dt);
 
 private:
-    std::unique_ptr<SCE::Command>   m_Command;
-    std::unique_ptr<Hero>           m_Hero;
-    std::vector<Mob>                m_MobList;
+    std::unique_ptr<SCE::Command>       m_Command;
+    std::unique_ptr<Hero>               m_Hero;
+    std::vector<Mob>                    m_MobList;
 };

@@ -15,6 +15,13 @@ public:
     virtual void Update(float dt)   override;
     virtual void Render()           override;
 
+    virtual void Hitted(int damage);
+    virtual void OnDeath();
+
+    bool IsDeath() const;
+
+    void InitHp();
+    void SetMaxHp(int maxHp);
     void SetSpeed(float speed);
     void AddMovePower(const SCE::Vec2& addPower);
 
@@ -29,4 +36,10 @@ protected:
     float       m_MovePowerLimit;   // zero에서 최대속도까지 도달하는데 걸리는 시간(초)
     float       m_MovePowerFrict;   // 마찰계수(1.0f이면, 최대속도에서 정지까지 1초 걸림, 2.0f면 0.5초 걸림)
     float       m_Speed;            // 최대속도에 도달시 초당 이동 칸수
+
+    int         m_MaxHp;
+    int         m_CurHp;
+
+    bool        m_IsDeath;
+    bool        m_HitRenderFlag;
 };
