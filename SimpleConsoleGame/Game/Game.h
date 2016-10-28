@@ -25,6 +25,6 @@ private:
 
 private:
     std::unique_ptr<SCE::Command>       m_Command;
-    std::unique_ptr<Hero>               m_Hero;
-    std::vector<Mob>                    m_MobList;
+    std::shared_ptr<Hero>               m_Hero;
+    std::vector<std::shared_ptr<Mob>>   m_MobList;
 };

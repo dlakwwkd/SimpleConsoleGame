@@ -29,57 +29,57 @@ void Game::Init()
     srand((unsigned int)time(NULL));
 
     m_Command = std::make_unique<Command>();
-    m_Hero = std::make_unique<Hero>();
+    m_Hero = std::make_shared<Hero>();
 
     size_t mobNum = 30;
     size_t section = mobNum / 5;
-    m_MobList.resize(mobNum);
     for (size_t i = 0; i < mobNum; ++i)
     {
+        m_MobList.emplace_back(std::make_shared<Mob>());
         auto& mob = m_MobList[i];
-        auto render = mob.GetComponent<CmdRenderComponent>();
+        auto render = mob->GetComponent<CmdRenderComponent>();
         if (render == nullptr)
             continue;
 
         if (i < section)
         {
             render->SetShape(Shape(L'☠', Color::GREY));
-            mob.SetSpeed(120.0f);
-            mob.SetAIRatio(0.5f);
-            mob.SetMaxHp(100);
-            mob.InitHp();
+            mob->SetSpeed(120.0f);
+            mob->SetAIRatio(0.5f);
+            mob->SetMaxHp(100);
+            mob->InitHp();
         }
         else if (i < section * 2)
         {
             render->SetShape(Shape(L'☣', Color::RED));
-            mob.SetSpeed(70.0f);
-            mob.SetAIRatio(1.0f);
-            mob.SetMaxHp(100);
-            mob.InitHp();
+            mob->SetSpeed(70.0f);
+            mob->SetAIRatio(1.0f);
+            mob->SetMaxHp(100);
+            mob->InitHp();
         }
         else if (i < section * 3)
         {
             render->SetShape(Shape(L'☯', Color::GREEN));
-            mob.SetSpeed(30.0f);
-            mob.SetAIRatio(1.5f);
-            mob.SetMaxHp(100);
-            mob.InitHp();
+            mob->SetSpeed(30.0f);
+            mob->SetAIRatio(1.5f);
+            mob->SetMaxHp(100);
+            mob->InitHp();
         }
         else if (i < section * 4)
         {
             render->SetShape(Shape(L'♋', Color::CYAN));
-            mob.SetSpeed(30.0f);
-            mob.SetAIRatio(1.5f);
-            mob.SetMaxHp(100);
-            mob.InitHp();
+            mob->SetSpeed(30.0f);
+            mob->SetAIRatio(1.5f);
+            mob->SetMaxHp(100);
+            mob->InitHp();
         }
         else
         {
             render->SetShape(Shape(L'★', Color::YELLOW));
-            mob.SetSpeed(10.0f);
-            mob.SetAIRatio(2.0f);
-            mob.SetMaxHp(100);
-            mob.InitHp();
+            mob->SetSpeed(10.0f);
+            mob->SetAIRatio(2.0f);
+            mob->SetMaxHp(100);
+            mob->InitHp();
         }
     }
 
@@ -112,11 +112,11 @@ void Game::Update(float dt)
     CommandProc(dt);
     for (auto& mob : m_MobList)
     {
-        if (mob.IsDeath())
+        if (mob->IsDeath())
             continue;
 
-        mob.AI(dt);
-        mob.Update(dt);
+        mob->AI(dt);
+        mob->Update(dt);
     }
     m_Hero->Update(dt);
 }
@@ -125,10 +125,10 @@ void Game::Render()
 {
     for (auto& mob : m_MobList)
     {
-        if (mob.IsDeath())
+        if (mob->IsDeath())
             continue;
 
-        mob.Render();
+        mob->Render();
     }
     m_Hero->Render();
 }

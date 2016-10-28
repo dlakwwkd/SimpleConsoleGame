@@ -137,8 +137,8 @@ void Console::SetScreenAndFontSizeForThisDesktop(OUT SHORT& fontSize)
     GetWindowRect(hDesktop, &desktopSize);
     if (desktopSize.bottom >= 1200)
     {
-        m_ScreenSize = MAX_CONSOLE_SIZE;
-        fontSize = 20;
+        m_ScreenSize = { 210, 63 };
+        fontSize = 16;
     }
     else if (desktopSize.bottom >= 1000)
     {
