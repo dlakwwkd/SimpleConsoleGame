@@ -98,6 +98,8 @@ void Game::Init()
         },
         m_MobList);
     */
+
+    GameManager::GetInstance().CallFuncAfterP(5.f, m_Hero, &Hero::Hitted, 100);
 }
 
 void Game::Release()
@@ -125,9 +127,6 @@ void Game::Render()
 {
     for (auto& mob : m_MobList)
     {
-        if (mob->IsDeath())
-            continue;
-
         mob->Render();
     }
     m_Hero->Render();

@@ -31,6 +31,7 @@ void Hero::Init()
     m_MovePowerLimit = 0.25f;
     m_MovePowerFrict = 4.0f;
     m_Speed = 75.0f;
+    m_CurHp = m_MaxHp = 100;
 }
 
 void Hero::Release()

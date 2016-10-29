@@ -18,7 +18,10 @@ public:
     void    CallFuncAfterS(float after, F&& functor, Args&&... args);
 
     template<typename T, typename F, typename... Args>
-    void    CallFuncAfterM(float after, T instance, F memfunc, Args&&... args);
+    void    CallFuncAfterM(float after, T* pObj, F memfunc, Args&&... args);
+
+    template<typename T, typename F, typename... Args>
+    void    CallFuncAfterP(float after, const std::shared_ptr<T>& pObj, F memfunc, Args&&... args);
 
     void    ReturnMain();
     void    Shutdown();

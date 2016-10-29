@@ -49,6 +49,9 @@ void Unit::Update(float dt)
 
 void Unit::Render()
 {
+    if (m_IsDeath)
+        return;
+
     auto render = GetComponent<CmdRenderComponent>();
     if (render == nullptr)
         return;

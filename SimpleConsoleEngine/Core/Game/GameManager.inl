@@ -31,13 +31,32 @@ void GameManager::CallFuncAfterS(float after, F&& functor, Args&&... args)
 
 // 멤버함수를 위한 콜펑션
 template<typename T, typename F, typename... Args>
-void GameManager::CallFuncAfterM(float after, T instance, F memfunc, Args&& ...args)
+void GameManager::CallFuncAfterM(float after, T* pObj, F memfunc, Args&& ...args)
 {
     static_assert(std::is_member_function_pointer<F>::value &&
-        std::is_same<GameManager, std::remove_pointer_t<T>>::value ||   // 안전성을 위해 게임 매니저와 게임의 멤버함수만 콜펑션을 허락한다.
-        std::is_base_of<IGameBase, std::remove_pointer_t<T>>::value, "only allow GameManager or Game instance");
+        std::is_same<GameManager, T>::value ||   // 안전성을 위해 게임 매니저와 게임의 멤버함수만 콜펑션을 허락한다.
+        std::is_base_of<IGameBase, T>::value, "only allow GameManager or Game instance");
 
-    m_Scheduler->PushTask(after, std::bind(memfunc, instance, std::forward<Args>(args)...));
+    m_Scheduler->PushTask(after, std::bind(memfunc, pObj, std::forward<Args>(args)...));
+}
+
+// 스마트 포인터로 관리되는 객체의 멤버함수를 위한 콜펑션
+template<typename T, typename F, typename... Args>
+void GameManager::CallFuncAfterP(float after, const std::shared_ptr<T>& pObj, F memfunc, Args&&... args)
+{
+    static_assert(std::is_member_function_pointer<F>::value, "only allow member function");
+    
+    std::weak_ptr<T> refObj = pObj;
+    m_Scheduler->PushTask(after,
+        [refObj = std::move(refObj), memfunc, args...]()
+        {
+            // 대상 인스턴스가 살아 있을 때만, 그 멤버함수를 호출해준다.
+            if (auto pObj = refObj.lock())
+            {
+                auto func = std::bind(memfunc, pObj, std::move(args)...);
+                func();
+            }
+        });
 }
 
 SCE_END
