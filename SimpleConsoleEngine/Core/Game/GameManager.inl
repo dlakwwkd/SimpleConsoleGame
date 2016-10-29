@@ -53,8 +53,7 @@ void GameManager::CallFuncAfterP(float after, const std::shared_ptr<T>& pObj, F 
             // 대상 인스턴스가 살아 있을 때만, 그 멤버함수를 호출해준다.
             if (auto pObj = refObj.lock())
             {
-                auto func = std::bind(memfunc, pObj, std::move(args)...);
-                func();
+                std::bind(memfunc, pObj, std::move(args)...)();
             }
         });
 }
