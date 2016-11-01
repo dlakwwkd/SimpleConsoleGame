@@ -104,6 +104,7 @@ void Game::Init()
 
 void Game::Release()
 {
+    m_RenderList.clear();
     m_MobList.clear();
     m_Hero.reset();
     m_Command.reset();
@@ -125,11 +126,33 @@ void Game::Update(float dt)
 
 void Game::Render()
 {
+    for (auto& obj : m_RenderList)
+    {
+        obj->Render();
+    }
     for (auto& mob : m_MobList)
     {
         mob->Render();
     }
     m_Hero->Render();
+}
+
+
+
+void Game::AddRenderObject(const ObjectPtr& obj, float lifeTime)
+{
+    AddRenderObject(obj);
+    GameManager::GetInstance().CallFuncAfterM(lifeTime, this, &Game::RemoveRenderObject, obj);
+}
+
+void Game::AddRenderObject(const ObjectPtr& obj)
+{
+    m_RenderList.push_back(obj);
+}
+
+void Game::RemoveRenderObject(const ObjectPtr& obj)
+{
+    m_RenderList.remove(obj);
 }
 
 

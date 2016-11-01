@@ -35,18 +35,6 @@ void GameManager::Shutdown()
 
 
 
-void GameManager::AddRenderObject(const ObjectPtr& obj)
-{
-    m_RenderList.push_back(obj);
-}
-
-void GameManager::RemoveRenderObject(const ObjectPtr& obj)
-{
-    m_RenderList.remove(obj);
-}
-
-
-
 void GameManager::InitGame()
 {
     Console::GetInstance().Init();
@@ -104,7 +92,6 @@ void GameManager::GameLoop()
             RenderProcess();
         }
     }
-    m_RenderList.clear();
     m_Scheduler->Release();
 }
 
@@ -122,10 +109,7 @@ void GameManager::RenderProcess()
     console.Clear();
 
     m_Game->Render();
-    for (auto& obj : m_RenderList)
-    {
-        obj->Render();
-    }
+
     PrintFrame();
     console.SwapBuffer();
 }

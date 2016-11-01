@@ -6,6 +6,7 @@
 #include "Core/Game/GameManager.h"
 //----------------------------------------------------------------------------------------------------
 #include "Dummy.h"
+#include "../Game.h"
 SCE_USE
 
 
@@ -74,6 +75,7 @@ void Unit::Render()
 }
 
 
+
 void Unit::Hitted(int damage)
 {
     if (m_IsDeath)
@@ -91,21 +93,18 @@ void Unit::Hitted(int damage)
 void Unit::OnDeath()
 {
     m_IsDeath = true;
-
     auto corpse = std::make_shared<Dummy>();
     auto render = corpse->GetComponent<CmdRenderComponent>();
-    if (render == nullptr)
-        return;
-
-    render->SetCoord(Coord(m_Pos));
-    render->SetShape(GetComponent<CmdRenderComponent>()->GetShape());
-    render->SetColor(Color::BLACK);
-    render->SetBGColor(Color::RED);
-
-    auto& gm = GameManager::GetInstance();
-    gm.AddRenderObject(corpse);
-    gm.CallFuncAfterM(1.0f, &gm, &GameManager::RemoveRenderObject, std::move(corpse));
+    if (render != nullptr)
+    {
+        render->SetCoord(Coord(m_Pos));
+        render->SetShape(GetComponent<CmdRenderComponent>()->GetShape());
+        render->SetColor(Color::BLACK);
+        render->SetBGColor(Color::RED);
+        GameManager::GetInstance().GetGame<Game>().AddRenderObject(corpse, 1.f);
+    }
 }
+
 
 
 bool Unit::IsDeath() const

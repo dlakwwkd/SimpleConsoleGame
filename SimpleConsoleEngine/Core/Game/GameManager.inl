@@ -1,4 +1,5 @@
-﻿SCE_START
+﻿#include "GameManager.h"
+SCE_START
 
 
 CHECKED_T(GameType)
@@ -16,6 +17,12 @@ void GameManager::Run()
         ReleaseGame();
         m_Game.reset();
     }
+}
+
+CHECKED_T(GameType)
+GameType& GameManager::GetGame() const
+{
+    return dynamic_cast<GameType&>(*m_Game);
 }
 
 // 람다와 전역함수를 위한 콜펑션
