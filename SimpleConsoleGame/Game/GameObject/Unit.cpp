@@ -86,11 +86,11 @@ void Unit::Hitted(int damage)
     if (m_CurHp <= 0)
     {
         m_CurHp = 0;
-        OnDeath();
+        Death();
     }
 }
 
-void Unit::OnDeath()
+void Unit::Death()
 {
     m_IsDeath = true;
     auto corpse = std::make_shared<Dummy>();
@@ -101,7 +101,7 @@ void Unit::OnDeath()
         render->SetShape(GetComponent<CmdRenderComponent>()->GetShape());
         render->SetColor(Color::BLACK);
         render->SetBGColor(Color::RED);
-        GameManager::GetInstance().GetGame<Game>().AddRenderObject(corpse, 1.f);
+        GameManager::GetInstance().GetGame<Game>().AddRenderList(corpse, 1.f);
     }
 }
 

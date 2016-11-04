@@ -16,7 +16,7 @@ public:
     virtual void Render()           override;
 
     virtual void Hitted(int damage);
-    virtual void OnDeath();
+    virtual void Death();
 
     bool IsDeath() const;
 

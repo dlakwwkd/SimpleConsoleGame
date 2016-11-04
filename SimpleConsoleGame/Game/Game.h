@@ -22,9 +22,12 @@ public:
     virtual void Update(float dt)   override;
     virtual void Render()           override;
 
-    void AddRenderObject(const ObjectPtr& obj, float lifeTime);
-    void AddRenderObject(const ObjectPtr& obj);
-    void RemoveRenderObject(const ObjectPtr& obj);
+    void AddRenderList(const ObjectPtr& obj, float lifeTime);
+    void AddRenderList(const ObjectPtr& obj);
+    void RemoveRenderList(const ObjectPtr& obj);
+
+    void RegisterCollisionList(const ObjectPtr& obj);
+    void UnRegisterCollisionList(const ObjectPtr& obj);
 
 private:
     void CommandProc(float dt);
@@ -34,4 +37,5 @@ private:
     std::shared_ptr<Hero>               m_Hero;
     std::vector<std::shared_ptr<Mob>>   m_MobList;
     std::list<ObjectPtr>                m_RenderList;
+    std::list<ObjectPtr>                m_CollisionList;
 };
