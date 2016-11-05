@@ -1,34 +1,40 @@
 ﻿#pragma once
 #include "Core/Game/Composite/GameObject.h"
 #include "Core/Math/Vec2.h"
+class Section;
 
 
 class Unit : public SCE::GameObject
 {
     SPECIALFUNC_SET(Unit, default)
+    using SectionPtr = std::shared_ptr<Section>;
 public:
     Unit();
     virtual ~Unit() override;
 
-    virtual void Init()             override;
-    virtual void Release()          override;
+    virtual void Init()             override = 0;
+    virtual void Release()          override = 0;
     virtual void Update(float dt)   override;
     virtual void Render()           override;
 
     virtual void Hitted(int damage);
     virtual void Death();
 
-    bool IsDeath() const;
+    bool        IsDeath() const;
 
-    void InitHp();
-    void SetMaxHp(int maxHp);
-    void SetSpeed(float speed);
-    void AddMovePower(const SCE::Vec2& addPower);
+    void        InitHp();
+    void        SetMaxHp(int maxHp);
+    void        SetSpeed(float speed);
+    void        SetSection(const SectionPtr& section);
+    void        AddMovePower(const SCE::Vec2& addPower);
+
+    SCE::Vec2   GetPos() const;
+    SectionPtr  GetSection() const;
 
 private:
-    void MovePowerFixInLimit();
-    void PosFixInScreanBoundary();
-    void DirectionShow() const;
+    void        MovePowerFixInLimit();
+    void        PosFixInScreanBoundary();
+    void        DirectionShow() const;
 
 protected:
     SCE::Vec2   m_Pos;
@@ -42,4 +48,5 @@ protected:
 
     bool        m_IsDeath;
     bool        m_HitRenderFlag;
+    SectionPtr  m_Section;
 };

@@ -7,6 +7,7 @@
 //----------------------------------------------------------------------------------------------------
 #include "Dummy.h"
 #include "../Game.h"
+#include "../Section.h"
 SCE_USE
 
 
@@ -26,14 +27,6 @@ Unit::Unit()
 
 
 Unit::~Unit()
-{
-}
-
-void Unit::Init()
-{
-}
-
-void Unit::Release()
 {
 }
 
@@ -101,7 +94,7 @@ void Unit::Death()
         render->SetShape(GetComponent<CmdRenderComponent>()->GetShape());
         render->SetColor(Color::BLACK);
         render->SetBGColor(Color::RED);
-        GameManager::GetInstance().GetGame<Game>().AddRenderList(corpse, 1.f);
+        GameManager::GetInstance().GetGame<Game>().AddOnlyRender(corpse, 1.f);
     }
 }
 
@@ -131,9 +124,26 @@ void Unit::SetSpeed(float speed)
     m_Speed = speed;
 }
 
-void Unit::AddMovePower(const SCE::Vec2& addPower)
+void Unit::SetSection(const SectionPtr& section)
+{
+    m_Section = section;
+}
+
+void Unit::AddMovePower(const Vec2& addPower)
 {
     m_MovePower += addPower;
+}
+
+
+
+Vec2 Unit::GetPos() const
+{
+    return m_Pos;
+}
+
+Unit::SectionPtr Unit::GetSection() const
+{
+    return m_Section;
 }
 
 
@@ -153,8 +163,8 @@ void Unit::MovePowerFixInLimit()
 
 void Unit::PosFixInScreanBoundary()
 {
-    static auto& console = SCE::Console::GetInstance();
-    SCE::Vec2 bound(SCE::Coord::ConvertToVec2(console.GetScreenSize()));
+    static auto& console = Console::GetInstance();
+    Vec2 bound(Coord::ConvertToVec2(console.GetScreenSize()));
 
     if (m_Pos.GetX() < 0.0f)
     {

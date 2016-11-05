@@ -4,6 +4,7 @@ SCE_START
 class Command;
 class GameObject;
 SCE_END
+class Section;
 class Unit;
 class Hero;
 class Mob;
@@ -13,6 +14,8 @@ class Game : public SCE::IGameBase
 {
     SPECIALFUNC_SET(Game, delete)
     using ObjectPtr = std::shared_ptr<SCE::GameObject>;
+    using UnitPtr   = std::shared_ptr<Unit>;
+    using MobPtr    = std::shared_ptr<Mob>;
 public:
     Game();
     virtual ~Game() override;
@@ -22,20 +25,21 @@ public:
     virtual void Update(float dt)   override;
     virtual void Render()           override;
 
-    void AddRenderList(const ObjectPtr& obj, float lifeTime);
-    void AddRenderList(const ObjectPtr& obj);
-    void RemoveRenderList(const ObjectPtr& obj);
+    void AddOnlyRender(const ObjectPtr& obj, float lifeTime);
+    void AddOnlyRender(const ObjectPtr& obj);
+    void RemoveOnlyRender(const ObjectPtr& obj);
 
-    void RegisterCollisionList(const ObjectPtr& obj);
-    void UnRegisterCollisionList(const ObjectPtr& obj);
+    void RegisterCollision(const UnitPtr& unit);
+    void UnRegisterCollision(const UnitPtr& unit);
 
 private:
     void CommandProc(float dt);
 
 private:
-    std::unique_ptr<SCE::Command>       m_Command;
-    std::shared_ptr<Hero>               m_Hero;
-    std::vector<std::shared_ptr<Mob>>   m_MobList;
-    std::list<ObjectPtr>                m_RenderList;
-    std::list<ObjectPtr>                m_CollisionList;
+    std::unique_ptr<SCE::Command>   m_Command;
+    std::shared_ptr<Section>        m_RootSection;
+    std::shared_ptr<Hero>           m_Hero;
+    std::vector<MobPtr>             m_MobList;
+    std::list<UnitPtr>              m_CollisionList;
+    std::list<ObjectPtr>            m_OnlyRenderList;
 };

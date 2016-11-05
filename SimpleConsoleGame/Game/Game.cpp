@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
+#include "Section.h"
 //----------------------------------------------------------------------------------------------------
 #include "Core/Timer/Timer.h"
 #include "Core/Command/Command.h"
@@ -29,7 +30,9 @@ void Game::Init()
     srand((unsigned int)time(NULL));
 
     m_Command = std::make_unique<Command>();
+    m_RootSection = std::make_shared<Section>(POINT{ 0, 0 }, 50);
     m_Hero = std::make_shared<Hero>();
+    RegisterCollision(m_Hero);
 
     size_t mobNum = 30;
     size_t section = mobNum / 5;
@@ -41,6 +44,7 @@ void Game::Init()
         if (render == nullptr)
             continue;
 
+        RegisterCollision(mob);
         if (i < section)
         {
             render->SetShape(Shape(L'☠', Color::GREY));
@@ -104,10 +108,11 @@ void Game::Init()
 
 void Game::Release()
 {
+    m_OnlyRenderList.clear();
     m_CollisionList.clear();
-    m_RenderList.clear();
     m_MobList.clear();
     m_Hero.reset();
+    m_RootSection.reset();
     m_Command.reset();
 }
 
@@ -127,7 +132,7 @@ void Game::Update(float dt)
 
 void Game::Render()
 {
-    for (auto& obj : m_RenderList)
+    for (auto& obj : m_OnlyRenderList)
     {
         obj->Render();
     }
@@ -140,30 +145,45 @@ void Game::Render()
 
 
 
-void Game::AddRenderList(const ObjectPtr& obj, float lifeTime)
+void Game::AddOnlyRender(const ObjectPtr& obj, float lifeTime)
 {
-    AddRenderList(obj);
-    GameManager::GetInstance().CallFuncAfterM(lifeTime, this, &Game::RemoveRenderList, obj);
+    AddOnlyRender(obj);
+    GameManager::GetInstance().CallFuncAfterM(lifeTime, this, &Game::RemoveOnlyRender, obj);
 }
 
-void Game::AddRenderList(const ObjectPtr& obj)
+void Game::AddOnlyRender(const ObjectPtr& obj)
 {
-    m_RenderList.push_back(obj);
+    m_OnlyRenderList.push_back(obj);
 }
 
-void Game::RemoveRenderList(const ObjectPtr& obj)
+void Game::RemoveOnlyRender(const ObjectPtr& obj)
 {
-    m_RenderList.remove(obj);
+    m_OnlyRenderList.remove(obj);
 }
 
 
 
-void Game::RegisterCollisionList(const ObjectPtr & obj)
+void Game::RegisterCollision(const UnitPtr& unit)
 {
+    if (m_RootSection == nullptr)
+        return;
+
+    if (m_RootSection->RegisterUnit(unit))
+    {
+        m_CollisionList.push_back(unit);
+    }
 }
 
-void Game::UnRegisterCollisionList(const ObjectPtr & obj)
+void Game::UnRegisterCollision(const UnitPtr& unit)
 {
+    if (unit == nullptr)
+        return;
+
+    if (auto section = unit->GetSection())
+    {
+        section->UnRegisterUnit(unit);
+    }
+    m_CollisionList.remove(unit);
 }
 
 
