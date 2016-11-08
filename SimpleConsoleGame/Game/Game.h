@@ -13,9 +13,10 @@ class Mob;
 class Game : public SCE::IGameBase
 {
     SPECIALFUNC_SET(Game, delete)
-    using ObjectPtr = std::shared_ptr<SCE::GameObject>;
-    using UnitPtr   = std::shared_ptr<Unit>;
-    using MobPtr    = std::shared_ptr<Mob>;
+    using ObjectPtr     = std::shared_ptr<SCE::GameObject>;
+    using UnitPtr       = std::shared_ptr<Unit>;
+    using MobPtr        = std::shared_ptr<Mob>;
+    using SectionPtr    = std::shared_ptr<Section>;
 public:
     Game();
     virtual ~Game() override;
@@ -30,9 +31,14 @@ public:
     void RemoveOnlyRender(const ObjectPtr& obj);
 
     void RegisterCollision(const UnitPtr& unit);
+    void RegisterCollision(const UnitPtr& unit, const SectionPtr& trySection);
     void UnRegisterCollision(const UnitPtr& unit);
 
 private:
+    void AddCollision(const UnitPtr& unit);
+    void RemoveCollision(const UnitPtr& unit);
+
+    void CollisionCheck(float dt);
     void CommandProc(float dt);
 
 private:

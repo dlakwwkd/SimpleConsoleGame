@@ -32,6 +32,8 @@ void Mob::Init()
     render->SetDepth(3);
 
     m_AITimer = std::make_shared<Timer>(1.0f);
+    m_HitMask = CollisionMask::ENEMY;
+    m_AttackMask = CollisionMask::PLAYER;
 }
 
 void Mob::Release()
@@ -41,6 +43,9 @@ void Mob::Release()
 
 void Mob::Update(float dt)
 {
+    if (m_IsDeath)
+        return;
+
     Vec2 displacement = m_ToPos - m_Pos;
     float distance = displacement.Length();
     if (distance < 1.0f)
@@ -82,15 +87,9 @@ void Mob::SetAIRatio(float ratio)
 
 void Mob::AI(float dt)
 {
-    static Timer timer(0.1f);
-    timer.AccumDt(dt);
-    if (timer.DurationCheck())
-    {
-        if (rand() % 3 == 0)
-        {
-            Hitted(3);
-        }
-    }
+    if (m_IsDeath)
+        return;
+
     m_AITimer->AccumDt(dt);
     if (!m_AITimer->DurationCheck())
         return;

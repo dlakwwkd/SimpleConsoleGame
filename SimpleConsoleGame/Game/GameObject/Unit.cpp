@@ -11,6 +11,18 @@
 SCE_USE
 
 
+bool Unit::IsCollisionAble(const UnitPtr& unitA, const UnitPtr& unitB)
+{
+    if (unitA == nullptr || unitB == nullptr)
+        return false;
+
+    // 둘다 서로 공격할 수 없는 유닛이라면, 충돌체크를 건너뛰도록
+    return unitA->m_HitMask & unitB->m_AttackMask
+        || unitB->m_HitMask & unitA->m_AttackMask;
+}
+
+
+
 Unit::Unit()
 :   m_Pos{0.0f, 0.0f},
     m_MovePower{0.0f, 0.0f},
@@ -19,8 +31,11 @@ Unit::Unit()
     m_Speed(100.0f),
     m_MaxHp(0),
     m_CurHp(0),
+    m_Damage(0),
     m_IsDeath(false),
-    m_HitRenderFlag(false)
+    m_HitRenderFlag(false),
+    m_HitMask(CollisionMask::NONE),
+    m_AttackMask(CollisionMask::NONE)
 {
     AddComponent<CmdRenderComponent>();
 }
@@ -105,6 +120,15 @@ bool Unit::IsDeath() const
     return m_IsDeath;
 }
 
+bool Unit::CanAttack(const UnitPtr& target) const
+{
+    if (target == nullptr)
+        return false;
+
+    return target->m_HitMask & m_AttackMask;
+}
+
+
 
 void Unit::InitHp()
 {
@@ -119,9 +143,19 @@ void Unit::SetMaxHp(int maxHp)
     }
 }
 
+void Unit::SetDamage(int damage)
+{
+    m_Damage = damage;
+}
+
 void Unit::SetSpeed(float speed)
 {
     m_Speed = speed;
+}
+
+void Unit::SetPos(const Vec2& pos)
+{
+    m_Pos = pos;
 }
 
 void Unit::SetSection(const SectionPtr& section)
@@ -135,6 +169,11 @@ void Unit::AddMovePower(const Vec2& addPower)
 }
 
 
+
+int Unit::GetDamage() const
+{
+    return m_Damage;
+}
 
 Vec2 Unit::GetPos() const
 {

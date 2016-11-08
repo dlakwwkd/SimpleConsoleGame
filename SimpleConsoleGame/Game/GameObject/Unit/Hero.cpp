@@ -28,10 +28,17 @@ void Hero::Init()
 
     render->SetShape(Shape(L'▣', Color::GREEN));
     render->SetDepth(5);
+
     m_MovePowerLimit = 0.25f;
     m_MovePowerFrict = 4.0f;
     m_Speed = 75.0f;
-    m_CurHp = m_MaxHp = 100;
+    m_CurHp = m_MaxHp = 500;
+    m_Damage = 10;
+    m_HitMask = CollisionMask::PLAYER;
+    m_AttackMask = CollisionMask::ENEMY;
+
+    auto screenSize = Console::GetInstance().GetScreenSize();
+    m_Pos = Coord::ConvertToVec2(screenSize) / 2;
 }
 
 void Hero::Release()
@@ -45,26 +52,5 @@ void Hero::Update(float dt)
 
 void Hero::Render()
 {
-    auto render = GetComponent<CmdRenderComponent>();
-    if (render == nullptr)
-        return;
-
-    static Color color = render->GetColor();
-    static Timer timer(0.1f);
-    timer.Tick();
-    timer.AccumDt();
-    if (timer.DurationCheck())
-    {
-        render->SetColor(++color);
-        /*
-        std::thread([]()
-        {
-        Beep(524, 120);
-        Beep(660, 120);
-        Beep(784, 120);
-        }
-        ).detach();
-        */
-    }
     Unit::Render();
 }

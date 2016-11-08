@@ -50,6 +50,7 @@ void Game::Init()
             render->SetShape(Shape(L'☠', Color::GREY));
             mob->SetSpeed(120.0f);
             mob->SetAIRatio(0.5f);
+            mob->SetDamage(2);
             mob->SetMaxHp(100);
             mob->InitHp();
         }
@@ -58,6 +59,7 @@ void Game::Init()
             render->SetShape(Shape(L'☣', Color::RED));
             mob->SetSpeed(70.0f);
             mob->SetAIRatio(1.0f);
+            mob->SetDamage(4);
             mob->SetMaxHp(100);
             mob->InitHp();
         }
@@ -66,6 +68,7 @@ void Game::Init()
             render->SetShape(Shape(L'☯', Color::GREEN));
             mob->SetSpeed(30.0f);
             mob->SetAIRatio(1.5f);
+            mob->SetDamage(6);
             mob->SetMaxHp(100);
             mob->InitHp();
         }
@@ -74,6 +77,7 @@ void Game::Init()
             render->SetShape(Shape(L'♋', Color::CYAN));
             mob->SetSpeed(30.0f);
             mob->SetAIRatio(1.5f);
+            mob->SetDamage(8);
             mob->SetMaxHp(100);
             mob->InitHp();
         }
@@ -82,6 +86,7 @@ void Game::Init()
             render->SetShape(Shape(L'★', Color::YELLOW));
             mob->SetSpeed(10.0f);
             mob->SetAIRatio(2.0f);
+            mob->SetDamage(10);
             mob->SetMaxHp(100);
             mob->InitHp();
         }
@@ -101,9 +106,8 @@ void Game::Init()
             }
         },
         m_MobList);
+    gm.CallFuncAfterP(5.f, m_Hero, &Hero::Hitted, 100);         // 영웅 죽이기
     */
-
-    GameManager::GetInstance().CallFuncAfterP(5.f, m_Hero, &Hero::Hitted, 100);
 }
 
 void Game::Release()
@@ -119,15 +123,13 @@ void Game::Release()
 void Game::Update(float dt)
 {
     CommandProc(dt);
+    m_Hero->Update(dt);
     for (auto& mob : m_MobList)
     {
-        if (mob->IsDeath())
-            continue;
-
         mob->AI(dt);
         mob->Update(dt);
     }
-    m_Hero->Update(dt);
+    CollisionCheck(dt);
 }
 
 void Game::Render()
@@ -136,11 +138,10 @@ void Game::Render()
     {
         obj->Render();
     }
-    for (auto& mob : m_MobList)
+    for (auto& unit : m_CollisionList)
     {
-        mob->Render();
+        unit->Render();
     }
-    m_Hero->Render();
 }
 
 
@@ -170,7 +171,22 @@ void Game::RegisterCollision(const UnitPtr& unit)
 
     if (m_RootSection->RegisterUnit(unit))
     {
-        m_CollisionList.push_back(unit);
+        AddCollision(unit);
+    }
+}
+
+void Game::RegisterCollision(const UnitPtr& unit, const SectionPtr& trySection)
+{
+    if (trySection != nullptr)
+    {
+        if (trySection->RegisterUnit(unit))
+        {
+            AddCollision(unit);
+        }
+    }
+    else
+    {
+        RegisterCollision(unit);
     }
 }
 
@@ -183,10 +199,44 @@ void Game::UnRegisterCollision(const UnitPtr& unit)
     {
         section->UnRegisterUnit(unit);
     }
+    GameManager::GetInstance().CallFuncAfterM(0.f, this, &Game::RemoveCollision, unit);
+}
+
+
+
+void Game::AddCollision(const UnitPtr& unit)
+{
+    m_CollisionList.push_back(unit);
+}
+
+void Game::RemoveCollision(const UnitPtr& unit)
+{
     m_CollisionList.remove(unit);
 }
 
 
+
+void Game::CollisionCheck(float dt)
+{
+    // 충돌 체크 주기
+    static Timer timer(0.2f);
+    timer.AccumDt(dt);
+    if (!timer.DurationCheck())
+        return;
+
+    for (auto& unit : m_CollisionList)
+    {
+        if (unit->IsDeath())
+        {
+            UnRegisterCollision(unit);
+        }
+        else if (auto section = unit->GetSection())
+        {
+            section->SyncUnit(unit);
+        }
+    }
+    m_RootSection->CollisionCheck();
+}
 
 void Game::CommandProc(float dt)
 {
