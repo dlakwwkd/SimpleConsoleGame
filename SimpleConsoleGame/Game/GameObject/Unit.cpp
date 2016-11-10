@@ -125,7 +125,7 @@ bool Unit::CanAttack(const UnitPtr& target) const
     if (target == nullptr)
         return false;
 
-    return target->m_HitMask & m_AttackMask;
+    return (target->m_HitMask & m_AttackMask) == 0 ? false : true;
 }
 
 
@@ -182,7 +182,7 @@ Vec2 Unit::GetPos() const
 
 Unit::SectionPtr Unit::GetSection() const
 {
-    return m_Section;
+    return m_Section.lock();
 }
 
 

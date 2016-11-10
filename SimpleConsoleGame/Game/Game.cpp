@@ -30,68 +30,12 @@ void Game::Init()
     srand((unsigned int)time(NULL));
 
     m_Command = std::make_unique<Command>();
-    m_RootSection = std::make_shared<Section>(POINT{ 0, 0 }, 50);
+    m_RootSection = std::make_shared<Section>(POINT{ 0, 0 }, 10);
     m_Hero = std::make_shared<Hero>();
+    RegisterBuiltSection(m_RootSection, { 0, 0 });
     RegisterCollision(m_Hero);
 
-    size_t mobNum = 30;
-    size_t section = mobNum / 5;
-    for (size_t i = 0; i < mobNum; ++i)
-    {
-        m_MobList.emplace_back(std::make_shared<Mob>());
-        auto& mob = m_MobList[i];
-        auto render = mob->GetComponent<CmdRenderComponent>();
-        if (render == nullptr)
-            continue;
-
-        RegisterCollision(mob);
-        if (i < section)
-        {
-            render->SetShape(Shape(L'☠', Color::GREY));
-            mob->SetSpeed(120.0f);
-            mob->SetAIRatio(0.5f);
-            mob->SetDamage(2);
-            mob->SetMaxHp(100);
-            mob->InitHp();
-        }
-        else if (i < section * 2)
-        {
-            render->SetShape(Shape(L'☣', Color::RED));
-            mob->SetSpeed(70.0f);
-            mob->SetAIRatio(1.0f);
-            mob->SetDamage(4);
-            mob->SetMaxHp(100);
-            mob->InitHp();
-        }
-        else if (i < section * 3)
-        {
-            render->SetShape(Shape(L'☯', Color::GREEN));
-            mob->SetSpeed(30.0f);
-            mob->SetAIRatio(1.5f);
-            mob->SetDamage(6);
-            mob->SetMaxHp(100);
-            mob->InitHp();
-        }
-        else if (i < section * 4)
-        {
-            render->SetShape(Shape(L'♋', Color::CYAN));
-            mob->SetSpeed(30.0f);
-            mob->SetAIRatio(1.5f);
-            mob->SetDamage(8);
-            mob->SetMaxHp(100);
-            mob->InitHp();
-        }
-        else
-        {
-            render->SetShape(Shape(L'★', Color::YELLOW));
-            mob->SetSpeed(10.0f);
-            mob->SetAIRatio(2.0f);
-            mob->SetDamage(10);
-            mob->SetMaxHp(100);
-            mob->InitHp();
-        }
-    }
-
+    GenerateMob(30);
     /*
     // 테스트 용 코드
     auto& gm = GameManager::GetInstance();
@@ -112,6 +56,8 @@ void Game::Init()
 
 void Game::Release()
 {
+    m_SectionMap.clear();
+    m_SectionList.clear();
     m_OnlyRenderList.clear();
     m_CollisionList.clear();
     m_MobList.clear();
@@ -142,6 +88,7 @@ void Game::Render()
     {
         unit->Render();
     }
+    SectionNumPrint();
 }
 
 
@@ -204,6 +151,102 @@ void Game::UnRegisterCollision(const UnitPtr& unit)
 
 
 
+void Game::RegisterBuiltSection(const SectionPtr& section, const POINT& pos)
+{
+    m_SectionList.push_back(section);
+    m_SectionMap.insert(std::make_pair(pos, SectionRef(section)));
+
+    // 섹션 생성 과정을 눈으로 보기 위한 임시 코드
+    for (int y = pos.y - 10; y < pos.y + 10; ++y)
+    {
+        for (int x = pos.x - 10; x < pos.x + 10; ++x)
+        {
+            auto temp = std::make_shared<Dummy>();
+            auto render = temp->GetComponent<CmdRenderComponent>();
+            if (render != nullptr)
+            {
+                render->SetCoord(Coord(x * 2, y));
+                render->SetShape(Shape(L'▨', Color::YELLOW, Color::RED));
+                GameManager::GetInstance().GetGame<Game>().AddOnlyRender(temp, 0.5f);
+            }
+        }
+    }
+}
+
+Game::SectionPtr Game::FindSection(const POINT& pos) const
+{
+    auto iter = m_SectionMap.find(pos);
+    if (iter == m_SectionMap.end())
+        return nullptr;
+
+    return iter->second.lock();
+}
+
+
+
+void Game::GenerateMob(int num)
+{
+    int mobType = num / 5;
+    m_MobList.reserve(num);
+    for (int i = 0; i < num; ++i)
+    {
+        m_MobList.emplace_back(std::make_shared<Mob>());
+        auto& mob = m_MobList[i];
+        auto render = mob->GetComponent<CmdRenderComponent>();
+        if (render == nullptr)
+            continue;
+
+        RegisterCollision(mob);
+        if (i < mobType)
+        {
+            render->SetShape(Shape(L'☠', Color::GREY));
+            mob->SetSpeed(120.0f);
+            mob->SetAIRatio(0.5f);
+            mob->SetDamage(2);
+            mob->SetMaxHp(100);
+            mob->InitHp();
+        }
+        else if (i < mobType * 2)
+        {
+            render->SetShape(Shape(L'☣', Color::RED));
+            mob->SetSpeed(70.0f);
+            mob->SetAIRatio(1.0f);
+            mob->SetDamage(4);
+            mob->SetMaxHp(100);
+            mob->InitHp();
+        }
+        else if (i < mobType * 3)
+        {
+            render->SetShape(Shape(L'☯', Color::GREEN));
+            mob->SetSpeed(30.0f);
+            mob->SetAIRatio(1.5f);
+            mob->SetDamage(6);
+            mob->SetMaxHp(100);
+            mob->InitHp();
+        }
+        else if (i < mobType * 4)
+        {
+            render->SetShape(Shape(L'♋', Color::CYAN));
+            mob->SetSpeed(30.0f);
+            mob->SetAIRatio(1.5f);
+            mob->SetDamage(8);
+            mob->SetMaxHp(100);
+            mob->InitHp();
+        }
+        else
+        {
+            render->SetShape(Shape(L'★', Color::YELLOW));
+            mob->SetSpeed(10.0f);
+            mob->SetAIRatio(2.0f);
+            mob->SetDamage(10);
+            mob->SetMaxHp(100);
+            mob->InitHp();
+        }
+    }
+}
+
+
+
 void Game::AddCollision(const UnitPtr& unit)
 {
     m_CollisionList.push_back(unit);
@@ -235,10 +278,13 @@ void Game::CollisionCheck(float dt)
             section->SyncUnit(unit);
         }
     }
-    m_RootSection->CollisionCheck();
+    for (auto& section : m_SectionList)
+    {
+        section->CollisionCheck();
+    }
 }
 
-void Game::CommandProc(float dt)
+void Game::CommandProc(float dt) const
 {
     if (m_Command->IsKeyPress<Command::ESC>())
     {
@@ -269,4 +315,15 @@ void Game::CommandProc(float dt)
     if (m_Command->IsKeyPress<Command::BUTTON_A>())
     {
     }
+}
+
+void Game::SectionNumPrint() const
+{
+    static auto& console = Console::GetInstance();
+    std::wostringstream oss;
+    oss << L"SectionNum: " << m_SectionList.size();
+    short posX = console.GetScreenWidth() - oss.str().length();
+    short posY = console.GetScreenHeight() + 1;
+    console.SetColor(Color::WHITE);
+    console.PrintText(Coord(posX, posY), oss.str().c_str());
 }

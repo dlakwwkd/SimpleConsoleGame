@@ -32,8 +32,7 @@ public:
 private:
     bool        IsOutOfBoundary(const UnitPtr& unit, OUT Direction& dir);
     bool        RegisterUnit(const UnitPtr& unit, Direction dir);
-    SectionPtr  BuildNewSection(Direction dir) const;
-    Direction   GetOppositeDir(Direction dir) const;
+    SectionPtr  BuildSection(Direction dir) const;
 
 private:
     POINT               m_CenterPos;
@@ -41,5 +40,4 @@ private:
     RECT                m_Boundary;
     NearbySections      m_NearbySections;
     std::list<UnitRef>  m_UnitList;
-    bool                m_IsChecked;
 };

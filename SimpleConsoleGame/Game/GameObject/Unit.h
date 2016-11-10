@@ -8,6 +8,7 @@ class Unit : public SCE::GameObject
 {
     SPECIALFUNC_SET(Unit, default)
     using SectionPtr    = std::shared_ptr<Section>;
+    using SectionRef    = std::weak_ptr<Section>;
     using UnitPtr       = std::shared_ptr<Unit>;
 public:
     enum CollisionMask : unsigned char
@@ -63,7 +64,7 @@ protected:
 
     bool            m_IsDeath;
     bool            m_HitRenderFlag;
-    SectionPtr      m_Section;
+    SectionRef      m_Section;
     CollisionMask   m_HitMask;          // 맞을 수 있는 공격 종류
     CollisionMask   m_AttackMask;       // 때릴 수 있는 공격 종류
 };
