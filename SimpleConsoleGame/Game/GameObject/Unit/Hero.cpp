@@ -6,6 +6,7 @@
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
+#include "../../Skill/SkillBasicAttack.h"
 SCE_USE
 
 
@@ -39,6 +40,9 @@ void Hero::Init()
 
     auto screenSize = Console::GetInstance().GetScreenSize();
     m_Pos = Coord::ConvertToVec2(screenSize) / 2;
+
+    m_DefaultAttack = std::make_shared<SkillBasicAttack>();
+    AddSkill(m_DefaultAttack);
 }
 
 void Hero::Release()
@@ -53,4 +57,14 @@ void Hero::Update(float dt)
 void Hero::Render()
 {
     Unit::Render();
+}
+
+
+
+void Hero::ShootMissile()
+{
+    if (m_DefaultAttack == nullptr)
+        return;
+
+    m_DefaultAttack->UseSkill();
 }

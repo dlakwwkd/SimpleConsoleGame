@@ -11,7 +11,7 @@ SCE_USE
 
 Missile::Missile()
 :   m_ToPos{ 0.0f, 0.0f },
-    m_ToPosChangeProbability(0.2f)
+    m_ToPosChangeProbability(0.0f)
 {
     Init();
 }

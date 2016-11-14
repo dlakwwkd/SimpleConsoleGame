@@ -35,7 +35,7 @@ void Game::Init()
     RegisterBuiltSection(m_RootSection, { 0, 0 });
     RegisterCollision(m_Hero);
 
-    GenerateMob(30);
+    GenerateMob(50);
     /*
     // 테스트 용 코드
     auto& gm = GameManager::GetInstance();
@@ -217,7 +217,7 @@ void Game::GenerateMob(int num)
         }
         else if (i < mobType * 3)
         {
-            render->SetShape(Shape(L'☯', Color::GREEN));
+            render->SetShape(Shape(L'☯', Color::MAGENTA));
             mob->SetSpeed(30.0f);
             mob->SetAIRatio(1.5f);
             mob->SetDamage(6);
@@ -314,6 +314,7 @@ void Game::CommandProc(float dt) const
     }
     if (m_Command->IsKeyPress<Command::BUTTON_A>())
     {
+        m_Hero->ShootMissile();
     }
 }
 
@@ -322,8 +323,8 @@ void Game::SectionNumPrint() const
     static auto& console = Console::GetInstance();
     std::wostringstream oss;
     oss << L"SectionNum: " << m_SectionList.size();
-    short posX = console.GetScreenWidth() - oss.str().length();
-    short posY = console.GetScreenHeight() + 1;
+    size_t posX = console.GetScreenWidth() - oss.str().length();
+    size_t posY = console.GetScreenHeight() + 1;
     console.SetColor(Color::WHITE);
     console.PrintText(Coord(posX, posY), oss.str().c_str());
 }

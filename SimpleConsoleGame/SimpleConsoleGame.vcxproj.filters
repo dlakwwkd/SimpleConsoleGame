@@ -37,6 +37,9 @@
     <ClInclude Include="Game\Section.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Skill\SkillBasicAttack.h">
+      <Filter>Game\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\stdafx.cpp">
@@ -72,6 +75,9 @@
     <ClCompile Include="Game\Section.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Skill\SkillBasicAttack.cpp">
+      <Filter>Game\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -88,6 +94,9 @@
     </Filter>
     <Filter Include="Game\Component">
       <UniqueIdentifier>{88ead016-2853-4bd4-b319-75420312a764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Skill">
+      <UniqueIdentifier>{f8a4b354-ecd0-4466-b435-f5e6e0e7a7d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

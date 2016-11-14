@@ -8,6 +8,7 @@
 #include "Dummy.h"
 #include "../Game.h"
 #include "../Section.h"
+#include "../Skill.h"
 SCE_USE
 
 
@@ -54,6 +55,11 @@ void Unit::Update(float dt)
     m_Pos += m_MovePower * (m_Speed / m_MovePowerLimit * dt);   // 현재 속도만큼 이동
     m_MovePower -= m_MovePower * (m_MovePowerFrict * dt);       // 마찰로 인한 속력 저하
     PosFixInScreanBoundary();
+
+    for (auto& skill : m_SkillList)
+    {
+        skill->Update(dt);
+    }
 }
 
 void Unit::Render()
@@ -166,6 +172,14 @@ void Unit::SetSection(const SectionPtr& section)
 void Unit::AddMovePower(const Vec2& addPower)
 {
     m_MovePower += addPower;
+}
+
+void Unit::AddSkill(const SkillPtr& skill)
+{
+    if (skill == nullptr)
+        return;
+
+    m_SkillList.push_back(skill);
 }
 
 

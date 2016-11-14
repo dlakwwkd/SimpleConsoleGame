@@ -2,6 +2,7 @@
 #include "Core/Game/Composite/GameObject.h"
 #include "Core/Math/Vec2.h"
 class Section;
+class Skill;
 
 
 class Unit : public SCE::GameObject
@@ -10,6 +11,8 @@ class Unit : public SCE::GameObject
     using SectionPtr    = std::shared_ptr<Section>;
     using SectionRef    = std::weak_ptr<Section>;
     using UnitPtr       = std::shared_ptr<Unit>;
+    using SkillPtr      = std::shared_ptr<Skill>;
+    using SkillList     = std::vector<SkillPtr>;
 public:
     enum CollisionMask : unsigned char
     {
@@ -41,6 +44,7 @@ public:
     void            SetPos(const SCE::Vec2& pos);
     void            SetSection(const SectionPtr& section);
     void            AddMovePower(const SCE::Vec2& addPower);
+    void            AddSkill(const SkillPtr& skill);
 
     int             GetDamage() const;
     SCE::Vec2       GetPos() const;
@@ -67,4 +71,6 @@ protected:
     SectionRef      m_Section;
     CollisionMask   m_HitMask;          // 맞을 수 있는 공격 종류
     CollisionMask   m_AttackMask;       // 때릴 수 있는 공격 종류
+
+    SkillList       m_SkillList;
 };

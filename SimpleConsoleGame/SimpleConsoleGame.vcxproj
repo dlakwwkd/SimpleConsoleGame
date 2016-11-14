@@ -160,6 +160,7 @@
     <ClInclude Include="Game\GameObject\Effect.h" />
     <ClInclude Include="Game\Section.h" />
     <ClInclude Include="Game\Skill.h" />
+    <ClInclude Include="Game\Skill\SkillBasicAttack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\main.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="Game\GameObject\Effect.cpp" />
     <ClCompile Include="Game\Section.cpp" />
     <ClCompile Include="Game\Skill.cpp" />
+    <ClCompile Include="Game\Skill\SkillBasicAttack.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
