@@ -8,6 +8,10 @@
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
 #include "../../Skill.h"
+#include "../../Skill/SkillBasicAttack.h"
+#include "../../Skill/SkillBasicAttack2.h"
+#include "../../Skill/SkillBasicAttack3.h"
+#include "../../Skill/SkillBasicAttackSwap.h"
 SCE_USE
 
 
@@ -59,10 +63,15 @@ void Hero::Render()
 
 
 
-void Hero::SetDefaultAttack(const SkillPtr& skill)
+void Hero::SetDefaultAttack()
 {
-    m_DefaultAttack = skill;
+    m_DefaultAttack = std::make_shared<SkillBasicAttack>();
     AddSkill(m_DefaultAttack);
+    AddSkill(std::make_shared<SkillBasicAttack2>());
+    AddSkill(std::make_shared<SkillBasicAttack3>());
+
+    m_MissileSwap = std::make_shared<SkillBasicAttackSwap>();
+    AddSkill(m_MissileSwap);
 }
 
 void Hero::ShootMissile()
@@ -71,4 +80,20 @@ void Hero::ShootMissile()
         return;
 
     m_DefaultAttack->UseSkill();
+}
+
+void Hero::SwapMissile()
+{
+    if (m_MissileSwap == nullptr)
+        return;
+
+    m_MissileSwap->UseSkill();
+}
+
+void Hero::SwapMissile(int idx)
+{
+    if (idx < 0 || idx >= m_SkillList.size())
+        return;
+
+    m_DefaultAttack = m_SkillList.at(idx);
 }

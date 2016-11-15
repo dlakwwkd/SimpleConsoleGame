@@ -161,6 +161,9 @@
     <ClInclude Include="Game\Section.h" />
     <ClInclude Include="Game\Skill.h" />
     <ClInclude Include="Game\Skill\SkillBasicAttack.h" />
+    <ClInclude Include="Game\Skill\SkillBasicAttack2.h" />
+    <ClInclude Include="Game\Skill\SkillBasicAttack3.h" />
+    <ClInclude Include="Game\Skill\SkillBasicAttackSwap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\main.cpp" />
@@ -180,6 +183,9 @@
     <ClCompile Include="Game\Section.cpp" />
     <ClCompile Include="Game\Skill.cpp" />
     <ClCompile Include="Game\Skill\SkillBasicAttack.cpp" />
+    <ClCompile Include="Game\Skill\SkillBasicAttack2.cpp" />
+    <ClCompile Include="Game\Skill\SkillBasicAttack3.cpp" />
+    <ClCompile Include="Game\Skill\SkillBasicAttackSwap.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

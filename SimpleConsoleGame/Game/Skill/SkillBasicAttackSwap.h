@@ -2,15 +2,18 @@
 #include "../Skill.h"
 
 
-class SkillBasicAttack : public Skill
+class SkillBasicAttackSwap : public Skill
 {
-    SPECIALFUNC_SET(SkillBasicAttack, default)
+    SPECIALFUNC_SET(SkillBasicAttackSwap, default)
 public:
-    SkillBasicAttack();
-    virtual ~SkillBasicAttack() = default;
+    SkillBasicAttackSwap();
+    virtual ~SkillBasicAttackSwap() = default;
     
     virtual void    OnPrepare(float dt) override;
     virtual void    OnBeginUse()        override;
     virtual void    OnUsing(float dt)   override;
     virtual void    OnEndUse()          override;
+
+private:
+    int             m_CurIdx;
 };

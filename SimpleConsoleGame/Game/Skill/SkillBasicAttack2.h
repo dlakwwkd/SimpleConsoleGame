@@ -2,12 +2,12 @@
 #include "../Skill.h"
 
 
-class SkillBasicAttack : public Skill
+class SkillBasicAttack2 : public Skill
 {
-    SPECIALFUNC_SET(SkillBasicAttack, default)
+    SPECIALFUNC_SET(SkillBasicAttack2, default)
 public:
-    SkillBasicAttack();
-    virtual ~SkillBasicAttack() = default;
+    SkillBasicAttack2();
+    virtual ~SkillBasicAttack2() = default;
     
     virtual void    OnPrepare(float dt) override;
     virtual void    OnBeginUse()        override;

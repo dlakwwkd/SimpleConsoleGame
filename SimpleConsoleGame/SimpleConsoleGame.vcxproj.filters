@@ -40,6 +40,15 @@
     <ClInclude Include="Game\Skill\SkillBasicAttack.h">
       <Filter>Game\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Skill\SkillBasicAttack2.h">
+      <Filter>Game\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Skill\SkillBasicAttack3.h">
+      <Filter>Game\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Skill\SkillBasicAttackSwap.h">
+      <Filter>Game\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\stdafx.cpp">
@@ -76,6 +85,15 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Skill\SkillBasicAttack.cpp">
+      <Filter>Game\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Skill\SkillBasicAttack2.cpp">
+      <Filter>Game\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Skill\SkillBasicAttack3.cpp">
+      <Filter>Game\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Skill\SkillBasicAttackSwap.cpp">
       <Filter>Game\Skill</Filter>
     </ClCompile>
   </ItemGroup>

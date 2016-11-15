@@ -13,7 +13,6 @@
 #include "GameObject/Unit/Hero.h"
 #include "GameObject/Unit/Mob.h"
 #include "GameObject/Unit/Missile.h"
-#include "Skill/SkillBasicAttack.h"
 SCE_USE
 
 
@@ -33,7 +32,7 @@ void Game::Init()
     m_Command = std::make_unique<Command>();
     m_RootSection = std::make_shared<Section>(POINT{ 0, 0 }, 10);
     m_Hero = std::make_shared<Hero>();
-    m_Hero->SetDefaultAttack(std::make_shared<SkillBasicAttack>());
+    m_Hero->SetDefaultAttack();
     RegisterBuiltSection(m_RootSection, { 0, 0 });
     RegisterCollision(m_Hero);
 
@@ -317,6 +316,10 @@ void Game::CommandProc(float dt) const
     if (m_Command->IsKeyPress<Command::BUTTON_A>())
     {
         m_Hero->ShootMissile();
+    }
+    if (m_Command->IsKeyPress<Command::BUTTON_B>())
+    {
+        m_Hero->SwapMissile();
     }
 }
 

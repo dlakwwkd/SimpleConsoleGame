@@ -1,4 +1,4 @@
-SCE_START
+﻿SCE_START
 
 
 CHECKED_T(T)

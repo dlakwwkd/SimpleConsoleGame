@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "CompositeBase.h"
 #include "Interface/IComponent.h"
 SCE_START

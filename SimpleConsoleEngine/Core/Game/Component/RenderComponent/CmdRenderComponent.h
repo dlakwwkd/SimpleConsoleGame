@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../IRenderComponent.h"
 #include "../../../Console/Coord.h"
 #include "../../../Console/Shape.h"

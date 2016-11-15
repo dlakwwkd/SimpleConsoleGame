@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 SCE_START
 struct _identifier {};
 

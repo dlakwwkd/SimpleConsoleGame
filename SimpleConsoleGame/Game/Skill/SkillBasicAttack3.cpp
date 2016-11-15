@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "SkillBasicAttack.h"
+#include "SkillBasicAttack3.h"
 #include "Core/Timer/Timer.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/GameManager.h"
@@ -9,16 +9,16 @@
 SCE_USE
 
 
-SkillBasicAttack::SkillBasicAttack()
+SkillBasicAttack3::SkillBasicAttack3()
 {
-    SetDuration(State::COOLTIME, 0.1f);
+    SetDuration(State::COOLTIME, 0.01f);
 }
 
-void SkillBasicAttack::OnPrepare(float dt)
+void SkillBasicAttack3::OnPrepare(float dt)
 {
 }
 
-void SkillBasicAttack::OnBeginUse()
+void SkillBasicAttack3::OnBeginUse()
 {
     auto owner = GetOwner<Unit>();
     if (owner == nullptr)
@@ -29,23 +29,23 @@ void SkillBasicAttack::OnBeginUse()
     if (render == nullptr)
         return;
 
-    render->SetShape(Shape(L'o', Color::BLUE));
-    missile->SetDamage(20);
+    render->SetShape(Shape(L'x', Color::MAGENTA));
+    missile->SetDamage(10);
     missile->SetMaxHp(1);
     missile->InitHp();
     missile->SetAttackMask(owner->GetAttackMask());
     missile->SetHitMask(owner->GetHitMask());
     missile->SetPos(owner->GetPos());
-    missile->SetSpeed(80.0f);
+    missile->SetSpeed(100.0f);
     missile->SetMovePowerFrict(0.0f);
     missile->AddMovePower(owner->GetDirection());
     GameManager::GetInstance().GetGame<Game>().RegisterCollision(missile, owner->GetSection());
 }
 
-void SkillBasicAttack::OnUsing(float dt)
+void SkillBasicAttack3::OnUsing(float dt)
 {
 }
 
-void SkillBasicAttack::OnEndUse()
+void SkillBasicAttack3::OnEndUse()
 {
 }
