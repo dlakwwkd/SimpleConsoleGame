@@ -4,9 +4,10 @@
 #include "Core/Timer/Timer.h"
 #include "Core/Console/Console.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
+#include "Core/Game/GameManager.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
-#include "../../Skill/SkillBasicAttack.h"
+#include "../../Skill.h"
 SCE_USE
 
 
@@ -32,7 +33,7 @@ void Hero::Init()
 
     m_MovePowerLimit = 0.25f;
     m_MovePowerFrict = 4.0f;
-    m_Speed = 75.0f;
+    m_Speed = 50.0f;
     m_CurHp = m_MaxHp = 500;
     m_Damage = 10;
     m_HitMask = CollisionMask::PLAYER;
@@ -40,9 +41,6 @@ void Hero::Init()
 
     auto screenSize = Console::GetInstance().GetScreenSize();
     m_Pos = Coord::ConvertToVec2(screenSize) / 2;
-
-    m_DefaultAttack = std::make_shared<SkillBasicAttack>();
-    AddSkill(m_DefaultAttack);
 }
 
 void Hero::Release()
@@ -60,6 +58,12 @@ void Hero::Render()
 }
 
 
+
+void Hero::SetDefaultAttack(const SkillPtr& skill)
+{
+    m_DefaultAttack = skill;
+    AddSkill(m_DefaultAttack);
+}
 
 void Hero::ShootMissile()
 {

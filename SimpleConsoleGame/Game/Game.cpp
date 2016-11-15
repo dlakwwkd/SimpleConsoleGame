@@ -13,6 +13,7 @@
 #include "GameObject/Unit/Hero.h"
 #include "GameObject/Unit/Mob.h"
 #include "GameObject/Unit/Missile.h"
+#include "Skill/SkillBasicAttack.h"
 SCE_USE
 
 
@@ -32,10 +33,11 @@ void Game::Init()
     m_Command = std::make_unique<Command>();
     m_RootSection = std::make_shared<Section>(POINT{ 0, 0 }, 10);
     m_Hero = std::make_shared<Hero>();
+    m_Hero->SetDefaultAttack(std::make_shared<SkillBasicAttack>());
     RegisterBuiltSection(m_RootSection, { 0, 0 });
     RegisterCollision(m_Hero);
 
-    GenerateMob(50);
+    GenerateMob(100);
     /*
     // 테스트 용 코드
     auto& gm = GameManager::GetInstance();
@@ -69,11 +71,13 @@ void Game::Release()
 void Game::Update(float dt)
 {
     CommandProc(dt);
-    m_Hero->Update(dt);
     for (auto& mob : m_MobList)
     {
         mob->AI(dt);
-        mob->Update(dt);
+    }
+    for (auto& unit : m_CollisionList)
+    {
+        unit->Update(dt);
     }
     CollisionCheck(dt);
 }
@@ -95,13 +99,11 @@ void Game::Render()
 
 void Game::AddOnlyRender(const ObjectPtr& obj, float lifeTime)
 {
-    AddOnlyRender(obj);
-    GameManager::GetInstance().CallFuncAfterM(lifeTime, this, &Game::RemoveOnlyRender, obj);
-}
-
-void Game::AddOnlyRender(const ObjectPtr& obj)
-{
     m_OnlyRenderList.push_back(obj);
+    if (lifeTime < 0.f)
+        return;
+
+    GameManager::GetInstance().CallFuncAfterM(lifeTime, this, &Game::RemoveOnlyRender, obj);
 }
 
 void Game::RemoveOnlyRender(const ObjectPtr& obj)
@@ -166,7 +168,7 @@ void Game::RegisterBuiltSection(const SectionPtr& section, const POINT& pos)
             if (render != nullptr)
             {
                 render->SetCoord(Coord(x * 2, y));
-                render->SetShape(Shape(L'▨', Color::YELLOW, Color::RED));
+                render->SetShape(Shape(L'■', Color::DARK_GREEN, Color::DARK_GREEN));
                 GameManager::GetInstance().GetGame<Game>().AddOnlyRender(temp, 0.5f);
             }
         }
@@ -262,7 +264,7 @@ void Game::RemoveCollision(const UnitPtr& unit)
 void Game::CollisionCheck(float dt)
 {
     // 충돌 체크 주기
-    static Timer timer(0.2f);
+    static Timer timer(0.01f);
     timer.AccumDt(dt);
     if (!timer.DurationCheck())
         return;

@@ -88,7 +88,7 @@ Vec2& Vec2::Normalize() noexcept
     return *this /= Length();
 }
 
-Vec2 Vec2::GetNormalized() noexcept
+Vec2 Vec2::GetNormalized() const noexcept
 {
     return *this / Length();
 }

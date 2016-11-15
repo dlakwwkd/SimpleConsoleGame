@@ -27,8 +27,7 @@ public:
     virtual void Update(float dt)   override;
     virtual void Render()           override;
 
-    void        AddOnlyRender(const ObjectPtr& obj, float lifeTime);
-    void        AddOnlyRender(const ObjectPtr& obj);
+    void        AddOnlyRender(const ObjectPtr& obj, float lifeTime = -1.f);
     void        RemoveOnlyRender(const ObjectPtr& obj);
 
     void        RegisterCollision(const UnitPtr& unit);

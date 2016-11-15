@@ -3,7 +3,7 @@ SCE_START
 class IComponent;
 
 
-class CompositeBase
+class CompositeBase : public std::enable_shared_from_this<CompositeBase>
 {
     SPECIALFUNC_DECLARE(CompositeBase)
     using ComponentPtr = std::shared_ptr<IComponent>;

@@ -26,6 +26,7 @@ bool Unit::IsCollisionAble(const UnitPtr& unitA, const UnitPtr& unitB)
 
 Unit::Unit()
 :   m_Pos{0.0f, 0.0f},
+    m_Direction(Vec2::UP),
     m_MovePower{0.0f, 0.0f},
     m_MovePowerLimit(1.0f),
     m_MovePowerFrict(1.5f),
@@ -34,6 +35,7 @@ Unit::Unit()
     m_CurHp(0),
     m_Damage(0),
     m_IsDeath(false),
+    m_HitLock(false),
     m_HitRenderFlag(false),
     m_HitMask(CollisionMask::NONE),
     m_AttackMask(CollisionMask::NONE)
@@ -72,7 +74,7 @@ void Unit::Render()
         return;
 
     render->SetCoord(Coord(m_Pos));
-    DirectionShow();
+    //DirectionShow();
 
     if (m_HitRenderFlag)
     {
@@ -92,8 +94,14 @@ void Unit::Render()
 
 void Unit::Hitted(int damage)
 {
-    if (m_IsDeath)
+    if (m_IsDeath || m_HitLock)
         return;
+
+    m_HitLock = true;
+    GameManager::GetInstance().CallFuncAfterP(0.2f,
+        std::dynamic_pointer_cast<Unit>(shared_from_this()),
+        &Unit::SetHitLock,
+        false);
 
     m_HitRenderFlag = true;
     m_CurHp -= damage;
@@ -106,6 +114,9 @@ void Unit::Hitted(int damage)
 
 void Unit::Death()
 {
+    if (m_IsDeath)
+        return;
+
     m_IsDeath = true;
     auto corpse = std::make_shared<Dummy>();
     auto render = corpse->GetComponent<CmdRenderComponent>();
@@ -159,6 +170,16 @@ void Unit::SetSpeed(float speed)
     m_Speed = speed;
 }
 
+void Unit::SetMovePowerLimit(float ratio)
+{
+    m_MovePowerLimit = ratio;
+}
+
+void Unit::SetMovePowerFrict(float ratio)
+{
+    m_MovePowerFrict = ratio;
+}
+
 void Unit::SetPos(const Vec2& pos)
 {
     m_Pos = pos;
@@ -169,9 +190,20 @@ void Unit::SetSection(const SectionPtr& section)
     m_Section = section;
 }
 
+void Unit::SetHitMask(CollisionMask mask)
+{
+    m_HitMask = mask;
+}
+
+void Unit::SetAttackMask(CollisionMask mask)
+{
+    m_AttackMask = mask;
+}
+
 void Unit::AddMovePower(const Vec2& addPower)
 {
     m_MovePower += addPower;
+    m_Direction = m_MovePower.GetNormalized();
 }
 
 void Unit::AddSkill(const SkillPtr& skill)
@@ -179,6 +211,7 @@ void Unit::AddSkill(const SkillPtr& skill)
     if (skill == nullptr)
         return;
 
+    skill->SetOwner(shared_from_this());
     m_SkillList.push_back(skill);
 }
 
@@ -194,9 +227,24 @@ Vec2 Unit::GetPos() const
     return m_Pos;
 }
 
+Vec2 Unit::GetDirection() const
+{
+    return m_Direction;
+}
+
 Unit::SectionPtr Unit::GetSection() const
 {
     return m_Section.lock();
+}
+
+Unit::CollisionMask Unit::GetHitMask() const
+{
+    return m_HitMask;
+}
+
+Unit::CollisionMask Unit::GetAttackMask() const
+{
+    return m_AttackMask;
 }
 
 
@@ -244,6 +292,9 @@ void Unit::PosFixInScreanBoundary()
 
 void Unit::DirectionShow() const
 {
+    if (m_MovePowerFrict < 0.01f || m_MovePowerLimit < 0.01f)
+        return;
+
     float power = m_MovePower.Length();
     Vec2 dir = m_MovePower / power;
     Vec2 temp = m_Pos;
@@ -256,4 +307,9 @@ void Unit::DirectionShow() const
         dummy.SetPos(temp);
         dummy.Render();
     }
+}
+
+void Unit::SetHitLock(bool lock)
+{
+    m_HitLock = lock;
 }

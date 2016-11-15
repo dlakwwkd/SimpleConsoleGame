@@ -83,8 +83,6 @@ void Mob::SetAIRatio(float ratio)
     }
 }
 
-
-
 void Mob::AI(float dt)
 {
     if (m_IsDeath)

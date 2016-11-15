@@ -20,7 +20,6 @@ public:
 
     void SetToPosChangeProbability(float prob);
     void SetAIRatio(float ratio);
-
     void AI(float dt);
 
 private:

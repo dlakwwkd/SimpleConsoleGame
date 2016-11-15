@@ -16,6 +16,7 @@ public:
     virtual void    Update(float dt)   override;
     virtual void    Render()           override;
 
+    void            SetDefaultAttack(const SkillPtr& skill);
     void            ShootMissile();
 
 private:

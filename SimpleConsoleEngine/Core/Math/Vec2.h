@@ -22,7 +22,7 @@ public:
     float    DistanceSquared(const Vec2& other) const noexcept;
     Vec2     Direction(const Vec2& other) const noexcept;
     Vec2&    Normalize() noexcept;
-    Vec2     GetNormalized() noexcept;
+    Vec2     GetNormalized() const noexcept;
 
     Vec2     operator+(const Vec2 &v) const noexcept;
     Vec2     operator-(const Vec2 &v) const noexcept;
