@@ -4,6 +4,7 @@
 #include "Core/Console/Console.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/GameManager.h"
+#include "Core/ObjectPool/ObjectPool.h"
 //----------------------------------------------------------------------------------------------------
 #include "Dummy.h"
 #include "../Game.h"
@@ -118,7 +119,7 @@ void Unit::Death()
         return;
 
     m_IsDeath = true;
-    auto corpse = std::make_shared<Dummy>();
+    auto corpse = ObjectPool<Dummy>::Get();
     auto render = corpse->GetComponent<CmdRenderComponent>();
     if (render != nullptr)
     {

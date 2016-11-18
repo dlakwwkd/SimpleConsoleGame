@@ -163,6 +163,7 @@
     <ClInclude Include="Core\Game\Scheduler.h" />
     <ClInclude Include="Core\Math\Vec2.h" />
     <ClInclude Include="Core\Menu\Menu.h" />
+    <ClInclude Include="Core\ObjectPool\ObjectPool.h" />
     <ClInclude Include="Core\Timer\Timer.h" />
     <ClInclude Include="Util\AssertPack.h" />
     <ClInclude Include="Util\Macros.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="Core\Game\Scheduler.cpp" />
     <ClCompile Include="Core\Math\Vec2.cpp" />
     <ClCompile Include="Core\Menu\Menu.cpp" />
+    <ClCompile Include="Core\ObjectPool\ObjectPool.cpp" />
     <ClCompile Include="Core\Timer\Timer.cpp" />
     <ClCompile Include="Util\AssertPack.cpp" />
   </ItemGroup>

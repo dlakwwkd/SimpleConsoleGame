@@ -5,6 +5,7 @@
 #include "Core/Console/Console.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/GameManager.h"
+#include "Core/ObjectPool/ObjectPool.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
 #include "../../Skill.h"
@@ -65,12 +66,12 @@ void Hero::Render()
 
 void Hero::SetDefaultAttack()
 {
-    m_DefaultAttack = std::make_shared<SkillBasicAttack>();
+    m_DefaultAttack = ObjectPool<SkillBasicAttack>::Get();
     AddSkill(m_DefaultAttack);
-    AddSkill(std::make_shared<SkillBasicAttack2>());
-    AddSkill(std::make_shared<SkillBasicAttack3>());
+    AddSkill(ObjectPool<SkillBasicAttack2>::Get());
+    AddSkill(ObjectPool<SkillBasicAttack3>::Get());
 
-    m_MissileSwap = std::make_shared<SkillBasicAttackSwap>();
+    m_MissileSwap = ObjectPool<SkillBasicAttackSwap>::Get();
     AddSkill(m_MissileSwap);
 }
 

@@ -1,5 +1,4 @@
-﻿#include "GameManager.h"
-SCE_START
+﻿SCE_START
 
 
 CHECKED_T(GameType)

@@ -3,6 +3,7 @@
 #include "Core/Timer/Timer.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/GameManager.h"
+#include "Core/ObjectPool/ObjectPool.h"
 #include "../GameObject/Unit.h"
 #include "../GameObject/Unit/Missile.h"
 #include "../Game.h"
@@ -24,7 +25,7 @@ void SkillBasicAttack2::OnBeginUse()
     if (owner == nullptr)
         return;
 
-    auto missile = std::make_shared<Missile>();
+    auto missile = ObjectPool<Missile>::Get();
     auto render = missile->GetComponent<CmdRenderComponent>();
     if (render == nullptr)
         return;

@@ -1,4 +1,5 @@
-﻿SCE_START
+﻿#include "../ObjectPool/ObjectPool.h"
+SCE_START
 
 
 CHECKED_T(T)
@@ -20,7 +21,7 @@ bool CompositeBase::AddComponent()
     if (iter != m_ComponentMap.end())
         return false;
 
-    m_ComponentMap.insert(std::make_pair(componentId, std::make_shared<T>()));
+    m_ComponentMap.insert(std::make_pair(componentId, ObjectPool<T>::Get()));
     return true;
 }
 

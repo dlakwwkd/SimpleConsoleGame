@@ -1,8 +1,10 @@
 ﻿#include "stdafx.h"
 #include "Section.h"
 #include "Game.h"
+#include "Core/ObjectPool/ObjectPool.h"
 #include "Core/Game/GameManager.h"
 #include "GameObject/Unit.h"
+SCE_USE
 
 
 Section::Section(const POINT& pos, const LONG& radius)
@@ -176,7 +178,7 @@ Section::SectionPtr Section::BuildSection(Direction dir) const
         return exist;
 
     // 3. 새로 섹션을 생성한 후 게임에 등록 (유일한 shared count)
-    auto newSection = std::make_shared<Section>(createPos, m_Radius);
+    auto newSection = ObjectPool<Section>::Get(createPos, m_Radius);
     game.RegisterBuiltSection(newSection, createPos);
 
     // 4. 주변 섹션들과 연결

@@ -6,6 +6,7 @@
 #include "Core/Timer/Timer.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/GameManager.h"
+#include "Core/ObjectPool/ObjectPool.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
 #include "../../Game.h"
@@ -25,7 +26,7 @@ Missile::~Missile()
 
 void Missile::Init()
 {
-    m_AITimer = std::make_shared<Timer>(1.0f);
+    m_AITimer = ObjectPool<Timer>::Get(1.0f);
 }
 
 void Missile::Release()
@@ -64,7 +65,7 @@ void Missile::Death()
     auto& game = gm.GetGame<Game>();
     auto effectCreate = [&](const Vec2& createPos, float craeteDelay)
     {
-        auto effect = std::make_shared<Dummy>();
+        auto effect = ObjectPool<Dummy>::Get();
         auto render = effect->GetComponent<CmdRenderComponent>();
         if (render != nullptr)
         {

@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CmdRenderComponent.h"
+#include "../../../ObjectPool/ObjectPool.h"
 SCE_START
 
 
@@ -23,7 +24,7 @@ std::string CmdRenderComponent::GetComponentName() const
 
 IComponent::IComponentPtr CmdRenderComponent::Copy() const
 {
-    return std::make_shared<CmdRenderComponent>(*this);
+    return ObjectPool<CmdRenderComponent>::Get(*this);
 }
 
 void CmdRenderComponent::Init()

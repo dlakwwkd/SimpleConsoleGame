@@ -5,6 +5,7 @@
 #include "Core/Timer/Timer.h"
 #include "Core/Command/Command.h"
 #include "Core/Console/Console.h"
+#include "Core/ObjectPool/ObjectPool.h"
 #include "Core/Game/GameManager.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
@@ -30,8 +31,8 @@ void Game::Init()
     srand((unsigned int)time(NULL));
 
     m_Command = std::make_unique<Command>();
-    m_RootSection = std::make_shared<Section>(POINT{ 0, 0 }, 10);
-    m_Hero = std::make_shared<Hero>();
+    m_RootSection = ObjectPool<Section>::Get(POINT{ 0, 0 }, 10);
+    m_Hero = ObjectPool<Hero>::Get();
     m_Hero->SetDefaultAttack();
     RegisterBuiltSection(m_RootSection, { 0, 0 });
     RegisterCollision(m_Hero);
@@ -162,7 +163,7 @@ void Game::RegisterBuiltSection(const SectionPtr& section, const POINT& pos)
     {
         for (int x = pos.x - 10; x < pos.x + 10; ++x)
         {
-            auto temp = std::make_shared<Dummy>();
+            auto temp = ObjectPool<Dummy>::Get();
             auto render = temp->GetComponent<CmdRenderComponent>();
             if (render != nullptr)
             {
@@ -191,7 +192,7 @@ void Game::GenerateMob(int num)
     m_MobList.reserve(num);
     for (int i = 0; i < num; ++i)
     {
-        m_MobList.emplace_back(std::make_shared<Mob>());
+        m_MobList.emplace_back(ObjectPool<Mob>::Get());
         auto& mob = m_MobList[i];
         auto render = mob->GetComponent<CmdRenderComponent>();
         if (render == nullptr)

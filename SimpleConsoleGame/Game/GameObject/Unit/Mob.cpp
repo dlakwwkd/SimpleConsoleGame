@@ -3,6 +3,7 @@
 //----------------------------------------------------------------------------------------------------
 #include "Core/Timer/Timer.h"
 #include "Core/Console/Console.h"
+#include "Core/ObjectPool/ObjectPool.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 //----------------------------------------------------------------------------------------------------
 #include "../Dummy.h"
@@ -31,7 +32,7 @@ void Mob::Init()
     render->SetShape(Shape(L'●', Color::YELLOW));
     render->SetDepth(3);
 
-    m_AITimer = std::make_shared<Timer>(1.0f);
+    m_AITimer = ObjectPool<Timer>::Get(1.0f);
     m_HitMask = CollisionMask::ENEMY;
     m_AttackMask = CollisionMask::PLAYER;
 }
