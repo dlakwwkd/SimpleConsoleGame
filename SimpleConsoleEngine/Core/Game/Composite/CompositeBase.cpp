@@ -1,26 +1,26 @@
 ﻿#include "stdafx.h"
 #include "CompositeBase.h"
-#include "Interface/IComponent.h"
+#include "../Interface/IComponent.h"
 SCE_START
 
 
-CompositeBase::CompositeBase(const CompositeBase& source)
+CompositeBase::CompositeBase(const CompositeBase& source) noexcept
 {
     ComponentMapDeepCopy(source.m_ComponentMap);
 }
 
-CompositeBase::CompositeBase(CompositeBase&& source)
-:   m_ComponentMap(std::move(source.m_ComponentMap))
+CompositeBase::CompositeBase(CompositeBase&& source) noexcept
+    : m_ComponentMap(std::move(source.m_ComponentMap))
 {
 }
 
-CompositeBase& CompositeBase::operator=(const CompositeBase& source)
+CompositeBase& CompositeBase::operator=(const CompositeBase& source) noexcept
 {
     ComponentMapDeepCopy(source.m_ComponentMap);
     return *this;
 }
 
-CompositeBase& CompositeBase::operator=(CompositeBase&& source)
+CompositeBase& CompositeBase::operator=(CompositeBase&& source) noexcept
 {
     ComponentMapClear();
     m_ComponentMap = std::move(source.m_ComponentMap);
@@ -28,8 +28,7 @@ CompositeBase& CompositeBase::operator=(CompositeBase&& source)
 }
 
 
-
-void CompositeBase::ComponentMapClear()
+void CompositeBase::ComponentMapClear() noexcept
 {
     for (auto& iter : m_ComponentMap)
     {
@@ -42,7 +41,7 @@ void CompositeBase::ComponentMapClear()
     m_ComponentMap.clear();
 }
 
-void CompositeBase::ComponentMapDeepCopy(const ComponentMap& source)
+void CompositeBase::ComponentMapDeepCopy(const ComponentMap& source) noexcept
 {
     ComponentMapClear();
     for (auto& iter : source)

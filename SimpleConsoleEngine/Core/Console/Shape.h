@@ -6,20 +6,19 @@ struct Coord;
 
 class Shape
 {
-    SPECIALFUNC_SET(Shape, default)
 public:
-    Shape();
-    Shape(wchar_t data, Color color = Color::WHITE, Color bgColor = Color::BLACK);
+    Shape() noexcept;
+    Shape(wchar_t data, Color color = Color::WHITE, Color bgColor = Color::BLACK) noexcept;
 
-    wchar_t GetForm() const;
-    Color   GetColor() const;
-    Color   GetBGColor() const;
+    wchar_t GetForm() const noexcept;
+    Color   GetColor() const noexcept;
+    Color   GetBGColor() const noexcept;
 
-    void    SetForm(wchar_t form);
-    void    SetColor(Color color);
-    void    SetBGColor(Color bgColor);
+    void    SetForm(wchar_t form) noexcept;
+    void    SetColor(Color color) noexcept;
+    void    SetBGColor(Color bgColor) noexcept;
 
-    void    Render(const Coord& pos, BYTE depth = 0);
+    void    Render(const Coord& pos, BYTE depth = 0) noexcept;
 
 private:
     wchar_t m_Form;

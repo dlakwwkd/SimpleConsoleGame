@@ -13,29 +13,11 @@
     <ClInclude Include="Game\Game.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameObject\Dummy.h">
-      <Filter>Game\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameObject\Unit.h">
-      <Filter>Game\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Game\GameObject\Unit\Hero.h">
       <Filter>Game\GameObject\Unit</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameObject\Unit\Mob.h">
       <Filter>Game\GameObject\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Skill.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameObject\Effect.h">
-      <Filter>Game\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameObject\Unit\Missile.h">
-      <Filter>Game\GameObject\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Section.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Skill\SkillBasicAttack.h">
       <Filter>Game\Skill</Filter>
@@ -60,29 +42,11 @@
     <ClCompile Include="Game\Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameObject\Dummy.cpp">
-      <Filter>Game\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameObject\Unit.cpp">
-      <Filter>Game\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Game\GameObject\Unit\Hero.cpp">
       <Filter>Game\GameObject\Unit</Filter>
     </ClCompile>
     <ClCompile Include="Game\GameObject\Unit\Mob.cpp">
       <Filter>Game\GameObject\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameObject\Unit\Missile.cpp">
-      <Filter>Game\GameObject\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Skill.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameObject\Effect.cpp">
-      <Filter>Game\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Section.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Skill\SkillBasicAttack.cpp">
       <Filter>Game\Skill</Filter>

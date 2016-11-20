@@ -5,55 +5,54 @@
 SCE_START
 
 
-Shape::Shape()
-:   m_Form(L' '),
-    m_Color(Color::WHITE),
-    m_BGColor(Color::BLACK)
+Shape::Shape() noexcept
+    : m_Form(L' ')
+    , m_Color(Color::WHITE)
+    , m_BGColor(Color::BLACK)
 {
 }
 
-Shape::Shape(wchar_t data, Color color, Color bgColor)
-:   m_Form(data),
-    m_Color(color),
-    m_BGColor(bgColor)
+Shape::Shape(wchar_t data, Color color, Color bgColor) noexcept
+    : m_Form(data)
+    , m_Color(color)
+    , m_BGColor(bgColor)
 {
 }
 
 
-wchar_t Shape::GetForm() const
+wchar_t Shape::GetForm() const noexcept
 {
     return m_Form;
 }
 
-Color Shape::GetColor() const
+Color Shape::GetColor() const noexcept
 {
     return m_Color;
 }
 
-Color Shape::GetBGColor() const
+Color Shape::GetBGColor() const noexcept
 {
     return m_BGColor;
 }
 
 
-void Shape::SetForm(wchar_t form)
+void Shape::SetForm(wchar_t form) noexcept
 {
     m_Form = form;
 }
 
-void Shape::SetColor(Color color)
+void Shape::SetColor(Color color) noexcept
 {
     m_Color = color;
 }
 
-void Shape::SetBGColor(Color bgColor)
+void Shape::SetBGColor(Color bgColor) noexcept
 {
     m_BGColor = bgColor;
 }
 
 
-
-void Shape::Render(const Coord& pos, BYTE depth)
+void Shape::Render(const Coord& pos, BYTE depth) noexcept
 {
     static auto& console = Console::GetInstance();
     if (console.DepthCheck(pos, depth))

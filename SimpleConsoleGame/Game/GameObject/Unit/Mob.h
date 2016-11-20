@@ -1,12 +1,12 @@
 ﻿#pragma once
-#include "../Unit.h"
+#include "Core/Game/Composite/Unit/Unit.h"
 SCE_START
 class Timer;
-SCE_END
 class Dummy;
+SCE_END
 
 
-class Mob : public Unit
+class Mob : public SCE::Unit
 {
     SPECIALFUNC_SET(Mob, default)
 public:

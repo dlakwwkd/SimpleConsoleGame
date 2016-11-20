@@ -1,8 +1,7 @@
 ﻿#pragma once
-#include "../Unit.h"
+#include "../Unit/Unit.h"
 SCE_START
 class Timer;
-SCE_END
 class Dummy;
 
 
@@ -23,5 +22,7 @@ public:
     void AI(float dt);
 
 private:
-    std::shared_ptr<SCE::Timer> m_AITimer;
+    std::shared_ptr<Timer> m_AITimer;
 };
+
+SCE_END

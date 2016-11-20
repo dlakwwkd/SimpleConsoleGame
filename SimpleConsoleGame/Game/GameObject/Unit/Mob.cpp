@@ -5,8 +5,7 @@
 #include "Core/Console/Console.h"
 #include "Core/ObjectPool/ObjectPool.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
-//----------------------------------------------------------------------------------------------------
-#include "../Dummy.h"
+#include "Core/Game/Composite/Effect/Dummy.h"
 SCE_USE
 
 
@@ -29,12 +28,12 @@ void Mob::Init()
     if (render == nullptr)
         return;
 
-    render->SetShape(Shape(L'●', Color::YELLOW));
+    render->SetShape(L'●', Color::YELLOW);
     render->SetDepth(3);
 
     m_AITimer = ObjectPool<Timer>::Get(1.0f);
-    m_HitMask = CollisionMask::ENEMY;
-    m_AttackMask = CollisionMask::PLAYER;
+    SetHitMask(CollisionMask::ENEMY);
+    SetAttackMask(CollisionMask::PLAYER);
 }
 
 void Mob::Release()
@@ -44,21 +43,21 @@ void Mob::Release()
 
 void Mob::Update(float dt)
 {
-    if (m_IsDeath)
+    if (IsDeath())
         return;
 
-    Vec2 displacement = m_ToPos - m_Pos;
+    Vec2 displacement = m_ToPos - GetPos();
     float distance = displacement.Length();
     if (distance < 1.0f)
     {
-        m_MovePower.SetZero();
+        SetMovePower(Vec2::ZERO);
     }
     else
     {
-        float maxMoveDist = m_Speed / m_MovePowerFrict;
+        float maxMoveDist = GetSpeed() / GetMovePowerFrict();
         if (distance > maxMoveDist)
         {
-            m_MovePower = displacement * (m_MovePowerLimit / distance);
+            SetMovePower(displacement * (GetMovePowerLimit() / distance));
         }
     }
     Unit::Update(dt);
@@ -86,7 +85,7 @@ void Mob::SetAIRatio(float ratio)
 
 void Mob::AI(float dt)
 {
-    if (m_IsDeath)
+    if (IsDeath())
         return;
 
     m_AITimer->AccumDt(dt);
@@ -101,22 +100,22 @@ void Mob::AI(float dt)
         auto toY = static_cast<float>(rand() % console.GetScreenHeight() - 1);
         m_ToPos.Set(toX, toY);
 
-        Vec2 displacement = m_ToPos - m_Pos;
+        Vec2 displacement = m_ToPos - GetPos();
         float distance = displacement.Length();
         if (distance < 1.0f)
         {
-            m_MovePower.SetZero();
+            SetMovePower(Vec2::ZERO);
         }
         else
         {
-            float maxMoveDist = m_Speed / m_MovePowerFrict;
+            float maxMoveDist = GetSpeed() / GetMovePowerFrict();
             if (distance > maxMoveDist)
             {
-                m_MovePower = displacement * (m_MovePowerLimit / distance);
+                SetMovePower(displacement * (GetMovePowerLimit() / distance));
             }
             else
             {
-                m_MovePower = displacement * (m_MovePowerLimit / maxMoveDist);
+                SetMovePower(displacement * (GetMovePowerLimit() / maxMoveDist));
             }
         }
     }

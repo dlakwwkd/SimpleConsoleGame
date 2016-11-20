@@ -1,23 +1,23 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
-#include "Section.h"
 //----------------------------------------------------------------------------------------------------
 #include "Core/Timer/Timer.h"
 #include "Core/Command/Command.h"
 #include "Core/Console/Console.h"
 #include "Core/ObjectPool/ObjectPool.h"
+#include "Core/Game/Section.h"
 #include "Core/Game/GameManager.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
+#include "Core/Game/Composite/Effect/Dummy.h"
+#include "Core/Game/Composite/Unit/Unit.h"
+#include "Core/Game/Composite/Missile/Missile.h"
 //----------------------------------------------------------------------------------------------------
-#include "GameObject/Dummy.h"
-#include "GameObject/Unit.h"
 #include "GameObject/Unit/Hero.h"
 #include "GameObject/Unit/Mob.h"
-#include "GameObject/Unit/Missile.h"
 SCE_USE
 
 
-Game::Game()
+Game::Game() noexcept
 {
 }
 
@@ -31,11 +31,9 @@ void Game::Init()
     srand((unsigned int)time(NULL));
 
     m_Command = std::make_unique<Command>();
-    m_RootSection = ObjectPool<Section>::Get(POINT{ 0, 0 }, 10);
     m_Hero = ObjectPool<Hero>::Get();
     m_Hero->SetDefaultAttack();
-    RegisterBuiltSection(m_RootSection, { 0, 0 });
-    RegisterCollision(m_Hero);
+    GameManager::GetInstance().RegisterCollision(m_Hero);
 
     GenerateMob(100);
     /*
@@ -58,13 +56,8 @@ void Game::Init()
 
 void Game::Release()
 {
-    m_SectionMap.clear();
-    m_SectionList.clear();
-    m_OnlyRenderList.clear();
-    m_CollisionList.clear();
     m_MobList.clear();
     m_Hero.reset();
-    m_RootSection.reset();
     m_Command.reset();
 }
 
@@ -75,115 +68,11 @@ void Game::Update(float dt)
     {
         mob->AI(dt);
     }
-    for (auto& unit : m_CollisionList)
-    {
-        unit->Update(dt);
-    }
-    CollisionCheck(dt);
 }
 
 void Game::Render()
 {
-    for (auto& obj : m_OnlyRenderList)
-    {
-        obj->Render();
-    }
-    for (auto& unit : m_CollisionList)
-    {
-        unit->Render();
-    }
-    SectionNumPrint();
 }
-
-
-
-void Game::AddOnlyRender(const ObjectPtr& obj, float lifeTime)
-{
-    m_OnlyRenderList.push_back(obj);
-    if (lifeTime < 0.f)
-        return;
-
-    GameManager::GetInstance().CallFuncAfterM(lifeTime, this, &Game::RemoveOnlyRender, obj);
-}
-
-void Game::RemoveOnlyRender(const ObjectPtr& obj)
-{
-    m_OnlyRenderList.remove(obj);
-}
-
-
-
-void Game::RegisterCollision(const UnitPtr& unit)
-{
-    if (m_RootSection == nullptr)
-        return;
-
-    if (m_RootSection->RegisterUnit(unit))
-    {
-        AddCollision(unit);
-    }
-}
-
-void Game::RegisterCollision(const UnitPtr& unit, const SectionPtr& trySection)
-{
-    if (trySection != nullptr)
-    {
-        if (trySection->RegisterUnit(unit))
-        {
-            AddCollision(unit);
-        }
-    }
-    else
-    {
-        RegisterCollision(unit);
-    }
-}
-
-void Game::UnRegisterCollision(const UnitPtr& unit)
-{
-    if (unit == nullptr)
-        return;
-
-    if (auto section = unit->GetSection())
-    {
-        section->UnRegisterUnit(unit);
-    }
-    GameManager::GetInstance().CallFuncAfterM(0.f, this, &Game::RemoveCollision, unit);
-}
-
-
-
-void Game::RegisterBuiltSection(const SectionPtr& section, const POINT& pos)
-{
-    m_SectionList.push_back(section);
-    m_SectionMap.insert(std::make_pair(pos, SectionRef(section)));
-
-    // 섹션 생성 과정을 눈으로 보기 위한 임시 코드
-    for (int y = pos.y - 10; y < pos.y + 10; ++y)
-    {
-        for (int x = pos.x - 10; x < pos.x + 10; ++x)
-        {
-            auto temp = ObjectPool<Dummy>::Get();
-            auto render = temp->GetComponent<CmdRenderComponent>();
-            if (render != nullptr)
-            {
-                render->SetCoord(Coord(x * 2, y));
-                render->SetShape(Shape(L'■', Color::DARK_GREEN, Color::DARK_GREEN));
-                GameManager::GetInstance().GetGame<Game>().AddOnlyRender(temp, 0.5f);
-            }
-        }
-    }
-}
-
-Game::SectionPtr Game::FindSection(const POINT& pos) const
-{
-    auto iter = m_SectionMap.find(pos);
-    if (iter == m_SectionMap.end())
-        return nullptr;
-
-    return iter->second.lock();
-}
-
 
 
 void Game::GenerateMob(int num)
@@ -198,10 +87,10 @@ void Game::GenerateMob(int num)
         if (render == nullptr)
             continue;
 
-        RegisterCollision(mob);
+        GameManager::GetInstance().RegisterCollision(mob);
         if (i < mobType)
         {
-            render->SetShape(Shape(L'☠', Color::GREY));
+            render->SetShape(L'☠', Color::GREY);
             mob->SetSpeed(120.0f);
             mob->SetAIRatio(0.5f);
             mob->SetDamage(2);
@@ -210,7 +99,7 @@ void Game::GenerateMob(int num)
         }
         else if (i < mobType * 2)
         {
-            render->SetShape(Shape(L'☣', Color::RED));
+            render->SetShape(L'☣', Color::RED);
             mob->SetSpeed(70.0f);
             mob->SetAIRatio(1.0f);
             mob->SetDamage(4);
@@ -219,7 +108,7 @@ void Game::GenerateMob(int num)
         }
         else if (i < mobType * 3)
         {
-            render->SetShape(Shape(L'☯', Color::MAGENTA));
+            render->SetShape(L'☯', Color::MAGENTA);
             mob->SetSpeed(30.0f);
             mob->SetAIRatio(1.5f);
             mob->SetDamage(6);
@@ -228,7 +117,7 @@ void Game::GenerateMob(int num)
         }
         else if (i < mobType * 4)
         {
-            render->SetShape(Shape(L'♋', Color::CYAN));
+            render->SetShape(L'♋', Color::CYAN);
             mob->SetSpeed(30.0f);
             mob->SetAIRatio(1.5f);
             mob->SetDamage(8);
@@ -237,52 +126,13 @@ void Game::GenerateMob(int num)
         }
         else
         {
-            render->SetShape(Shape(L'★', Color::YELLOW));
+            render->SetShape(L'★', Color::YELLOW);
             mob->SetSpeed(10.0f);
             mob->SetAIRatio(2.0f);
             mob->SetDamage(10);
             mob->SetMaxHp(100);
             mob->InitHp();
         }
-    }
-}
-
-
-
-void Game::AddCollision(const UnitPtr& unit)
-{
-    m_CollisionList.push_back(unit);
-}
-
-void Game::RemoveCollision(const UnitPtr& unit)
-{
-    m_CollisionList.remove(unit);
-}
-
-
-
-void Game::CollisionCheck(float dt)
-{
-    // 충돌 체크 주기
-    static Timer timer(0.01f);
-    timer.AccumDt(dt);
-    if (!timer.DurationCheck())
-        return;
-
-    for (auto& unit : m_CollisionList)
-    {
-        if (unit->IsDeath())
-        {
-            UnRegisterCollision(unit);
-        }
-        else if (auto section = unit->GetSection())
-        {
-            section->SyncUnit(unit);
-        }
-    }
-    for (auto& section : m_SectionList)
-    {
-        section->CollisionCheck();
     }
 }
 
@@ -322,15 +172,4 @@ void Game::CommandProc(float dt) const
     {
         m_Hero->SwapMissile();
     }
-}
-
-void Game::SectionNumPrint() const
-{
-    static auto& console = Console::GetInstance();
-    std::wostringstream oss;
-    oss << L"SectionNum: " << m_SectionList.size();
-    size_t posX = console.GetScreenWidth() - oss.str().length();
-    size_t posY = console.GetScreenHeight() + 1;
-    console.SetColor(Color::WHITE);
-    console.PrintText(Coord(posX, posY), oss.str().c_str());
 }

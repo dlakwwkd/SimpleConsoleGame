@@ -11,14 +11,14 @@ const Vec2 Vec2::RIGHT  = { +1.0f, 0.0f };
 
 
 Vec2::Vec2() noexcept
-:   m_X(0.0f),
-    m_Y(0.0f)
+    : m_X(0.0f)
+    , m_Y(0.0f)
 {
 }
 
 Vec2::Vec2(float x, float y) noexcept
-:   m_X(x),
-    m_Y(y)
+    : m_X(x)
+    , m_Y(y)
 {
 }
 
@@ -53,7 +53,6 @@ void Vec2::SetZero() noexcept
 {
     Set(0.0f, 0.0f);
 }
-
 
 
 float Vec2::Length() const noexcept
@@ -92,7 +91,6 @@ Vec2 Vec2::GetNormalized() const noexcept
 {
     return *this / Length();
 }
-
 
 
 Vec2 Vec2::operator+(const Vec2 &v) const noexcept

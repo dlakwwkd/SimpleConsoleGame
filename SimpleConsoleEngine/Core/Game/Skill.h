@@ -1,7 +1,6 @@
 ﻿#pragma once
 SCE_START
 class Timer;
-SCE_END
 class Unit;
 
 
@@ -19,7 +18,7 @@ protected:
     using TimerPtr  = std::unique_ptr<SCE::Timer>;
     using UnitRef   = std::weak_ptr<Unit>;
 public:
-    Skill();
+    Skill() noexcept;
     virtual ~Skill() = default;
 
     virtual void        OnPrepare(float dt)     = 0;
@@ -50,3 +49,5 @@ private:
     TimerPtr            m_UsingTime;
     TimerPtr            m_CoolTime;
 };
+
+SCE_END

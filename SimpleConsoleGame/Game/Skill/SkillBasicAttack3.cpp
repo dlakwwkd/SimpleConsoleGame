@@ -4,9 +4,8 @@
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/GameManager.h"
 #include "Core/ObjectPool/ObjectPool.h"
-#include "../GameObject/Unit.h"
-#include "../GameObject/Unit/Missile.h"
-#include "../Game.h"
+#include "Core/Game/Composite/Unit/Unit.h"
+#include "Core/Game/Composite/Missile/Missile.h"
 SCE_USE
 
 
@@ -30,7 +29,7 @@ void SkillBasicAttack3::OnBeginUse()
     if (render == nullptr)
         return;
 
-    render->SetShape(Shape(L'x', Color::MAGENTA));
+    render->SetShape(L'x', Color::MAGENTA);
     missile->SetDamage(10);
     missile->SetMaxHp(1);
     missile->InitHp();
@@ -40,7 +39,7 @@ void SkillBasicAttack3::OnBeginUse()
     missile->SetSpeed(100.0f);
     missile->SetMovePowerFrict(0.0f);
     missile->AddMovePower(owner->GetDirection());
-    GameManager::GetInstance().GetGame<Game>().RegisterCollision(missile, owner->GetSection());
+    GameManager::GetInstance().RegisterCollision(missile, owner->GetSection());
 }
 
 void SkillBasicAttack3::OnUsing(float dt)

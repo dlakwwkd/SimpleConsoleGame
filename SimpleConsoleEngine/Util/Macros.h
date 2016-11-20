@@ -38,6 +38,20 @@
     SPECIALFUNC_COPY_DECLARE(T)     \
     SPECIALFUNC_MOVE_DECLARE(T)
 
+#define SPECIALFUNC_COPY_DECLARE_NOEXCEPT(T)    \
+    public:                                     \
+        T(const T&) noexcept;                   \
+        T& operator=(const T&) noexcept;        \
+    private:
+#define SPECIALFUNC_MOVE_DECLARE_NOEXCEPT(T)    \
+    public:                                     \
+        T(T&&) noexcept;                        \
+        T& operator=(T&&) noexcept;             \
+    private:
+#define SPECIALFUNC_DECLARE_NOEXCEPT(T)         \
+    SPECIALFUNC_COPY_DECLARE_NOEXCEPT(T)        \
+    SPECIALFUNC_MOVE_DECLARE_NOEXCEPT(T)
+
 //----------------------------------------------------------------------------------------------------
 // - 싱글톤 관련
 #define _CREATE_SINGLETON(T)    \
@@ -50,9 +64,21 @@ public:                         \
     SPECIALFUNC_SET(T, delete)  \
 private:                        \
     T();
-
 #define CREATE_SINGLETON(T)     _CREATE_SINGLETON(T) ~T();
 #define CREATE_SINGLETON_V(T)   _CREATE_SINGLETON(T) virtual ~T();
+
+#define _CREATE_SINGLETON_NOEXCEPT(T)   \
+public:                                 \
+    static T& GetInstance() noexcept    \
+    {                                   \
+        static T instance;              \
+        return instance;                \
+    }                                   \
+    SPECIALFUNC_SET(T, delete)          \
+private:                                \
+    T() noexcept;
+#define CREATE_SINGLETON_NOEXCEPT(T)    _CREATE_SINGLETON_NOEXCEPT(T) ~T();
+#define CREATE_SINGLETON_NOEXCEPT_V(T)  _CREATE_SINGLETON_NOEXCEPT(T) virtual ~T();
 
 //----------------------------------------------------------------------------------------------------
 // - 템플릿 태그 체크 (Refer to Effective Modern C++)

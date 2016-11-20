@@ -6,9 +6,9 @@
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/GameManager.h"
 #include "Core/ObjectPool/ObjectPool.h"
+#include "Core/Game/Composite/Effect/Dummy.h"
+#include "Core/Game/Skill.h"
 //----------------------------------------------------------------------------------------------------
-#include "../Dummy.h"
-#include "../../Skill.h"
 #include "../../Skill/SkillBasicAttack.h"
 #include "../../Skill/SkillBasicAttack2.h"
 #include "../../Skill/SkillBasicAttack3.h"
@@ -16,7 +16,7 @@
 SCE_USE
 
 
-Hero::Hero()
+Hero::Hero() noexcept
 {
     Init();
 }
@@ -33,19 +33,20 @@ void Hero::Init()
     if (render == nullptr)
         return;
 
-    render->SetShape(Shape(L'▣', Color::GREEN));
+    render->SetShape(L'▣', Color::GREEN);
     render->SetDepth(5);
 
-    m_MovePowerLimit = 0.25f;
-    m_MovePowerFrict = 4.0f;
-    m_Speed = 50.0f;
-    m_CurHp = m_MaxHp = 500;
-    m_Damage = 10;
-    m_HitMask = CollisionMask::PLAYER;
-    m_AttackMask = CollisionMask::ENEMY;
+    SetMovePowerLimit(0.25f);
+    SetMovePowerFrict(4.0f);
+    SetSpeed(50.0f);
+    SetMaxHp(500);
+    InitHp();
+    SetDamage(10);
+    SetHitMask(CollisionMask::PLAYER);
+    SetAttackMask(CollisionMask::ENEMY);
 
     auto screenSize = Console::GetInstance().GetScreenSize();
-    m_Pos = Coord::ConvertToVec2(screenSize) / 2;
+    SetPos(Coord::ConvertToVec2(screenSize) / 2);
 }
 
 void Hero::Release()

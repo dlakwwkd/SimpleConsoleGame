@@ -1,16 +1,17 @@
 ﻿#include "stdafx.h"
 #include "Skill.h"
-#include "Core/Timer/Timer.h"
-SCE_USE
+#include "../Timer/Timer.h"
+SCE_START
 
 
-Skill::Skill()
-:   m_CurState(State::READY)
+Skill::Skill() noexcept
+    : m_CurState(State::READY)
 {
     m_PrepareTime = std::make_unique<Timer>();
     m_UsingTime = std::make_unique<Timer>();
     m_CoolTime = std::make_unique<Timer>();
 }
+
 
 bool Skill::IsReadyToUse() const
 {
@@ -80,3 +81,5 @@ void Skill::SetDuration(State state, float duration)
         break;
     }
 }
+
+SCE_END

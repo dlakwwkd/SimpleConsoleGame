@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "../Skill.h"
+#include "Core/Game/Skill.h"
 
 
-class SkillBasicAttackSwap : public Skill
+class SkillBasicAttackSwap : public SCE::Skill
 {
     SPECIALFUNC_SET(SkillBasicAttackSwap, default)
 public:

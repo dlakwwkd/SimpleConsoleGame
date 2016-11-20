@@ -8,25 +8,25 @@ constexpr Coord MAX_CONSOLE_SIZE = { 238, 70 };
 
 class Console
 {
-    CREATE_SINGLETON(Console)
+    CREATE_SINGLETON_NOEXCEPT(Console)
 public:
-    void    Init();
-    void    Release();
+    void    Init() noexcept;
+    void    Release() noexcept;
 
-    size_t  GetDrawCallNum() const;
-    Coord   GetScreenSize() const;
-    short   GetScreenWidth() const;
-    short   GetScreenHeight() const;
+    size_t  GetDrawCallNum() const noexcept;
+    Coord   GetScreenSize() const noexcept;
+    short   GetScreenWidth() const noexcept;
+    short   GetScreenHeight() const noexcept;
 
-    void    PrintText(const Coord& pos, const std::wstring& text);
-    void    Print(const Coord& pos, wchar_t word);
-    void    SetColor(Color textColor, Color bgColor = Color::BLACK) const;
-    void    Clear();
-    void    SwapBuffer();
-    bool    DepthCheck(const Coord& pos, BYTE depth = 0);
+    void    PrintText(const Coord& pos, const std::wstring& text) noexcept;
+    void    Print(const Coord& pos, wchar_t word) noexcept;
+    void    SetColor(Color textColor, Color bgColor = Color::BLACK) const noexcept;
+    void    Clear() noexcept;
+    void    SwapBuffer() noexcept;
+    bool    DepthCheck(const Coord& pos, BYTE depth = 0) noexcept;
 
 private:
-    void    SetScreenAndFontSizeForThisDesktop(OUT SHORT& fontSize);
+    void    SetScreenAndFontSizeForThisDesktop(OUT SHORT& fontSize) noexcept;
 
 private:
     CONSOLE_FONT_INFOEX m_CFIOrigin;

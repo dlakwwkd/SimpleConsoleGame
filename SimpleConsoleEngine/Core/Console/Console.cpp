@@ -3,12 +3,12 @@
 SCE_START
 
 
-Console::Console()
-:   m_ScreenBuffer{ nullptr, nullptr },
-    m_ScreenIndex(0),
-    m_ScreenSize{ 0,0 },
-    m_DrawCall(0),
-    m_DepthBuffer{ {0} }
+Console::Console() noexcept
+    : m_ScreenBuffer{ nullptr, nullptr }
+    , m_ScreenIndex(0)
+    , m_ScreenSize{ 0,0 }
+    , m_DrawCall(0)
+    , m_DepthBuffer{ {0} }
 {
 }
 
@@ -17,7 +17,7 @@ Console::~Console()
 {
 }
 
-void Console::Init()
+void Console::Init() noexcept
 {
     Release();
 
@@ -46,7 +46,7 @@ void Console::Init()
     }
 }
 
-void Console::Release()
+void Console::Release() noexcept
 {
     if (m_ScreenBuffer[0]) CloseHandle(m_ScreenBuffer[0]);
     if (m_ScreenBuffer[1]) CloseHandle(m_ScreenBuffer[1]);
@@ -54,30 +54,28 @@ void Console::Release()
 }
 
 
-
-size_t Console::GetDrawCallNum() const
+size_t Console::GetDrawCallNum() const noexcept
 {
     return m_DrawCall;
 }
 
-Coord Console::GetScreenSize() const
+Coord Console::GetScreenSize() const noexcept
 {
     return m_ScreenSize;
 }
 
-short Console::GetScreenWidth() const
+short Console::GetScreenWidth() const noexcept
 {
     return m_ScreenSize.m_X;
 }
 
-short Console::GetScreenHeight() const
+short Console::GetScreenHeight() const noexcept
 {
     return m_ScreenSize.m_Y;
 }
 
 
-
-void Console::PrintText(const Coord& pos, const std::wstring& text)
+void Console::PrintText(const Coord& pos, const std::wstring& text) noexcept
 {
     DWORD dw;
     SetConsoleCursorPosition(m_ScreenBuffer[m_ScreenIndex], { pos.m_X, pos.m_Y });
@@ -85,7 +83,7 @@ void Console::PrintText(const Coord& pos, const std::wstring& text)
     ++m_DrawCall;
 }
 
-void Console::Print(const Coord& pos, wchar_t word)
+void Console::Print(const Coord& pos, wchar_t word) noexcept
 {
     DWORD dw;
     SetConsoleCursorPosition(m_ScreenBuffer[m_ScreenIndex], { pos.m_X, pos.m_Y });
@@ -93,13 +91,13 @@ void Console::Print(const Coord& pos, wchar_t word)
     ++m_DrawCall;
 }
 
-void Console::SetColor(Color textColor, Color bgColor) const
+void Console::SetColor(Color textColor, Color bgColor) const noexcept
 {
     WORD color = static_cast<WORD>(textColor) + (static_cast<WORD>(bgColor) << 4);
     SetConsoleTextAttribute(m_ScreenBuffer[m_ScreenIndex], color);
 }
 
-void Console::Clear()
+void Console::Clear() noexcept
 {
     DWORD dw;
     DWORD screenSize = (m_ScreenSize.m_X + 2) * (m_ScreenSize.m_Y + 2);
@@ -109,14 +107,14 @@ void Console::Clear()
     ZeroMemory(m_DepthBuffer, sizeof(m_DepthBuffer[0][0]) * MAX_CONSOLE_SIZE.m_X * MAX_CONSOLE_SIZE.m_Y);
 }
 
-void Console::SwapBuffer()
+void Console::SwapBuffer() noexcept
 {
     SetConsoleActiveScreenBuffer(m_ScreenBuffer[m_ScreenIndex]);
     m_ScreenIndex = !m_ScreenIndex;
     m_DrawCall = 0;
 }
 
-bool Console::DepthCheck(const Coord& pos, BYTE depth)
+bool Console::DepthCheck(const Coord& pos, BYTE depth) noexcept
 {
     if (pos.m_X < 0 || pos.m_X > m_ScreenSize.m_X ||
         pos.m_Y < 0 || pos.m_Y > m_ScreenSize.m_Y ||
@@ -129,8 +127,7 @@ bool Console::DepthCheck(const Coord& pos, BYTE depth)
 }
 
 
-
-void Console::SetScreenAndFontSizeForThisDesktop(OUT SHORT& fontSize)
+void Console::SetScreenAndFontSizeForThisDesktop(OUT SHORT& fontSize) noexcept
 {
     RECT desktopSize;
     HWND hDesktop = GetDesktopWindow();

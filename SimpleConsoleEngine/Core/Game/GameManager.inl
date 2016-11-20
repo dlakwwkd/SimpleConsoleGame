@@ -1,4 +1,5 @@
-﻿SCE_START
+﻿#include "Scheduler.h"
+SCE_START
 
 
 CHECKED_T(GameType)

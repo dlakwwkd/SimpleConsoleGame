@@ -153,14 +153,25 @@
     <ClInclude Include="Core\Console\Console.h" />
     <ClInclude Include="Core\Console\Coord.h" />
     <ClInclude Include="Core\Console\Shape.h" />
-    <ClInclude Include="Core\Game\Component\IRenderComponent.h" />
+    <ClInclude Include="Core\Game\Component\CollisionComponent\CollisionComponent.h" />
     <ClInclude Include="Core\Game\Component\RenderComponent\CmdRenderComponent.h" />
-    <ClInclude Include="Core\Game\CompositeBase.h" />
+    <ClInclude Include="Core\Game\Composite\CompositeBase.h" />
+    <ClInclude Include="Core\Game\Composite\Effect\Dummy.h" />
+    <ClInclude Include="Core\Game\Composite\Effect\Effect.h" />
     <ClInclude Include="Core\Game\Composite\GameObject.h" />
+    <ClInclude Include="Core\Game\Composite\Missile\Missile.h" />
+    <ClInclude Include="Core\Game\Composite\Unit\Unit.h" />
     <ClInclude Include="Core\Game\GameManager.h" />
+    <ClInclude Include="Core\Game\Interface\ICollision.h" />
+    <ClInclude Include="Core\Game\Interface\ICollisionComponent.h" />
     <ClInclude Include="Core\Game\Interface\IComponent.h" />
     <ClInclude Include="Core\Game\Interface\IGameBase.h" />
+    <ClInclude Include="Core\Game\Interface\IObject.h" />
+    <ClInclude Include="Core\Game\Interface\IRender.h" />
+    <ClInclude Include="Core\Game\Interface\IRenderComponent.h" />
     <ClInclude Include="Core\Game\Scheduler.h" />
+    <ClInclude Include="Core\Game\Section.h" />
+    <ClInclude Include="Core\Game\Skill.h" />
     <ClInclude Include="Core\Math\Vec2.h" />
     <ClInclude Include="Core\Menu\Menu.h" />
     <ClInclude Include="Core\ObjectPool\ObjectPool.h" />
@@ -179,12 +190,20 @@
     <ClCompile Include="Core\Console\Console.cpp" />
     <ClCompile Include="Core\Console\Coord.cpp" />
     <ClCompile Include="Core\Console\Shape.cpp" />
-    <ClCompile Include="Core\Game\Component\IRenderComponent.cpp" />
+    <ClCompile Include="Core\Game\Component\CollisionComponent\CollisionComponent.cpp" />
     <ClCompile Include="Core\Game\Component\RenderComponent\CmdRenderComponent.cpp" />
-    <ClCompile Include="Core\Game\CompositeBase.cpp" />
+    <ClCompile Include="Core\Game\Composite\CompositeBase.cpp" />
+    <ClCompile Include="Core\Game\Composite\Effect\Dummy.cpp" />
+    <ClCompile Include="Core\Game\Composite\Effect\Effect.cpp" />
     <ClCompile Include="Core\Game\Composite\GameObject.cpp" />
+    <ClCompile Include="Core\Game\Composite\Missile\Missile.cpp" />
+    <ClCompile Include="Core\Game\Composite\Unit\Unit.cpp" />
     <ClCompile Include="Core\Game\GameManager.cpp" />
+    <ClCompile Include="Core\Game\Interface\ICollisionComponent.cpp" />
+    <ClCompile Include="Core\Game\Interface\IRenderComponent.cpp" />
     <ClCompile Include="Core\Game\Scheduler.cpp" />
+    <ClCompile Include="Core\Game\Section.cpp" />
+    <ClCompile Include="Core\Game\Skill.cpp" />
     <ClCompile Include="Core\Math\Vec2.cpp" />
     <ClCompile Include="Core\Menu\Menu.cpp" />
     <ClCompile Include="Core\ObjectPool\ObjectPool.cpp" />
@@ -192,7 +211,7 @@
     <ClCompile Include="Util\AssertPack.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\Game\CompositeBase.inl" />
+    <None Include="Core\Game\Composite\CompositeBase.inl" />
     <None Include="Core\Game\GameManager.inl" />
     <None Include="Util\AssertPack.inl" />
   </ItemGroup>

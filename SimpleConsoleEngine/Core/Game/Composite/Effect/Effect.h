@@ -1,20 +1,19 @@
 ﻿#pragma once
-#include "Core/Game/Composite/GameObject.h"
+#include "../../Composite/GameObject.h"
 SCE_START
-class Vec2;
-SCE_END
 
-class Dummy : public SCE::GameObject
+
+class Effect : public GameObject
 {
-    SPECIALFUNC_SET(Dummy, default)
+    SPECIALFUNC_SET(Effect, default)
 public:
-    Dummy();
-    virtual ~Dummy() override;
+    Effect() noexcept;
+    virtual ~Effect() override;
 
     virtual void Init()             override;
     virtual void Release()          override;
     virtual void Update(float dt)   override;
     virtual void Render()           override;
-
-    void SetPos(const SCE::Vec2& pos);
 };
+
+SCE_END

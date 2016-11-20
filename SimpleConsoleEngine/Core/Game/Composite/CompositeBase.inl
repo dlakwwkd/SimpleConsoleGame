@@ -1,9 +1,9 @@
-﻿#include "../ObjectPool/ObjectPool.h"
+﻿#include "../../ObjectPool/ObjectPool.h"
 SCE_START
 
 
 CHECKED_T(T)
-std::shared_ptr<T> CompositeBase::GetComponent()
+std::shared_ptr<T> CompositeBase::GetComponent() noexcept
 {
     static size_t componentId = T::GetComponentId();
     auto iter = m_ComponentMap.find(componentId);
@@ -14,19 +14,20 @@ std::shared_ptr<T> CompositeBase::GetComponent()
 }
 
 CHECKED_T(T)
-bool CompositeBase::AddComponent()
+bool CompositeBase::AddComponent() noexcept
 {
     static size_t componentId = T::GetComponentId();
     auto iter = m_ComponentMap.find(componentId);
     if (iter != m_ComponentMap.end())
         return false;
 
-    m_ComponentMap.insert(std::make_pair(componentId, ObjectPool<T>::Get()));
+    m_ComponentMap.insert(std::make_pair(componentId,
+        ObjectPool<T>::Get(shared_from_this())));
     return true;
 }
 
 CHECKED_T(T)
-void CompositeBase::RemoveComponent()
+void CompositeBase::RemoveComponent() noexcept
 {
     static size_t componentId = T::GetComponentId();
     auto iter = m_ComponentMap.find(componentId);

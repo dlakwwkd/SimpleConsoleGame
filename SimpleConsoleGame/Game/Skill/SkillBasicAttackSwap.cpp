@@ -3,10 +3,9 @@
 #include "Core/Timer/Timer.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/GameManager.h"
-#include "../GameObject/Unit.h"
-#include "../GameObject/Unit/Missile.h"
+#include "Core/Game/Composite/Unit/Unit.h"
+#include "Core/Game/Composite/Missile/Missile.h"
 #include "../GameObject/Unit/Hero.h"
-#include "../Game.h"
 SCE_USE
 
 

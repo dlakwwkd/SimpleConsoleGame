@@ -8,18 +8,18 @@ class Timer
     using TickTime  = std::chrono::system_clock::time_point;
     using Seconds   = std::chrono::duration<float>;
 public:
-    Timer();
-    Timer(float duration);
+    Timer() noexcept;
+    Timer(float duration) noexcept;
 
-    void    Init();
-    void    Tick();
-    float   DeltaTime() const;
+    void        Init() noexcept;
+    void        Tick() noexcept;
+    float       DeltaTime() const noexcept;
 
-    void    AccumDt();
-    void    AccumDt(float dt);
-    bool    DurationCheck();
-    bool    DurationCheck(float duration);
-    void    SetDuration(float duration);
+    void        AccumDt() noexcept;
+    void        AccumDt(float dt) noexcept;
+    bool        DurationCheck() noexcept;
+    bool        DurationCheck(float duration) noexcept;
+    void        SetDuration(float duration) noexcept;
 
 private:
     TickTime    m_PrevTime;

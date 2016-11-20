@@ -4,7 +4,6 @@ SCE_START
 
 class Vec2
 {
-    SPECIALFUNC_SET(Vec2, default)
 public:
     Vec2() noexcept;
     Vec2(float x, float y) noexcept;

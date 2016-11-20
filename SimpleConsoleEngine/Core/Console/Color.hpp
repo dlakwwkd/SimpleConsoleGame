@@ -26,7 +26,6 @@ enum class Color : unsigned short
 };
 
 
-
 inline Color& operator++(Color& color) noexcept
 {
     auto idx = static_cast<unsigned short>(color);

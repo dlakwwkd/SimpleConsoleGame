@@ -40,7 +40,7 @@ public:
     void            deallocate(T* const obj, size_t) const noexcept;
 
     template<typename... Args>
-    static std::shared_ptr<T> Get(Args&&... _Args)
+    static std::shared_ptr<T> Get(Args&&... _Args) noexcept
     {
         return std::allocate_shared<T>(ObjectPool(), std::forward<Args>(_Args)...);
     }
@@ -51,13 +51,18 @@ private:
     static int		m_CurrentUseCount;  // for tracing
 };
 
+
 template<typename T> uint8_t*   ObjectPool<T>::m_FreeList           = nullptr;
 template<typename T> int        ObjectPool<T>::m_TotalAllocCount    = 0;
 template<typename T> int        ObjectPool<T>::m_CurrentUseCount    = 0;
 
+
 template<typename T>
 T* ObjectPool<T>::allocate(const size_t n) const noexcept
 {
+    // 객체의 크기는 반드시 포인터 크기보다 커야 한다.
+    static_assert(sizeof(T) > sizeof(size_t), "object size must bigger then pointer size!");
+
     // 무조건 1개의 할당만을 허용한다. (배열 할당 안됨)
     if (n != 1)
         return nullptr;
@@ -80,7 +85,7 @@ T* ObjectPool<T>::allocate(const size_t n) const noexcept
         uint8_t**   ppCur = reinterpret_cast<uint8_t**>(m_FreeList);
         for (int i = 0; i < ALLOC_COUNT - 1; ++i)
         {
-            pNext += sizeof(T); // 여기서 Object의 크기는 반드시 포인터 크기보다 커야 한다.
+            pNext += sizeof(T);
             *ppCur = pNext;
             ppCur = reinterpret_cast<uint8_t**>(pNext);
         }

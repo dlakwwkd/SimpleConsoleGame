@@ -1,14 +1,16 @@
 ﻿#pragma once
-#include "../Unit.h"
+#include "Core/Game/Composite/Unit/Unit.h"
+SCE_START
 class Skill;
+SCE_END
 
 
-class Hero : public Unit
+class Hero : public SCE::Unit
 {
     SPECIALFUNC_SET(Hero, default)
-    using SkillPtr = std::shared_ptr<Skill>;
+    using SkillPtr = std::shared_ptr<SCE::Skill>;
 public:
-    Hero();
+    Hero() noexcept;
     virtual ~Hero() override;
 
     virtual void    Init()             override;
