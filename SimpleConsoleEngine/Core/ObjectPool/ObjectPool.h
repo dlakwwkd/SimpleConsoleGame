@@ -45,6 +45,14 @@ public:
         return std::allocate_shared<T>(ObjectPool(), std::forward<Args>(_Args)...);
     }
 
+    template<typename... Args>
+    static std::shared_ptr<T> GetWithInit(Args&&... _Args) noexcept
+    {
+        auto obj = std::allocate_shared<T>(ObjectPool(), std::forward<Args>(_Args)...);
+        obj->Init();
+        return obj;
+    }
+
 private:
     static uint8_t*	m_FreeList;
     static int		m_TotalAllocCount;  // for tracing

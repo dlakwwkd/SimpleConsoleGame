@@ -24,7 +24,7 @@ void SkillBasicAttack2::OnBeginUse()
     if (owner == nullptr)
         return;
 
-    auto missile = ObjectPool<Missile>::Get();
+    auto missile = ObjectPool<Missile>::GetWithInit();
     auto render = missile->GetComponent<CmdRenderComponent>();
     if (render == nullptr)
         return;
@@ -42,6 +42,7 @@ void SkillBasicAttack2::OnBeginUse()
 
     static auto& gm = GameManager::GetInstance();
     gm.RegisterCollision(missile, owner->GetSection());
+    gm.AddRender(missile);
     gm.CallFuncAfterP(2.f, missile, &Missile::Death);
 }
 

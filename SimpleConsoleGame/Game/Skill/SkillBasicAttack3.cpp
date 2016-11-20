@@ -24,7 +24,7 @@ void SkillBasicAttack3::OnBeginUse()
     if (owner == nullptr)
         return;
 
-    auto missile = ObjectPool<Missile>::Get();
+    auto missile = ObjectPool<Missile>::GetWithInit();
     auto render = missile->GetComponent<CmdRenderComponent>();
     if (render == nullptr)
         return;
@@ -40,6 +40,7 @@ void SkillBasicAttack3::OnBeginUse()
     missile->SetMovePowerFrict(0.0f);
     missile->AddMovePower(owner->GetDirection());
     GameManager::GetInstance().RegisterCollision(missile, owner->GetSection());
+    GameManager::GetInstance().AddRender(missile);
 }
 
 void SkillBasicAttack3::OnUsing(float dt)

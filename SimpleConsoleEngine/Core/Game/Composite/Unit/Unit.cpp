@@ -13,14 +13,6 @@ SCE_START
 Unit::Unit() noexcept
     : m_HitRenderFlag(false)
 {
-    if (AddComponent<CmdRenderComponent>())
-    {
-        m_Render = GetComponent<CmdRenderComponent>();
-    }
-    if (AddComponent<CollisionComponent>())
-    {
-        m_Collision = GetComponent<CollisionComponent>();
-    }
 }
 
 Unit::~Unit()
@@ -30,6 +22,14 @@ Unit::~Unit()
 
 void Unit::Init()
 {
+    if (AddComponent<CmdRenderComponent>())
+    {
+        m_Render = GetComponent<CmdRenderComponent>();
+    }
+    if (AddComponent<CollisionComponent>())
+    {
+        m_Collision = GetComponent<CollisionComponent>();
+    }
 }
 
 void Unit::Release()
@@ -41,6 +41,7 @@ void Unit::Update(float dt)
     if (IsDeath())
         return;
 
+    GameObject::Update(dt);
     for (auto& skill : m_SkillList)
     {
         skill->Update(dt);
@@ -99,8 +100,10 @@ void Unit::Death()
         return;
 
     collision->Death();
+    static auto& gm = GameManager::GetInstance();
+    gm.RemoveRender(std::dynamic_pointer_cast<IRender>(shared_from_this()));
 
-    auto corpse = ObjectPool<Dummy>::Get();
+    auto corpse = ObjectPool<Dummy>::GetWithInit();
     auto render = corpse->GetComponent<CmdRenderComponent>();
     if (render != nullptr)
     {
@@ -108,7 +111,7 @@ void Unit::Death()
         render->SetShape(GetComponent<CmdRenderComponent>()->GetShape());
         render->SetColor(Color::BLACK);
         render->SetBGColor(Color::RED);
-        GameManager::GetInstance().AddRender(corpse, 1.f);
+        gm.AddRender(corpse, 1.f);
     }
 }
 

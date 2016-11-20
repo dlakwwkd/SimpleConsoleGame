@@ -58,9 +58,13 @@ bool CollisionComponent::Hitted(int damage)
     if (m_IsDeath || m_HitLock)
         return false;
 
+    auto owner = std::dynamic_pointer_cast<ICollision>(m_Owner.lock());
+    if (owner == nullptr)
+        return false;
+
     m_HitLock = true;
     GameManager::GetInstance().CallFuncAfterP(0.2f,
-        std::dynamic_pointer_cast<ICollision>(m_Owner.lock()),
+        owner,
         &ICollision::SetHitLock,
         false);
 
@@ -68,7 +72,7 @@ bool CollisionComponent::Hitted(int damage)
     if (m_CurHp <= 0)
     {
         m_CurHp = 0;
-        Death();
+        owner->Death();
     }
     return true;
 }

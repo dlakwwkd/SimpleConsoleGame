@@ -31,27 +31,12 @@ void Game::Init()
     srand((unsigned int)time(NULL));
 
     m_Command = std::make_unique<Command>();
-    m_Hero = ObjectPool<Hero>::Get();
+    m_Hero = ObjectPool<Hero>::GetWithInit();
     m_Hero->SetDefaultAttack();
     GameManager::GetInstance().RegisterCollision(m_Hero);
+    GameManager::GetInstance().AddRender(m_Hero);
 
     GenerateMob(100);
-    /*
-    // 테스트 용 코드
-    auto& gm = GameManager::GetInstance();
-    gm.CallFuncAfterM(8.0f, &gm, &GameManager::ReturnMain);     // 게임 초기화
-    gm.CallFuncAfterM(2.0f, this, &Game::CommandProc, 10.0f);   // 순간가속
-    gm.CallFuncAfterS(4.0f,                                     // 순간정지
-        [](auto&& moblist)
-        {
-            for (size_t i = 0; i < moblist.size(); ++i)
-            {
-                Sleep(50);
-            }
-        },
-        m_MobList);
-    gm.CallFuncAfterP(5.f, m_Hero, &Hero::Hitted, 100);         // 영웅 죽이기
-    */
 }
 
 void Game::Release()
@@ -81,13 +66,14 @@ void Game::GenerateMob(int num)
     m_MobList.reserve(num);
     for (int i = 0; i < num; ++i)
     {
-        m_MobList.emplace_back(ObjectPool<Mob>::Get());
+        m_MobList.emplace_back(ObjectPool<Mob>::GetWithInit());
         auto& mob = m_MobList[i];
         auto render = mob->GetComponent<CmdRenderComponent>();
         if (render == nullptr)
             continue;
 
         GameManager::GetInstance().RegisterCollision(mob);
+        GameManager::GetInstance().AddRender(mob);
         if (i < mobType)
         {
             render->SetShape(L'☠', Color::GREY);

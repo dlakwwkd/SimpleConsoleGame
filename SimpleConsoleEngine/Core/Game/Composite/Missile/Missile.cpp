@@ -10,25 +10,25 @@
 SCE_START
 
 
-Missile::Missile()
+Missile::Missile() noexcept
 {
-    Init();
 }
-
 
 Missile::~Missile()
 {
-    Release();
 }
+
 
 void Missile::Init()
 {
+    Unit::Init();
     m_AITimer = ObjectPool<Timer>::Get(1.0f);
 }
 
 void Missile::Release()
 {
     m_AITimer.reset();
+    Unit::Release();
 }
 
 void Missile::Update(float dt)
@@ -64,9 +64,10 @@ void Missile::Death()
 
     // 일단 하드코딩.. 나중에 제대로 구현하자
     static auto& gm = GameManager::GetInstance();
+    gm.RemoveRender(std::dynamic_pointer_cast<IRender>(shared_from_this()));
     auto effectCreate = [&](const Vec2& createPos, float craeteDelay)
     {
-        auto effect = ObjectPool<Dummy>::Get();
+        auto effect = ObjectPool<Dummy>::GetWithInit();
         auto render = effect->GetComponent<CmdRenderComponent>();
         if (render != nullptr)
         {

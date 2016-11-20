@@ -18,17 +18,16 @@ SCE_USE
 
 Hero::Hero() noexcept
 {
-    Init();
 }
 
 
 Hero::~Hero()
 {
-    Release();
 }
 
 void Hero::Init()
 {
+    Unit::Init();
     auto render = GetComponent<CmdRenderComponent>();
     if (render == nullptr)
         return;
@@ -51,6 +50,7 @@ void Hero::Init()
 
 void Hero::Release()
 {
+    Unit::Release();
 }
 
 void Hero::Update(float dt)

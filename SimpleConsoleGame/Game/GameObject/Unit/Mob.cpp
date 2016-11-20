@@ -13,17 +13,16 @@ Mob::Mob()
 :   m_ToPos{ 0.0f, 0.0f },
     m_ToPosChangeProbability(0.2f)
 {
-    Init();
 }
 
 
 Mob::~Mob()
 {
-    Release();
 }
 
 void Mob::Init()
 {
+    Unit::Init();
     auto render = GetComponent<CmdRenderComponent>();
     if (render == nullptr)
         return;
@@ -39,6 +38,7 @@ void Mob::Init()
 void Mob::Release()
 {
     m_AITimer.reset();
+    Unit::Release();
 }
 
 void Mob::Update(float dt)

@@ -154,13 +154,13 @@ void GameObject::DirectionShow() const noexcept
     Vec2 dir = m_MovePower / power;
     Vec2 temp = m_Pos;
 
-    static Dummy dummy;
+    auto dummy = ObjectPool<Dummy>::GetWithInit();
     auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict / m_MovePowerLimit);
     for (size_t i = 0; i < length; ++i)
     {
         temp += dir;
-        dummy.SetPos(temp);
-        dummy.Render();
+        dummy->SetPos(temp);
+        dummy->Render();
     }
 }
 

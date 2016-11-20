@@ -9,7 +9,7 @@ class Missile : public Unit
 {
     SPECIALFUNC_SET(Missile, default)
 public:
-    Missile();
+    Missile() noexcept;
     virtual ~Missile() override;
 
     virtual void Init()             override;

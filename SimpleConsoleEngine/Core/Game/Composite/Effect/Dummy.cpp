@@ -8,6 +8,15 @@ SCE_START
 
 Dummy::Dummy() noexcept
 {
+}
+
+Dummy::~Dummy()
+{
+}
+
+
+void Dummy::Init()
+{
     if (AddComponent<CmdRenderComponent>())
     {
         auto render = GetComponent<CmdRenderComponent>();
@@ -18,21 +27,13 @@ Dummy::Dummy() noexcept
     }
 }
 
-Dummy::~Dummy()
-{
-}
-
-
-void Dummy::Init()
-{
-}
-
 void Dummy::Release()
 {
 }
 
 void Dummy::Update(float dt)
 {
+    GameObject::Update(dt);
 }
 
 void Dummy::Render()
@@ -41,7 +42,6 @@ void Dummy::Render()
     if (render == nullptr)
         return;
 
-    render->SetCoord(Coord(GetPos()));
     render->Render();
 }
 

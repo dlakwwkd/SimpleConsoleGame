@@ -66,3 +66,10 @@ void GameManager::CallFuncAfterP(float after, const std::shared_ptr<T>& pObj, F 
 }
 
 SCE_END
+
+
+// for SectionMap key
+inline bool operator<(const POINT& l, const POINT& r)
+{
+    return l.x < r.x || (l.x == r.x && l.y < r.y);
+}

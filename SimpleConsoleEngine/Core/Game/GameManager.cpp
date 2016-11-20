@@ -51,17 +51,6 @@ void GameManager::RemoveRender(const RenderPtr& obj)
 }
 
 
-void GameManager::AddCollision(const CollisionPtr& obj)
-{
-    m_CollisionList.push_back(obj);
-}
-
-void GameManager::RemoveCollision(const CollisionPtr& obj)
-{
-    m_CollisionList.remove(obj);
-}
-
-
 void GameManager::RegisterCollision(const CollisionPtr& obj)
 {
     if (m_RootSection == nullptr)
@@ -111,7 +100,7 @@ void GameManager::RegisterBuiltSection(const SectionPtr& section, const POINT& p
     {
         for (int x = pos.x - 10; x < pos.x + 10; ++x)
         {
-            auto temp = ObjectPool<Dummy>::Get();
+            auto temp = ObjectPool<Dummy>::GetWithInit();
             auto render = temp->GetComponent<CmdRenderComponent>();
             if (render != nullptr)
             {
@@ -172,9 +161,7 @@ void GameManager::MainLoop()
         }
         m_IsPlay = true;
         m_Timer->Init();
-        m_Game->Init();
         GameLoop();
-        m_Game->Release();
     }
 }
 
@@ -183,6 +170,7 @@ void GameManager::GameLoop()
     m_RootSection = ObjectPool<Section>::Get(POINT{ 0, 0 }, 10);
     RegisterBuiltSection(m_RootSection, { 0, 0 });
 
+    m_Game->Init();
     SetRenderLimit(60);
     while (m_IsPlay)
     {
@@ -194,6 +182,8 @@ void GameManager::GameLoop()
         }
     }
     m_Scheduler->Release();
+    m_Game->Release();
+
     m_SectionMap.clear();
     m_SectionList.clear();
     m_RenderList.clear();
@@ -276,6 +266,17 @@ void GameManager::PrintFrame()
         << L"DrawCall: " << console.GetDrawCallNum();
     console.SetColor(Color::WHITE);
     console.PrintText(Coord(0, console.GetScreenHeight() + 1), oss.str().c_str());
+}
+
+
+void GameManager::AddCollision(const CollisionPtr& obj)
+{
+    m_CollisionList.push_back(obj);
+}
+
+void GameManager::RemoveCollision(const CollisionPtr& obj)
+{
+    m_CollisionList.remove(obj);
 }
 
 

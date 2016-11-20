@@ -37,9 +37,6 @@ public:
     void        AddRender(const RenderPtr& obj, float lifeTime = -1.f);
     void        RemoveRender(const RenderPtr& obj);
 
-    void        AddCollision(const CollisionPtr& obj);
-    void        RemoveCollision(const CollisionPtr& obj);
-
     void        RegisterCollision(const CollisionPtr& obj);
     void        RegisterCollision(const CollisionPtr& obj, const SectionPtr& trySection);
     void        UnRegisterCollision(const CollisionPtr& obj);
@@ -61,6 +58,9 @@ private:
     bool        RenderLimitCheck();
     void        PrintFrame();
 
+    void        AddCollision(const CollisionPtr& obj);
+    void        RemoveCollision(const CollisionPtr& obj);
+
     void        CollisionCheck(float dt);
     void        SectionNumPrint() const;
 
@@ -80,11 +80,6 @@ private:
     std::vector<SectionPtr>     m_SectionList;
     std::map<POINT, SectionRef> m_SectionMap;
     SectionPtr                  m_RootSection;
-
-    friend bool operator<(const POINT& l, const POINT& r)
-    {
-        return l.x < r.x || (l.x == r.x && l.y < r.y);
-    }
 };
 
 SCE_END

@@ -7,7 +7,6 @@ SCE_START
 
 Effect::Effect() noexcept
 {
-    AddComponent<CmdRenderComponent>();
 }
 
 Effect::~Effect()
@@ -17,6 +16,7 @@ Effect::~Effect()
 
 void Effect::Init()
 {
+    AddComponent<CmdRenderComponent>();
 }
 
 void Effect::Release()
@@ -25,11 +25,11 @@ void Effect::Release()
 
 void Effect::Update(float dt)
 {
+    GameObject::Update(dt);
 }
 
 void Effect::Render()
 {
-    GameObject::Render();
 }
 
 SCE_END
