@@ -6,59 +6,20 @@ SCE_START
 
 
 Shape::Shape() noexcept
-    : m_Form(L' ')
-    , m_Color(Color::WHITE)
-    , m_BGColor(Color::BLACK)
-{
-}
-
-Shape::Shape(wchar_t data, Color color, Color bgColor) noexcept
-    : m_Form(data)
-    , m_Color(color)
-    , m_BGColor(bgColor)
+    : form{ L' ' }
+    , color{ Color::WHITE }
+    , bgColor{ Color::BLACK }
 {
 }
 
 
-wchar_t Shape::GetForm() const noexcept
-{
-    return m_Form;
-}
-
-Color Shape::GetColor() const noexcept
-{
-    return m_Color;
-}
-
-Color Shape::GetBGColor() const noexcept
-{
-    return m_BGColor;
-}
-
-
-void Shape::SetForm(wchar_t form) noexcept
-{
-    m_Form = form;
-}
-
-void Shape::SetColor(Color color) noexcept
-{
-    m_Color = color;
-}
-
-void Shape::SetBGColor(Color bgColor) noexcept
-{
-    m_BGColor = bgColor;
-}
-
-
-void Shape::Render(const Coord& pos, BYTE depth) noexcept
+void Shape::Render(const Coord& _pos, BYTE _depth) noexcept
 {
     static auto& console = Console::GetInstance();
-    if (console.DepthCheck(pos, depth))
+    if (console.DepthCheck(_pos, _depth))
     {
-        console.SetColor(m_Color, m_BGColor);
-        console.Print(pos, m_Form);
+        console.SetColor(color, bgColor);
+        console.Print(_pos, form);
     }
 }
 

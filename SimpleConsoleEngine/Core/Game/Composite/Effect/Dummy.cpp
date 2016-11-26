@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Dummy.h"
 #include "../../Component/RenderComponent/CmdRenderComponent.h"
-#include "../../../Console/Console.h"
-#include "../../../Math/Vec2.h"
 SCE_START
 
 
@@ -23,7 +21,8 @@ void Dummy::Init()
         if (render == nullptr)
             return;
 
-        render->SetShape(L'+', Color::DARK_BLUE);
+        render->SetShape(L'+');
+        render->SetColor(Color::DARK_BLUE);
     }
 }
 
@@ -31,9 +30,15 @@ void Dummy::Release()
 {
 }
 
-void Dummy::Update(float dt)
+void Dummy::Update(float _dt)
 {
-    GameObject::Update(dt);
+    GameObject::Update(_dt);
+}
+
+
+RenderPtr Dummy::GetRender()
+{
+    return GetComponent<CmdRenderComponent>();
 }
 
 void Dummy::Render()

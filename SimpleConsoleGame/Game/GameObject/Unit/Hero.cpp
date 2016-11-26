@@ -1,14 +1,10 @@
 ﻿#include "stdafx.h"
 #include "Hero.h"
-//----------------------------------------------------------------------------------------------------
+#include "Core/Math/Vec2.h"
 #include "Core/Timer/Timer.h"
 #include "Core/Console/Console.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
-#include "Core/Game/GameManager.h"
-#include "Core/ObjectPool/ObjectPool.h"
-#include "Core/Game/Composite/Effect/Dummy.h"
-#include "Core/Game/Skill.h"
-//----------------------------------------------------------------------------------------------------
+#include "Core/Game/Component/CollisionComponent/CollisionComponent.h"
 #include "../../Skill/SkillBasicAttack.h"
 #include "../../Skill/SkillBasicAttack2.h"
 #include "../../Skill/SkillBasicAttack3.h"
@@ -16,14 +12,28 @@
 SCE_USE
 
 
+struct Hero::impl
+{
+    impl() noexcept
+        : defaultAttack{}
+        , missileSwap{}
+    {
+    }
+    
+    std::shared_ptr<Skill> defaultAttack;
+    std::shared_ptr<Skill> missileSwap;
+};
+
+
 Hero::Hero() noexcept
+    : pimpl{ std::make_unique<impl>() }
 {
 }
-
 
 Hero::~Hero()
 {
 }
+
 
 void Hero::Init()
 {
@@ -32,17 +42,22 @@ void Hero::Init()
     if (render == nullptr)
         return;
 
-    render->SetShape(L'▣', Color::GREEN);
+    render->SetShape(L'▣');
+    render->SetColor(Color::GREEN);
     render->SetDepth(5);
+
+    auto collision = GetComponent<CollisionComponent>();
+    if (collision == nullptr)
+        return;
 
     SetMovePowerLimit(0.25f);
     SetMovePowerFrict(4.0f);
     SetSpeed(50.0f);
-    SetMaxHp(500);
-    InitHp();
-    SetDamage(10);
-    SetHitMask(CollisionMask::PLAYER);
-    SetAttackMask(CollisionMask::ENEMY);
+    collision->SetMaxHp(500);
+    collision->InitHp();
+    collision->SetDamage(10);
+    collision->SetHitMask(CollisionComponent::CollisionMask::PLAYER);
+    collision->SetAttackMask(CollisionComponent::CollisionMask::ENEMY);
 
     auto screenSize = Console::GetInstance().GetScreenSize();
     SetPos(Coord::ConvertToVec2(screenSize) / 2);
@@ -53,9 +68,9 @@ void Hero::Release()
     Unit::Release();
 }
 
-void Hero::Update(float dt)
+void Hero::Update(float _dt)
 {
-    Unit::Update(dt);
+    Unit::Update(_dt);
 }
 
 void Hero::Render()
@@ -67,35 +82,35 @@ void Hero::Render()
 
 void Hero::SetDefaultAttack()
 {
-    m_DefaultAttack = ObjectPool<SkillBasicAttack>::Get();
-    AddSkill(m_DefaultAttack);
+    pimpl->defaultAttack = ObjectPool<SkillBasicAttack>::Get();
+    AddSkill(pimpl->defaultAttack);
     AddSkill(ObjectPool<SkillBasicAttack2>::Get());
     AddSkill(ObjectPool<SkillBasicAttack3>::Get());
 
-    m_MissileSwap = ObjectPool<SkillBasicAttackSwap>::Get();
-    AddSkill(m_MissileSwap);
+    pimpl->missileSwap = ObjectPool<SkillBasicAttackSwap>::Get();
+    AddSkill(pimpl->missileSwap);
 }
 
 void Hero::ShootMissile()
 {
-    if (m_DefaultAttack == nullptr)
+    if (pimpl->defaultAttack == nullptr)
         return;
 
-    m_DefaultAttack->UseSkill();
+    pimpl->defaultAttack->UseSkill();
 }
 
 void Hero::SwapMissile()
 {
-    if (m_MissileSwap == nullptr)
+    if (pimpl->missileSwap == nullptr)
         return;
 
-    m_MissileSwap->UseSkill();
+    pimpl->missileSwap->UseSkill();
 }
 
-void Hero::SwapMissile(int idx)
+void Hero::SwapMissile(int _idx)
 {
-    if (idx < 0 || idx >= m_SkillList.size())
+    if (_idx < 0 || _idx >= GetSkillList().size())
         return;
 
-    m_DefaultAttack = m_SkillList.at(idx);
+    pimpl->defaultAttack = GetSkillList().at(_idx);
 }

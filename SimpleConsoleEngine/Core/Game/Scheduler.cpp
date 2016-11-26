@@ -4,51 +4,51 @@ SCE_START
 
 
 
-Scheduler::Task::Task(TickTime time, Functor&& task) noexcept
-    : m_ExecutionTick(time)
-    , m_Task(std::move(task))
+Scheduler::Task::Task(TickTime _time, Functor&& _func) noexcept
+    : executionTick(_time)
+    , function(std::move(_func))
 {
 }
 
 
-bool Scheduler::Task::operator>(const Task& rhs) const noexcept
+bool Scheduler::Task::operator>(const Task& _rhs) const noexcept
 {
-    return m_ExecutionTick > rhs.m_ExecutionTick;
+    return executionTick > _rhs.executionTick;
 }
 
 
 Scheduler::Scheduler() noexcept
-    : m_CurrentTick(std::chrono::system_clock::now())
+    : curTick(std::chrono::system_clock::now())
 {
 }
 
 
-void Scheduler::PushTask(float after, Functor&& task) noexcept
+void Scheduler::PushTask(float _after, Functor&& _func) noexcept
 {
-    TickTime dueTimeTick = m_CurrentTick + std::chrono::milliseconds(static_cast<int64_t>(after * 1000.0f));
-    m_TaskQueue.emplace(dueTimeTick, std::move(task));
+    TickTime dueTimeTick = curTick + std::chrono::milliseconds(static_cast<int64_t>(_after * 1000.0f));
+    taskQueue.emplace(dueTimeTick, std::move(_func));
 }
 
 void Scheduler::DoTask() noexcept
 {
-    m_CurrentTick = std::chrono::system_clock::now();
-    while (!m_TaskQueue.empty())
+    curTick = std::chrono::system_clock::now();
+    while (!taskQueue.empty())
     {
-        const Task& task = m_TaskQueue.top();
-        if (m_CurrentTick < task.m_ExecutionTick)
+        const Task& task = taskQueue.top();
+        if (curTick < task.executionTick)
         {
             break;
         }
-        task.m_Task();
-        m_TaskQueue.pop();
+        task.function();
+        taskQueue.pop();
     }
 }
 
 void Scheduler::Release() noexcept
 {
-    while (!m_TaskQueue.empty())
+    while (!taskQueue.empty())
     {
-        m_TaskQueue.pop();
+        taskQueue.pop();
     }
 }
 

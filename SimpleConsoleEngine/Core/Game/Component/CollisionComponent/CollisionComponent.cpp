@@ -1,38 +1,43 @@
 ﻿#include "stdafx.h"
 #include "CollisionComponent.h"
-#include "../../Composite/CompositeBase.h"
-#include "../../../ObjectPool/ObjectPool.h"
 #include "../../GameManager.h"
+#include "../../Composite/Unit/Unit.h"
 SCE_START
 
 
-CollisionComponent::CollisionComponent(const CompositeRef& owner) noexcept
-    : m_Owner(owner)
-    , m_MaxHp(0)
-    , m_CurHp(0)
-    , m_Damage(0)
-    , m_IsDeath(false)
-    , m_HitLock(false)
-    , m_HitMask(CollisionMask::NONE)
-    , m_AttackMask(CollisionMask::NONE)
+struct CollisionComponent::impl
+{
+    impl(const CompositeRef& _owner) noexcept
+        : owner{ _owner }
+        , section{}
+        , maxHp{}
+        , curHp{}
+        , damage{}
+        , isDeath{}
+        , hitLock{}
+        , hitMask{}
+        , attackMask{}
+    {
+    }
+
+    CompositeRef    owner;
+    SectionRef      section;
+    int             maxHp;
+    int             curHp;
+    int             damage;
+    bool            isDeath;
+    bool            hitLock;
+    CollisionMask   hitMask;    // 맞을 수 있는 공격 종류
+    CollisionMask   attackMask; // 때릴 수 있는 공격 종류
+};
+
+
+CollisionComponent::CollisionComponent(const CompositeRef& _owner) noexcept
+    : pimpl{ std::make_unique<impl>(_owner) }
 {
 }
 
 CollisionComponent::~CollisionComponent()
-{
-}
-
-
-void CollisionComponent::Init()
-{
-}
-
-void CollisionComponent::Release()
-{
-    m_Section.reset();
-}
-
-void CollisionComponent::Update(float dt)
 {
 }
 
@@ -44,34 +49,27 @@ std::string CollisionComponent::GetComponentName() const
 
 IComponent::CompositePtr CollisionComponent::GetOwner() const
 {
-    return m_Owner.lock();
-}
-
-IComponent::IComponentPtr CollisionComponent::Copy() const
-{
-    return ObjectPool<CollisionComponent>::Get(*this);
+    return pimpl->owner.lock();
 }
 
 
-bool CollisionComponent::Hitted(int damage)
+bool CollisionComponent::Hitted(int _damage)
 {
-    if (m_IsDeath || m_HitLock)
+    if (pimpl->isDeath || pimpl->hitLock)
         return false;
 
-    auto owner = std::dynamic_pointer_cast<ICollision>(m_Owner.lock());
-    if (owner == nullptr)
-        return false;
-
-    m_HitLock = true;
+    pimpl->hitLock = true;
     GameManager::GetInstance().CallFuncAfterP(0.2f,
-        owner,
-        &ICollision::SetHitLock,
+        std::dynamic_pointer_cast<CollisionComponent>(shared_from_this()),
+        &CollisionComponent::SetHitLock,
         false);
 
-    m_CurHp -= damage;
-    if (m_CurHp <= 0)
+    pimpl->curHp -= _damage;
+    if (pimpl->curHp <= 0)
     {
-        m_CurHp = 0;
+        pimpl->curHp = 0;
+
+        auto owner = std::dynamic_pointer_cast<ICollisionObject>(pimpl->owner.lock());
         owner->Death();
     }
     return true;
@@ -79,106 +77,92 @@ bool CollisionComponent::Hitted(int damage)
 
 void CollisionComponent::Death()
 {
-    if (m_IsDeath)
-        return;
-
-    m_IsDeath = true;
+    pimpl->isDeath = true;
 }
 
 
 bool CollisionComponent::IsDeath() const
 {
-    return m_IsDeath;
+    return pimpl->isDeath;
 }
 
-bool CollisionComponent::CanAttack(const CollsionPtr& target) const
+bool CollisionComponent::CanAttack(const CollsionPtr& _target) const
 {
-    if (target == nullptr)
+    if (_target == nullptr)
         return false;
 
-    return (target->GetHitMask() & m_AttackMask) == 0 ? false : true;
+    return (_target->GetHitMask() & pimpl->attackMask) == 0 ? false : true;
 }
 
 
 int CollisionComponent::GetCurHp() const
 {
-    return m_CurHp;
+    return pimpl->curHp;
 }
 
 int CollisionComponent::GetMaxHp() const
 {
-    return m_MaxHp;
+    return pimpl->maxHp;
 }
 
 int CollisionComponent::GetDamage() const
 {
-    return m_Damage;
+    return pimpl->damage;
 }
 
-Vec2 CollisionComponent::GetPos() const
+CollisionComponent::SectionPtr CollisionComponent::GetSection() const
 {
-    // only GameObject
-    return Vec2();
+    return pimpl->section.lock();
 }
 
-ICollision::SectionPtr CollisionComponent::GetSection() const
+CollisionComponent::CollisionMask CollisionComponent::GetHitMask() const
 {
-    return m_Section.lock();
+    return pimpl->hitMask;
 }
 
-ICollision::CollisionMask CollisionComponent::GetHitMask() const
+CollisionComponent::CollisionMask CollisionComponent::GetAttackMask() const
 {
-    return m_HitMask;
-}
-
-ICollision::CollisionMask CollisionComponent::GetAttackMask() const
-{
-    return m_AttackMask;
+    return pimpl->attackMask;
 }
 
 
 void CollisionComponent::InitHp()
 {
-    m_CurHp = m_MaxHp;
+    pimpl->curHp = pimpl->maxHp;
 }
 
-void CollisionComponent::SetMaxHp(int maxHp)
+void CollisionComponent::SetMaxHp(int _maxHp)
 {
-    if (maxHp > 0)
+    if (_maxHp > 0)
     {
-        m_MaxHp = maxHp;
+        pimpl->maxHp = _maxHp;
     }
 }
 
-void CollisionComponent::SetDamage(int damage)
+void CollisionComponent::SetDamage(int _damage)
 {
-    m_Damage = damage;
+    pimpl->damage = _damage;
 }
 
-void CollisionComponent::SetPos(const Vec2& pos)
+void CollisionComponent::SetSection(const SectionPtr& _section)
 {
-    // only GameObject
+    pimpl->section = _section;
 }
 
-void CollisionComponent::SetSection(const SectionPtr& section)
+void CollisionComponent::SetHitMask(CollisionMask _mask)
 {
-    m_Section = section;
+    pimpl->hitMask = _mask;
 }
 
-void CollisionComponent::SetHitMask(CollisionMask mask)
+void CollisionComponent::SetAttackMask(CollisionMask _mask)
 {
-    m_HitMask = mask;
-}
-
-void CollisionComponent::SetAttackMask(CollisionMask mask)
-{
-    m_AttackMask = mask;
+    pimpl->attackMask = _mask;
 }
 
 
-void CollisionComponent::SetHitLock(bool lock)
+void CollisionComponent::SetHitLock(bool _lock)
 {
-    m_HitLock = lock;
+    pimpl->hitLock = _lock;
 }
 
 SCE_END

@@ -81,6 +81,14 @@ private:                                \
 #define CREATE_SINGLETON_NOEXCEPT_V(T)  _CREATE_SINGLETON_NOEXCEPT(T) virtual ~T();
 
 //----------------------------------------------------------------------------------------------------
+// - Pimpl
+#define DECLARE_PIMPL               \
+protected:                          \
+    struct impl;                    \
+    std::unique_ptr<impl> pimpl;    \
+private:
+
+//----------------------------------------------------------------------------------------------------
 // - 템플릿 태그 체크 (Refer to Effective Modern C++)
 #define CHECKED_T(T)        template<typename T, typename>
 #define IS_SAME(T, Other)   template<typename T, typename = std::enable_if_t<std::is_same<Other, std::decay_t<T>>::value>>

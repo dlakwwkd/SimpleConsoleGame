@@ -1,11 +1,10 @@
 ﻿#include "stdafx.h"
 #include "SkillBasicAttack3.h"
-#include "Core/Timer/Timer.h"
+#include "Core/Math/Vec2.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
+#include "Core/Game/Component/CollisionComponent/CollisionComponent.h"
+#include "Core/Game/Composite/Unit/Missile/Missile.h"
 #include "Core/Game/GameManager.h"
-#include "Core/ObjectPool/ObjectPool.h"
-#include "Core/Game/Composite/Unit/Unit.h"
-#include "Core/Game/Composite/Missile/Missile.h"
 SCE_USE
 
 
@@ -14,7 +13,8 @@ SkillBasicAttack3::SkillBasicAttack3()
     SetDuration(State::COOLTIME, 0.01f);
 }
 
-void SkillBasicAttack3::OnPrepare(float dt)
+
+void SkillBasicAttack3::OnPrepare(float _dt)
 {
 }
 
@@ -29,21 +29,26 @@ void SkillBasicAttack3::OnBeginUse()
     if (render == nullptr)
         return;
 
-    render->SetShape(L'x', Color::MAGENTA);
-    missile->SetDamage(10);
-    missile->SetMaxHp(1);
-    missile->InitHp();
-    missile->SetAttackMask(owner->GetAttackMask());
-    missile->SetHitMask(owner->GetHitMask());
+    auto collision = missile->GetComponent<CollisionComponent>();
+    if (collision == nullptr)
+        return;
+
+    render->SetShape(L'x');
+    render->SetColor(Color::MAGENTA);
+    collision->SetDamage(10);
+    collision->SetMaxHp(1);
+    collision->InitHp();
+    collision->SetAttackMask(owner->GetComponent<CollisionComponent>()->GetAttackMask());
+    collision->SetHitMask(owner->GetComponent<CollisionComponent>()->GetHitMask());
     missile->SetPos(owner->GetPos());
     missile->SetSpeed(100.0f);
     missile->SetMovePowerFrict(0.0f);
     missile->AddMovePower(owner->GetDirection());
-    GameManager::GetInstance().RegisterCollision(missile, owner->GetSection());
+    GameManager::GetInstance().RegisterCollision(missile, owner->GetComponent<CollisionComponent>()->GetSection());
     GameManager::GetInstance().AddRender(missile);
 }
 
-void SkillBasicAttack3::OnUsing(float dt)
+void SkillBasicAttack3::OnUsing(float _dt)
 {
 }
 

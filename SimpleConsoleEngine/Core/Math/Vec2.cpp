@@ -11,42 +11,42 @@ const Vec2 Vec2::RIGHT  = { +1.0f, 0.0f };
 
 
 Vec2::Vec2() noexcept
-    : m_X(0.0f)
-    , m_Y(0.0f)
+    : x{}
+    , y{}
 {
 }
 
-Vec2::Vec2(float x, float y) noexcept
-    : m_X(x)
-    , m_Y(y)
+Vec2::Vec2(float _x, float _y) noexcept
+    : x{ _x }
+    , y{ _y }
 {
 }
 
 
 float Vec2::GetX() const noexcept
 {
-    return m_X;
+    return x;
 }
 
 float Vec2::GetY() const noexcept
 {
-    return m_Y;
+    return y;
 }
 
-void Vec2::SetX(float x) noexcept
+void Vec2::SetX(float _x) noexcept
 {
-    m_X = x;
+    x = _x;
 }
 
-void Vec2::SetY(float y) noexcept
+void Vec2::SetY(float _y) noexcept
 {
-    m_Y = y;
+    y = _y;
 }
 
-void Vec2::Set(float x, float y) noexcept
+void Vec2::Set(float _x, float _y) noexcept
 {
-    m_X = x;
-    m_Y = y;
+    x = _x;
+    y = _y;
 }
 
 void Vec2::SetZero() noexcept
@@ -57,29 +57,29 @@ void Vec2::SetZero() noexcept
 
 float Vec2::Length() const noexcept
 {
-    return std::hypotf(m_X, m_Y);
+    return std::hypotf(x, y);
 }
 
 float Vec2::LengthSquared() const noexcept
 {
-    return m_X * m_X + m_Y * m_Y;
+    return x * x + y * y;
 }
 
-float Vec2::Distance(const Vec2& other) const noexcept
+float Vec2::Distance(const Vec2& _v) const noexcept
 {
-    return std::hypotf(other.m_X - m_X, other.m_Y - m_Y);
+    return std::hypotf(_v.x - x, _v.y - y);
 }
 
-float Vec2::DistanceSquared(const Vec2& other) const noexcept
+float Vec2::DistanceSquared(const Vec2& _v) const noexcept
 {
-    float dx = other.m_X - m_X;
-    float dy = other.m_Y - m_Y;
+    float dx = _v.x - x;
+    float dy = _v.y - y;
     return dx * dx + dy * dy;
 }
 
-Vec2 Vec2::Direction(const Vec2& other) const noexcept
+Vec2 Vec2::Direction(const Vec2& _v) const noexcept
 {
-    return (other - *this).Normalize();
+    return (_v - *this).Normalize();
 }
 
 Vec2& Vec2::Normalize() noexcept
@@ -93,67 +93,69 @@ Vec2 Vec2::GetNormalized() const noexcept
 }
 
 
-Vec2 Vec2::operator+(const Vec2 &v) const noexcept
+Vec2 Vec2::operator+(const Vec2&_v) const noexcept
 {
-    return Vec2(m_X + v.m_X, m_Y + v.m_Y);
+    return Vec2(x + _v.x, y + _v.y);
 }
 
-Vec2 Vec2::operator-(const Vec2 &v) const noexcept
+Vec2 Vec2::operator-(const Vec2&_v) const noexcept
 {
-    return Vec2(m_X - v.m_X, m_Y - v.m_Y);
+    return Vec2(x - _v.x, y - _v.y);
 }
 
-Vec2 Vec2::operator*(float s) const noexcept
+Vec2 Vec2::operator*(float _s) const noexcept
 {
-    return Vec2(m_X * s, m_Y * s);
+    return Vec2(x * _s, y * _s);
 }
 
-Vec2 Vec2::operator/(float s) const noexcept
+Vec2 Vec2::operator/(float _s) const noexcept
 {
-    return Vec2(m_X / s, m_Y / s);
+    return Vec2(x / _s, y / _s);
 }
 
 Vec2 Vec2::operator-() const noexcept
 {
-    return Vec2(-m_X, -m_Y);
+    return Vec2(-x, -y);
 }
 
 
-Vec2& Vec2::operator+=(const Vec2 &v) noexcept
+Vec2& Vec2::operator+=(const Vec2&_v) noexcept
 {
-    m_X += v.m_X; m_Y += v.m_Y;
+    x += _v.x;
+    y += _v.y;
     return *this;
 }
 
-Vec2& Vec2::operator-=(const Vec2 &v) noexcept
+Vec2& Vec2::operator-=(const Vec2&_v) noexcept
 {
-    m_X -= v.m_X; m_Y -= v.m_Y;
+    x -= _v.x;
+    y -= _v.y;
     return *this;
 }
 
-Vec2& Vec2::operator*=(float s) noexcept
+Vec2& Vec2::operator*=(float _s) noexcept
 {
-    m_X *= s;
-    m_Y *= s;
+    x *= _s;
+    y *= _s;
     return *this;
 }
 
-Vec2& Vec2::operator/=(float s) noexcept
+Vec2& Vec2::operator/=(float _s) noexcept
 {
-    m_X /= s;
-    m_Y /= s;
+    x /= _s;
+    y /= _s;
     return *this;
 }
 
 
-bool Vec2::operator==(const Vec2 &v) const noexcept
+bool Vec2::operator==(const Vec2&_v) const noexcept
 {
-    return m_X == v.m_X && m_Y == v.m_Y;
+    return x == _v.x && y == _v.y;
 }
 
-bool Vec2::operator!=(const Vec2 &v) const noexcept
+bool Vec2::operator!=(const Vec2&_v) const noexcept
 {
-    return m_X != v.m_X || m_Y != v.m_Y;
+    return x != _v.x || y != _v.y;
 }
 
 SCE_END

@@ -1,85 +1,69 @@
 ﻿#pragma once
 SCE_START
-class Scheduler;
-class IGameBase;
 class Timer;
-class IRender;
-class ICollision;
+class Scheduler;
 class Section;
+__interface IGame;
+__interface IRenderObject;
+__interface ICollisionObject;
 
 
 class GameManager
 {
+    DECLARE_PIMPL
     CREATE_SINGLETON_NOEXCEPT(GameManager)
-    using RenderPtr     = std::shared_ptr<IRender>;
-    using CollisionPtr  = std::shared_ptr<ICollision>;
-    using SectionPtr    = std::shared_ptr<Section>;
-    using SectionRef    = std::weak_ptr<Section>;
+    using RenderObjPtr		= std::shared_ptr<IRenderObject>;
+    using CollisionObjPtr	= std::shared_ptr<ICollisionObject>;
+    using SectionPtr		= std::shared_ptr<Section>;
+    using SectionRef		= std::weak_ptr<Section>;
 public:
-    IS_BASE_OF(GameType, IGameBase)
-    void        Run();
-    
-    IS_BASE_OF(GameType, IGameBase)
-    GameType&   GetGame() const;
+    IS_BASE_OF(T, IGame) void   Run();
+    IS_BASE_OF(T, IGame) T&     GetGame() const;
 
     template<typename F, typename... Args>
-    void        CallFuncAfterS(float after, F&& functor, Args&&... args);
-
+    void                        CallFuncAfterS(float _after, F&& _functor, Args&&... _args);
     template<typename T, typename F, typename... Args>
-    void        CallFuncAfterM(float after, T* pObj, F memfunc, Args&&... args);
-
+    void                        CallFuncAfterM(float _after, T* _obj, F _memfunc, Args&&... _args);
     template<typename T, typename F, typename... Args>
-    void        CallFuncAfterP(float after, const std::shared_ptr<T>& pObj, F memfunc, Args&&... args);
+    void                        CallFuncAfterP(float _after, const std::shared_ptr<T>& _obj, F _memfunc, Args&&... _args);
 
-    void        ReturnMain();
-    void        Shutdown();
+    void                        ReturnMain();
+    void                        Shutdown();
 
-    void        AddRender(const RenderPtr& obj, float lifeTime = -1.f);
-    void        RemoveRender(const RenderPtr& obj);
+    void                        AddRender(const RenderObjPtr& _obj, float _lifeTime = -1.f);
+    void                        RemoveRender(const RenderObjPtr& _obj);
 
-    void        RegisterCollision(const CollisionPtr& obj);
-    void        RegisterCollision(const CollisionPtr& obj, const SectionPtr& trySection);
-    void        UnRegisterCollision(const CollisionPtr& obj);
+    void                        RegisterCollision(const CollisionObjPtr& _obj);
+    void                        RegisterCollision(const CollisionObjPtr& _obj, const SectionPtr& _trySection);
+    void                        UnRegisterCollision(const CollisionObjPtr& _obj);
 
-    void        RegisterBuiltSection(const SectionPtr& section, const POINT& pos);
-    SectionPtr  FindSection(const POINT& pos) const;
+    void                        RegisterBuiltSection(const SectionPtr& _section, const POINT& _pos);
+    SectionPtr                  FindSection(const POINT& _pos) const;
 
 private:
-    void        InitGame();
-    void        ReleaseGame();
-    void        MainLoop();
-    void        GameLoop();
+    void                        InitGame();
+    void                        ReleaseGame();
+    void                        MainLoop();
+    void                        GameLoop();
 
-    void        UpdateProcess();
-    void        RenderProcess();
+    void                        UpdateProcess();
+    void                        RenderProcess();
 
-    float       FrameProgress();
-    void        SetRenderLimit(size_t limitFrame);
-    bool        RenderLimitCheck();
-    void        PrintFrame();
+    float                       FrameProgress();
+    void                        SetRenderLimit(size_t _limitFrame);
+    bool                        RenderLimitCheck();
 
-    void        AddCollision(const CollisionPtr& obj);
-    void        RemoveCollision(const CollisionPtr& obj);
+    void                        AddCollision(const CollisionObjPtr& _obj);
+    void                        RemoveCollision(const CollisionObjPtr& _obj);
 
-    void        CollisionCheck(float dt);
-    void        SectionNumPrint() const;
+    void                        CollisionCheck(float _dt);
 
 private:
-    std::unique_ptr<Scheduler>  m_Scheduler;
-    std::unique_ptr<IGameBase>  m_Game;
-    std::unique_ptr<Timer>      m_Timer;
-
-    bool                        m_IsRun;
-    bool                        m_IsPlay;
-    size_t                      m_FrameCount;
-    size_t                      m_RenderCount;
-    size_t                      m_RenderLimit;
-
-    std::list<RenderPtr>        m_RenderList;
-    std::list<CollisionPtr>     m_CollisionList;
-    std::vector<SectionPtr>     m_SectionList;
-    std::map<POINT, SectionRef> m_SectionMap;
-    SectionPtr                  m_RootSection;
+    std::unique_ptr<Scheduler>  scheduler;
+    std::unique_ptr<Timer>      gameTimer;
+    std::unique_ptr<IGame>		curGame;
+    bool                        isRun;
+    bool                        isPlay;
 };
 
 SCE_END

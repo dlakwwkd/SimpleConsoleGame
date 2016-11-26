@@ -22,17 +22,17 @@ public:
 public:
     constexpr Command() noexcept;
 
-    template<KeyType type> constexpr int    GetKey() const noexcept;
-    template<KeyType type> void             SetKey(int key) noexcept;
-    template<KeyType type> bool             IsKeyPress() const noexcept;
+    template<KeyType type> constexpr int    GetKey()        const   noexcept;
+    template<KeyType type> void             SetKey(int _key)        noexcept;
+    template<KeyType type> bool             IsKeyPress()    const   noexcept;
 
 private:
-    std::array<int, KeyType::TOTAL_KEY_NUM> m_KeyArr;
+    std::array<int, KeyType::TOTAL_KEY_NUM> keyArr;
 };
 
 
 constexpr Command::Command() noexcept
-    : m_KeyArr
+    : keyArr
         {
             VK_RETURN,
             VK_ESCAPE,
@@ -43,30 +43,31 @@ constexpr Command::Command() noexcept
             'Z',
             'X',
             'C',
-            'V'
+            'V',
         }
 {
 }
+
 
 template<Command::KeyType type>
 constexpr int Command::GetKey() const noexcept
 {
     static_assert(type < KeyType::TOTAL_KEY_NUM, "KeyType is invalid");
-    return m_KeyArr[type];
+    return keyArr[type];
 }
 
 template<Command::KeyType type>
-void Command::SetKey(int key) noexcept
+void Command::SetKey(int _key) noexcept
 {
     static_assert(type < KeyType::TOTAL_KEY_NUM, "KeyType is invalid");
-    m_KeyArr[type] = key;
+    keyArr[type] = _key;
 }
 
 template<Command::KeyType type>
 bool Command::IsKeyPress() const noexcept
 {
     static_assert(type < KeyType::TOTAL_KEY_NUM, "KeyType is invalid");
-    return GetAsyncKeyState(m_KeyArr[type]) & 0x8000 ? true : false;
+    return GetAsyncKeyState(keyArr[type]) & 0x8000 ? true : false;
 }
 
 SCE_END

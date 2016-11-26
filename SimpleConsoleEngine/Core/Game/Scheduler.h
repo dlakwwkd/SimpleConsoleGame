@@ -10,24 +10,24 @@ class Scheduler
 
     struct Task
     {
-        TickTime    m_ExecutionTick;
-        Functor     m_Task;
+        TickTime    executionTick;
+        Functor     function;
 
-        Task(TickTime time, Functor&& task) noexcept;
-        bool operator>(const Task& rhs) const noexcept;
+        Task(TickTime _time, Functor&& _func) noexcept;
+        bool operator>(const Task& _rhs) const noexcept;
     };
     using TaskQueue = std::priority_queue<Task, std::vector<Task>, std::greater<Task>>;
 
 public:
     Scheduler() noexcept;
 
-    void PushTask(float after, Functor&& task) noexcept;
-    void DoTask() noexcept;
-    void Release() noexcept;
+    void        PushTask(float _after, Functor&& _func) noexcept;
+    void        DoTask() noexcept;
+    void        Release() noexcept;
 
 private:
-    TaskQueue   m_TaskQueue;
-    TickTime    m_CurrentTick;
+    TaskQueue   taskQueue;
+    TickTime    curTick;
 };
 
 SCE_END

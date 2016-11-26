@@ -1,17 +1,33 @@
 ﻿#include "stdafx.h"
 #include "Unit.h"
 #include "../Effect/Dummy.h"
-#include "../../GameManager.h"
 #include "../../Skill.h"
+#include "../../GameManager.h"
 #include "../../Component/RenderComponent/CmdRenderComponent.h"
 #include "../../Component/CollisionComponent/CollisionComponent.h"
-#include "../../../ObjectPool/ObjectPool.h"
-#include "../../../Console/Console.h"
+#include "../../../Math/Vec2.h"
 SCE_START
 
 
+struct Unit::impl
+{
+    impl() noexcept
+        : skillList{}
+        , render{}
+        , collision{}
+        , hitRenderFlag{}
+    {
+    }
+
+    SkillList       skillList;
+    RenderRef       render;
+    CollisionRef    collision;
+    bool            hitRenderFlag;
+};
+
+
 Unit::Unit() noexcept
-    : m_HitRenderFlag(false)
+    : pimpl{ std::make_unique<impl>() }
 {
 }
 
@@ -24,11 +40,11 @@ void Unit::Init()
 {
     if (AddComponent<CmdRenderComponent>())
     {
-        m_Render = GetComponent<CmdRenderComponent>();
+        pimpl->render = GetComponent<CmdRenderComponent>();
     }
     if (AddComponent<CollisionComponent>())
     {
-        m_Collision = GetComponent<CollisionComponent>();
+        pimpl->collision = GetComponent<CollisionComponent>();
     }
 }
 
@@ -36,31 +52,41 @@ void Unit::Release()
 {
 }
 
-void Unit::Update(float dt)
+void Unit::Update(float _dt)
 {
-    if (IsDeath())
+    auto collision = std::dynamic_pointer_cast<CollisionComponent>(pimpl->collision.lock());
+    if (!collision || collision->IsDeath())
         return;
 
-    GameObject::Update(dt);
-    for (auto& skill : m_SkillList)
+    GameObject::Update(_dt);
+
+    for (auto& skill : pimpl->skillList)
     {
-        skill->Update(dt);
+        skill->Update(_dt);
     }
+}
+
+
+RenderPtr Unit::GetRender()
+{
+    return pimpl->render.lock();
 }
 
 void Unit::Render()
 {
-    if (IsDeath())
+    auto collision = std::dynamic_pointer_cast<CollisionComponent>(pimpl->collision.lock());
+    if (!collision || collision->IsDeath())
         return;
 
-    auto render = std::dynamic_pointer_cast<CmdRenderComponent>(m_Render.lock());
-    if (render == nullptr)
+    auto render = std::dynamic_pointer_cast<CmdRenderComponent>(pimpl->render.lock());
+    if (!render)
         return;
 
     render->SetCoord(Coord(GetPos()));
-    if (m_HitRenderFlag)
+    if (pimpl->hitRenderFlag)
     {
-        m_HitRenderFlag = false;
+        pimpl->hitRenderFlag = false;
+
         auto orgBGColor = render->GetBGColor();
         render->SetBGColor(Color::MAGENTA);
         render->Render();
@@ -73,18 +99,20 @@ void Unit::Render()
 }
 
 
-bool Unit::Hitted(int damage)
+CollisionPtr Unit::GetCollision()
 {
-    if (IsDeath())
+    return pimpl->collision.lock();
+}
+
+bool Unit::Hitted(int _damage)
+{
+    auto collision = std::dynamic_pointer_cast<CollisionComponent>(pimpl->collision.lock());
+    if (!collision || collision->IsDeath())
         return false;
 
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
-        return false;
-
-    if (collision->Hitted(damage))
+    if (collision->Hitted(_damage))
     {
-        m_HitRenderFlag = true;
+        pimpl->hitRenderFlag = true;
         return true;
     }
     return false;
@@ -92,16 +120,14 @@ bool Unit::Hitted(int damage)
 
 void Unit::Death()
 {
-    if (IsDeath())
-        return;
-
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
+    auto collision = std::dynamic_pointer_cast<CollisionComponent>(pimpl->collision.lock());
+    if (!collision || collision->IsDeath())
         return;
 
     collision->Death();
+
     static auto& gm = GameManager::GetInstance();
-    gm.RemoveRender(std::dynamic_pointer_cast<IRender>(shared_from_this()));
+    gm.RemoveRender(std::dynamic_pointer_cast<IRenderObject>(shared_from_this()));
 
     auto corpse = ObjectPool<Dummy>::GetWithInit();
     auto render = corpse->GetComponent<CmdRenderComponent>();
@@ -116,161 +142,18 @@ void Unit::Death()
 }
 
 
-bool Unit::IsDeath() const
+void Unit::AddSkill(const SkillPtr& _skill)
 {
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
-        return false;
-
-    return collision->IsDeath();
-}
-
-bool Unit::CanAttack(const CollsionPtr& target) const
-{
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
-        return false;
-
-    return collision->CanAttack(target);
-}
-
-
-int Unit::GetCurHp() const
-{
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
-        return 0;
-
-    return collision->GetCurHp();
-}
-
-int Unit::GetMaxHp() const
-{
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
-        return 0;
-
-    return collision->GetMaxHp();
-}
-
-int Unit::GetDamage() const
-{
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
-        return 0;
-
-    return collision->GetDamage();
-}
-
-Vec2 Unit::GetPos() const
-{
-    return GameObject::GetPos();
-}
-
-Unit::SectionPtr Unit::GetSection() const
-{
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
-        return nullptr;
-
-    return collision->GetSection();
-}
-
-Unit::CollisionMask Unit::GetHitMask() const
-{
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
-        return CollisionMask::NONE;
-
-    return collision->GetHitMask();
-}
-
-Unit::CollisionMask Unit::GetAttackMask() const
-{
-    auto collision = m_Collision.lock();
-    if (collision == nullptr)
-        return CollisionMask::NONE;
-
-    return collision->GetAttackMask();
-}
-
-
-void Unit::InitHp()
-{
-    auto collision = m_Collision.lock();
-    if (collision != nullptr)
-    {
-        collision->InitHp();
-    }
-}
-
-void Unit::SetMaxHp(int maxHp)
-{
-    auto collision = m_Collision.lock();
-    if (collision != nullptr)
-    {
-        collision->SetMaxHp(maxHp);
-    }
-}
-
-void Unit::SetDamage(int damage)
-{
-    auto collision = m_Collision.lock();
-    if (collision != nullptr)
-    {
-        collision->SetDamage(damage);
-    }
-}
-
-void Unit::SetPos(const Vec2& pos)
-{
-    GameObject::SetPos(pos);
-}
-
-void Unit::SetSection(const SectionPtr& section)
-{
-    auto collision = m_Collision.lock();
-    if (collision != nullptr)
-    {
-        collision->SetSection(section);
-    }
-}
-
-void Unit::SetHitMask(CollisionMask mask)
-{
-    auto collision = m_Collision.lock();
-    if (collision != nullptr)
-    {
-        collision->SetHitMask(mask);
-    }
-}
-
-void Unit::SetAttackMask(CollisionMask mask)
-{
-    auto collision = m_Collision.lock();
-    if (collision != nullptr)
-    {
-        collision->SetAttackMask(mask);
-    }
-}
-
-void Unit::SetHitLock(bool lock)
-{
-    auto collision = m_Collision.lock();
-    if (collision != nullptr)
-    {
-        collision->SetHitLock(lock);
-    }
-}
-
-
-void Unit::AddSkill(const SkillPtr& skill)
-{
-    if (skill == nullptr)
+    if (_skill == nullptr)
         return;
 
-    skill->SetOwner(shared_from_this());
-    m_SkillList.push_back(skill);
+    _skill->SetOwner(shared_from_this());
+    pimpl->skillList.push_back(_skill);
+}
+
+Unit::SkillList& Unit::GetSkillList()
+{
+    return pimpl->skillList;
 }
 
 SCE_END

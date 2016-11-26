@@ -1,32 +1,33 @@
 ﻿#include "stdafx.h"
 #include "CmdRenderComponent.h"
-#include "../../Composite/CompositeBase.h"
-#include "../../../ObjectPool/ObjectPool.h"
 SCE_START
 
 
-CmdRenderComponent::CmdRenderComponent(const CompositeRef& owner) noexcept
-    : m_Owner(owner)
-    , m_IsShow(true)
-    , m_Depth(0)
-    , m_Coord{ 0,0 }
+struct CmdRenderComponent::impl
+{
+    impl(const CompositeRef& _owner) noexcept
+        : owner{ _owner }
+        , isShow{ true }
+        , depth{}
+        , coord{}
+        , shape{}
+    {
+    }
+
+    CompositeRef    owner;
+    bool            isShow;
+    BYTE            depth;
+    Coord           coord;
+    Shape           shape;
+};
+
+
+CmdRenderComponent::CmdRenderComponent(const CompositeRef& _owner) noexcept
+    : pimpl{ std::make_unique<impl>(_owner) }
 {
 }
 
 CmdRenderComponent::~CmdRenderComponent()
-{
-}
-
-
-void CmdRenderComponent::Init()
-{
-}
-
-void CmdRenderComponent::Release()
-{
-}
-
-void CmdRenderComponent::Update(float dt)
 {
 }
 
@@ -38,106 +39,94 @@ std::string CmdRenderComponent::GetComponentName() const
 
 IComponent::CompositePtr CmdRenderComponent::GetOwner() const
 {
-    return m_Owner.lock();
-}
-
-IComponent::IComponentPtr CmdRenderComponent::Copy() const
-{
-    return ObjectPool<CmdRenderComponent>::Get(*this);
+    return pimpl->owner.lock();
 }
 
 
 void CmdRenderComponent::Render()
 {
-    if (m_IsShow)
+    if (pimpl->isShow)
     {
-        m_Shape.Render(m_Coord, m_Depth);
+        pimpl->shape.Render(pimpl->coord, pimpl->depth);
     }
 }
 
 
 bool CmdRenderComponent::IsShow() const
 {
-    return m_IsShow;
+    return pimpl->isShow;
 }
 
 BYTE CmdRenderComponent::GetDepth() const
 {
-    return m_Depth;
+    return pimpl->depth;
 }
 
 Coord CmdRenderComponent::GetCoord() const
 {
-    return m_Coord;
+    return pimpl->coord;
 }
 
 Shape CmdRenderComponent::GetShape() const
 {
-    return m_Shape;
+    return pimpl->shape;
 }
 
 wchar_t CmdRenderComponent::GetForm() const
 {
-    return m_Shape.GetForm();
+    return pimpl->shape.form;
 }
 
 Color CmdRenderComponent::GetColor() const
 {
-    return m_Shape.GetColor();
+    return pimpl->shape.color;
 }
 
 Color CmdRenderComponent::GetBGColor() const
 {
-    return m_Shape.GetBGColor();
+    return pimpl->shape.bgColor;
 }
 
 
-void CmdRenderComponent::SetShow(bool isShow)
+void CmdRenderComponent::SetShow(bool _isShow)
 {
-    m_IsShow = isShow;
+    pimpl->isShow = _isShow;
 }
 
-void CmdRenderComponent::SetDepth(BYTE depth)
+void CmdRenderComponent::SetDepth(BYTE _depth)
 {
-    m_Depth = depth;
+    pimpl->depth = _depth;
 }
 
-void CmdRenderComponent::SetCoord(const Coord& coord)
+void CmdRenderComponent::SetCoord(const Coord& _coord)
 {
-    m_Coord = coord;
+    pimpl->coord = _coord;
 }
 
-void CmdRenderComponent::SetCoord(short x, short y)
+void CmdRenderComponent::SetCoord(short _x, short _y)
 {
-    m_Coord.m_X = x;
-    m_Coord.m_Y = y;
+    pimpl->coord.x = _x;
+    pimpl->coord.y = _y;
 }
 
-void CmdRenderComponent::SetShape(const Shape& shape)
+void CmdRenderComponent::SetShape(const Shape& _shape)
 {
-    m_Shape = shape;
+    pimpl->shape = _shape;
 }
 
-void CmdRenderComponent::SetShape(wchar_t form, Color color, Color bgColor)
+void CmdRenderComponent::SetShape(wchar_t _form)
 {
-    m_Shape.SetForm(form);
-    m_Shape.SetColor(color);
-    m_Shape.SetBGColor(bgColor);
+    pimpl->shape.form = _form;
 }
 
-void CmdRenderComponent::SetForm(wchar_t form)
+void CmdRenderComponent::SetColor(Color _color)
 {
-    m_Shape.SetForm(form);
+    pimpl->shape.color = _color;
 }
 
-void CmdRenderComponent::SetColor(Color color)
+void CmdRenderComponent::SetBGColor(Color _bgColor)
 {
-    m_Shape.SetColor(color);
-}
-
-void CmdRenderComponent::SetBGColor(Color bgColor)
-{
-    m_Shape.SetBGColor(bgColor);
+    pimpl->shape.bgColor = _bgColor;
 }
 
 SCE_END

@@ -9,25 +9,24 @@ class Timer
     using Seconds   = std::chrono::duration<float>;
 public:
     Timer() noexcept;
-    Timer(float duration) noexcept;
+    Timer(float _duration) noexcept;
 
     void        Init() noexcept;
     void        Tick() noexcept;
     float       DeltaTime() const noexcept;
 
     void        AccumDt() noexcept;
-    void        AccumDt(float dt) noexcept;
+    void        AccumDt(float _dt) noexcept;
     bool        DurationCheck() noexcept;
-    bool        DurationCheck(float duration) noexcept;
-    void        SetDuration(float duration) noexcept;
+    bool        DurationCheck(float _duration) noexcept;
+    void        SetDuration(float _duration) noexcept;
 
 private:
-    TickTime    m_PrevTime;
-    TickTime    m_CurrTime;
-    Seconds     m_DeltaTime;
-
-    float       m_AccumDt;
-    float       m_Duration;
+    TickTime    prevTime;
+    TickTime    curTime;
+    Seconds     deltaTime;
+    float       accumDt;
+    float       duration;
 };
 
 SCE_END

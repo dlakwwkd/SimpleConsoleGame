@@ -1,58 +1,59 @@
 ﻿#pragma once
-#include "../../Interface/ICollisionComponent.h"
+#include "../../Interface/Component/ICollisionComponent.h"
 SCE_START
+class Section;
 
 
 class CollisionComponent : public ICollisionComponent
 {
-    SPECIALFUNC_SET(CollisionComponent, default)
+    DECLARE_PIMPL
+    SPECIALFUNC_MOVE_SET(CollisionComponent, default)
+    using CollsionPtr   = std::shared_ptr<CollisionComponent>;
+    using SectionPtr    = std::shared_ptr<Section>;
+    using SectionRef    = std::weak_ptr<Section>;
 public:
-    CollisionComponent(const CompositeRef& owner) noexcept;
-    virtual ~CollisionComponent() override;
+    enum CollisionMask : unsigned char
+    {
+        NONE    = 0,
+        PLAYER  = 1 << 0,
+        ENEMY   = 1 << 1,
+        ALL     = PLAYER | ENEMY
+    };
+    static bool             IsCollisionAble(const CollsionPtr& _a, const CollsionPtr& _b)
+    {
+        if (_a == nullptr || _b == nullptr)
+            return false;
 
-    virtual void            Init() override;
-    virtual void            Release() override;
-    virtual void            Update(float dt) override;
+        return _a->GetHitMask() & _b->GetAttackMask()
+            || _b->GetHitMask() & _a->GetAttackMask();
+    }
+public:
+    CollisionComponent(const CompositeRef& _owner) noexcept;
+    virtual ~CollisionComponent() override;
 
     virtual std::string     GetComponentName() const override;
     virtual CompositePtr    GetOwner() const override;
-    virtual IComponentPtr   Copy() const override;
 
-    virtual bool            Hitted(int damage) override;
-    virtual void            Death() override;
+    bool                    Hitted(int _damage);
+    void                    Death();
 
-    virtual bool            IsDeath() const override;
-    virtual bool            CanAttack(const CollsionPtr& target) const override;
+    bool                    IsDeath() const;
+    bool                    CanAttack(const CollsionPtr& _target) const;
 
-    virtual int             GetCurHp() const override;
-    virtual int             GetMaxHp() const override;
-    virtual int             GetDamage() const override;
-    virtual Vec2            GetPos() const override;
-    virtual SectionPtr      GetSection() const override;
-    virtual CollisionMask   GetHitMask() const override;
-    virtual CollisionMask   GetAttackMask() const override;
+    int                     GetCurHp() const;
+    int                     GetMaxHp() const;
+    int                     GetDamage() const;
+    SectionPtr              GetSection() const;
+    CollisionMask           GetHitMask() const;
+    CollisionMask           GetAttackMask() const;
 
-    virtual void            InitHp() override;
-    virtual void            SetMaxHp(int maxHp) override;
-    virtual void            SetDamage(int damage) override;
-    virtual void            SetPos(const Vec2& pos) override;
-    virtual void            SetSection(const SectionPtr& section) override;
-    virtual void            SetHitMask(CollisionMask mask) override;
-    virtual void            SetAttackMask(CollisionMask mask) override;
-    virtual void            SetHitLock(bool lock) override;
-
-private:
-    CompositeRef            m_Owner;
-    SectionRef              m_Section;
-    int                     m_MaxHp;
-    int                     m_CurHp;
-    int                     m_Damage;
-    bool                    m_IsDeath;
-    bool                    m_HitLock;
-    CollisionMask           m_HitMask;      // 맞을 수 있는 공격 종류
-    CollisionMask           m_AttackMask;   // 때릴 수 있는 공격 종류
-
+    void                    InitHp();
+    void                    SetMaxHp(int _maxHp);
+    void                    SetDamage(int _damage);
+    void                    SetSection(const SectionPtr& _section);
+    void                    SetHitMask(CollisionMask _mask);
+    void                    SetAttackMask(CollisionMask _mask);
+    void                    SetHitLock(bool _lock);
 };
-
 
 SCE_END

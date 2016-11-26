@@ -4,26 +4,15 @@ SCE_START
 struct Coord;
 
 
-class Shape
+struct Shape
 {
-public:
     Shape() noexcept;
-    Shape(wchar_t data, Color color = Color::WHITE, Color bgColor = Color::BLACK) noexcept;
 
-    wchar_t GetForm() const noexcept;
-    Color   GetColor() const noexcept;
-    Color   GetBGColor() const noexcept;
+    void    Render(const Coord& _pos, BYTE _depth = 0) noexcept;
 
-    void    SetForm(wchar_t form) noexcept;
-    void    SetColor(Color color) noexcept;
-    void    SetBGColor(Color bgColor) noexcept;
-
-    void    Render(const Coord& pos, BYTE depth = 0) noexcept;
-
-private:
-    wchar_t m_Form;
-    Color   m_Color;
-    Color   m_BGColor;
+    wchar_t form;
+    Color   color;
+    Color   bgColor;
 };
 
 SCE_END

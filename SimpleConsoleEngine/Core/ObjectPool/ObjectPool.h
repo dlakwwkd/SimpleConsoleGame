@@ -36,61 +36,61 @@ public:
     template<typename U> bool operator==(const ObjectPool<U>&) const noexcept { return true; }
     template<typename U> bool operator!=(const ObjectPool<U>&) const noexcept { return false; }
 
-    T*              allocate(const size_t n) const noexcept;
-    void            deallocate(T* const obj, size_t) const noexcept;
+    T*              allocate(const size_t _n) const noexcept;
+    void            deallocate(T* const _obj, size_t) const noexcept;
 
     template<typename... Args>
-    static std::shared_ptr<T> Get(Args&&... _Args) noexcept
+    static std::shared_ptr<T> Get(Args&&... _args) noexcept
     {
-        return std::allocate_shared<T>(ObjectPool(), std::forward<Args>(_Args)...);
+        return std::allocate_shared<T>(ObjectPool(), std::forward<Args>(_args)...);
     }
 
     template<typename... Args>
-    static std::shared_ptr<T> GetWithInit(Args&&... _Args) noexcept
+    static std::shared_ptr<T> GetWithInit(Args&&... _args) noexcept
     {
-        auto obj = std::allocate_shared<T>(ObjectPool(), std::forward<Args>(_Args)...);
+        auto obj = std::allocate_shared<T>(ObjectPool(), std::forward<Args>(_args)...);
         obj->Init();
         return obj;
     }
 
 private:
-    static uint8_t*	m_FreeList;
-    static int		m_TotalAllocCount;  // for tracing
-    static int		m_CurrentUseCount;  // for tracing
+    static uint8_t*	freeList;
+    static int		totalAllocCount;    // for tracing
+    static int		currentUseCount;    // for tracing
 };
 
 
-template<typename T> uint8_t*   ObjectPool<T>::m_FreeList           = nullptr;
-template<typename T> int        ObjectPool<T>::m_TotalAllocCount    = 0;
-template<typename T> int        ObjectPool<T>::m_CurrentUseCount    = 0;
+template<typename T> uint8_t*   ObjectPool<T>::freeList         = nullptr;
+template<typename T> int        ObjectPool<T>::totalAllocCount  = 0;
+template<typename T> int        ObjectPool<T>::currentUseCount  = 0;
 
 
 template<typename T>
-T* ObjectPool<T>::allocate(const size_t n) const noexcept
+T* ObjectPool<T>::allocate(const size_t _n) const noexcept
 {
     // 객체의 크기는 반드시 포인터 크기보다 커야 한다.
     static_assert(sizeof(T) > sizeof(size_t), "object size must bigger then pointer size!");
 
     // 무조건 1개의 할당만을 허용한다. (배열 할당 안됨)
-    if (n != 1)
+    if (_n != 1)
         return nullptr;
 
     // 여유 객체가 없다면
-    if (!m_FreeList)
+    if (!freeList)
     {
         // 새롭게 객체를 allocCount만큼 할당하고
-        m_FreeList = new uint8_t[sizeof(T) * ALLOC_COUNT];
-        assert(m_FreeList);
-        if (!m_FreeList)
+        freeList = new uint8_t[sizeof(T) * ALLOC_COUNT];
+        assert(freeList);
+        if (!freeList)
             return nullptr;
 
         // 프로그램 종료시 메모리 해제를 위해 실제 할당된 포인터를 따로 저장한다.
-        _objectPoolDeleteHelper::poolList.push_back(m_FreeList);
+        _objectPoolDeleteHelper::poolList.push_back(freeList);
 
         // 객체의 크기를 기준으로 구분하여 각 객체 포인터 마다
         // 다음 여유 객체의 주소를 보관한다. (일종의 링크드 리스트)
-        uint8_t*    pNext = m_FreeList;
-        uint8_t**   ppCur = reinterpret_cast<uint8_t**>(m_FreeList);
+        uint8_t*    pNext = freeList;
+        uint8_t**   ppCur = reinterpret_cast<uint8_t**>(freeList);
         for (int i = 0; i < ALLOC_COUNT - 1; ++i)
         {
             pNext += sizeof(T);
@@ -98,32 +98,32 @@ T* ObjectPool<T>::allocate(const size_t n) const noexcept
             ppCur = reinterpret_cast<uint8_t**>(pNext);
         }
         *ppCur = 0; // 마지막은 0으로 표시
-        m_TotalAllocCount += ALLOC_COUNT;
+        totalAllocCount += ALLOC_COUNT;
     }
 
     // 여유 객체 리스트에서 첫번째를 가져온다.
-    uint8_t* pAvailable = m_FreeList;
+    uint8_t* pAvailable = freeList;
     assert(pAvailable);
 
     // 리스트를 다음 여유 객체의 주소로 재지정한다.
-    m_FreeList = *reinterpret_cast<uint8_t**>(pAvailable);
+    freeList = *reinterpret_cast<uint8_t**>(pAvailable);
 
-    ++m_CurrentUseCount;
+    ++currentUseCount;
     return reinterpret_cast<T*>(pAvailable);
 }
 
 template<typename T>
-void ObjectPool<T>::deallocate(T* const obj, size_t) const noexcept
+void ObjectPool<T>::deallocate(T* const _obj, size_t) const noexcept
 {
-    assert(m_CurrentUseCount > 0);
-    if (--m_CurrentUseCount < 0)
+    assert(currentUseCount > 0);
+    if (--currentUseCount < 0)
         return;
 
     // 현재의 첫번째 여유 객체 주소를 반환된 obj포인터에 보관하고
-    *reinterpret_cast<uint8_t**>(obj) = m_FreeList;
+    *reinterpret_cast<uint8_t**>(_obj) = freeList;
 
     // obj포인터를 첫번째 여유 객체 주소로 지정한다. (insert to front of list)
-    m_FreeList = reinterpret_cast<uint8_t*>(obj);
+    freeList = reinterpret_cast<uint8_t*>(_obj);
 }
 
 SCE_END

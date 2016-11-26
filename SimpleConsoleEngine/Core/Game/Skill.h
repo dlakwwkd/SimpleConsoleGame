@@ -6,7 +6,8 @@ class Unit;
 
 class Skill
 {
-    SPECIALFUNC_SET(Skill, default)
+    DECLARE_PIMPL
+    SPECIALFUNC_MOVE_SET(Skill, default)
 protected:
     enum class State
     {
@@ -19,35 +20,31 @@ protected:
     using UnitRef   = std::weak_ptr<Unit>;
 public:
     Skill() noexcept;
-    virtual ~Skill() = default;
+    virtual ~Skill();
 
-    virtual void        OnPrepare(float dt)     = 0;
+    virtual void        OnPrepare(float _dt)    = 0;
     virtual void        OnBeginUse()            = 0;
-    virtual void        OnUsing(float dt)       = 0;
+    virtual void        OnUsing(float _dt)      = 0;
     virtual void        OnEndUse()              = 0;
 
     bool                IsReadyToUse() const;
     void                UseSkill();
-    void                Update(float dt);
-    void                SetDuration(State state, float duration);
+    void                Update(float _dt);
+    void                SetDuration(State _state, float _duration);
 
     template<typename T>
     std::shared_ptr<T>  GetOwner() const
     {
-        return std::dynamic_pointer_cast<T>(m_Owner.lock());
+        return std::dynamic_pointer_cast<T>(owner.lock());
     }
     template<typename T>
-    void                SetOwner(const std::shared_ptr<T>& owner)
+    void                SetOwner(const std::shared_ptr<T>& _owner)
     {
-        m_Owner = std::dynamic_pointer_cast<Unit>(owner);
+        owner = std::dynamic_pointer_cast<Unit>(_owner);
     }
 
 private:
-    State               m_CurState;
-    UnitRef             m_Owner;
-    TimerPtr            m_PrepareTime;
-    TimerPtr            m_UsingTime;
-    TimerPtr            m_CoolTime;
+    UnitRef             owner;
 };
 
 SCE_END

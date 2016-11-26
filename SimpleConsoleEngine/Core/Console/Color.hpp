@@ -26,29 +26,29 @@ enum class Color : unsigned short
 };
 
 
-inline Color& operator++(Color& color) noexcept
+inline Color& operator++(Color& _color) noexcept
 {
-    auto idx = static_cast<unsigned short>(color);
+    auto idx = static_cast<unsigned short>(_color);
     if (++idx == static_cast<unsigned short>(Color::GREY))
     {
-        color = Color::BLACK;
+        _color = Color::BLACK;
     }
     else if (idx > static_cast<unsigned short>(Color::WHITE))
     {
-        color = Color::GREY;
+        _color = Color::GREY;
     }
     else
     {
-        color = static_cast<Color>(idx);
+        _color = static_cast<Color>(idx);
     }
-    return color;
+    return _color;
 }
 
-inline Color DarkenColor(Color color) noexcept
+inline Color DarkenColor(Color _color) noexcept
 {
-    auto idx = static_cast<unsigned short>(color);
+    auto idx = static_cast<unsigned short>(_color);
     auto comp = static_cast<unsigned short>(Color::GREY);
-    return idx < comp ? color : static_cast<Color>(idx - comp);
+    return idx < comp ? _color : static_cast<Color>(idx - comp);
 }
 
 SCE_END

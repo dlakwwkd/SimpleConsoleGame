@@ -49,11 +49,17 @@
     <Filter Include="Core\Game\Composite\Unit">
       <UniqueIdentifier>{d3907f84-7373-4bb9-a948-0abc0837af19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Game\Composite\Missile">
-      <UniqueIdentifier>{a80c50cc-bb30-4979-a6c1-81b72e1ba7d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Game\Composite\Effect">
       <UniqueIdentifier>{ada13f50-509a-4d88-804a-7cbeab6da786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Game\Composite\Unit\Missile">
+      <UniqueIdentifier>{3c2d36d6-3a3b-4703-9eb9-dab4f1809f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Game\Interface\Component">
+      <UniqueIdentifier>{ac99254c-cc6c-4938-adad-5428575ab6ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Game\Interface\Object">
+      <UniqueIdentifier>{2284b036-94d2-49b8-abe4-fbcaa4e6751a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +105,6 @@
     <ClInclude Include="Core\Game\Interface\IComponent.h">
       <Filter>Core\Game\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\Interface\IGameBase.h">
-      <Filter>Core\Game\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Game\Component\RenderComponent\CmdRenderComponent.h">
       <Filter>Core\Game\Component\RenderComponent</Filter>
     </ClInclude>
@@ -120,32 +123,17 @@
     <ClInclude Include="Core\ObjectPool\ObjectPool.h">
       <Filter>Core\ObjectPool</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\Interface\IRenderComponent.h">
-      <Filter>Core\Game\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Game\Composite\CompositeBase.h">
       <Filter>Core\Game\Composite</Filter>
     </ClInclude>
     <ClInclude Include="Core\Game\Component\CollisionComponent\CollisionComponent.h">
       <Filter>Core\Game\Component\CollisionComponent</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\Interface\ICollisionComponent.h">
-      <Filter>Core\Game\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Game\Interface\ICollision.h">
-      <Filter>Core\Game\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Game\Interface\IRender.h">
-      <Filter>Core\Game\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Game\Section.h">
       <Filter>Core\Game</Filter>
     </ClInclude>
     <ClInclude Include="Core\Game\Skill.h">
       <Filter>Core\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Game\Composite\Missile\Missile.h">
-      <Filter>Core\Game\Composite\Missile</Filter>
     </ClInclude>
     <ClInclude Include="Core\Game\Composite\Unit\Unit.h">
       <Filter>Core\Game\Composite\Unit</Filter>
@@ -157,6 +145,27 @@
       <Filter>Core\Game\Composite\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Core\Game\Interface\IObject.h">
+      <Filter>Core\Game\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h">
+      <Filter>Core\Game\Composite\Unit\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Interface\Object\ICollisionObject.h">
+      <Filter>Core\Game\Interface\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Interface\Object\IRenderObject.h">
+      <Filter>Core\Game\Interface\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Interface\Component\ICollisionComponent.h">
+      <Filter>Core\Game\Interface\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Interface\Component\IRenderComponent.h">
+      <Filter>Core\Game\Interface\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Interface\Object\IGameObject.h">
+      <Filter>Core\Game\Interface\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Interface\IGame.h">
       <Filter>Core\Game\Interface</Filter>
     </ClInclude>
   </ItemGroup>
@@ -203,26 +212,17 @@
     <ClCompile Include="Core\ObjectPool\ObjectPool.cpp">
       <Filter>Core\ObjectPool</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Game\Interface\IRenderComponent.cpp">
-      <Filter>Core\Game\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Game\Composite\CompositeBase.cpp">
       <Filter>Core\Game\Composite</Filter>
     </ClCompile>
     <ClCompile Include="Core\Game\Component\CollisionComponent\CollisionComponent.cpp">
       <Filter>Core\Game\Component\CollisionComponent</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Game\Interface\ICollisionComponent.cpp">
-      <Filter>Core\Game\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Game\Section.cpp">
       <Filter>Core\Game</Filter>
     </ClCompile>
     <ClCompile Include="Core\Game\Skill.cpp">
       <Filter>Core\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Game\Composite\Missile\Missile.cpp">
-      <Filter>Core\Game\Composite\Missile</Filter>
     </ClCompile>
     <ClCompile Include="Core\Game\Composite\Unit\Unit.cpp">
       <Filter>Core\Game\Composite\Unit</Filter>
@@ -233,6 +233,15 @@
     <ClCompile Include="Core\Game\Composite\Effect\Effect.cpp">
       <Filter>Core\Game\Composite\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Game\Composite\Unit\Missile\Missile.cpp">
+      <Filter>Core\Game\Composite\Unit\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Interface\Component\ICollisionComponent.cpp">
+      <Filter>Core\Game\Interface\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Interface\Component\IRenderComponent.cpp">
+      <Filter>Core\Game\Interface\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Util\AssertPack.inl">
@@ -240,9 +249,6 @@
     </None>
     <None Include="Core\Game\GameManager.inl">
       <Filter>Core\Game</Filter>
-    </None>
-    <None Include="Core\Game\Composite\CompositeBase.inl">
-      <Filter>Core\Game\Composite</Filter>
     </None>
   </ItemGroup>
 </Project>

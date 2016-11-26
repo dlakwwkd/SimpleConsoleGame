@@ -23,13 +23,9 @@ void Effect::Release()
 {
 }
 
-void Effect::Update(float dt)
+void Effect::Update(float _dt)
 {
-    GameObject::Update(dt);
-}
-
-void Effect::Render()
-{
+    GameObject::Update(_dt);
 }
 
 SCE_END

@@ -4,18 +4,36 @@
 SCE_START
 
 
-Skill::Skill() noexcept
-    : m_CurState(State::READY)
+struct Skill::impl
 {
-    m_PrepareTime = std::make_unique<Timer>();
-    m_UsingTime = std::make_unique<Timer>();
-    m_CoolTime = std::make_unique<Timer>();
+    impl() noexcept
+        : curState{ State::READY }
+        , prepareTime{ std::make_unique<Timer>() }
+        , usingTime{ std::make_unique<Timer>() }
+        , coolTime{ std::make_unique<Timer>() }
+    {
+    }
+
+    State       curState;
+    TimerPtr    prepareTime;
+    TimerPtr    usingTime;
+    TimerPtr    coolTime;
+};
+
+
+Skill::Skill() noexcept
+    : pimpl{ std::make_unique<impl>() }
+{
+}
+
+Skill::~Skill()
+{
 }
 
 
 bool Skill::IsReadyToUse() const
 {
-    return m_CurState == State::READY;
+    return pimpl->curState == State::READY;
 }
 
 void Skill::UseSkill()
@@ -23,61 +41,61 @@ void Skill::UseSkill()
     if (!IsReadyToUse())
         return;
 
-    m_CurState = State::PREPARE;
+    pimpl->curState = State::PREPARE;
 }
 
-void Skill::Update(float dt)
+void Skill::Update(float _dt)
 {
-    switch (m_CurState)
+    switch (pimpl->curState)
     {
     case Skill::State::PREPARE:
         {
-            m_PrepareTime->AccumDt(dt);
-            if (m_PrepareTime->DurationCheck())
+            pimpl->prepareTime->AccumDt(_dt);
+            if (pimpl->prepareTime->DurationCheck())
             {
-                m_CurState = State::USING;
+                pimpl->curState = State::USING;
                 OnBeginUse();
                 return;
             }
-            OnPrepare(dt);
+            OnPrepare(_dt);
         }
         break;
     case Skill::State::USING:
         {
-            m_UsingTime->AccumDt(dt);
-            if (m_UsingTime->DurationCheck())
+            pimpl->usingTime->AccumDt(_dt);
+            if (pimpl->usingTime->DurationCheck())
             {
-                m_CurState = State::COOLTIME;
+                pimpl->curState = State::COOLTIME;
                 OnEndUse();
                 return;
             }
-            OnUsing(dt);
+            OnUsing(_dt);
         }
         break;
     case Skill::State::COOLTIME:
         {
-            m_CoolTime->AccumDt(dt);
-            if (m_CoolTime->DurationCheck())
+            pimpl->coolTime->AccumDt(_dt);
+            if (pimpl->coolTime->DurationCheck())
             {
-                m_CurState = State::READY;
+                pimpl->curState = State::READY;
             }
         }
         break;
     }
 }
 
-void Skill::SetDuration(State state, float duration)
+void Skill::SetDuration(State _state, float _duration)
 {
-    switch (state)
+    switch (_state)
     {
     case Skill::State::PREPARE:
-        m_PrepareTime->SetDuration(duration);
+        pimpl->prepareTime->SetDuration(_duration);
         break;
     case Skill::State::USING:
-        m_UsingTime->SetDuration(duration);
+        pimpl->usingTime->SetDuration(_duration);
         break;
     case Skill::State::COOLTIME:
-        m_CoolTime->SetDuration(duration);
+        pimpl->coolTime->SetDuration(_duration);
         break;
     }
 }

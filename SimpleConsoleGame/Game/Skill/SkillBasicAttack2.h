@@ -4,13 +4,13 @@
 
 class SkillBasicAttack2 : public SCE::Skill
 {
-    SPECIALFUNC_SET(SkillBasicAttack2, default)
+    SPECIALFUNC_MOVE_SET(SkillBasicAttack2, default)
 public:
     SkillBasicAttack2();
     virtual ~SkillBasicAttack2() = default;
     
-    virtual void    OnPrepare(float dt) override;
-    virtual void    OnBeginUse()        override;
-    virtual void    OnUsing(float dt)   override;
-    virtual void    OnEndUse()          override;
+    virtual void    OnPrepare(float _dt)    override;
+    virtual void    OnBeginUse()            override;
+    virtual void    OnUsing(float _dt)      override;
+    virtual void    OnEndUse()              override;
 };

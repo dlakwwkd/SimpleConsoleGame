@@ -1,24 +1,37 @@
 ﻿#include "stdafx.h"
 #include "Mob.h"
-//----------------------------------------------------------------------------------------------------
+#include "Core/Math/Vec2.h"
 #include "Core/Timer/Timer.h"
 #include "Core/Console/Console.h"
-#include "Core/ObjectPool/ObjectPool.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
-#include "Core/Game/Composite/Effect/Dummy.h"
+#include "Core/Game/Component/CollisionComponent/CollisionComponent.h"
 SCE_USE
 
 
-Mob::Mob()
-:   m_ToPos{ 0.0f, 0.0f },
-    m_ToPosChangeProbability(0.2f)
+struct Mob::impl
+{
+    impl() noexcept
+        : aiTimer{}
+        , toPos{}
+        , toPosChangeProbability{ 0.2f }
+    {
+    }
+
+    std::shared_ptr<Timer>  aiTimer;
+    Vec2                    toPos;
+    float                   toPosChangeProbability;
+};
+
+
+Mob::Mob() noexcept
+    : pimpl{ std::make_unique<impl>() }
 {
 }
-
 
 Mob::~Mob()
 {
 }
+
 
 void Mob::Init()
 {
@@ -27,26 +40,32 @@ void Mob::Init()
     if (render == nullptr)
         return;
 
-    render->SetShape(L'●', Color::YELLOW);
+    render->SetShape(L'●');
+    render->SetColor(Color::YELLOW);
     render->SetDepth(3);
 
-    m_AITimer = ObjectPool<Timer>::Get(1.0f);
-    SetHitMask(CollisionMask::ENEMY);
-    SetAttackMask(CollisionMask::PLAYER);
+    auto collision = GetComponent<CollisionComponent>();
+    if (collision == nullptr)
+        return;
+
+    pimpl->aiTimer = ObjectPool<Timer>::Get(1.0f);
+    collision->SetHitMask(CollisionComponent::CollisionMask::ENEMY);
+    collision->SetAttackMask(CollisionComponent::CollisionMask::PLAYER);
 }
 
 void Mob::Release()
 {
-    m_AITimer.reset();
+    pimpl->aiTimer.reset();
     Unit::Release();
 }
 
-void Mob::Update(float dt)
+void Mob::Update(float _dt)
 {
-    if (IsDeath())
+    auto collision = GetComponent<CollisionComponent>();
+    if (!collision || collision->IsDeath())
         return;
 
-    Vec2 displacement = m_ToPos - GetPos();
+    Vec2 displacement = pimpl->toPos - GetPos();
     float distance = displacement.Length();
     if (distance < 1.0f)
     {
@@ -60,7 +79,7 @@ void Mob::Update(float dt)
             SetMovePower(displacement * (GetMovePowerLimit() / distance));
         }
     }
-    Unit::Update(dt);
+    Unit::Update(_dt);
 }
 
 void Mob::Render()
@@ -70,37 +89,38 @@ void Mob::Render()
 
 
 
-void Mob::SetToPosChangeProbability(float prob)
+void Mob::SetToPosChangeProbability(float _prob)
 {
-    m_ToPosChangeProbability = prob;
+    pimpl->toPosChangeProbability = _prob;
 }
 
-void Mob::SetAIRatio(float ratio)
+void Mob::SetAIRatio(float _ratio)
 {
-    if (m_AITimer)
+    if (pimpl->aiTimer)
     {
-        m_AITimer->SetDuration(ratio);
+        pimpl->aiTimer->SetDuration(_ratio);
     }
 }
 
-void Mob::AI(float dt)
+void Mob::AI(float _dt)
 {
-    if (IsDeath())
+    auto collision = GetComponent<CollisionComponent>();
+    if (!collision || collision->IsDeath())
         return;
 
-    m_AITimer->AccumDt(dt);
-    if (!m_AITimer->DurationCheck())
+    pimpl->aiTimer->AccumDt(_dt);
+    if (!pimpl->aiTimer->DurationCheck())
         return;
 
-    int randRange = static_cast<int>(1.0f / m_ToPosChangeProbability);
+    int randRange = static_cast<int>(1.0f / pimpl->toPosChangeProbability);
     if (rand() % randRange == 0)
     {
         static auto& console = Console::GetInstance();
         auto toX = static_cast<float>(rand() % console.GetScreenWidth() / 2);
         auto toY = static_cast<float>(rand() % console.GetScreenHeight() - 1);
-        m_ToPos.Set(toX, toY);
+        pimpl->toPos.Set(toX, toY);
 
-        Vec2 displacement = m_ToPos - GetPos();
+        Vec2 displacement = pimpl->toPos - GetPos();
         float distance = displacement.Length();
         if (distance < 1.0f)
         {

@@ -1,57 +1,69 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
-//----------------------------------------------------------------------------------------------------
-#include "Core/Timer/Timer.h"
+#include "Core/Math/Vec2.h"
 #include "Core/Command/Command.h"
-#include "Core/Console/Console.h"
-#include "Core/ObjectPool/ObjectPool.h"
-#include "Core/Game/Section.h"
 #include "Core/Game/GameManager.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
-#include "Core/Game/Composite/Effect/Dummy.h"
-#include "Core/Game/Composite/Unit/Unit.h"
-#include "Core/Game/Composite/Missile/Missile.h"
-//----------------------------------------------------------------------------------------------------
+#include "Core/Game/Component/CollisionComponent/CollisionComponent.h"
 #include "GameObject/Unit/Hero.h"
 #include "GameObject/Unit/Mob.h"
 SCE_USE
 
 
+struct Game::impl
+{
+    impl() noexcept
+        : command{}
+        , hero{}
+        , mobList{}
+    {
+    }
+
+    void        GenerateMob(int _num);
+    void        CommandProc(float _dt) const;
+
+    CommandPtr  command;
+    HeroPtr     hero;
+    MobList     mobList;
+};
+
+
 Game::Game() noexcept
+    : pimpl{ std::make_unique<impl>() }
 {
 }
-
 
 Game::~Game()
 {
 }
 
+
 void Game::Init()
 {
     srand((unsigned int)time(NULL));
 
-    m_Command = std::make_unique<Command>();
-    m_Hero = ObjectPool<Hero>::GetWithInit();
-    m_Hero->SetDefaultAttack();
-    GameManager::GetInstance().RegisterCollision(m_Hero);
-    GameManager::GetInstance().AddRender(m_Hero);
+    pimpl->command = std::make_unique<Command>();
+    pimpl->hero = ObjectPool<Hero>::GetWithInit();
+    pimpl->hero->SetDefaultAttack();
+    GameManager::GetInstance().RegisterCollision(pimpl->hero);
+    GameManager::GetInstance().AddRender(pimpl->hero);
 
-    GenerateMob(100);
+    pimpl->GenerateMob(100);
 }
 
 void Game::Release()
 {
-    m_MobList.clear();
-    m_Hero.reset();
-    m_Command.reset();
+    pimpl->mobList.clear();
+    pimpl->hero.reset();
+    pimpl->command.reset();
 }
 
-void Game::Update(float dt)
+void Game::Update(float _dt)
 {
-    CommandProc(dt);
-    for (auto& mob : m_MobList)
+    pimpl->CommandProc(_dt);
+    for (auto& mob : pimpl->mobList)
     {
-        mob->AI(dt);
+        mob->AI(_dt);
     }
 }
 
@@ -60,102 +72,111 @@ void Game::Render()
 }
 
 
-void Game::GenerateMob(int num)
+void Game::impl::GenerateMob(int _num)
 {
-    int mobType = num / 5;
-    m_MobList.reserve(num);
-    for (int i = 0; i < num; ++i)
+    int mobType = _num / 5;
+    mobList.reserve(_num);
+    for (int i = 0; i < _num; ++i)
     {
-        m_MobList.emplace_back(ObjectPool<Mob>::GetWithInit());
-        auto& mob = m_MobList[i];
+        mobList.emplace_back(ObjectPool<Mob>::GetWithInit());
+        auto& mob = mobList[i];
         auto render = mob->GetComponent<CmdRenderComponent>();
         if (render == nullptr)
+            continue;
+
+        auto collision = mob->GetComponent<CollisionComponent>();
+        if (collision == nullptr)
             continue;
 
         GameManager::GetInstance().RegisterCollision(mob);
         GameManager::GetInstance().AddRender(mob);
         if (i < mobType)
         {
-            render->SetShape(L'☠', Color::GREY);
+            render->SetShape(L'☠');
+            render->SetColor(Color::GREY);
+            collision->SetDamage(2);
+            collision->SetMaxHp(100);
+            collision->InitHp();
             mob->SetSpeed(120.0f);
             mob->SetAIRatio(0.5f);
-            mob->SetDamage(2);
-            mob->SetMaxHp(100);
-            mob->InitHp();
         }
         else if (i < mobType * 2)
         {
-            render->SetShape(L'☣', Color::RED);
+            render->SetShape(L'☣');
+            render->SetColor(Color::RED);
+            collision->SetDamage(4);
+            collision->SetMaxHp(100);
+            collision->InitHp();
             mob->SetSpeed(70.0f);
             mob->SetAIRatio(1.0f);
-            mob->SetDamage(4);
-            mob->SetMaxHp(100);
-            mob->InitHp();
         }
         else if (i < mobType * 3)
         {
-            render->SetShape(L'☯', Color::MAGENTA);
+            render->SetShape(L'☯');
+            render->SetColor(Color::MAGENTA);
+            collision->SetDamage(6);
+            collision->SetMaxHp(100);
+            collision->InitHp();
             mob->SetSpeed(30.0f);
             mob->SetAIRatio(1.5f);
-            mob->SetDamage(6);
-            mob->SetMaxHp(100);
-            mob->InitHp();
         }
         else if (i < mobType * 4)
         {
-            render->SetShape(L'♋', Color::CYAN);
+            render->SetShape(L'♋');
+            render->SetColor(Color::CYAN);
+            collision->SetDamage(8);
+            collision->SetMaxHp(100);
+            collision->InitHp();
             mob->SetSpeed(30.0f);
             mob->SetAIRatio(1.5f);
-            mob->SetDamage(8);
-            mob->SetMaxHp(100);
-            mob->InitHp();
         }
         else
         {
-            render->SetShape(L'★', Color::YELLOW);
+            render->SetShape(L'★');
+            render->SetColor(Color::YELLOW);
+            collision->SetDamage(10);
+            collision->SetMaxHp(100);
+            collision->InitHp();
             mob->SetSpeed(10.0f);
             mob->SetAIRatio(2.0f);
-            mob->SetDamage(10);
-            mob->SetMaxHp(100);
-            mob->InitHp();
         }
     }
 }
 
-void Game::CommandProc(float dt) const
+void Game::impl::CommandProc(float _dt) const
 {
-    if (m_Command->IsKeyPress<Command::ESC>())
+    if (command->IsKeyPress<Command::ESC>())
     {
         GameManager::GetInstance().Shutdown();
         return;
     }
-    if (m_Command->IsKeyPress<Command::ENTER>())
+    if (command->IsKeyPress<Command::ENTER>())
     {
         GameManager::GetInstance().ReturnMain();
         return;
     }
-    if (m_Command->IsKeyPress<Command::UP>())
+    if (command->IsKeyPress<Command::UP>())
     {
-        m_Hero->AddMovePower(Vec2::UP * dt);
+        hero->AddMovePower(Vec2::UP * _dt);
     }
-    if (m_Command->IsKeyPress<Command::DOWN>())
+    if (command->IsKeyPress<Command::DOWN>())
     {
-        m_Hero->AddMovePower(Vec2::DOWN * dt);
+        hero->AddMovePower(Vec2::DOWN * _dt);
     }
-    if (m_Command->IsKeyPress<Command::LEFT>())
+    if (command->IsKeyPress<Command::LEFT>())
     {
-        m_Hero->AddMovePower(Vec2::LEFT * dt);
+        hero->AddMovePower(Vec2::LEFT * _dt);
     }
-    if (m_Command->IsKeyPress<Command::RIGHT>())
+    if (command->IsKeyPress<Command::RIGHT>())
     {
-        m_Hero->AddMovePower(Vec2::RIGHT * dt);
+        hero->AddMovePower(Vec2::RIGHT * _dt);
     }
-    if (m_Command->IsKeyPress<Command::BUTTON_A>())
+    if (command->IsKeyPress<Command::BUTTON_A>())
     {
-        m_Hero->ShootMissile();
+        hero->ShootMissile();
     }
-    if (m_Command->IsKeyPress<Command::BUTTON_B>())
+    if (command->IsKeyPress<Command::BUTTON_B>())
     {
-        m_Hero->SwapMissile();
+        hero->SwapMissile();
     }
 }

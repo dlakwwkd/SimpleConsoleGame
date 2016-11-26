@@ -5,23 +5,23 @@ class Vec2;
 
 struct Coord
 {
-    short m_X;
-    short m_Y;
+    static Vec2 ConvertToVec2(const Coord& _coord) noexcept;
 
     Coord() noexcept;
-    Coord(const Vec2& vec2) noexcept;
+    Coord(const Vec2& _vec2) noexcept;
 
-    template<typename T>
-    constexpr Coord(T x, T y) noexcept;
+    template<typename T, typename U>
+    constexpr Coord(T _x, U _y) noexcept;
 
-    static Vec2 ConvertToVec2(const Coord& coord) noexcept;
+    short x;
+    short y;
 };
 
 
-template<typename T>
-constexpr Coord::Coord(T x, T y) noexcept
-    : m_X(Safe::IntegralCast<decltype(m_X)>(x))
-    , m_Y(Safe::IntegralCast<decltype(m_Y)>(y))
+template<typename T, typename U>
+constexpr Coord::Coord(T _x, U _y) noexcept
+    : x(Safe::IntegralCast<decltype(x)>(_x))
+    , y(Safe::IntegralCast<decltype(y)>(_y))
 {
 }
 

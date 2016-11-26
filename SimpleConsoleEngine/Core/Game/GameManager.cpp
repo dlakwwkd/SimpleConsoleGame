@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "GameManager.h"
 #include "Section.h"
-#include "Interface/IGameBase.h"
-#include "Composite/GameObject.h"
+#include "Interface/IGame.h"
+#include "Composite/Unit/Unit.h"
 #include "Composite/Effect/Dummy.h"
 #include "Component/RenderComponent/CmdRenderComponent.h"
 #include "Component/CollisionComponent/CollisionComponent.h"
@@ -11,12 +11,41 @@
 SCE_START
 
 
+struct GameManager::impl
+{
+    impl() noexcept
+        : frameCount{}
+        , renderCount{}
+        , renderLimit{}
+        , renderList{}
+        , collisionList{}
+        , sectionList{}
+        , sectionMap{}
+        , rootSection{}
+    {
+    }
+
+    void                        PrintFrame();
+    void                        SectionNumPrint() const;
+
+    size_t                      frameCount;
+    size_t                      renderCount;
+    size_t                      renderLimit;
+    SectionPtr                  rootSection;
+    std::vector<SectionPtr>     sectionList;
+    std::map<POINT, SectionRef> sectionMap;
+    std::list<RenderObjPtr>		renderList;
+    std::list<CollisionObjPtr>	collisionList;
+};
+
+
 GameManager::GameManager() noexcept
-    : m_IsRun(false)
-    , m_IsPlay(false)
-    , m_FrameCount(0)
-    , m_RenderCount(0)
-    , m_RenderLimit(0)
+    : pimpl{ std::make_unique<impl>() }
+    , scheduler{}
+    , gameTimer{}
+    , curGame{}
+    , isRun{}
+    , isPlay{}
 {
 }
 
@@ -27,95 +56,110 @@ GameManager::~GameManager()
 
 void GameManager::ReturnMain()
 {
-    m_IsPlay = false;
+    isPlay = false;
 }
 
 void GameManager::Shutdown()
 {
-    m_IsRun = m_IsPlay = false;
+    isRun = isPlay = false;
 }
 
 
-void GameManager::AddRender(const RenderPtr& obj, float lifeTime)
+void GameManager::AddRender(const RenderObjPtr& _obj, float _lifeTime)
 {
-    m_RenderList.push_back(obj);
-    if (lifeTime < 0.f)
+    pimpl->renderList.push_back(_obj);
+    if (_lifeTime < 0.f)
         return;
 
-    CallFuncAfterM(lifeTime, this, &GameManager::RemoveRender, obj);
+    CallFuncAfterM(_lifeTime, this, &GameManager::RemoveRender, _obj);
 }
 
-void GameManager::RemoveRender(const RenderPtr& obj)
+void GameManager::RemoveRender(const RenderObjPtr& _obj)
 {
-    m_RenderList.remove(obj);
+    pimpl->renderList.remove(_obj);
 }
 
 
-void GameManager::RegisterCollision(const CollisionPtr& obj)
+void GameManager::RegisterCollision(const CollisionObjPtr& _obj)
 {
-    if (m_RootSection == nullptr)
+    if (pimpl->rootSection == nullptr)
         return;
 
-    if (m_RootSection->RegisterCollision(obj))
+    auto unit = std::dynamic_pointer_cast<Unit>(_obj);
+    if (unit == nullptr)
+        return;
+
+    if (pimpl->rootSection->RegisterCollision(unit))
     {
-        AddCollision(obj);
+        AddCollision(_obj);
     }
 }
 
-void GameManager::RegisterCollision(const CollisionPtr& obj, const SectionPtr& trySection)
+void GameManager::RegisterCollision(const CollisionObjPtr& _obj, const SectionPtr& _trySection)
 {
-    if (trySection != nullptr)
+    auto unit = std::dynamic_pointer_cast<Unit>(_obj);
+    if (unit == nullptr)
+        return;
+
+    if (_trySection != nullptr)
     {
-        if (trySection->RegisterCollision(obj))
+        if (_trySection->RegisterCollision(unit))
         {
-            AddCollision(obj);
+            AddCollision(_obj);
         }
     }
     else
     {
-        RegisterCollision(obj);
+        RegisterCollision(_obj);
     }
 }
 
-void GameManager::UnRegisterCollision(const CollisionPtr& obj)
+void GameManager::UnRegisterCollision(const CollisionObjPtr& _obj)
 {
-    if (obj == nullptr)
+    auto unit = std::dynamic_pointer_cast<Unit>(_obj);
+    if (unit == nullptr)
         return;
 
-    if (auto section = obj->GetSection())
+    auto collision = std::dynamic_pointer_cast<CollisionComponent>(_obj->GetCollision());
+    if (collision == nullptr)
+        return;
+
+    if (auto section = collision->GetSection())
     {
-        section->UnRegisterCollision(obj);
+        section->UnRegisterCollision(unit);
     }
-    CallFuncAfterM(0.f, this, &GameManager::RemoveCollision, obj);
+    CallFuncAfterM(0.f, this, &GameManager::RemoveCollision, _obj);
 }
 
 
-void GameManager::RegisterBuiltSection(const SectionPtr& section, const POINT& pos)
+void GameManager::RegisterBuiltSection(const SectionPtr& _section, const POINT& _pos)
 {
-    m_SectionList.push_back(section);
-    m_SectionMap.insert(std::make_pair(pos, SectionRef(section)));
+    pimpl->sectionList.push_back(_section);
+    pimpl->sectionMap.insert(std::make_pair(_pos, SectionRef(_section)));
 
     // 섹션 생성 과정을 눈으로 보기 위한 임시 코드
-    for (int y = pos.y - 10; y < pos.y + 10; ++y)
+    for (int y = _pos.y - 10; y < _pos.y + 10; ++y)
     {
-        for (int x = pos.x - 10; x < pos.x + 10; ++x)
+        for (int x = _pos.x - 10; x < _pos.x + 10; ++x)
         {
             auto temp = ObjectPool<Dummy>::GetWithInit();
             auto render = temp->GetComponent<CmdRenderComponent>();
             if (render != nullptr)
             {
                 render->SetCoord(x * 2, y);
-                render->SetShape(L'■', Color::DARK_GREEN, Color::DARK_GREEN);
+                render->SetShape(L'■');
+                render->SetColor(Color::DARK_GREEN);
+                render->SetBGColor(Color::DARK_GREEN);
                 AddRender(temp, 0.5f);
             }
         }
     }
 }
 
-GameManager::SectionPtr GameManager::FindSection(const POINT& pos) const
+GameManager::SectionPtr GameManager::FindSection(const POINT& _pos) const
 {
-    auto iter = m_SectionMap.find(pos);
-    if (iter == m_SectionMap.end())
+    auto iter = pimpl->sectionMap.find(_pos);
+    if (iter == pimpl->sectionMap.end())
         return nullptr;
 
     return iter->second.lock();
@@ -125,70 +169,70 @@ GameManager::SectionPtr GameManager::FindSection(const POINT& pos) const
 void GameManager::InitGame()
 {
     Console::GetInstance().Init();
-    m_Scheduler = std::make_unique<Scheduler>();
-    m_Timer = std::make_unique<Timer>();
-    if (m_Scheduler && m_Timer)
+    scheduler = std::make_unique<Scheduler>();
+    gameTimer = std::make_unique<Timer>();
+    if (scheduler && gameTimer)
     {
-        m_IsRun = true;
+        isRun = true;
     }
     else
     {
-        m_IsRun = false;
+        isRun = false;
     }
-    m_IsPlay = false;
-    m_FrameCount = 0;
-    m_RenderCount = 0;
-    m_RenderLimit = 0;
+    isPlay = false;
+    pimpl->frameCount = 0;
+    pimpl->renderCount = 0;
+    pimpl->renderLimit = 0;
 }
 
 void GameManager::ReleaseGame()
 {
-    m_IsPlay = false;
-    m_IsRun = false;
-    m_Timer.reset();
-    m_Scheduler.reset();
+    isPlay = false;
+    isRun = false;
+    gameTimer.reset();
+    scheduler.reset();
     Console::GetInstance().Release();
 }
 
 void GameManager::MainLoop()
 {
-    while (m_IsRun)
+    while (isRun)
     {
-        if (!m_Timer || !m_Game)
+        if (!gameTimer || !curGame)
         {
             assert(false);
             return;
         }
-        m_IsPlay = true;
-        m_Timer->Init();
+        isPlay = true;
+        gameTimer->Init();
         GameLoop();
     }
 }
 
 void GameManager::GameLoop()
 {
-    m_RootSection = ObjectPool<Section>::Get(POINT{ 0, 0 }, 10);
-    RegisterBuiltSection(m_RootSection, { 0, 0 });
+    pimpl->rootSection = ObjectPool<Section>::Get(POINT{ 0, 0 }, 10);
+    RegisterBuiltSection(pimpl->rootSection, { 0, 0 });
 
-    m_Game->Init();
+    curGame->Init();
     SetRenderLimit(60);
-    while (m_IsPlay)
+    while (isPlay)
     {
-        m_Scheduler->DoTask();
+        scheduler->DoTask();
         UpdateProcess();
         if (RenderLimitCheck())
         {
             RenderProcess();
         }
     }
-    m_Scheduler->Release();
-    m_Game->Release();
+    scheduler->Release();
+    curGame->Release();
 
-    m_SectionMap.clear();
-    m_SectionList.clear();
-    m_RenderList.clear();
-    m_CollisionList.clear();
-    m_RootSection.reset();
+    pimpl->sectionMap.clear();
+    pimpl->sectionList.clear();
+    pimpl->renderList.clear();
+    pimpl->collisionList.clear();
+    pimpl->rootSection.reset();
 }
 
 
@@ -196,8 +240,8 @@ void GameManager::UpdateProcess()
 {
     float dt = FrameProgress();
 
-    m_Game->Update(dt);
-    for (auto& obj : m_CollisionList)
+    curGame->Update(dt);
+    for (auto& obj : pimpl->collisionList)
     {
         obj->Update(dt);
     }
@@ -209,13 +253,13 @@ void GameManager::RenderProcess()
     static auto& console = Console::GetInstance();
     console.Clear();
 
-    m_Game->Render();
-    for (auto& obj : m_RenderList)
+    curGame->Render();
+    for (auto& obj : pimpl->renderList)
     {
         obj->Render();
     }
-    PrintFrame();
-    SectionNumPrint();
+    pimpl->PrintFrame();
+    pimpl->SectionNumPrint();
 
     console.SwapBuffer();
 }
@@ -223,29 +267,68 @@ void GameManager::RenderProcess()
 
 float GameManager::FrameProgress()
 {
-    ++m_FrameCount;
-    m_Timer->Tick();
-    return m_Timer->DeltaTime();
+    pimpl->frameCount++;
+    gameTimer->Tick();
+    return gameTimer->DeltaTime();
 }
 
-void GameManager::SetRenderLimit(size_t limitFrame)
+void GameManager::SetRenderLimit(size_t _limitFrame)
 {
-    m_RenderLimit = limitFrame;
-    m_Timer->SetDuration(1.0f / limitFrame);
+    pimpl->renderLimit = _limitFrame;
+    gameTimer->SetDuration(1.0f / _limitFrame);
 }
 
 bool GameManager::RenderLimitCheck()
 {
-    m_Timer->AccumDt();
-    if (m_Timer->DurationCheck())
+    gameTimer->AccumDt();
+    if (gameTimer->DurationCheck())
     {
-        ++m_RenderCount;
+        pimpl->renderCount++;
         return true;
     }
     return false;
 }
 
-void GameManager::PrintFrame()
+
+void GameManager::AddCollision(const CollisionObjPtr& _obj)
+{
+    pimpl->collisionList.push_back(_obj);
+}
+
+void GameManager::RemoveCollision(const CollisionObjPtr& _obj)
+{
+    pimpl->collisionList.remove(_obj);
+}
+
+
+void GameManager::CollisionCheck(float _dt)
+{
+    // 충돌 체크 주기
+    static Timer timer(0.01f);
+    timer.AccumDt(_dt);
+    if (!timer.DurationCheck())
+        return;
+
+    for (auto& obj : pimpl->collisionList)
+    {
+        auto collision = std::dynamic_pointer_cast<CollisionComponent>(obj->GetCollision());
+        if (!collision || collision->IsDeath())
+        {
+            UnRegisterCollision(obj);
+        }
+        else if (auto section = collision->GetSection())
+        {
+            section->SyncCollision(std::dynamic_pointer_cast<Unit>(obj));
+        }
+    }
+    for (auto& section : pimpl->sectionList)
+    {
+        section->CollisionCheck();
+    }
+}
+
+
+void GameManager::impl::PrintFrame()
 {
     static auto& console = Console::GetInstance();
     static size_t frameRate = 0;
@@ -255,61 +338,24 @@ void GameManager::PrintFrame()
     timer.AccumDt();
     if (timer.DurationCheck())
     {
-        frameRate = m_FrameCount;
-        renderRate = m_RenderCount;
-        m_FrameCount = 0;
-        m_RenderCount = 0;
+        frameRate = frameCount;
+        renderRate = renderCount;
+        frameCount = 0;
+        renderCount = 0;
     }
     std::wostringstream oss;
     oss << L"UpdateFrame: " << frameRate << L"\t"
-        << L"RenderFrame: " << renderRate << L"/" << m_RenderLimit << L"\t"
+        << L"RenderFrame: " << renderRate << L"/" << renderLimit << L"\t"
         << L"DrawCall: " << console.GetDrawCallNum();
     console.SetColor(Color::WHITE);
     console.PrintText(Coord(0, console.GetScreenHeight() + 1), oss.str().c_str());
 }
 
-
-void GameManager::AddCollision(const CollisionPtr& obj)
-{
-    m_CollisionList.push_back(obj);
-}
-
-void GameManager::RemoveCollision(const CollisionPtr& obj)
-{
-    m_CollisionList.remove(obj);
-}
-
-
-void GameManager::CollisionCheck(float dt)
-{
-    // 충돌 체크 주기
-    static Timer timer(0.01f);
-    timer.AccumDt(dt);
-    if (!timer.DurationCheck())
-        return;
-
-    for (auto& obj : m_CollisionList)
-    {
-        if (obj->IsDeath())
-        {
-            UnRegisterCollision(obj);
-        }
-        else if (auto section = obj->GetSection())
-        {
-            section->SyncCollision(obj);
-        }
-    }
-    for (auto& section : m_SectionList)
-    {
-        section->CollisionCheck();
-    }
-}
-
-void GameManager::SectionNumPrint() const
+void GameManager::impl::SectionNumPrint() const
 {
     static auto& console = Console::GetInstance();
     std::wostringstream oss;
-    oss << L"SectionNum: " << m_SectionList.size();
+    oss << L"SectionNum: " << sectionList.size();
     size_t posX = console.GetScreenWidth() - oss.str().length();
     size_t posY = console.GetScreenHeight() + 1;
     console.SetColor(Color::WHITE);

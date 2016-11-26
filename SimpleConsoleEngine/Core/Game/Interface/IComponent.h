@@ -5,19 +5,18 @@ struct _identifier {};
 class CompositeBase;
 
 
-class IComponent : public IObject
+class IComponent : public std::enable_shared_from_this<IComponent>
 {
-    SPECIALFUNC_SET(IComponent, default)
 protected:
     using IComponentPtr = std::shared_ptr<IComponent>;
     using CompositePtr  = std::shared_ptr<CompositeBase>;
     using CompositeRef  = std::weak_ptr<CompositeBase>;
 public:
     IComponent() noexcept {}
+    virtual ~IComponent() {}
 
     virtual std::string     GetComponentName() const    = 0;
     virtual CompositePtr    GetOwner() const            = 0;
-    virtual IComponentPtr   Copy() const                = 0;
 };
 
 

@@ -1,17 +1,38 @@
 ﻿#include "stdafx.h"
 #include "GameObject.h"
 #include "../../Console/Console.h"
+#include "../../Math/Vec2.h"
 #include "Effect/Dummy.h"
 SCE_START
 
 
+struct GameObject::impl
+{
+    impl() noexcept
+        : pos{}
+        , dir{ Vec2::UP }
+        , movePower{}
+        , movePowerLimit{ 1.0f }
+        , movePowerFrict{ 1.5f }
+        , speed{ 100.0f }
+    {
+    }
+
+    void    MovePowerFixInLimit() noexcept;
+    void    PosFixInScreanBoundary() noexcept;
+    void    DirectionShow() const noexcept;
+
+    Vec2    pos;
+    Vec2    dir;            // 이동방향(벡터값)
+    Vec2    movePower;      // 현재의 속도축적값(벡터값)
+    float   movePowerLimit; // zero에서 최대속도까지 도달하는데 걸리는 시간(초)
+    float   movePowerFrict; // 마찰계수(1.0f이면, 최대속도에서 정지까지 1초 걸림, 2.0f면 0.5초 걸림)
+    float   speed;          // 최대속도에 도달시 초당 이동 칸수
+};
+
+
 GameObject::GameObject() noexcept
-    : m_Pos{ 0.0f, 0.0f }
-    , m_Direction(Vec2::UP)
-    , m_MovePower{ 0.0f, 0.0f }
-    , m_MovePowerLimit(1.0f)
-    , m_MovePowerFrict(1.5f)
-    , m_Speed(100.0f)
+    : pimpl{ std::make_unique<impl>() }
 {
 }
 
@@ -28,134 +49,130 @@ void GameObject::Release()
 {
 }
 
-void GameObject::Update(float dt)
+void GameObject::Update(float _dt)
 {
-    MovePowerFixInLimit();
-    m_Pos += m_MovePower * (m_Speed / m_MovePowerLimit * dt);   // 현재 속도만큼 이동
-    m_MovePower -= m_MovePower * (m_MovePowerFrict * dt);       // 마찰로 인한 속력 저하
-    PosFixInScreanBoundary();
-}
-
-void GameObject::Render()
-{
+    pimpl->MovePowerFixInLimit();
+    pimpl->pos += pimpl->movePower * (pimpl->speed / pimpl->movePowerLimit * _dt);  // 현재 속도만큼 이동
+    pimpl->movePower -= pimpl->movePower * (pimpl->movePowerFrict * _dt);             // 마찰로 인한 속력 저하
+    pimpl->PosFixInScreanBoundary();
 }
 
 
 Vec2 GameObject::GetPos() const noexcept
 {
-    return m_Pos;
+    return pimpl->pos;
 }
 
 Vec2 GameObject::GetDirection() const noexcept
 {
-    return m_Direction;
+    return pimpl->dir;
 }
 
 float GameObject::GetMovePowerLimit() const noexcept
 {
-    return m_MovePowerLimit;
+    return pimpl->movePowerLimit;
 }
 
 float GameObject::GetMovePowerFrict() const noexcept
 {
-    return m_MovePowerFrict;
+    return pimpl->movePowerFrict;
 }
 
 float GameObject::GetSpeed() const noexcept
 {
-    return m_Speed;
+    return pimpl->speed;
 }
 
 
-void GameObject::SetPos(const Vec2& pos) noexcept
+void GameObject::SetPos(const Vec2& _pos) noexcept
 {
-    m_Pos = pos;
+    pimpl->pos = _pos;
 }
 
-void GameObject::SetDirection(const Vec2& dir) noexcept
+void GameObject::SetDirection(const Vec2& _dir) noexcept
 {
-    m_Direction = dir;
+    pimpl->dir = _dir;
 }
 
-void GameObject::SetMovePower(const Vec2& power) noexcept
+void GameObject::SetMovePower(const Vec2& _power) noexcept
 {
-    m_MovePower = power;
+    pimpl->movePower = _power;
 }
 
-void GameObject::AddMovePower(const Vec2& addPower) noexcept
+void GameObject::AddMovePower(const Vec2& _addPower) noexcept
 {
-    m_MovePower += addPower;
-    m_Direction = m_MovePower.GetNormalized();
+    pimpl->movePower += _addPower;
+    pimpl->dir = pimpl->movePower.GetNormalized();
 }
 
-void GameObject::SetMovePowerLimit(float ratio) noexcept
+void GameObject::SetMovePowerLimit(float _ratio) noexcept
 {
-    m_MovePowerLimit = ratio;
+    pimpl->movePowerLimit = _ratio;
 }
 
-void GameObject::SetMovePowerFrict(float ratio) noexcept
+void GameObject::SetMovePowerFrict(float _ratio) noexcept
 {
-    m_MovePowerFrict = ratio;
+    pimpl->movePowerFrict = _ratio;
 }
 
-void GameObject::SetSpeed(float speed) noexcept
+void GameObject::SetSpeed(float _speed) noexcept
 {
-    m_Speed = speed;
+    pimpl->speed = _speed;
 }
 
 
-void GameObject::MovePowerFixInLimit() noexcept
+void GameObject::impl::MovePowerFixInLimit() noexcept
 {
-    float length = m_MovePower.Length();
+    float length = movePower.Length();
     if (length < 0.0001f)
     {
-        m_MovePower.SetZero();
+        movePower.SetZero();
     }
-    else if (length > m_MovePowerLimit)
+    else if (length > movePowerLimit)
     {
-        m_MovePower *= m_MovePowerLimit / length;
+        movePower *= movePowerLimit / length;
     }
 }
 
-void GameObject::PosFixInScreanBoundary() noexcept
+void GameObject::impl::PosFixInScreanBoundary() noexcept
 {
     static auto& console = Console::GetInstance();
     Vec2 bound(Coord::ConvertToVec2(console.GetScreenSize()));
 
-    if (m_Pos.GetX() < 0.0f)
+    if (pos.GetX() < 0.0f)
     {
-        m_Pos.SetX(0.0f);
-        m_MovePower.SetX(0.0f);
+        pos.SetX(0.0f);
+        movePower.SetX(0.0f);
     }
-    else if (m_Pos.GetX() > bound.GetX())
+    else if (pos.GetX() > bound.GetX())
     {
-        m_Pos.SetX(bound.GetX());
-        m_MovePower.SetX(0.0f);
+        pos.SetX(bound.GetX());
+        movePower.SetX(0.0f);
     }
 
-    if (m_Pos.GetY() < 0.0f)
+    if (pos.GetY() < 0.0f)
     {
-        m_Pos.SetY(0.0f);
-        m_MovePower.SetY(0.0f);
+        pos.SetY(0.0f);
+        movePower.SetY(0.0f);
     }
-    else if (m_Pos.GetY() > bound.GetY())
+    else if (pos.GetY() > bound.GetY())
     {
-        m_Pos.SetY(bound.GetY());
-        m_MovePower.SetY(0.0f);
+        pos.SetY(bound.GetY());
+        movePower.SetY(0.0f);
     }
 }
 
-void GameObject::DirectionShow() const noexcept
+void GameObject::impl::DirectionShow() const noexcept
 {
-    if (m_MovePowerFrict < 0.01f || m_MovePowerLimit < 0.01f)
+    if (movePowerFrict < 0.01f || movePowerLimit < 0.01f)
         return;
 
-    float power = m_MovePower.Length();
-    Vec2 dir = m_MovePower / power;
-    Vec2 temp = m_Pos;
+    float power = movePower.Length();
+    Vec2 dir = movePower / power;
+    Vec2 temp = pos;
 
     auto dummy = ObjectPool<Dummy>::GetWithInit();
-    auto length = static_cast<size_t>(power * m_Speed / m_MovePowerFrict / m_MovePowerLimit);
+    auto length = static_cast<size_t>(power * speed / movePowerFrict / movePowerLimit);
     for (size_t i = 0; i < length; ++i)
     {
         temp += dir;
