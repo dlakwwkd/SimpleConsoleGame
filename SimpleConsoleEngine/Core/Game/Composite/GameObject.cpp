@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "GameObject.h"
 #include "../../Console/Console.h"
+#include "../../Console/Coord.h"
 #include "../../Math/Vec2.h"
 #include "Effect/Dummy.h"
 SCE_START

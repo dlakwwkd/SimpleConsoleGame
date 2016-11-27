@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include "Color.hpp"
-#include "Coord.h"
 SCE_START
+struct Coord;
+struct Shape;
 
 
 class Console
@@ -12,17 +13,15 @@ public:
     void    Init() noexcept;
     void    Release() noexcept;
 
-    size_t  GetDrawCallNum() const noexcept;
     Coord   GetScreenSize() const noexcept;
     short   GetScreenWidth() const noexcept;
     short   GetScreenHeight() const noexcept;
 
-    void    PrintText(const Coord& _pos, const std::wstring& _text) noexcept;
-    void    Print(const Coord& _pos, wchar_t _word) noexcept;
-    void    SetColor(Color _textColor, Color _bgColor = Color::BLACK) const noexcept;
     void    Clear() noexcept;
     void    SwapBuffer() noexcept;
+    void    PrintText(const Coord& _pos, const std::wstring& _text) noexcept;
     bool    DepthCheck(const Coord& _pos, BYTE _depth = 0) noexcept;
+    void    StoreShape(const Coord& _pos, const Shape& _shape) noexcept;
 };
 
 SCE_END

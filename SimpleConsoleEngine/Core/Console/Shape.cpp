@@ -18,8 +18,7 @@ void Shape::Render(const Coord& _pos, BYTE _depth) noexcept
     static auto& console = Console::GetInstance();
     if (console.DepthCheck(_pos, _depth))
     {
-        console.SetColor(color, bgColor);
-        console.Print(_pos, form);
+        console.StoreShape(_pos, *this);
     }
 }
 

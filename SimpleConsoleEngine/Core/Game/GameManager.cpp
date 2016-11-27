@@ -344,9 +344,7 @@ void GameManager::impl::PrintFrame()
     }
     std::wostringstream oss;
     oss << L"UpdateFrame: " << frameRate << L"\t"
-        << L"RenderFrame: " << renderRate << L"/" << renderLimit << L"\t"
-        << L"DrawCall: " << console.GetDrawCallNum();
-    console.SetColor(Color::WHITE);
+        << L"RenderFrame: " << renderRate << L"/" << renderLimit << L"\t";
     console.PrintText(Coord(0, console.GetScreenHeight() + 1), oss.str().c_str());
 }
 
@@ -357,7 +355,6 @@ void GameManager::impl::SectionNumPrint() const
     oss << L"SectionNum: " << sectionList.size();
     size_t posX = console.GetScreenWidth() - oss.str().length();
     size_t posY = console.GetScreenHeight() + 1;
-    console.SetColor(Color::WHITE);
     console.PrintText(Coord(posX, posY), oss.str().c_str());
 }
 
