@@ -20,19 +20,19 @@ public:
     Unit() noexcept;
     virtual ~Unit() override;
 
-    virtual void			Init() override;
-    virtual void			Release() override;
-    virtual void			Update(float _dt) override;
+    virtual void            Init() override;
+    virtual void            Release() override;
+    virtual void            Update(float _dt) override;
 
-    virtual RenderPtr		GetRender() override;
-    virtual void			Render() override;
+    virtual RenderPtr       GetRender() override;
+    virtual void            Render() override;
 
-    virtual CollisionPtr	GetCollision() override;
-    virtual bool			Hitted(int _damage) override;
-    virtual void			Death() override;
+    virtual CollisionPtr    GetCollision() override;
+    virtual bool            Hitted(int _damage) override;
+    virtual void            Death() override;
 
-    void					AddSkill(const SkillPtr& _skill);
-    SkillList&				GetSkillList();
+    void                    AddSkill(const SkillPtr& _skill);
+    SkillList&              GetSkillList();
 };
 
 SCE_END

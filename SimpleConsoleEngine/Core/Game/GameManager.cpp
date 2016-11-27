@@ -34,8 +34,8 @@ struct GameManager::impl
     SectionPtr                  rootSection;
     std::vector<SectionPtr>     sectionList;
     std::map<POINT, SectionRef> sectionMap;
-    std::list<RenderObjPtr>		renderList;
-    std::list<CollisionObjPtr>	collisionList;
+    std::list<RenderObjPtr>     renderList;
+    std::list<CollisionObjPtr>  collisionList;
 };
 
 

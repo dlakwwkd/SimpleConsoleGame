@@ -11,8 +11,8 @@ protected:
     using CollisionRef = std::weak_ptr<ICollisionComponent>;
 public:
     virtual CollisionPtr    GetCollision()      = 0;
-    virtual bool			Hitted(int _damage) = 0;
-    virtual void			Death()             = 0;
+    virtual bool            Hitted(int _damage) = 0;
+    virtual void            Death()             = 0;
 
     IS_BASE_OF(T, ICollisionComponent)
     std::shared_ptr<T>      Get() noexcept

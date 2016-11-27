@@ -12,10 +12,10 @@ class GameManager
 {
     DECLARE_PIMPL
     CREATE_SINGLETON_NOEXCEPT(GameManager)
-    using RenderObjPtr		= std::shared_ptr<IRenderObject>;
-    using CollisionObjPtr	= std::shared_ptr<ICollisionObject>;
-    using SectionPtr		= std::shared_ptr<Section>;
-    using SectionRef		= std::weak_ptr<Section>;
+    using RenderObjPtr      = std::shared_ptr<IRenderObject>;
+    using CollisionObjPtr   = std::shared_ptr<ICollisionObject>;
+    using SectionPtr        = std::shared_ptr<Section>;
+    using SectionRef        = std::weak_ptr<Section>;
 public:
     IS_BASE_OF(T, IGame) void   Run();
     IS_BASE_OF(T, IGame) T&     GetGame() const;
@@ -61,7 +61,7 @@ private:
 private:
     std::unique_ptr<Scheduler>  scheduler;
     std::unique_ptr<Timer>      gameTimer;
-    std::unique_ptr<IGame>		curGame;
+    std::unique_ptr<IGame>      curGame;
     bool                        isRun;
     bool                        isPlay;
 };

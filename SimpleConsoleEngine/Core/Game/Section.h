@@ -14,8 +14,8 @@ class Section : public std::enable_shared_from_this<Section>
         BOTTOM,
         DIR_END
     };
-    using UnitPtr			= std::shared_ptr<Unit>;
-    using UnitRef			= std::weak_ptr<Unit>;
+    using UnitPtr           = std::shared_ptr<Unit>;
+    using UnitRef           = std::weak_ptr<Unit>;
     using SectionPtr        = std::shared_ptr<Section>;
     using SectionRef        = std::weak_ptr<Section>;
     using NearbySections    = std::array<SectionRef, DIR_END>;

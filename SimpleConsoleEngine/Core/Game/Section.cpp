@@ -27,9 +27,9 @@ struct Section::impl
 
     POINT               centerPos;
     LONG                radius;
-    RECT				boundary;
-    NearbySections		nearSections;
-    std::list<UnitRef>	unitList;
+    RECT                boundary;
+    NearbySections      nearSections;
+    std::list<UnitRef>  unitList;
 };
 
 

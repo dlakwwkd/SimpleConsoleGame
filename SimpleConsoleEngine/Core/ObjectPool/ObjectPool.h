@@ -54,9 +54,9 @@ public:
     }
 
 private:
-    static uint8_t*	freeList;
-    static int		totalAllocCount;    // for tracing
-    static int		currentUseCount;    // for tracing
+    static uint8_t* freeList;
+    static int      totalAllocCount;    // for tracing
+    static int      currentUseCount;    // for tracing
 };
 
 

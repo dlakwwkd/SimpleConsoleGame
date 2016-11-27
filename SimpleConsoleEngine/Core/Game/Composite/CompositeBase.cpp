@@ -4,7 +4,7 @@ SCE_START
 
 
 CompositeBase::CompositeBase() noexcept
-	: componentMap{}
+    : componentMap{}
 {
 }
 
