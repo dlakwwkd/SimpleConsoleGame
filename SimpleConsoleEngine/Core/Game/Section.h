@@ -14,8 +14,8 @@ class Section : public std::enable_shared_from_this<Section>
         BOTTOM,
         DIR_END
     };
-    using ObjectPtr			= std::shared_ptr<Unit>;
-    using ObjectRef			= std::weak_ptr<Unit>;
+    using UnitPtr			= std::shared_ptr<Unit>;
+    using UnitRef			= std::weak_ptr<Unit>;
     using SectionPtr        = std::shared_ptr<Section>;
     using SectionRef        = std::weak_ptr<Section>;
     using NearbySections    = std::array<SectionRef, DIR_END>;
@@ -23,11 +23,11 @@ public:
     Section(const POINT& _pos, const LONG& _radius) noexcept;
     ~Section();
 
-    void    SyncCollision(const ObjectPtr& _obj);
+    void    SyncCollision(const UnitPtr& _unit);
     void    CollisionCheck();
 
-    bool    RegisterCollision(const ObjectPtr& _obj);
-    void    UnRegisterCollision(const ObjectPtr& _obj);
+    bool    RegisterCollision(const UnitPtr& _unit);
+    void    UnRegisterCollision(const UnitPtr& _unit);
     void    ClearCollisionList();
 };
 

@@ -3,9 +3,9 @@ SCE_START
 class Timer;
 class Scheduler;
 class Section;
+class IRenderObject;
+class ICollisionObject;
 __interface IGame;
-__interface IRenderObject;
-__interface ICollisionObject;
 
 
 class GameManager

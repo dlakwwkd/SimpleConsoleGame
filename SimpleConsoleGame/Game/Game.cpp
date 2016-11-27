@@ -80,11 +80,11 @@ void Game::impl::GenerateMob(int _num)
     {
         mobList.emplace_back(ObjectPool<Mob>::GetWithInit());
         auto& mob = mobList[i];
-        auto render = mob->GetComponent<CmdRenderComponent>();
+        auto render = mob->IRenderObject::Get<CmdRenderComponent>();
         if (render == nullptr)
             continue;
 
-        auto collision = mob->GetComponent<CollisionComponent>();
+        auto collision = mob->ICollisionObject::Get<CollisionComponent>();
         if (collision == nullptr)
             continue;
 

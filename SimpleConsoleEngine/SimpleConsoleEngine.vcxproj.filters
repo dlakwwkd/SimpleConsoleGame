@@ -147,9 +147,6 @@
     <ClInclude Include="Core\Game\Interface\IObject.h">
       <Filter>Core\Game\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h">
-      <Filter>Core\Game\Composite\Unit\Missile</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Game\Interface\Object\ICollisionObject.h">
       <Filter>Core\Game\Interface\Object</Filter>
     </ClInclude>
@@ -167,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="Core\Game\Interface\IGame.h">
       <Filter>Core\Game\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h">
+      <Filter>Core\Game\Composite\Unit\Missile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

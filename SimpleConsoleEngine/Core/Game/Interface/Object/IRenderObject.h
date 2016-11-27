@@ -3,14 +3,21 @@
 SCE_START
 class IRenderComponent;
 
-using RenderPtr = std::shared_ptr<IRenderComponent>;
-using RenderRef = std::weak_ptr<IRenderComponent>;
 
-
-__interface IRenderObject : public IGameObject
+class IRenderObject : public IGameObject
 {
-	RenderPtr	GetRender();
-	void		Render();
+protected:
+    using RenderPtr = std::shared_ptr<IRenderComponent>;
+    using RenderRef = std::weak_ptr<IRenderComponent>;
+public:
+	virtual RenderPtr	GetRender() = 0;
+	virtual void		Render()    = 0;
+
+    IS_BASE_OF(T, IRenderComponent)
+    std::shared_ptr<T>  Get() noexcept
+    {
+        return std::static_pointer_cast<T>(GetRender());
+    }
 };
 
 SCE_END

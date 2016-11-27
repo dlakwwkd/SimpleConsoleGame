@@ -54,7 +54,7 @@ void Unit::Release()
 
 void Unit::Update(float _dt)
 {
-    auto collision = std::dynamic_pointer_cast<CollisionComponent>(pimpl->collision.lock());
+    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return;
 
@@ -67,18 +67,18 @@ void Unit::Update(float _dt)
 }
 
 
-RenderPtr Unit::GetRender()
+IRenderObject::RenderPtr Unit::GetRender()
 {
     return pimpl->render.lock();
 }
 
 void Unit::Render()
 {
-    auto collision = std::dynamic_pointer_cast<CollisionComponent>(pimpl->collision.lock());
+    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return;
 
-    auto render = std::dynamic_pointer_cast<CmdRenderComponent>(pimpl->render.lock());
+    auto render = IRenderObject::Get<CmdRenderComponent>();
     if (!render)
         return;
 
@@ -99,14 +99,14 @@ void Unit::Render()
 }
 
 
-CollisionPtr Unit::GetCollision()
+ICollisionObject::CollisionPtr Unit::GetCollision()
 {
     return pimpl->collision.lock();
 }
 
 bool Unit::Hitted(int _damage)
 {
-    auto collision = std::dynamic_pointer_cast<CollisionComponent>(pimpl->collision.lock());
+    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return false;
 
@@ -120,7 +120,7 @@ bool Unit::Hitted(int _damage)
 
 void Unit::Death()
 {
-    auto collision = std::dynamic_pointer_cast<CollisionComponent>(pimpl->collision.lock());
+    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return;
 
@@ -130,11 +130,11 @@ void Unit::Death()
     gm.RemoveRender(std::dynamic_pointer_cast<IRenderObject>(shared_from_this()));
 
     auto corpse = ObjectPool<Dummy>::GetWithInit();
-    auto render = corpse->GetComponent<CmdRenderComponent>();
+    auto render = corpse->Get<CmdRenderComponent>();
     if (render != nullptr)
     {
         render->SetCoord(Coord(GetPos()));
-        render->SetShape(GetComponent<CmdRenderComponent>()->GetShape());
+        render->SetShape(IRenderObject::Get<CmdRenderComponent>()->GetShape());
         render->SetColor(Color::BLACK);
         render->SetBGColor(Color::RED);
         gm.AddRender(corpse, 1.f);

@@ -12,9 +12,6 @@ protected:
     using CompositePtr  = std::shared_ptr<CompositeBase>;
     using CompositeRef  = std::weak_ptr<CompositeBase>;
 public:
-    IComponent() noexcept {}
-    virtual ~IComponent() {}
-
     virtual std::string     GetComponentName() const    = 0;
     virtual CompositePtr    GetOwner() const            = 0;
 };

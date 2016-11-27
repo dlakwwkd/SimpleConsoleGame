@@ -8,7 +8,8 @@ class Dummy
     : public IRenderObject
     , public GameObject
 {
-    SPECIALFUNC_SET(Dummy, default)
+    DECLARE_PIMPL
+    SPECIALFUNC_MOVE_SET(Dummy, default)
 public:
     Dummy() noexcept;
     virtual ~Dummy() override;

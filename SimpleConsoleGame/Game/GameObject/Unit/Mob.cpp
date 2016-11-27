@@ -36,7 +36,7 @@ Mob::~Mob()
 void Mob::Init()
 {
     Unit::Init();
-    auto render = GetComponent<CmdRenderComponent>();
+    auto render = IRenderObject::Get<CmdRenderComponent>();
     if (render == nullptr)
         return;
 
@@ -44,7 +44,7 @@ void Mob::Init()
     render->SetColor(Color::YELLOW);
     render->SetDepth(3);
 
-    auto collision = GetComponent<CollisionComponent>();
+    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (collision == nullptr)
         return;
 
@@ -61,7 +61,7 @@ void Mob::Release()
 
 void Mob::Update(float _dt)
 {
-    auto collision = GetComponent<CollisionComponent>();
+    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return;
 
@@ -104,7 +104,7 @@ void Mob::SetAIRatio(float _ratio)
 
 void Mob::AI(float _dt)
 {
-    auto collision = GetComponent<CollisionComponent>();
+    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return;
 

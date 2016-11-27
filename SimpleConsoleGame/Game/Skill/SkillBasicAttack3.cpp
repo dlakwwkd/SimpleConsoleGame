@@ -25,12 +25,19 @@ void SkillBasicAttack3::OnBeginUse()
         return;
 
     auto missile = ObjectPool<Missile>::GetWithInit();
-    auto render = missile->GetComponent<CmdRenderComponent>();
+    if (missile == nullptr)
+        return;
+
+    auto render = missile->IRenderObject::Get<CmdRenderComponent>();
     if (render == nullptr)
         return;
 
-    auto collision = missile->GetComponent<CollisionComponent>();
+    auto collision = missile->ICollisionObject::Get<CollisionComponent>();
     if (collision == nullptr)
+        return;
+
+    auto ownerCollision = owner->ICollisionObject::Get<CollisionComponent>();
+    if (ownerCollision == nullptr)
         return;
 
     render->SetShape(L'x');
@@ -38,14 +45,16 @@ void SkillBasicAttack3::OnBeginUse()
     collision->SetDamage(10);
     collision->SetMaxHp(1);
     collision->InitHp();
-    collision->SetAttackMask(owner->GetComponent<CollisionComponent>()->GetAttackMask());
-    collision->SetHitMask(owner->GetComponent<CollisionComponent>()->GetHitMask());
+    collision->SetAttackMask(ownerCollision->GetAttackMask());
+    collision->SetHitMask(ownerCollision->GetHitMask());
     missile->SetPos(owner->GetPos());
     missile->SetSpeed(100.0f);
     missile->SetMovePowerFrict(0.0f);
     missile->AddMovePower(owner->GetDirection());
-    GameManager::GetInstance().RegisterCollision(missile, owner->GetComponent<CollisionComponent>()->GetSection());
-    GameManager::GetInstance().AddRender(missile);
+
+    static auto& gm = GameManager::GetInstance();
+    gm.RegisterCollision(missile, ownerCollision->GetSection());
+    gm.AddRender(missile);
 }
 
 void SkillBasicAttack3::OnUsing(float _dt)

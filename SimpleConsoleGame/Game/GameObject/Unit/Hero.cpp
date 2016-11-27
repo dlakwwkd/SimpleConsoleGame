@@ -38,7 +38,7 @@ Hero::~Hero()
 void Hero::Init()
 {
     Unit::Init();
-    auto render = GetComponent<CmdRenderComponent>();
+    auto render = IRenderObject::Get<CmdRenderComponent>();
     if (render == nullptr)
         return;
 
@@ -46,7 +46,7 @@ void Hero::Init()
     render->SetColor(Color::GREEN);
     render->SetDepth(5);
 
-    auto collision = GetComponent<CollisionComponent>();
+    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (collision == nullptr)
         return;
 

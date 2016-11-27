@@ -13,7 +13,7 @@ struct Section::impl
         : centerPos{ _pos }
         , radius{ _radius }
         , nearSections{}
-        , objectList{}
+        , unitList{}
     {
         boundary.left = _pos.x - _radius;
         boundary.top = _pos.y - _radius;
@@ -21,15 +21,15 @@ struct Section::impl
         boundary.bottom = _pos.y + _radius;
     }
 
-    bool                    IsOutOfBoundary(const ObjectPtr& _obj, OUT Direction& _dir);
-    bool                    RegisterCollision(const ObjectPtr& _obj, Direction _dir);
-    SectionPtr              BuildSection(Direction _dir) const;
+    bool                IsOutOfBoundary(const UnitPtr& _unit, OUT Direction& _dir);
+    bool                RegisterCollision(const UnitPtr& _unit, Direction _dir);
+    SectionPtr          BuildSection(Direction _dir) const;
 
-    POINT                   centerPos;
-    LONG                    radius;
-    RECT					boundary;
-    NearbySections			nearSections;
-    std::list<ObjectRef>	objectList;
+    POINT               centerPos;
+    LONG                radius;
+    RECT				boundary;
+    NearbySections		nearSections;
+    std::list<UnitRef>	unitList;
 };
 
 
@@ -43,43 +43,43 @@ Section::~Section()
 }
 
 
-void Section::SyncCollision(const ObjectPtr& _obj)
+void Section::SyncCollision(const UnitPtr& _unit)
 {
-    if (_obj == nullptr)
+    if (_unit == nullptr)
         return;
 
     Direction dir;
-    if (pimpl->IsOutOfBoundary(_obj, dir))
+    if (pimpl->IsOutOfBoundary(_unit, dir))
     {
-        UnRegisterCollision(_obj);
-        pimpl->RegisterCollision(_obj, dir);
+        UnRegisterCollision(_unit);
+        pimpl->RegisterCollision(_unit, dir);
     }
 }
 
 void Section::CollisionCheck()
 {
-    if (pimpl->objectList.size() < 2)
+    if (pimpl->unitList.size() < 2)
         return;
 
     const float UNIT_RADIUS = 0.5f;
-    auto iterEnd = pimpl->objectList.end();
+    auto iterEnd = pimpl->unitList.end();
     --iterEnd;
-    for (auto iter = pimpl->objectList.begin(); iter != iterEnd;)
+    for (auto iter = pimpl->unitList.begin(); iter != iterEnd;)
     {
-        if (auto objectA = (*iter).lock())
+        if (auto unitA = (*iter).lock())
         {
             auto iter2 = iter;
             ++iter2;
-            for (; iter2 != pimpl->objectList.end(); ++iter2)
+            for (; iter2 != pimpl->unitList.end(); ++iter2)
             {
-                if (auto objectB = (*iter2).lock())
+                if (auto unitB = (*iter2).lock())
                 {
-                    auto collisionA = std::dynamic_pointer_cast<CollisionComponent>(objectA->GetCollision());
-                    auto collisionB = std::dynamic_pointer_cast<CollisionComponent>(objectB->GetCollision());
+                    auto collisionA = unitA->ICollisionObject::Get<CollisionComponent>();
+                    auto collisionB = unitB->ICollisionObject::Get<CollisionComponent>();
                     if (CollisionComponent::IsCollisionAble(collisionA, collisionB))
                     {
-                        const Vec2 posA = objectA->GetPos();
-                        const Vec2 posB = objectB->GetPos();
+                        const Vec2 posA = unitA->GetPos();
+                        const Vec2 posB = unitB->GetPos();
                         if (posA.GetX() + UNIT_RADIUS > posB.GetX() - UNIT_RADIUS &&
                             posA.GetX() - UNIT_RADIUS < posB.GetX() + UNIT_RADIUS &&
                             posA.GetY() - UNIT_RADIUS < posB.GetY() + UNIT_RADIUS &&
@@ -87,11 +87,11 @@ void Section::CollisionCheck()
                         {
                             if (collisionA->CanAttack(collisionB))
                             {
-                                collisionB->Hitted(collisionA->GetDamage());
+                                unitB->Hitted(collisionA->GetDamage());
                             }
                             if (collisionB->CanAttack(collisionA))
                             {
-                                collisionA->Hitted(collisionB->GetDamage());
+                                unitA->Hitted(collisionB->GetDamage());
                             }
                         }
                     }
@@ -101,55 +101,55 @@ void Section::CollisionCheck()
             continue;
         }
         // 유닛이 존재하지 않으면 리스트에서 지운다.
-        iter = pimpl->objectList.erase(iter);
+        iter = pimpl->unitList.erase(iter);
     }
 }
 
 
-bool Section::RegisterCollision(const ObjectPtr& _obj)
+bool Section::RegisterCollision(const UnitPtr& _unit)
 {
-    if (_obj == nullptr)
+    if (_unit == nullptr)
         return false;
 
-    auto collision = std::dynamic_pointer_cast<CollisionComponent>(_obj->GetCollision());
+    auto collision = _unit->ICollisionObject::Get<CollisionComponent>();
     if (collision == nullptr)
         return false;
 
     Direction dir;
-    if (pimpl->IsOutOfBoundary(_obj, dir))
+    if (pimpl->IsOutOfBoundary(_unit, dir))
     {
         // 유닛이 바운더리 바깥이면 해당 방향의 섹션에 등록을 시도한다.
-        return pimpl->RegisterCollision(_obj, dir);
+        return pimpl->RegisterCollision(_unit, dir);
     }
     // 유닛 리스트에 등록하고, 유닛에게 등록된 섹션을 알려준다.
-    pimpl->objectList.push_back(_obj);
+    pimpl->unitList.push_back(_unit);
     collision->SetSection(shared_from_this());
     return true;
 }
 
-void Section::UnRegisterCollision(const ObjectPtr& _obj)
+void Section::UnRegisterCollision(const UnitPtr& _unit)
 {
-    auto collision = std::dynamic_pointer_cast<CollisionComponent>(_obj->GetCollision());
+    auto collision = _unit->ICollisionObject::Get<CollisionComponent>();
     if (collision != nullptr)
     {
         collision->SetSection(nullptr);
     }
-    pimpl->objectList.remove_if([&_obj](auto& target)
+    pimpl->unitList.remove_if([&_unit](auto& target)
     {
-        return target.lock() == _obj;
+        return target.lock() == _unit;
     });
 }
 
 void Section::ClearCollisionList()
 {
-    pimpl->objectList.clear();
+    pimpl->unitList.clear();
 }
 
 
-bool Section::impl::IsOutOfBoundary(const ObjectPtr& _obj, OUT Direction& _dir)
+bool Section::impl::IsOutOfBoundary(const UnitPtr& _unit, OUT Direction& _dir)
 {
-    auto x = _obj->GetPos().GetX();
-    auto y = _obj->GetPos().GetY();
+    auto x = _unit->GetPos().GetX();
+    auto y = _unit->GetPos().GetY();
     if (x < boundary.left)
     {
         _dir = Direction::LEFT;
@@ -173,19 +173,19 @@ bool Section::impl::IsOutOfBoundary(const ObjectPtr& _obj, OUT Direction& _dir)
     return false;
 }
 
-bool Section::impl::RegisterCollision(const ObjectPtr& _obj, Direction _dir)
+bool Section::impl::RegisterCollision(const UnitPtr& _unit, Direction _dir)
 {
     // 해당 방향에 섹션이 존재하면, 바로 등록을 시도한다.
     if (auto section = nearSections[_dir].lock())
     {
-        return section->RegisterCollision(_obj);
+        return section->RegisterCollision(_unit);
     }
     // 섹션이 존재하지 않으면, 새롭게 생성하고, 등록을 시도한다.
     auto newSection = BuildSection(_dir);
     if (newSection == nullptr)
         return false;
 
-    return newSection->RegisterCollision(_obj);
+    return newSection->RegisterCollision(_unit);
 }
 
 Section::SectionPtr Section::impl::BuildSection(Direction _dir) const

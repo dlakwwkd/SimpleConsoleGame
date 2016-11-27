@@ -60,7 +60,7 @@ void Missile::Update(float _dt)
 
 void Missile::Death()
 {
-    auto collision = std::dynamic_pointer_cast<CollisionComponent>(GetCollision());
+    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return;
 
@@ -72,7 +72,7 @@ void Missile::Death()
     auto effectCreate = [&](const Vec2& _createPos, float _craeteDelay)
     {
         auto effect = ObjectPool<Dummy>::GetWithInit();
-        auto render = effect->GetComponent<CmdRenderComponent>();
+        auto render = effect->Get<CmdRenderComponent>();
         if (render != nullptr)
         {
             render->SetCoord(Coord(_createPos));

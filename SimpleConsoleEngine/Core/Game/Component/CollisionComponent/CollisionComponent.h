@@ -29,7 +29,7 @@ public:
     }
 public:
     CollisionComponent(const CompositeRef& _owner) noexcept;
-    virtual ~CollisionComponent() override;
+    ~CollisionComponent();
 
     virtual std::string     GetComponentName() const override;
     virtual CompositePtr    GetOwner() const override;

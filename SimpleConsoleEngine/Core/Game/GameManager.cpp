@@ -85,7 +85,7 @@ void GameManager::RegisterCollision(const CollisionObjPtr& _obj)
     if (pimpl->rootSection == nullptr)
         return;
 
-    auto unit = std::dynamic_pointer_cast<Unit>(_obj);
+    auto unit = std::static_pointer_cast<Unit>(_obj);
     if (unit == nullptr)
         return;
 
@@ -97,7 +97,7 @@ void GameManager::RegisterCollision(const CollisionObjPtr& _obj)
 
 void GameManager::RegisterCollision(const CollisionObjPtr& _obj, const SectionPtr& _trySection)
 {
-    auto unit = std::dynamic_pointer_cast<Unit>(_obj);
+    auto unit = std::static_pointer_cast<Unit>(_obj);
     if (unit == nullptr)
         return;
 
@@ -116,17 +116,16 @@ void GameManager::RegisterCollision(const CollisionObjPtr& _obj, const SectionPt
 
 void GameManager::UnRegisterCollision(const CollisionObjPtr& _obj)
 {
-    auto unit = std::dynamic_pointer_cast<Unit>(_obj);
+    auto unit = std::static_pointer_cast<Unit>(_obj);
     if (unit == nullptr)
         return;
 
-    auto collision = std::dynamic_pointer_cast<CollisionComponent>(_obj->GetCollision());
-    if (collision == nullptr)
-        return;
-
-    if (auto section = collision->GetSection())
+    if (auto collision = _obj->Get<CollisionComponent>())
     {
-        section->UnRegisterCollision(unit);
+        if (auto section = collision->GetSection())
+        {
+            section->UnRegisterCollision(unit);
+        }
     }
     CallFuncAfterM(0.f, this, &GameManager::RemoveCollision, _obj);
 }
@@ -143,7 +142,7 @@ void GameManager::RegisterBuiltSection(const SectionPtr& _section, const POINT& 
         for (int x = _pos.x - 10; x < _pos.x + 10; ++x)
         {
             auto temp = ObjectPool<Dummy>::GetWithInit();
-            auto render = temp->GetComponent<CmdRenderComponent>();
+            auto render = temp->Get<CmdRenderComponent>();
             if (render != nullptr)
             {
                 render->SetCoord(x * 2, y);
@@ -311,14 +310,14 @@ void GameManager::CollisionCheck(float _dt)
 
     for (auto& obj : pimpl->collisionList)
     {
-        auto collision = std::dynamic_pointer_cast<CollisionComponent>(obj->GetCollision());
+        auto collision = obj->Get<CollisionComponent>();
         if (!collision || collision->IsDeath())
         {
             UnRegisterCollision(obj);
         }
         else if (auto section = collision->GetSection())
         {
-            section->SyncCollision(std::dynamic_pointer_cast<Unit>(obj));
+            section->SyncCollision(std::static_pointer_cast<Unit>(obj));
         }
     }
     for (auto& section : pimpl->sectionList)

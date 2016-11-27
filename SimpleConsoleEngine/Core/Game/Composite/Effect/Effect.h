@@ -5,7 +5,7 @@ SCE_START
 
 class Effect : public GameObject
 {
-    SPECIALFUNC_SET(Effect, default)
+    SPECIALFUNC_MOVE_SET(Effect, default)
 public:
     Effect() noexcept;
     virtual ~Effect() override;
