@@ -14,7 +14,7 @@ class Game : public SCE::IGame
     using CommandPtr    = std::unique_ptr<SCE::Command>;
     using HeroPtr       = std::shared_ptr<Hero>;
     using MobPtr        = std::shared_ptr<Mob>;
-    using MobList       = std::vector<MobPtr>;
+    using MobList       = std::list<MobPtr>;
 public:
     Game() noexcept;
     ~Game();

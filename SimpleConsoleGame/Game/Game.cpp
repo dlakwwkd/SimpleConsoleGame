@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Core/Math/Vec2.h"
 #include "Core/Command/Command.h"
+#include "Core/Console/Console.h"
 #include "Core/Game/GameManager.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/Component/CollisionComponent/CollisionComponent.h"
@@ -48,7 +49,7 @@ void Game::Init()
     GameManager::GetInstance().RegisterCollision(pimpl->hero);
     GameManager::GetInstance().AddRender(pimpl->hero);
 
-    pimpl->GenerateMob(100);
+    pimpl->GenerateMob(50);
 }
 
 void Game::Release()
@@ -61,25 +62,39 @@ void Game::Release()
 void Game::Update(float _dt)
 {
     pimpl->CommandProc(_dt);
-    for (auto& mob : pimpl->mobList)
+    for (auto iter = pimpl->mobList.begin(); iter != pimpl->mobList.end();)
     {
+        auto& mob = *iter;
+        auto collision = mob->ICollisionObject::Get<CollisionComponent>();
+        if (!collision || collision->IsDeath())
+        {
+            iter = pimpl->mobList.erase(iter);
+            continue;
+        }
         mob->AI(_dt);
+        ++iter;
     }
 }
 
 void Game::Render()
 {
+    static auto& console = Console::GetInstance();
+    std::wostringstream oss;
+    oss << L"MobNum: " << pimpl->mobList.size();
+    size_t posX = (console.GetScreenWidth() - oss.str().length()) / 2;
+    size_t posY = console.GetScreenHeight() + 1;
+    console.PrintText(Coord(posX, posY), oss.str().c_str());
 }
 
 
 void Game::impl::GenerateMob(int _num)
 {
     int mobType = _num / 5;
-    mobList.reserve(_num);
     for (int i = 0; i < _num; ++i)
     {
-        mobList.emplace_back(ObjectPool<Mob>::GetWithInit());
-        auto& mob = mobList[i];
+        auto mob = ObjectPool<Mob>::GetWithInit();
+        mobList.push_back(mob);
+
         auto render = mob->IRenderObject::Get<CmdRenderComponent>();
         if (render == nullptr)
             continue;
