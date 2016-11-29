@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Missile.h"
-#include "../../Effect/Dummy.h"
+#include "../../Effect/Effect.h"
 #include "../../../GameManager.h"
 #include "../../../Component/RenderComponent/CmdRenderComponent.h"
 #include "../../../Component/CollisionComponent/CollisionComponent.h"
@@ -71,7 +71,7 @@ void Missile::Death()
     gm.RemoveRender(std::dynamic_pointer_cast<IRenderObject>(shared_from_this()));
     auto effectCreate = [&](const Vec2& _createPos, float _craeteDelay)
     {
-        auto effect = ObjectPool<Dummy>::GetWithInit();
+        auto effect = ObjectPool<Effect>::GetWithInit();
         auto render = effect->Get<CmdRenderComponent>();
         if (render != nullptr)
         {

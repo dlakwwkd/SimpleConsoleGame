@@ -52,79 +52,79 @@ void CmdRenderComponent::Render()
 }
 
 
-bool CmdRenderComponent::IsShow() const
+bool CmdRenderComponent::IsShow() const noexcept
 {
     return pimpl->isShow;
 }
 
-BYTE CmdRenderComponent::GetDepth() const
+BYTE CmdRenderComponent::GetDepth() const noexcept
 {
     return pimpl->depth;
 }
 
-Coord CmdRenderComponent::GetCoord() const
+Coord CmdRenderComponent::GetCoord() const noexcept
 {
     return pimpl->coord;
 }
 
-Shape CmdRenderComponent::GetShape() const
+Shape CmdRenderComponent::GetShape() const noexcept
 {
     return pimpl->shape;
 }
 
-wchar_t CmdRenderComponent::GetForm() const
+wchar_t CmdRenderComponent::GetForm() const noexcept
 {
     return pimpl->shape.form;
 }
 
-Color CmdRenderComponent::GetColor() const
+Color CmdRenderComponent::GetColor() const noexcept
 {
     return pimpl->shape.color;
 }
 
-Color CmdRenderComponent::GetBGColor() const
+Color CmdRenderComponent::GetBGColor() const noexcept
 {
     return pimpl->shape.bgColor;
 }
 
 
-void CmdRenderComponent::SetShow(bool _isShow)
+void CmdRenderComponent::SetShow(bool _isShow) noexcept
 {
     pimpl->isShow = _isShow;
 }
 
-void CmdRenderComponent::SetDepth(BYTE _depth)
+void CmdRenderComponent::SetDepth(BYTE _depth) noexcept
 {
     pimpl->depth = _depth;
 }
 
-void CmdRenderComponent::SetCoord(const Coord& _coord)
+void CmdRenderComponent::SetCoord(const Coord& _coord) noexcept
 {
     pimpl->coord = _coord;
 }
 
-void CmdRenderComponent::SetCoord(short _x, short _y)
+void CmdRenderComponent::SetCoord(short _x, short _y) noexcept
 {
     pimpl->coord.x = _x;
     pimpl->coord.y = _y;
 }
 
-void CmdRenderComponent::SetShape(const Shape& _shape)
+void CmdRenderComponent::SetShape(const Shape& _shape) noexcept
 {
     pimpl->shape = _shape;
 }
 
-void CmdRenderComponent::SetShape(wchar_t _form)
+void CmdRenderComponent::SetShape(wchar_t _form) noexcept
 {
     pimpl->shape.form = _form;
 }
 
-void CmdRenderComponent::SetColor(Color _color)
+void CmdRenderComponent::SetColor(Color _color) noexcept
 {
     pimpl->shape.color = _color;
 }
 
-void CmdRenderComponent::SetBGColor(Color _bgColor)
+void CmdRenderComponent::SetBGColor(Color _bgColor) noexcept
 {
     pimpl->shape.bgColor = _bgColor;
 }

@@ -34,26 +34,26 @@ public:
     virtual std::string     GetComponentName() const override;
     virtual CompositePtr    GetOwner() const override;
 
-    bool                    Hitted(int _damage);
-    void                    Death();
+    bool                    Hitted(int _damage) noexcept;
+    void                    Death() noexcept;
 
-    bool                    IsDeath() const;
-    bool                    CanAttack(const CollsionPtr& _target) const;
+    bool                    IsDeath() const noexcept;
+    bool                    CanAttack(const CollsionPtr& _target) const noexcept;
 
-    int                     GetCurHp() const;
-    int                     GetMaxHp() const;
-    int                     GetDamage() const;
-    SectionPtr              GetSection() const;
-    CollisionMask           GetHitMask() const;
-    CollisionMask           GetAttackMask() const;
+    int                     GetCurHp() const noexcept;
+    int                     GetMaxHp() const noexcept;
+    int                     GetDamage() const noexcept;
+    SectionPtr              GetSection() const noexcept;
+    CollisionMask           GetHitMask() const noexcept;
+    CollisionMask           GetAttackMask() const noexcept;
 
-    void                    InitHp();
-    void                    SetMaxHp(int _maxHp);
-    void                    SetDamage(int _damage);
-    void                    SetSection(const SectionPtr& _section);
-    void                    SetHitMask(CollisionMask _mask);
-    void                    SetAttackMask(CollisionMask _mask);
-    void                    SetHitLock(bool _lock);
+    void                    InitHp() noexcept;
+    void                    SetMaxHp(int _maxHp) noexcept;
+    void                    SetDamage(int _damage) noexcept;
+    void                    SetSection(const SectionPtr& _section) noexcept;
+    void                    SetHitMask(CollisionMask _mask) noexcept;
+    void                    SetAttackMask(CollisionMask _mask) noexcept;
+    void                    SetHitLock(bool _lock) noexcept;
 };
 
 SCE_END

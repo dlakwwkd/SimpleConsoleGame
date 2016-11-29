@@ -53,7 +53,7 @@ IComponent::CompositePtr CollisionComponent::GetOwner() const
 }
 
 
-bool CollisionComponent::Hitted(int _damage)
+bool CollisionComponent::Hitted(int _damage) noexcept
 {
     if (pimpl->isDeath || pimpl->hitLock)
         return false;
@@ -75,18 +75,18 @@ bool CollisionComponent::Hitted(int _damage)
     return true;
 }
 
-void CollisionComponent::Death()
+void CollisionComponent::Death() noexcept
 {
     pimpl->isDeath = true;
 }
 
 
-bool CollisionComponent::IsDeath() const
+bool CollisionComponent::IsDeath() const noexcept
 {
     return pimpl->isDeath;
 }
 
-bool CollisionComponent::CanAttack(const CollsionPtr& _target) const
+bool CollisionComponent::CanAttack(const CollsionPtr& _target) const noexcept
 {
     if (_target == nullptr)
         return false;
@@ -95,43 +95,43 @@ bool CollisionComponent::CanAttack(const CollsionPtr& _target) const
 }
 
 
-int CollisionComponent::GetCurHp() const
+int CollisionComponent::GetCurHp() const noexcept
 {
     return pimpl->curHp;
 }
 
-int CollisionComponent::GetMaxHp() const
+int CollisionComponent::GetMaxHp() const noexcept
 {
     return pimpl->maxHp;
 }
 
-int CollisionComponent::GetDamage() const
+int CollisionComponent::GetDamage() const noexcept
 {
     return pimpl->damage;
 }
 
-CollisionComponent::SectionPtr CollisionComponent::GetSection() const
+CollisionComponent::SectionPtr CollisionComponent::GetSection() const noexcept
 {
     return pimpl->section.lock();
 }
 
-CollisionComponent::CollisionMask CollisionComponent::GetHitMask() const
+CollisionComponent::CollisionMask CollisionComponent::GetHitMask() const noexcept
 {
     return pimpl->hitMask;
 }
 
-CollisionComponent::CollisionMask CollisionComponent::GetAttackMask() const
+CollisionComponent::CollisionMask CollisionComponent::GetAttackMask() const noexcept
 {
     return pimpl->attackMask;
 }
 
 
-void CollisionComponent::InitHp()
+void CollisionComponent::InitHp() noexcept
 {
     pimpl->curHp = pimpl->maxHp;
 }
 
-void CollisionComponent::SetMaxHp(int _maxHp)
+void CollisionComponent::SetMaxHp(int _maxHp) noexcept
 {
     if (_maxHp > 0)
     {
@@ -139,28 +139,28 @@ void CollisionComponent::SetMaxHp(int _maxHp)
     }
 }
 
-void CollisionComponent::SetDamage(int _damage)
+void CollisionComponent::SetDamage(int _damage) noexcept
 {
     pimpl->damage = _damage;
 }
 
-void CollisionComponent::SetSection(const SectionPtr& _section)
+void CollisionComponent::SetSection(const SectionPtr& _section) noexcept
 {
     pimpl->section = _section;
 }
 
-void CollisionComponent::SetHitMask(CollisionMask _mask)
+void CollisionComponent::SetHitMask(CollisionMask _mask) noexcept
 {
     pimpl->hitMask = _mask;
 }
 
-void CollisionComponent::SetAttackMask(CollisionMask _mask)
+void CollisionComponent::SetAttackMask(CollisionMask _mask) noexcept
 {
     pimpl->attackMask = _mask;
 }
 
 
-void CollisionComponent::SetHitLock(bool _lock)
+void CollisionComponent::SetHitLock(bool _lock) noexcept
 {
     pimpl->hitLock = _lock;
 }

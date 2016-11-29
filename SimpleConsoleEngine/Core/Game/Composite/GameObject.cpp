@@ -3,7 +3,7 @@
 #include "../../Console/Console.h"
 #include "../../Console/Coord.h"
 #include "../../Math/Vec2.h"
-#include "Effect/Dummy.h"
+#include "Effect/Effect.h"
 SCE_START
 
 
@@ -172,7 +172,7 @@ void GameObject::impl::DirectionShow() const noexcept
     Vec2 dir = movePower / power;
     Vec2 temp = pos;
 
-    auto dummy = ObjectPool<Dummy>::GetWithInit();
+    auto dummy = ObjectPool<Effect>::GetWithInit();
     auto length = static_cast<size_t>(power * speed / movePowerFrict / movePowerLimit);
     for (size_t i = 0; i < length; ++i)
     {

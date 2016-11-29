@@ -3,7 +3,7 @@
 #include "Section.h"
 #include "Interface/IGame.h"
 #include "Composite/Unit/Unit.h"
-#include "Composite/Effect/Dummy.h"
+#include "Composite/Effect/Effect.h"
 #include "Component/RenderComponent/CmdRenderComponent.h"
 #include "Component/CollisionComponent/CollisionComponent.h"
 #include "../Timer/Timer.h"
@@ -141,7 +141,7 @@ void GameManager::RegisterBuiltSection(const SectionPtr& _section, const POINT& 
     {
         for (int x = _pos.x - 10; x < _pos.x + 10; ++x)
         {
-            auto temp = ObjectPool<Dummy>::GetWithInit();
+            auto temp = ObjectPool<Effect>::GetWithInit();
             auto render = temp->Get<CmdRenderComponent>();
             if (render != nullptr)
             {

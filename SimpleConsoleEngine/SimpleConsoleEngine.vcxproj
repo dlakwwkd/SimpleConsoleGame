@@ -156,7 +156,6 @@
     <ClInclude Include="Core\Game\Component\CollisionComponent\CollisionComponent.h" />
     <ClInclude Include="Core\Game\Component\RenderComponent\CmdRenderComponent.h" />
     <ClInclude Include="Core\Game\Composite\CompositeBase.h" />
-    <ClInclude Include="Core\Game\Composite\Effect\Dummy.h" />
     <ClInclude Include="Core\Game\Composite\Effect\Effect.h" />
     <ClInclude Include="Core\Game\Composite\GameObject.h" />
     <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h" />
@@ -194,7 +193,6 @@
     <ClCompile Include="Core\Game\Component\CollisionComponent\CollisionComponent.cpp" />
     <ClCompile Include="Core\Game\Component\RenderComponent\CmdRenderComponent.cpp" />
     <ClCompile Include="Core\Game\Composite\CompositeBase.cpp" />
-    <ClCompile Include="Core\Game\Composite\Effect\Dummy.cpp" />
     <ClCompile Include="Core\Game\Composite\Effect\Effect.cpp" />
     <ClCompile Include="Core\Game\Composite\GameObject.cpp" />
     <ClCompile Include="Core\Game\Composite\Unit\Missile\Missile.cpp" />

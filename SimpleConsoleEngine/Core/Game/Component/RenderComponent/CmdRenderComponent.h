@@ -16,24 +16,24 @@ public:
     virtual std::string     GetComponentName() const override;
     virtual CompositePtr    GetOwner() const override;
 
-    void                    Render();
+    virtual void            Render() override;
 
-    bool                    IsShow() const;
-    BYTE                    GetDepth() const;
-    Coord                   GetCoord() const;
-    Shape                   GetShape() const;
-    wchar_t                 GetForm() const;
-    Color                   GetColor() const;
-    Color                   GetBGColor() const;
+    bool                    IsShow() const noexcept;
+    BYTE                    GetDepth() const noexcept;
+    Coord                   GetCoord() const noexcept;
+    Shape                   GetShape() const noexcept;
+    wchar_t                 GetForm() const noexcept;
+    Color                   GetColor() const noexcept;
+    Color                   GetBGColor() const noexcept;
 
-    void                    SetShow(bool _isShow);
-    void                    SetDepth(BYTE _depth);
-    void                    SetCoord(const Coord& _coord);
-    void                    SetCoord(short _x, short _y);
-    void                    SetShape(const Shape& _shape);
-    void                    SetShape(wchar_t _form);
-    void                    SetColor(Color _color);
-    void                    SetBGColor(Color _bgColor);
+    void                    SetShow(bool _isShow) noexcept;
+    void                    SetDepth(BYTE _depth) noexcept;
+    void                    SetCoord(const Coord& _coord) noexcept;
+    void                    SetCoord(short _x, short _y) noexcept;
+    void                    SetShape(const Shape& _shape) noexcept;
+    void                    SetShape(wchar_t _form) noexcept;
+    void                    SetColor(Color _color) noexcept;
+    void                    SetBGColor(Color _bgColor) noexcept;
 };
 
 SCE_END

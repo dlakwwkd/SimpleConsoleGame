@@ -138,12 +138,6 @@
     <ClInclude Include="Core\Game\Composite\Unit\Unit.h">
       <Filter>Core\Game\Composite\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\Composite\Effect\Dummy.h">
-      <Filter>Core\Game\Composite\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Game\Composite\Effect\Effect.h">
-      <Filter>Core\Game\Composite\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Game\Interface\IObject.h">
       <Filter>Core\Game\Interface</Filter>
     </ClInclude>
@@ -167,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h">
       <Filter>Core\Game\Composite\Unit\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Composite\Effect\Effect.h">
+      <Filter>Core\Game\Composite\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,12 +224,6 @@
     <ClCompile Include="Core\Game\Composite\Unit\Unit.cpp">
       <Filter>Core\Game\Composite\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Game\Composite\Effect\Dummy.cpp">
-      <Filter>Core\Game\Composite\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Game\Composite\Effect\Effect.cpp">
-      <Filter>Core\Game\Composite\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Game\Composite\Unit\Missile\Missile.cpp">
       <Filter>Core\Game\Composite\Unit\Missile</Filter>
     </ClCompile>
@@ -241,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="Core\Game\Interface\Component\IRenderComponent.cpp">
       <Filter>Core\Game\Interface\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Composite\Effect\Effect.cpp">
+      <Filter>Core\Game\Composite\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

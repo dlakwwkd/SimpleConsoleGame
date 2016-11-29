@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Unit.h"
-#include "../Effect/Dummy.h"
+#include "../Effect/Effect.h"
 #include "../../Skill.h"
 #include "../../GameManager.h"
 #include "../../Component/RenderComponent/CmdRenderComponent.h"
@@ -129,7 +129,7 @@ void Unit::Death()
     static auto& gm = GameManager::GetInstance();
     gm.RemoveRender(std::dynamic_pointer_cast<IRenderObject>(shared_from_this()));
 
-    auto corpse = ObjectPool<Dummy>::GetWithInit();
+    auto corpse = ObjectPool<Effect>::GetWithInit();
     auto render = corpse->Get<CmdRenderComponent>();
     if (render != nullptr)
     {
