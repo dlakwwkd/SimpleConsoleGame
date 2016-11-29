@@ -160,6 +160,7 @@
     <ClInclude Include="Core\Game\Composite\GameObject.h" />
     <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h" />
     <ClInclude Include="Core\Game\Composite\Unit\Unit.h" />
+    <ClInclude Include="Core\Game\EffectManager.h" />
     <ClInclude Include="Core\Game\GameManager.h" />
     <ClInclude Include="Core\Game\Interface\Component\ICollisionComponent.h" />
     <ClInclude Include="Core\Game\Interface\Component\IRenderComponent.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="Core\Game\Composite\GameObject.cpp" />
     <ClCompile Include="Core\Game\Composite\Unit\Missile\Missile.cpp" />
     <ClCompile Include="Core\Game\Composite\Unit\Unit.cpp" />
+    <ClCompile Include="Core\Game\EffectManager.cpp" />
     <ClCompile Include="Core\Game\GameManager.cpp" />
     <ClCompile Include="Core\Game\Interface\Component\ICollisionComponent.cpp" />
     <ClCompile Include="Core\Game\Interface\Component\IRenderComponent.cpp" />

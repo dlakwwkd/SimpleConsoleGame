@@ -59,7 +59,7 @@ bool CollisionComponent::Hitted(int _damage) noexcept
         return false;
 
     pimpl->hitLock = true;
-    GameManager::GetInstance().CallFuncAfterP(0.2f,
+    GameManager::GetInstance().CallFuncAfterP(0.1f,
         std::dynamic_pointer_cast<CollisionComponent>(shared_from_this()),
         &CollisionComponent::SetHitLock,
         false);

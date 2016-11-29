@@ -159,11 +159,14 @@
     <ClInclude Include="Core\Game\Interface\IGame.h">
       <Filter>Core\Game\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h">
-      <Filter>Core\Game\Composite\Unit\Missile</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Game\Composite\Effect\Effect.h">
       <Filter>Core\Game\Composite\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\EffectManager.h">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h">
+      <Filter>Core\Game\Composite\Unit\Missile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="Core\Game\Composite\Effect\Effect.cpp">
       <Filter>Core\Game\Composite\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\EffectManager.cpp">
+      <Filter>Core\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

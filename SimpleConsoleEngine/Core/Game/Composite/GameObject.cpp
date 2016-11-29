@@ -54,7 +54,7 @@ void GameObject::Update(float _dt)
 {
     pimpl->MovePowerFixInLimit();
     pimpl->pos += pimpl->movePower * (pimpl->speed / pimpl->movePowerLimit * _dt);  // 현재 속도만큼 이동
-    pimpl->movePower -= pimpl->movePower * (pimpl->movePowerFrict * _dt);             // 마찰로 인한 속력 저하
+    pimpl->movePower -= pimpl->movePower * (pimpl->movePowerFrict * _dt);           // 마찰로 인한 속력 저하
     pimpl->PosFixInScreanBoundary();
 }
 

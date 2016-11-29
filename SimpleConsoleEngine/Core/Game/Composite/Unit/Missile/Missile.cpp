@@ -2,6 +2,7 @@
 #include "Missile.h"
 #include "../../Effect/Effect.h"
 #include "../../../GameManager.h"
+#include "../../../EffectManager.h"
 #include "../../../Component/RenderComponent/CmdRenderComponent.h"
 #include "../../../Component/CollisionComponent/CollisionComponent.h"
 #include "../../../../Console/Console.h"
@@ -14,10 +15,12 @@ struct Missile::impl
 {
     impl() noexcept
         : aiTimer{}
+        , explosionEffect{ EffectType::EXPLOSION_A }
     {
     }
 
-    std::shared_ptr<Timer> aiTimer;
+    std::shared_ptr<Timer>  aiTimer;
+    EffectType              explosionEffect;
 };
 
 
@@ -66,44 +69,17 @@ void Missile::Death()
 
     collision->Death();
 
-    // 일단 하드코딩.. 나중에 제대로 구현하자
     static auto& gm = GameManager::GetInstance();
+    static auto& em = EffectManager::GetInstance();
     gm.RemoveRender(std::dynamic_pointer_cast<IRenderObject>(shared_from_this()));
-    auto effectCreate = [&](const Vec2& _createPos, float _craeteDelay)
-    {
-        auto effect = ObjectPool<Effect>::GetWithInit();
-        auto render = effect->Get<CmdRenderComponent>();
-        if (render != nullptr)
-        {
-            render->SetCoord(Coord(_createPos));
-            render->SetShape(L'▒');
-            render->SetColor(Color::YELLOW);
-            render->SetBGColor(Color::RED);
-            gm.CallFuncAfterM(_craeteDelay, &gm, &GameManager::AddRender, effect, 0.1f);
-        }
-    };
-    const int sequence = 10;
-    const Vec2 curPos = GetPos();
-    const Vec2 posArr[sequence] =
-    {
-        curPos,
-        curPos + Vec2::UP,
-        curPos + Vec2::UP + Vec2::RIGHT,
-        curPos + Vec2::RIGHT,
-        curPos + Vec2::RIGHT + Vec2::DOWN,
-        curPos + Vec2::DOWN,
-        curPos + Vec2::DOWN + Vec2::LEFT,
-        curPos + Vec2::LEFT,
-        curPos + Vec2::LEFT + Vec2::UP,
-        curPos + Vec2::UP,
-    };
-    for (int i = 0; i < sequence; ++i)
-    {
-        effectCreate(posArr[i], 0.02f * i);
-    }
+    em.PlayEffect(GetPos(), pimpl->explosionEffect);
 }
 
 
+void Missile::SetExplosionEffect(EffectType _type) noexcept
+{
+    pimpl->explosionEffect = _type;
+}
 
 void Missile::SetAIRatio(float _ratio)
 {

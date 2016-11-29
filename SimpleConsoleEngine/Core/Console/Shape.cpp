@@ -12,6 +12,13 @@ Shape::Shape() noexcept
 {
 }
 
+Shape::Shape(wchar_t _form, Color _color, Color _bgColor) noexcept
+    : form{ _form }
+    , color{ _color }
+    , bgColor{ _bgColor }
+{
+}
+
 
 void Shape::Render(const Coord& _pos, BYTE _depth) noexcept
 {

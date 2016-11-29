@@ -5,6 +5,7 @@
 #include "Core/Game/Component/CollisionComponent/CollisionComponent.h"
 #include "Core/Game/Composite/Unit/Missile/Missile.h"
 #include "Core/Game/GameManager.h"
+#include "Core/Game/EffectManager.h"
 SCE_USE
 
 
@@ -51,6 +52,7 @@ void SkillBasicAttack3::OnBeginUse()
     missile->SetSpeed(100.0f);
     missile->SetMovePowerFrict(0.0f);
     missile->AddMovePower(owner->GetDirection());
+    missile->SetExplosionEffect(EffectType::EXPLOSION_C);
 
     static auto& gm = GameManager::GetInstance();
     gm.RegisterCollision(missile, ownerCollision->GetSection());
