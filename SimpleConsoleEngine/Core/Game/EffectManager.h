@@ -8,8 +8,9 @@ enum class EffectType
     EXPLOSION_A,
     EXPLOSION_B,
     EXPLOSION_C,
-};
 
+    EFFECT_TYPE_MAX
+};
 
 class EffectManager
 {
