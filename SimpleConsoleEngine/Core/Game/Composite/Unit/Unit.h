@@ -24,13 +24,15 @@ public:
     virtual void            Release() override;
     virtual void            Update(float _dt) override;
 
-    virtual RenderPtr       GetRender() override;
+    virtual RenderPtr       GetRender() const override;
     virtual void            Render() override;
 
-    virtual CollisionPtr    GetCollision() override;
+    virtual CollisionPtr    GetCollision() const override;
     virtual bool            Hitted(int _damage) override;
     virtual void            Death() override;
+    virtual void            SetDeathEffect(EffectType _type) override;
 
+protected:
     void                    AddSkill(const SkillPtr& _skill);
     SkillList&              GetSkillList();
 };

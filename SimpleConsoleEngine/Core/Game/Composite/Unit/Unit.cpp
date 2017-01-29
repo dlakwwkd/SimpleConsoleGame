@@ -3,6 +3,7 @@
 #include "../Effect/Effect.h"
 #include "../../Skill.h"
 #include "../../GameManager.h"
+#include "../../EffectManager.h"
 #include "../../Component/RenderComponent/CmdRenderComponent.h"
 #include "../../Component/CollisionComponent/CollisionComponent.h"
 #include "../../../Math/Vec2.h"
@@ -15,7 +16,8 @@ struct Unit::impl
         : skillList{}
         , render{}
         , collision{}
-        , hitRenderFlag{}
+        , hitRenderFlag{ false }
+        , deathEffect{ EffectType::UNIT_DEATH }
     {
     }
 
@@ -23,6 +25,7 @@ struct Unit::impl
     RenderRef       render;
     CollisionRef    collision;
     bool            hitRenderFlag;
+    EffectType      deathEffect;
 };
 
 
@@ -67,7 +70,7 @@ void Unit::Update(float _dt)
 }
 
 
-IRenderObject::RenderPtr Unit::GetRender()
+IRenderObject::RenderPtr Unit::GetRender() const
 {
     return pimpl->render.lock();
 }
@@ -99,7 +102,7 @@ void Unit::Render()
 }
 
 
-ICollisionObject::CollisionPtr Unit::GetCollision()
+ICollisionObject::CollisionPtr Unit::GetCollision() const
 {
     return pimpl->collision.lock();
 }
@@ -127,18 +130,14 @@ void Unit::Death()
     collision->Death();
 
     static auto& gm = GameManager::GetInstance();
+    static auto& em = EffectManager::GetInstance();
     gm.RemoveRender(std::dynamic_pointer_cast<IRenderObject>(shared_from_this()));
+    em.PlayEffect(*this, GetPos(), pimpl->deathEffect);
+}
 
-    auto corpse = ObjectPool<Effect>::GetWithInit();
-    auto render = corpse->Get<CmdRenderComponent>();
-    if (render != nullptr)
-    {
-        render->SetCoord(Coord(GetPos()));
-        render->SetShape(IRenderObject::Get<CmdRenderComponent>()->GetShape());
-        render->SetColor(Color::BLACK);
-        render->SetBGColor(Color::RED);
-        gm.AddRender(corpse, 1.f);
-    }
+void Unit::SetDeathEffect(EffectType _type)
+{
+    pimpl->deathEffect = _type;
 }
 
 

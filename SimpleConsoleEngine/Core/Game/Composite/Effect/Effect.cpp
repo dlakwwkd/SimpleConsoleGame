@@ -43,7 +43,7 @@ void Effect::Update(float _dt)
 }
 
 
-IRenderObject::RenderPtr Effect::GetRender()
+IRenderObject::RenderPtr Effect::GetRender() const
 {
     return pimpl->render.lock();
 }

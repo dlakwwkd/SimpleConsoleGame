@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "EffectManager.h"
 #include "GameManager.h"
+#include "Composite/Unit/Unit.h"
 #include "Composite/Effect/Effect.h"
 #include "Component/RenderComponent/CmdRenderComponent.h"
 #include "../Math/Vec2.h"
@@ -9,7 +10,7 @@ SCE_START
 
 struct EffectManager::impl
 {
-    using EffectFunc    = std::function<void(impl&, const Vec2&)>;
+    using EffectFunc    = std::function<void(impl&, const Unit&, const Vec2&)>;
     using SequenceFunc  = std::function<void(const Vec2&, int)>;
 
     impl() noexcept
@@ -23,9 +24,10 @@ struct EffectManager::impl
 
     void CreateEffect(const Vec2& _pos, const Shape& _shape, float _delay, float _lifeTime) const noexcept;
 
-    void ExplosionA(const Vec2& _pos) const noexcept;
-    void ExplosionB(const Vec2& _pos) const noexcept;
-    void ExplosionC(const Vec2& _pos) const noexcept;
+    void UnitDeath(const Unit& _owner, const Vec2& _pos) const noexcept;
+    void ExplosionA(const Unit& _owner, const Vec2& _pos) const noexcept;
+    void ExplosionB(const Unit& _owner, const Vec2& _pos) const noexcept;
+    void ExplosionC(const Unit& _owner, const Vec2& _pos) const noexcept;
 
     class Sequence
     {
@@ -58,12 +60,12 @@ EffectManager::~EffectManager()
 }
 
 
-void EffectManager::PlayEffect(const Vec2& _pos, EffectType _type) const noexcept
+void EffectManager::PlayEffect(const Unit& _owner, const Vec2& _pos, EffectType _type) const noexcept
 {
     auto& func = pimpl->effectFuncList.at(static_cast<size_t>(_type));
     if (func)
     {
-        func(*pimpl, _pos);
+        func(*pimpl, _owner, _pos);
     }
 }
 
@@ -74,6 +76,7 @@ void EffectManager::impl::RegisterEffectFunc()
         return;
 
     effectFuncList.resize((size_t)EffectType::EFFECT_TYPE_MAX);
+    effectFuncList[(size_t)EffectType::UNIT_DEATH] = &impl::UnitDeath;
     effectFuncList[(size_t)EffectType::EXPLOSION_A] = &impl::ExplosionA;
     effectFuncList[(size_t)EffectType::EXPLOSION_B] = &impl::ExplosionB;
     effectFuncList[(size_t)EffectType::EXPLOSION_C] = &impl::ExplosionC;
@@ -128,7 +131,15 @@ void EffectManager::impl::CreateEffect(const Vec2& _pos, const Shape& _shape, fl
 }
 
 
-void EffectManager::impl::ExplosionA(const Vec2& _pos) const noexcept
+void EffectManager::impl::UnitDeath(const Unit& _owner, const Vec2& _pos) const noexcept
+{
+    auto shape = _owner.IRenderObject::Get<CmdRenderComponent>()->GetShape();
+    shape.color = Color::BLACK;
+    shape.bgColor = Color::RED;
+    CreateEffect(_pos, shape, 0.f, 1.f);
+}
+
+void EffectManager::impl::ExplosionA(const Unit& _owner, const Vec2& _pos) const noexcept
 {
     sequenceList[Sequence::SEQUENCE_TYPE_A].Play(
         [&](const Vec2& _squencePos, int _i)
@@ -144,7 +155,7 @@ void EffectManager::impl::ExplosionA(const Vec2& _pos) const noexcept
         });
 }
 
-void EffectManager::impl::ExplosionB(const Vec2& _pos) const noexcept
+void EffectManager::impl::ExplosionB(const Unit& _owner, const Vec2& _pos) const noexcept
 {
     sequenceList[Sequence::SEQUENCE_TYPE_A].Play(
         [&](const Vec2& _squencePos, int _i)
@@ -164,7 +175,7 @@ void EffectManager::impl::ExplosionB(const Vec2& _pos) const noexcept
         });
 }
 
-void EffectManager::impl::ExplosionC(const Vec2& _pos) const noexcept
+void EffectManager::impl::ExplosionC(const Unit& _owner, const Vec2& _pos) const noexcept
 {
     sequenceList[Sequence::SEQUENCE_TYPE_A].Play(
         [&](const Vec2& _squencePos, int _i)

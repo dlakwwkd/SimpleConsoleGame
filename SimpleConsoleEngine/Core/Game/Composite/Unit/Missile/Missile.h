@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "../Unit.h"
 SCE_START
-enum class EffectType;
 
 
 class Missile : public Unit
@@ -17,7 +16,6 @@ public:
     virtual void    Update(float _dt)  override;
     virtual void    Death()            override;
 
-    void            SetExplosionEffect(EffectType _type) noexcept;
     void            SetAIRatio(float _ratio);
     void            AI(float _dt);
 };

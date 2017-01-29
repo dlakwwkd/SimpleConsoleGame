@@ -52,7 +52,7 @@ void SkillBasicAttack3::OnBeginUse()
     missile->SetSpeed(100.0f);
     missile->SetMovePowerFrict(0.0f);
     missile->AddMovePower(owner->GetDirection());
-    missile->SetExplosionEffect(EffectType::EXPLOSION_C);
+    missile->SetDeathEffect(EffectType::EXPLOSION_C);
 
     static auto& gm = GameManager::GetInstance();
     gm.RegisterCollision(missile, ownerCollision->GetSection());

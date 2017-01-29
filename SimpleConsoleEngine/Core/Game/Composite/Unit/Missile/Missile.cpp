@@ -2,7 +2,6 @@
 #include "Missile.h"
 #include "../../Effect/Effect.h"
 #include "../../../GameManager.h"
-#include "../../../EffectManager.h"
 #include "../../../Component/RenderComponent/CmdRenderComponent.h"
 #include "../../../Component/CollisionComponent/CollisionComponent.h"
 #include "../../../../Console/Console.h"
@@ -15,12 +14,10 @@ struct Missile::impl
 {
     impl() noexcept
         : aiTimer{}
-        , explosionEffect{ EffectType::EXPLOSION_A }
     {
     }
 
     std::shared_ptr<Timer>  aiTimer;
-    EffectType              explosionEffect;
 };
 
 
@@ -63,23 +60,9 @@ void Missile::Update(float _dt)
 
 void Missile::Death()
 {
-    auto collision = ICollisionObject::Get<CollisionComponent>();
-    if (!collision || collision->IsDeath())
-        return;
-
-    collision->Death();
-
-    static auto& gm = GameManager::GetInstance();
-    static auto& em = EffectManager::GetInstance();
-    gm.RemoveRender(std::dynamic_pointer_cast<IRenderObject>(shared_from_this()));
-    em.PlayEffect(GetPos(), pimpl->explosionEffect);
+    Unit::Death();
 }
 
-
-void Missile::SetExplosionEffect(EffectType _type) noexcept
-{
-    pimpl->explosionEffect = _type;
-}
 
 void Missile::SetAIRatio(float _ratio)
 {

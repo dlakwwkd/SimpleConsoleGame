@@ -18,7 +18,7 @@ public:
     virtual void        Release() override;
     virtual void        Update(float _dt) override;
 
-    virtual RenderPtr   GetRender() override;
+    virtual RenderPtr   GetRender() const override;
     virtual void        Render() override;
 };
 

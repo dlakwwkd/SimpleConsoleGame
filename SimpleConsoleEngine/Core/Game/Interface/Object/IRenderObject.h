@@ -10,11 +10,11 @@ protected:
     using RenderPtr = std::shared_ptr<IRenderComponent>;
     using RenderRef = std::weak_ptr<IRenderComponent>;
 public:
-    virtual RenderPtr   GetRender() = 0;
-    virtual void        Render()    = 0;
+    virtual RenderPtr   GetRender() const   = 0;
+    virtual void        Render()            = 0;
 
     IS_BASE_OF(T, IRenderComponent)
-    std::shared_ptr<T>  Get() noexcept
+    std::shared_ptr<T>  Get() const noexcept
     {
         return std::static_pointer_cast<T>(GetRender());
     }
