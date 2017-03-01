@@ -168,6 +168,21 @@
     <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h">
       <Filter>Core\Game\Composite\Unit\Missile</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Console\ConsoleImpl.hpp">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\Composite\GameObjectImpl.hpp">
+      <Filter>Core\Game\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\EffectManagerImpl.hpp">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\GameManagerImpl.hpp">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game\SectionImpl.hpp">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\stdafx.cpp">
@@ -249,6 +264,12 @@
     </None>
     <None Include="Core\Game\GameManager.inl">
       <Filter>Core\Game</Filter>
+    </None>
+    <None Include="Core\Command\Command.inl">
+      <Filter>Core\Command</Filter>
+    </None>
+    <None Include="Core\Game\Composite\CompositeBase.inl">
+      <Filter>Core\Game\Composite</Filter>
     </None>
   </ItemGroup>
 </Project>

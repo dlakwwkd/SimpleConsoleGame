@@ -2,7 +2,7 @@
 SCE_START
 class Vec2;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 struct Coord
 {
     static Vec2 ConvertToVec2(const Coord& _coord) noexcept;
@@ -17,7 +17,7 @@ struct Coord
     short y;
 };
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 template<typename T, typename U>
 constexpr Coord::Coord(T _x, U _y) noexcept
     : x(Safe::IntegralCast<decltype(x)>(_x))

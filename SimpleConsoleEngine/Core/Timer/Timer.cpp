@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "Timer.h"
-SCE_START
+SCE_USE
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 Timer::Timer() noexcept
     : prevTime{ std::chrono::system_clock::now() }
     , curTime{}
@@ -12,6 +12,7 @@ Timer::Timer() noexcept
 {
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 Timer::Timer(float _duration) noexcept
     : prevTime{ std::chrono::system_clock::now() }
     , curTime{}
@@ -21,13 +22,14 @@ Timer::Timer(float _duration) noexcept
 {
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 void Timer::Init() noexcept
 {
     prevTime = std::chrono::system_clock::now();
     accumDt = 0.0f;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Timer::Tick() noexcept
 {
     curTime = std::chrono::system_clock::now();
@@ -35,24 +37,27 @@ void Timer::Tick() noexcept
     prevTime = curTime;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 float Timer::DeltaTime() const noexcept
 {
     return deltaTime.count();
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // Tick을 직접 하는 경우
 void Timer::AccumDt() noexcept
 {
     accumDt += deltaTime.count();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Tick을 직접 하지 않는 경우
 void Timer::AccumDt(float _dt) noexcept
 {
     accumDt += _dt;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // 타이머 생성시 Duration을 지정한 경우
 bool Timer::DurationCheck() noexcept
 {
@@ -64,6 +69,7 @@ bool Timer::DurationCheck() noexcept
     return false;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // 고정 Duration이 아닌 경우
 bool Timer::DurationCheck(float _duration) noexcept
 {
@@ -75,9 +81,8 @@ bool Timer::DurationCheck(float _duration) noexcept
     return false;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Timer::SetDuration(float _duration) noexcept
 {
     duration = _duration;
 }
-
-SCE_END

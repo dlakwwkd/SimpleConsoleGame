@@ -3,7 +3,7 @@
 SCE_START
 class Section;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class CollisionComponent : public ICollisionComponent
 {
     DECLARE_PIMPL
@@ -36,7 +36,6 @@ public:
 
     bool                    Hitted(int _damage) noexcept;
     void                    Death() noexcept;
-
     bool                    IsDeath() const noexcept;
     bool                    CanAttack(const CollsionPtr& _target) const noexcept;
 

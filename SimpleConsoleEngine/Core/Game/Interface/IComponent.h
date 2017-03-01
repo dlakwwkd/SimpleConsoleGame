@@ -1,10 +1,9 @@
 ﻿#pragma once
 #include "IObject.h"
 SCE_START
-struct _identifier {};
 class CompositeBase;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class IComponent : public std::enable_shared_from_this<IComponent>
 {
 protected:
@@ -16,7 +15,8 @@ public:
     virtual CompositePtr    GetOwner() const            = 0;
 };
 
-
+struct _identifier {};
+/////////////////////////////////////////////////////////////////////////////////////////
 template<typename Derived>
 class IComponentCRTP : public IComponent
 {

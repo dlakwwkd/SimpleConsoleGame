@@ -1,13 +1,14 @@
 ﻿#pragma once
 SCE_START
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class Scheduler
 {
     SPECIALFUNC_SET(Scheduler, delete)
     using TickTime = std::chrono::system_clock::time_point;
     using Functor = std::function<void()>;
 
+    /////////////////////////////////////////////////////////////////////////////////////
     struct Task
     {
         TickTime    executionTick;

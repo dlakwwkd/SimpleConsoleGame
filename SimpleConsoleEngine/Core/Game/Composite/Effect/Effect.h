@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "../GameObject.h"
 #include "../../Interface/Object/IRenderObject.h"
+#include "../GameObject.h"
 SCE_START
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class Effect
     : public IRenderObject
     , public GameObject

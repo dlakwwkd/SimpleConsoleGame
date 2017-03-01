@@ -3,7 +3,7 @@ SCE_START
 class Timer;
 class Unit;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class Skill
 {
     DECLARE_PIMPL
@@ -32,11 +32,14 @@ public:
     void                Update(float _dt);
     void                SetDuration(State _state, float _duration);
 
+    /////////////////////////////////////////////////////////////////////////////////////
     template<typename T>
     std::shared_ptr<T>  GetOwner() const
     {
         return std::dynamic_pointer_cast<T>(owner.lock());
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////
     template<typename T>
     void                SetOwner(const std::shared_ptr<T>& _owner)
     {

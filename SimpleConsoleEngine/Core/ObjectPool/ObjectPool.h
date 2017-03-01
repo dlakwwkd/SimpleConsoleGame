@@ -3,7 +3,7 @@
 #pragma once
 SCE_START
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 struct _objectPoolDeleteHelper
 {
     static std::vector<uint8_t*> poolList;
@@ -20,7 +20,7 @@ struct _objectPoolDeleteHelper
     }
 };
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 template<typename T>
 class ObjectPool
 {
@@ -39,12 +39,14 @@ public:
     T*              allocate(const size_t _n) const noexcept;
     void            deallocate(T* const _obj, size_t) const noexcept;
 
+    /////////////////////////////////////////////////////////////////////////////////////
     template<typename... Args>
     static std::shared_ptr<T> Get(Args&&... _args) noexcept
     {
         return std::allocate_shared<T>(ObjectPool(), std::forward<Args>(_args)...);
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////
     template<typename... Args>
     static std::shared_ptr<T> GetWithInit(Args&&... _args) noexcept
     {
@@ -59,12 +61,11 @@ private:
     static int      currentUseCount;    // for tracing
 };
 
-
 template<typename T> uint8_t*   ObjectPool<T>::freeList         = nullptr;
 template<typename T> int        ObjectPool<T>::totalAllocCount  = 0;
 template<typename T> int        ObjectPool<T>::currentUseCount  = 0;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 template<typename T>
 T* ObjectPool<T>::allocate(const size_t _n) const noexcept
 {
@@ -112,6 +113,7 @@ T* ObjectPool<T>::allocate(const size_t _n) const noexcept
     return reinterpret_cast<T*>(pAvailable);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 template<typename T>
 void ObjectPool<T>::deallocate(T* const _obj, size_t) const noexcept
 {

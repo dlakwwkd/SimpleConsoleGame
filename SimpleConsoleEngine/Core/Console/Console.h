@@ -1,10 +1,9 @@
 ﻿#pragma once
-#include "Color.hpp"
 SCE_START
 struct Coord;
 struct Shape;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class Console
 {
     DECLARE_PIMPL

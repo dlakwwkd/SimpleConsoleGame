@@ -1,8 +1,8 @@
 ﻿#pragma once
 SCE_START
 
-
-enum class Color : unsigned short
+/////////////////////////////////////////////////////////////////////////////////////////
+enum Color : unsigned short
 {
     BLACK = 0,
 
@@ -25,30 +25,32 @@ enum class Color : unsigned short
     WHITE,
 };
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 inline Color& operator++(Color& _color) noexcept
 {
-    auto idx = static_cast<unsigned short>(_color);
-    if (++idx == static_cast<unsigned short>(Color::GREY))
+    Color idx = _color;
+    if (++idx == Color::GREY)
     {
         _color = Color::BLACK;
     }
-    else if (idx > static_cast<unsigned short>(Color::WHITE))
+    else if (idx > Color::WHITE)
     {
         _color = Color::GREY;
     }
     else
     {
-        _color = static_cast<Color>(idx);
+        _color = idx;
     }
     return _color;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 inline Color DarkenColor(Color _color) noexcept
 {
-    auto idx = static_cast<unsigned short>(_color);
-    auto comp = static_cast<unsigned short>(Color::GREY);
-    return idx < comp ? _color : static_cast<Color>(idx - comp);
+    if (_color < Color::GREY)
+        return _color;
+
+    return static_cast<Color>(_color - Color::GREY);
 }
 
 SCE_END

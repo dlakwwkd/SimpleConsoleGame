@@ -2,9 +2,9 @@
 #include "Shape.h"
 #include "Coord.h"
 #include "Console.h"
-SCE_START
+SCE_USE
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 Shape::Shape() noexcept
     : form{ L' ' }
     , color{ Color::WHITE }
@@ -12,6 +12,7 @@ Shape::Shape() noexcept
 {
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 Shape::Shape(wchar_t _form, Color _color, Color _bgColor) noexcept
     : form{ _form }
     , color{ _color }
@@ -19,7 +20,7 @@ Shape::Shape(wchar_t _form, Color _color, Color _bgColor) noexcept
 {
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 void Shape::Render(const Coord& _pos, BYTE _depth) noexcept
 {
     static auto& console = Console::GetInstance();
@@ -28,5 +29,3 @@ void Shape::Render(const Coord& _pos, BYTE _depth) noexcept
         console.StoreShape(_pos, *this);
     }
 }
-
-SCE_END

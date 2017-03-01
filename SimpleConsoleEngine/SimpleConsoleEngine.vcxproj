@@ -133,6 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,6 +152,7 @@
     <ClInclude Include="Core\Command\Command.h" />
     <ClInclude Include="Core\Console\Color.hpp" />
     <ClInclude Include="Core\Console\Console.h" />
+    <ClInclude Include="Core\Console\ConsoleImpl.hpp" />
     <ClInclude Include="Core\Console\Coord.h" />
     <ClInclude Include="Core\Console\Shape.h" />
     <ClInclude Include="Core\Game\Component\CollisionComponent\CollisionComponent.h" />
@@ -158,10 +160,13 @@
     <ClInclude Include="Core\Game\Composite\CompositeBase.h" />
     <ClInclude Include="Core\Game\Composite\Effect\Effect.h" />
     <ClInclude Include="Core\Game\Composite\GameObject.h" />
+    <ClInclude Include="Core\Game\Composite\GameObjectImpl.hpp" />
     <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h" />
     <ClInclude Include="Core\Game\Composite\Unit\Unit.h" />
     <ClInclude Include="Core\Game\EffectManager.h" />
+    <ClInclude Include="Core\Game\EffectManagerImpl.hpp" />
     <ClInclude Include="Core\Game\GameManager.h" />
+    <ClInclude Include="Core\Game\GameManagerImpl.hpp" />
     <ClInclude Include="Core\Game\Interface\Component\ICollisionComponent.h" />
     <ClInclude Include="Core\Game\Interface\Component\IRenderComponent.h" />
     <ClInclude Include="Core\Game\Interface\IComponent.h" />
@@ -172,6 +177,7 @@
     <ClInclude Include="Core\Game\Interface\Object\IRenderObject.h" />
     <ClInclude Include="Core\Game\Scheduler.h" />
     <ClInclude Include="Core\Game\Section.h" />
+    <ClInclude Include="Core\Game\SectionImpl.hpp" />
     <ClInclude Include="Core\Game\Skill.h" />
     <ClInclude Include="Core\Math\Vec2.h" />
     <ClInclude Include="Core\Menu\Menu.h" />
@@ -212,6 +218,8 @@
     <ClCompile Include="Util\AssertPack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Core\Command\Command.inl" />
+    <None Include="Core\Game\Composite\CompositeBase.inl" />
     <None Include="Core\Game\GameManager.inl" />
     <None Include="Util\AssertPack.inl" />
   </ItemGroup>

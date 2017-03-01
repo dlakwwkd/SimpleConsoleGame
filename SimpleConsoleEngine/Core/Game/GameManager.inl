@@ -1,7 +1,7 @@
 ﻿#include "Scheduler.h"
 SCE_START
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 CHECKED_T(T)
 void GameManager::Run()
 {
@@ -19,24 +19,30 @@ void GameManager::Run()
     }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 CHECKED_T(T)
 T& GameManager::GetGame() const
 {
     return dynamic_cast<T&>(*curGame);
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // 람다와 전역함수를 위한 콜펑션
 template<typename F, typename... Args>
 void GameManager::CallFuncAfterS(float _after, F&& _functor, Args&&... _args)
 {
+    // args...는 클로저 안에 전부 복사해서 저장
+    // 가변인수를 퍼팩트 포워딩으로 캡쳐하는 기능은 C++14까지는 불가능하다고 함..(17에서 std::apply로 제공 예정)
+    // function()의 시그니처에 &&가 있을 경우 이동연산을 지원하기 위해 move로 넘긴다.
+    // 즉, args...는 클로저 생성시점에 최소 한번의 복사가 일어난다.( DoTask()에서는 복사없이 람다가 호출될 수 있다.(테스트 완료))
     scheduler->PushTask(_after,
-        [functor = std::forward<F>(_functor), _args...]() // args...는 클로저 안에 전부 복사해서 저장
-        {                                               // 가변인수를 퍼팩트 포워딩으로 캡쳐하는 기능은 C++14까지는 불가능하다고 함..(17에서 std::apply로 제공 예정)
-            functor(std::move(_args)...);    // function()의 시그니처에 &&가 있을 경우 이동연산을 지원하기 위해 move로 넘긴다.
-        });                                 // 즉, args...는 클로저 생성시점에 최소 한번의 복사가 일어난다.( DoTask()에서는 복사없이 람다가 호출될 수 있다.(테스트 완료))
+        [functor = std::forward<F>(_functor), _args...]()
+        {
+            functor(std::move(_args)...);
+        });
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // 멤버함수를 위한 콜펑션
 template<typename T, typename F, typename... Args>
 void GameManager::CallFuncAfterM(float _after, T* _obj, F _memfunc, Args&& ..._args)
@@ -48,6 +54,7 @@ void GameManager::CallFuncAfterM(float _after, T* _obj, F _memfunc, Args&& ..._a
     scheduler->PushTask(_after, std::bind(_memfunc, _obj, std::forward<Args>(_args)...));
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // 스마트 포인터로 관리되는 객체의 멤버함수를 위한 콜펑션
 template<typename T, typename F, typename... Args>
 void GameManager::CallFuncAfterP(float _after, const std::shared_ptr<T>& _obj, F _memfunc, Args&&... _args)
@@ -68,7 +75,7 @@ void GameManager::CallFuncAfterP(float _after, const std::shared_ptr<T>& _obj, F
 
 SCE_END
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // for SectionMap key
 inline bool operator<(const POINT& _l, const POINT& _r)
 {

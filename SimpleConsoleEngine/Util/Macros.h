@@ -1,14 +1,14 @@
 ﻿#pragma once
-//----------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // namespace 관련
 #define SCE_START   namespace SimpleConsoleEngine{
 #define SCE_END     }
 #define SCE_USE     using namespace SimpleConsoleEngine;
 #define SCE         SimpleConsoleEngine
 
-//----------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // 매크로 함수
-//----------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // - 복사/이동 관련
 #define SPECIALFUNC_COPY_SET(T, SET)    \
     public:                             \
@@ -52,7 +52,7 @@
     SPECIALFUNC_COPY_DECLARE_NOEXCEPT(T)        \
     SPECIALFUNC_MOVE_DECLARE_NOEXCEPT(T)
 
-//----------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // - 싱글톤 관련
 #define _CREATE_SINGLETON(T)    \
 public:                         \
@@ -80,7 +80,7 @@ private:                                \
 #define CREATE_SINGLETON_NOEXCEPT(T)    _CREATE_SINGLETON_NOEXCEPT(T) ~T();
 #define CREATE_SINGLETON_NOEXCEPT_V(T)  _CREATE_SINGLETON_NOEXCEPT(T) virtual ~T();
 
-//----------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // - Pimpl
 #define DECLARE_PIMPL               \
 protected:                          \
@@ -88,12 +88,12 @@ protected:                          \
     std::unique_ptr<impl> pimpl;    \
 private:
 
-//----------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // - 템플릿 태그 체크 (Refer to Effective Modern C++)
 #define CHECKED_T(T)        template<typename T, typename>
 #define IS_SAME(T, Other)   template<typename T, typename = std::enable_if_t<std::is_same<Other, std::decay_t<T>>::value>>
 #define IS_BASE_OF(T, Base) template<typename T, typename = std::enable_if_t<std::is_base_of<Base, std::decay_t<T>>::value>>
 
-//----------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // - 기타
 #define CONVERT_STRING(T) std::string(#T)

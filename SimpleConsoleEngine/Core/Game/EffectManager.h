@@ -3,7 +3,7 @@ SCE_START
 class Unit;
 class Vec2;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 enum class EffectType
 {
     UNIT_DEATH,
@@ -14,12 +14,16 @@ enum class EffectType
     EFFECT_TYPE_MAX
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
 class EffectManager
 {
     DECLARE_PIMPL
     CREATE_SINGLETON_NOEXCEPT(EffectManager)
 public:
-    void PlayEffect(const Unit& _owner, const Vec2& _pos, EffectType _type) const noexcept;
+    void PlayEffect(
+        const Unit& _owner,
+        const Vec2& _pos,
+        EffectType _type) const noexcept;
 };
 
 SCE_END

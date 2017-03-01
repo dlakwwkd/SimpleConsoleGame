@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
 #include "IRenderComponent.h"
-SCE_START
+SCE_USE
+
 _identifier IComponentCRTP<IRenderComponent>::s_Identifier;
-SCE_END

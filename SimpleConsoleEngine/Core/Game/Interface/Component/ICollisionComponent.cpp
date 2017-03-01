@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
 #include "ICollisionComponent.h"
-SCE_START
+SCE_USE
+
 _identifier IComponentCRTP<ICollisionComponent>::s_Identifier;
-SCE_END

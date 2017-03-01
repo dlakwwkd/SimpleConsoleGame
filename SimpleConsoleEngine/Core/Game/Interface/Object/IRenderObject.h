@@ -3,7 +3,7 @@
 SCE_START
 class IRenderComponent;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class IRenderObject : public IGameObject
 {
 protected:
@@ -13,6 +13,7 @@ public:
     virtual RenderPtr   GetRender() const   = 0;
     virtual void        Render()            = 0;
 
+    /////////////////////////////////////////////////////////////////////////////////////
     IS_BASE_OF(T, IRenderComponent)
     std::shared_ptr<T>  Get() const noexcept
     {

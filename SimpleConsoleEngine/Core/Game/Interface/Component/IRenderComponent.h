@@ -2,7 +2,7 @@
 #include "../IComponent.h"
 SCE_START
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class IRenderComponent : public IComponentCRTP<IRenderComponent>
 {
 public:

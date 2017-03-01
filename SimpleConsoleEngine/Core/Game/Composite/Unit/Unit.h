@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "../GameObject.h"
 #include "../../Interface/Object/IRenderObject.h"
 #include "../../Interface/Object/ICollisionObject.h"
+#include "../GameObject.h"
 SCE_START
 class Skill;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class Unit
     : public IRenderObject
     , public ICollisionObject

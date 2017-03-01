@@ -4,7 +4,7 @@ SCE_START
 class ICollisionComponent;
 enum class EffectType;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class ICollisionObject : public IGameObject
 {
 protected:
@@ -16,6 +16,7 @@ public:
     virtual void            Death()                             = 0;
     virtual void            SetDeathEffect(EffectType _type)    = 0;
 
+    /////////////////////////////////////////////////////////////////////////////////////
     IS_BASE_OF(T, ICollisionComponent)
     std::shared_ptr<T>      Get() const noexcept
     {

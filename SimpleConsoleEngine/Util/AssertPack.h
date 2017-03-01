@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // 비트 단위 연산을 제공해주는 함수들
 namespace BitCalc
 {
@@ -9,6 +10,7 @@ namespace BitCalc
     constexpr S         CalcRestBits(const S& _source) noexcept;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // 릴리즈 빌드에선 컴파일 되지 않음이 보장되는 디버깅용 함수들
 namespace Assert
 {
@@ -16,6 +18,7 @@ namespace Assert
     constexpr void      OverflowCheck(const S& _source) noexcept;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Assert를 통해 디버그 빌드에선 절대 안전성을 보장하는 함수들
 namespace Safe
 {

@@ -5,11 +5,12 @@
 #include "../../../Component/RenderComponent/CmdRenderComponent.h"
 #include "../../../Component/CollisionComponent/CollisionComponent.h"
 #include "../../../../Console/Console.h"
+#include "../../../../Console/Coord.h"
 #include "../../../../Timer/Timer.h"
 #include "../../../../Math/Vec2.h"
-SCE_START
+SCE_USE
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 struct Missile::impl
 {
     impl() noexcept
@@ -20,29 +21,32 @@ struct Missile::impl
     std::shared_ptr<Timer>  aiTimer;
 };
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 Missile::Missile() noexcept
     : pimpl{ std::make_unique<impl>() }
 {
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 Missile::~Missile()
 {
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 void Missile::Init()
 {
     Unit::Init();
     pimpl->aiTimer = ObjectPool<Timer>::Get(1.0f);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Missile::Release()
 {
     pimpl->aiTimer.reset();
     Unit::Release();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Missile::Update(float _dt)
 {
     static auto& console = Console::GetInstance();
@@ -58,12 +62,13 @@ void Missile::Update(float _dt)
     Unit::Update(_dt);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Missile::Death()
 {
     Unit::Death();
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 void Missile::SetAIRatio(float _ratio)
 {
     if (pimpl->aiTimer)
@@ -72,8 +77,7 @@ void Missile::SetAIRatio(float _ratio)
     }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Missile::AI(float _dt)
 {
 }
-
-SCE_END

@@ -3,6 +3,8 @@
 #include "Core/Math/Vec2.h"
 #include "Core/Command/Command.h"
 #include "Core/Console/Console.h"
+#include "Core/Console/Coord.h"
+#include "Core/Console/Color.hpp"
 #include "Core/Game/GameManager.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/Component/CollisionComponent/CollisionComponent.h"

@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include "../../Interface/Component/IRenderComponent.h"
-#include "../../../Console/Coord.h"
-#include "../../../Console/Shape.h"
 SCE_START
+enum Color : unsigned short;
+struct Coord;
+struct Shape;
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 class CmdRenderComponent : public IRenderComponent
 {
     DECLARE_PIMPL
@@ -15,7 +16,6 @@ public:
 
     virtual std::string     GetComponentName() const override;
     virtual CompositePtr    GetOwner() const override;
-
     virtual void            Render() override;
 
     bool                    IsShow() const noexcept;

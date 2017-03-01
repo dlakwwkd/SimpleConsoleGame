@@ -6,6 +6,7 @@
 #include "Core/Game/Composite/Unit/Missile/Missile.h"
 #include "Core/Game/GameManager.h"
 #include "Core/Game/EffectManager.h"
+#include "Core/Console/Color.hpp"
 SCE_USE
 
 

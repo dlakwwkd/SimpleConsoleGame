@@ -6,10 +6,12 @@
 #include "../../EffectManager.h"
 #include "../../Component/RenderComponent/CmdRenderComponent.h"
 #include "../../Component/CollisionComponent/CollisionComponent.h"
+#include "../../../Console/Coord.h"
+#include "../../../Console/Color.hpp"
 #include "../../../Math/Vec2.h"
-SCE_START
+SCE_USE
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 struct Unit::impl
 {
     impl() noexcept
@@ -28,17 +30,18 @@ struct Unit::impl
     EffectType      deathEffect;
 };
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 Unit::Unit() noexcept
     : pimpl{ std::make_unique<impl>() }
 {
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 Unit::~Unit()
 {
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Init()
 {
     if (AddComponent<CmdRenderComponent>())
@@ -51,10 +54,12 @@ void Unit::Init()
     }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Release()
 {
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Update(float _dt)
 {
     auto collision = ICollisionObject::Get<CollisionComponent>();
@@ -69,12 +74,13 @@ void Unit::Update(float _dt)
     }
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 IRenderObject::RenderPtr Unit::GetRender() const
 {
     return pimpl->render.lock();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Render()
 {
     auto collision = ICollisionObject::Get<CollisionComponent>();
@@ -101,12 +107,13 @@ void Unit::Render()
     }
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 ICollisionObject::CollisionPtr Unit::GetCollision() const
 {
     return pimpl->collision.lock();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 bool Unit::Hitted(int _damage)
 {
     auto collision = ICollisionObject::Get<CollisionComponent>();
@@ -121,6 +128,7 @@ bool Unit::Hitted(int _damage)
     return false;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Death()
 {
     auto collision = ICollisionObject::Get<CollisionComponent>();
@@ -135,12 +143,13 @@ void Unit::Death()
     em.PlayEffect(*this, GetPos(), pimpl->deathEffect);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 void Unit::SetDeathEffect(EffectType _type)
 {
     pimpl->deathEffect = _type;
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 void Unit::AddSkill(const SkillPtr& _skill)
 {
     if (_skill == nullptr)
@@ -150,9 +159,8 @@ void Unit::AddSkill(const SkillPtr& _skill)
     pimpl->skillList.push_back(_skill);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 Unit::SkillList& Unit::GetSkillList()
 {
     return pimpl->skillList;
 }
-
-SCE_END
