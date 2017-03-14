@@ -12,7 +12,7 @@ public:
     virtual ~CompositeBase() {}
 
     IS_BASE_OF(T, IComponent) std::shared_ptr<T>    GetComponent() noexcept;
-    IS_BASE_OF(T, IComponent) bool                  AddComponent() noexcept;
+    IS_BASE_OF(T, IComponent) std::shared_ptr<T>    AddComponent() noexcept;
     IS_BASE_OF(T, IComponent) void                  RemoveComponent() noexcept;
 
 private:

@@ -12,15 +12,19 @@ CHECKED_T(T) std::shared_ptr<T> CompositeBase::GetComponent() noexcept
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-CHECKED_T(T) bool CompositeBase::AddComponent() noexcept
+CHECKED_T(T) std::shared_ptr<T> CompositeBase::AddComponent() noexcept
 {
     static auto componentId = T::GetComponentId();
     auto iter = componentMap.find(componentId);
     if (iter != componentMap.end())
-        return false;
+        return nullptr;
 
-    componentMap.insert(std::make_pair(componentId, ObjectPool<T>::Get(shared_from_this())));
-    return true;
+    auto component = ObjectPool<T>::Get(shared_from_this());
+    if (component == nullptr)
+        return nullptr;
+
+    componentMap.insert(std::make_pair(componentId, component));
+    return component;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

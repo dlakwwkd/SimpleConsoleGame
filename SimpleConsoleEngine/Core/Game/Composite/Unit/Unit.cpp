@@ -42,14 +42,8 @@ Unit::~Unit()
 /////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Init()
 {
-    if (AddComponent<CmdRenderComponent>())
-    {
-        render = GetComponent<CmdRenderComponent>();
-    }
-    if (AddComponent<CollisionComponent>())
-    {
-        collision = GetComponent<CollisionComponent>();
-    }
+    render = AddComponent<CmdRenderComponent>();
+    collision = AddComponent<CollisionComponent>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
