@@ -4,19 +4,8 @@
 SCE_USE
 
 /////////////////////////////////////////////////////////////////////////////////////////
-struct Effect::impl
-{
-    impl() noexcept
-        : render{}
-    {
-    }
-
-    RenderRef render;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 Effect::Effect() noexcept
-    : pimpl{ std::make_unique<impl>() }
+    : render{}
 {
 }
 
@@ -30,7 +19,7 @@ void Effect::Init()
 {
     if (AddComponent<CmdRenderComponent>())
     {
-        pimpl->render = GetComponent<CmdRenderComponent>();
+        render = GetComponent<CmdRenderComponent>();
     }
 }
 
@@ -46,15 +35,8 @@ void Effect::Update(float _dt)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-IRenderObject::RenderPtr Effect::GetRender() const
-{
-    return pimpl->render.lock();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 void Effect::Render()
 {
-    auto render = pimpl->render.lock();
     if (render != nullptr)
     {
         render->Render();

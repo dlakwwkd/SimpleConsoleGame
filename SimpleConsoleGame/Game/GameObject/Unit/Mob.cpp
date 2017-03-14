@@ -38,21 +38,18 @@ Mob::~Mob()
 void Mob::Init()
 {
     Unit::Init();
-    auto render = IRenderObject::Get<CmdRenderComponent>();
-    if (render == nullptr)
-        return;
-
-    render->SetShape(L'●');
-    render->SetColor(Color::YELLOW);
-    render->SetDepth(3);
-
-    auto collision = ICollisionObject::Get<CollisionComponent>();
-    if (collision == nullptr)
-        return;
-
+    if (auto& render = GetRender())
+    {
+        render->SetShape(L'●');
+        render->SetColor(Color::YELLOW);
+        render->SetDepth(3);
+    }
+    if (auto& collision = GetCollision())
+    {
+        collision->SetHitMask(CollisionComponent::CollisionMask::ENEMY);
+        collision->SetAttackMask(CollisionComponent::CollisionMask::PLAYER);
+    }
     pimpl->aiTimer = ObjectPool<Timer>::Get(1.0f);
-    collision->SetHitMask(CollisionComponent::CollisionMask::ENEMY);
-    collision->SetAttackMask(CollisionComponent::CollisionMask::PLAYER);
 }
 
 void Mob::Release()
@@ -63,7 +60,7 @@ void Mob::Release()
 
 void Mob::Update(float _dt)
 {
-    auto collision = ICollisionObject::Get<CollisionComponent>();
+    auto& collision = GetCollision();
     if (!collision || collision->IsDeath())
         return;
 
@@ -106,7 +103,7 @@ void Mob::SetAIRatio(float _ratio)
 
 void Mob::AI(float _dt)
 {
-    auto collision = ICollisionObject::Get<CollisionComponent>();
+    auto& collision = GetCollision();
     if (!collision || collision->IsDeath())
         return;
 

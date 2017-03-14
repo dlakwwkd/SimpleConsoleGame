@@ -40,26 +40,23 @@ Hero::~Hero()
 void Hero::Init()
 {
     Unit::Init();
-    auto render = IRenderObject::Get<CmdRenderComponent>();
-    if (render == nullptr)
-        return;
-
-    render->SetShape(L'▣');
-    render->SetColor(Color::GREEN);
-    render->SetDepth(5);
-
-    auto collision = ICollisionObject::Get<CollisionComponent>();
-    if (collision == nullptr)
-        return;
-
+    if (auto& render = GetRender())
+    {
+        render->SetShape(L'▣');
+        render->SetColor(Color::GREEN);
+        render->SetDepth(5);
+    }
+    if (auto& collision = GetCollision())
+    {
+        collision->SetMaxHp(500);
+        collision->InitHp();
+        collision->SetDamage(10);
+        collision->SetHitMask(CollisionComponent::CollisionMask::PLAYER);
+        collision->SetAttackMask(CollisionComponent::CollisionMask::ENEMY);
+    }
     SetMovePowerLimit(0.25f);
     SetMovePowerFrict(4.0f);
     SetSpeed(50.0f);
-    collision->SetMaxHp(500);
-    collision->InitHp();
-    collision->SetDamage(10);
-    collision->SetHitMask(CollisionComponent::CollisionMask::PLAYER);
-    collision->SetAttackMask(CollisionComponent::CollisionMask::ENEMY);
 
     auto screenSize = Console::GetInstance().GetScreenSize();
     SetPos(Coord::ConvertToVec2(screenSize) / 2);
