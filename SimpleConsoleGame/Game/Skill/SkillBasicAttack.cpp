@@ -30,34 +30,34 @@ void SkillBasicAttack::OnBeginUse()
     if (missile == nullptr)
         return;
 
-    auto render = missile->IRenderObject::Get<CmdRenderComponent>();
-    if (render == nullptr)
-        return;
-
-    auto collision = missile->ICollisionObject::Get<CollisionComponent>();
-    if (collision == nullptr)
-        return;
-
-    auto ownerCollision = owner->ICollisionObject::Get<CollisionComponent>();
-    if (ownerCollision == nullptr)
-        return;
-
-    render->SetShape(L'o');
-    render->SetColor(Color::BLUE);
-    collision->SetDamage(20);
-    collision->SetMaxHp(1);
-    collision->InitHp();
-    collision->SetAttackMask(ownerCollision->GetAttackMask());
-    collision->SetHitMask(ownerCollision->GetHitMask());
     missile->SetPos(owner->GetPos());
     missile->SetSpeed(80.0f);
     missile->SetMovePowerFrict(0.0f);
     missile->AddMovePower(owner->GetDirection());
     missile->SetDeathEffect(EffectType::EXPLOSION_A);
 
-    static auto& gm = GameManager::GetInstance();
-    gm.RegisterCollision(missile, ownerCollision->GetSection());
-    gm.AddRender(missile);
+    if (auto& render = missile->GetRender())
+    {
+        render->SetShape(L'o');
+        render->SetColor(Color::BLUE);
+    }
+
+    if (auto& collision = missile->GetCollision())
+    {
+        collision->SetDamage(20);
+        collision->SetMaxHp(1);
+        collision->InitHp();
+
+        if (auto& ownerCollision = owner->GetCollision())
+        {
+            collision->SetAttackMask(ownerCollision->GetAttackMask());
+            collision->SetHitMask(ownerCollision->GetHitMask());
+
+            static auto& gm = GameManager::GetInstance();
+            gm.RegisterCollision(missile, ownerCollision->GetSection());
+            gm.AddRender(missile);
+        }
+    }
 }
 
 void SkillBasicAttack::OnUsing(float _dt)

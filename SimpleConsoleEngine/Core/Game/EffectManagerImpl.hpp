@@ -109,13 +109,16 @@ void EffectManager::impl::CreateEffect(
     float _delay,
     float _lifeTime) const noexcept
 {
-    static auto& gm = GameManager::GetInstance();
     auto effect = ObjectPool<Effect>::GetWithInit();
-    auto render = effect->Get<CmdRenderComponent>();
-    if (render != nullptr)
+    if (effect == nullptr)
+        return;
+
+    if (auto& render = effect->GetRender())
     {
         render->SetCoord(Coord(_pos));
         render->SetShape(_shape);
+
+        static auto& gm = GameManager::GetInstance();
         gm.CallFuncAfterM(_delay, &gm, &GameManager::AddRender, effect, _lifeTime);
     }
 }
@@ -123,10 +126,13 @@ void EffectManager::impl::CreateEffect(
 /////////////////////////////////////////////////////////////////////////////////////////
 void EffectManager::impl::UnitDeath(const Unit& _owner, const Vec2& _pos) const noexcept
 {
-    auto shape = _owner.IRenderObject::Get<CmdRenderComponent>()->GetShape();
-    shape.color = Color::BLACK;
-    shape.bgColor = Color::RED;
-    CreateEffect(_pos, shape, 0.f, 1.f);
+    if (auto& render = _owner.GetRender())
+    {
+        auto shape = render->GetShape();
+        shape.color = Color::BLACK;
+        shape.bgColor = Color::RED;
+        CreateEffect(_pos, shape, 0.f, 1.f);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

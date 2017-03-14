@@ -99,7 +99,7 @@ void GameManager::UnRegisterCollision(const CollisionObjPtr& _obj)
     if (unit == nullptr)
         return;
 
-    if (auto collision = _obj->Get<CollisionComponent>())
+    if (auto& collision = unit->GetCollision())
     {
         if (auto section = collision->GetSection())
         {
@@ -121,8 +121,10 @@ void GameManager::RegisterBuiltSection(const SectionPtr& _section, const POINT& 
         for (int x = _pos.x - 10; x < _pos.x + 10; ++x)
         {
             auto temp = ObjectPool<Effect>::GetWithInit();
-            auto render = temp->Get<CmdRenderComponent>();
-            if (render != nullptr)
+            if (temp == nullptr)
+                continue;
+
+            if (auto& render = temp->GetRender())
             {
                 render->SetCoord(x * 2, y);
                 render->SetShape(L'■');
@@ -297,7 +299,11 @@ void GameManager::CollisionCheck(float _dt)
 
     for (auto& obj : pimpl->collisionList)
     {
-        auto collision = obj->Get<CollisionComponent>();
+        auto unit = std::static_pointer_cast<Unit>(obj);
+        if (unit == nullptr)
+            continue;
+
+        auto& collision = unit->GetCollision();
         if (!collision || collision->IsDeath())
         {
             UnRegisterCollision(obj);

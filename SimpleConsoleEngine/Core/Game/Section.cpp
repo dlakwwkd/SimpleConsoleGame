@@ -50,8 +50,8 @@ void Section::CollisionCheck()
             {
                 if (auto unitB = (*iter2).lock())
                 {
-                    auto collisionA = unitA->ICollisionObject::Get<CollisionComponent>();
-                    auto collisionB = unitB->ICollisionObject::Get<CollisionComponent>();
+                    auto& collisionA = unitA->GetCollision();
+                    auto& collisionB = unitB->GetCollision();
                     if (CollisionComponent::IsCollisionAble(collisionA, collisionB))
                     {
                         const Vec2 posA = unitA->GetPos();
@@ -87,7 +87,7 @@ bool Section::RegisterCollision(const UnitPtr& _unit)
     if (_unit == nullptr)
         return false;
 
-    auto collision = _unit->ICollisionObject::Get<CollisionComponent>();
+    auto& collision = _unit->GetCollision();
     if (collision == nullptr)
         return false;
 
@@ -106,7 +106,7 @@ bool Section::RegisterCollision(const UnitPtr& _unit)
 /////////////////////////////////////////////////////////////////////////////////////////
 void Section::UnRegisterCollision(const UnitPtr& _unit)
 {
-    auto collision = _unit->ICollisionObject::Get<CollisionComponent>();
+    auto& collision = _unit->GetCollision();
     if (collision != nullptr)
     {
         collision->SetSection(nullptr);

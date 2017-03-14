@@ -16,16 +16,12 @@ struct Unit::impl
 {
     impl() noexcept
         : skillList{}
-        , render{}
-        , collision{}
         , hitRenderFlag{ false }
         , deathEffect{ EffectType::UNIT_DEATH }
     {
     }
 
     SkillList       skillList;
-    RenderRef       render;
-    CollisionRef    collision;
     bool            hitRenderFlag;
     EffectType      deathEffect;
 };
@@ -33,6 +29,8 @@ struct Unit::impl
 /////////////////////////////////////////////////////////////////////////////////////////
 Unit::Unit() noexcept
     : pimpl{ std::make_unique<impl>() }
+    , render{}
+    , collision{}
 {
 }
 
@@ -46,11 +44,11 @@ void Unit::Init()
 {
     if (AddComponent<CmdRenderComponent>())
     {
-        pimpl->render = GetComponent<CmdRenderComponent>();
+        render = GetComponent<CmdRenderComponent>();
     }
     if (AddComponent<CollisionComponent>())
     {
-        pimpl->collision = GetComponent<CollisionComponent>();
+        collision = GetComponent<CollisionComponent>();
     }
 }
 
@@ -62,7 +60,6 @@ void Unit::Release()
 /////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Update(float _dt)
 {
-    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return;
 
@@ -75,19 +72,11 @@ void Unit::Update(float _dt)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-IRenderObject::RenderPtr Unit::GetRender() const
-{
-    return pimpl->render.lock();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Render()
 {
-    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return;
 
-    auto render = IRenderObject::Get<CmdRenderComponent>();
     if (!render)
         return;
 
@@ -108,15 +97,8 @@ void Unit::Render()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-ICollisionObject::CollisionPtr Unit::GetCollision() const
-{
-    return pimpl->collision.lock();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 bool Unit::Hitted(int _damage)
 {
-    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return false;
 
@@ -131,7 +113,6 @@ bool Unit::Hitted(int _damage)
 /////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Death()
 {
-    auto collision = ICollisionObject::Get<CollisionComponent>();
     if (!collision || collision->IsDeath())
         return;
 

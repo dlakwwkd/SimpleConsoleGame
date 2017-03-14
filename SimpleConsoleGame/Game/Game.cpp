@@ -67,7 +67,7 @@ void Game::Update(float _dt)
     for (auto iter = pimpl->mobList.begin(); iter != pimpl->mobList.end();)
     {
         auto& mob = *iter;
-        auto collision = mob->ICollisionObject::Get<CollisionComponent>();
+        auto& collision = mob->GetCollision();
         if (!collision || collision->IsDeath())
         {
             iter = pimpl->mobList.erase(iter);
@@ -85,7 +85,7 @@ void Game::Render()
     oss << L"MobNum: " << pimpl->mobList.size();
     size_t posX = (console.GetScreenWidth() - oss.str().length()) / 2;
     size_t posY = console.GetScreenHeight() + 1;
-    console.PrintText(Coord(posX, posY), oss.str().c_str());
+    console.PrintText(Coord(posX, posY), oss.str());
 }
 
 
@@ -97,11 +97,11 @@ void Game::impl::GenerateMob(int _num)
         auto mob = ObjectPool<Mob>::GetWithInit();
         mobList.push_back(mob);
 
-        auto render = mob->IRenderObject::Get<CmdRenderComponent>();
+        auto& render = mob->GetRender();
         if (render == nullptr)
             continue;
 
-        auto collision = mob->ICollisionObject::Get<CollisionComponent>();
+        auto& collision = mob->GetCollision();
         if (collision == nullptr)
             continue;
 
