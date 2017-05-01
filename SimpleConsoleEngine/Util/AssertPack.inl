@@ -15,9 +15,11 @@ namespace BitCalc
     template<typename T, typename S>
     constexpr S CalcRestBits(const S& _source) noexcept
     {
-        static_assert(std::is_integral<T>::value && std::is_integral<S>::value, "it's not integral type!");
+        static_assert(std::is_integral_v<T> && std::is_integral_v<S>, "it's not integral type!");
         static_assert(BitSize<T>() <= 32, "it's over that limit of shift operator");
-        return std::is_signed<S>::value ? _source >> (BitSize<T>() - 1) : _source >> BitSize<T>();
+        return std::is_signed_v<S>
+            ? _source >> (BitSize<T>() - 1)
+            : _source >> BitSize<T>();
     }
 }
 
@@ -29,7 +31,7 @@ namespace Assert
     template<typename T, typename S>
     constexpr void OverflowCheck(const S& _source) noexcept
     {
-        static_assert(std::is_integral<T>::value && std::is_integral<S>::value, "it's not integral type!");
+        static_assert(std::is_integral_v<T> && std::is_integral_v<S>, "it's not integral type!");
         assert((!BitCalc::CalcRestBits<T>(_source) || !~BitCalc::CalcRestBits<T>(_source)) && "it's overflow!");
     }
 }
@@ -47,7 +49,7 @@ namespace Safe
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
-    // 메모리 할당 실패 시, assert 발생시키는 new
+    // 메모리 할당 실패 시, 예외 대신 assert 발생시키는 new
     template<typename T, typename... Args>
     T* New(Args&&... _args) noexcept
     {

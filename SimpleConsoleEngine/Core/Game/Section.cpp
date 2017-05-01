@@ -37,7 +37,8 @@ void Section::CollisionCheck()
     if (pimpl->unitList.size() < 2)
         return;
 
-    const float UNIT_RADIUS = 0.5f;
+    constexpr float UNIT_RADIUS = 0.5f;
+
     auto iterEnd = pimpl->unitList.end();
     --iterEnd;
     for (auto iter = pimpl->unitList.begin(); iter != iterEnd;)

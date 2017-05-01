@@ -57,6 +57,9 @@ void Game::Init()
 void Game::Release()
 {
     pimpl->mobList.clear();
+
+    GameManager::GetInstance().RemoveRender(pimpl->hero);
+    GameManager::GetInstance().UnRegisterCollision(pimpl->hero);
     pimpl->hero.reset();
     pimpl->command.reset();
 }

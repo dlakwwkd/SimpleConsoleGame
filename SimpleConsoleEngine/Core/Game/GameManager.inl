@@ -47,9 +47,11 @@ void GameManager::CallFuncAfterS(float _after, F&& _functor, Args&&... _args)
 template<typename T, typename F, typename... Args>
 void GameManager::CallFuncAfterM(float _after, T* _obj, F _memfunc, Args&& ..._args)
 {
-    static_assert(std::is_member_function_pointer<F>::value &&
-        std::is_same<GameManager, T>::value ||   // 안전성을 위해 게임 매니저와 게임의 멤버함수만 콜펑션을 허락한다.
-        std::is_base_of<IGame, T>::value, "only allow GameManager or Game instance");
+    // 안전성을 위해 게임 매니저와 게임의 멤버함수만 콜펑션을 허락한다.
+    static_assert(std::is_member_function_pointer_v<F>
+        && (std::is_same_v<GameManager, T>
+            || std::is_base_of_v<IGame, T>),
+        "only allow GameManager or Game instance");
 
     scheduler->PushTask(_after, std::bind(_memfunc, _obj, std::forward<Args>(_args)...));
 }
@@ -59,7 +61,7 @@ void GameManager::CallFuncAfterM(float _after, T* _obj, F _memfunc, Args&& ..._a
 template<typename T, typename F, typename... Args>
 void GameManager::CallFuncAfterP(float _after, const std::shared_ptr<T>& _obj, F _memfunc, Args&&... _args)
 {
-    static_assert(std::is_member_function_pointer<F>::value, "only allow member function");
+    static_assert(std::is_member_function_pointer_v<F>, "only allow member function");
     
     std::weak_ptr<T> objRef = _obj;
     scheduler->PushTask(_after,

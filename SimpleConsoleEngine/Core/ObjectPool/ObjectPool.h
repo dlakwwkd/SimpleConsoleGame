@@ -13,10 +13,16 @@ struct _objectPoolDeleteHelper
     }
     ~_objectPoolDeleteHelper()
     {
+        DeleteAll();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+    static void DeleteAll()
+    {
         for (auto& pool : poolList)
         {
             delete[] pool;
         }
+        poolList.clear();
     }
 };
 
@@ -24,7 +30,6 @@ struct _objectPoolDeleteHelper
 template<typename T>
 class ObjectPool
 {
-    const int ALLOC_COUNT = 100;
 public:
     using value_type = T;
 
@@ -56,14 +61,16 @@ public:
     }
 
 private:
-    static uint8_t* freeList;
-    static int      totalAllocCount;    // for tracing
-    static int      currentUseCount;    // for tracing
+    static uint8_t*     freeList;
+    static int          totalAllocCount;    // for tracing
+    static int          currentUseCount;    // for tracing
+    static const int    ALLOC_COUNT;
 };
 
 template<typename T> uint8_t*   ObjectPool<T>::freeList         = nullptr;
 template<typename T> int        ObjectPool<T>::totalAllocCount  = 0;
 template<typename T> int        ObjectPool<T>::currentUseCount  = 0;
+template<typename T> const int  ObjectPool<T>::ALLOC_COUNT      = 100;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 template<typename T>
