@@ -17,7 +17,7 @@ class Game : public SCE::IGame
     using MobList       = std::list<MobPtr>;
 public:
     Game() noexcept;
-    ~Game();
+    virtual ~Game() override;
 
     virtual void Init()             override;
     virtual void Release()          override;

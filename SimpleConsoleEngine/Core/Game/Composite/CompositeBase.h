@@ -9,7 +9,7 @@ class CompositeBase : public std::enable_shared_from_this<CompositeBase>
     SPECIALFUNC_MOVE_SET(CompositeBase, default)
 public:
     CompositeBase() noexcept;
-    virtual ~CompositeBase() {}
+    virtual ~CompositeBase() = default;
 
     IS_BASE_OF(T, IComponent) std::shared_ptr<T>    GetComponent() noexcept;
     IS_BASE_OF(T, IComponent) std::shared_ptr<T>    AddComponent() noexcept;

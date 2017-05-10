@@ -12,7 +12,7 @@ class CmdRenderComponent : public IRenderComponent
     SPECIALFUNC_MOVE_SET(CmdRenderComponent, default)
 public:
     CmdRenderComponent(const CompositeRef& _owner) noexcept;
-    ~CmdRenderComponent();
+    virtual ~CmdRenderComponent() override;
 
     virtual std::string     GetComponentName() const override;
     virtual CompositePtr    GetOwner() const override;

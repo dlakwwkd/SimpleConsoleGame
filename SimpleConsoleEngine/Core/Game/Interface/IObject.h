@@ -2,10 +2,12 @@
 SCE_START
 
 /////////////////////////////////////////////////////////////////////////////////////////
-__interface IObject
+class IObject
 {
-    void Init();
-    void Release();
+public:
+    virtual ~IObject()      = default;
+    virtual void Init()     = 0;
+    virtual void Release()  = 0;
 };
 
 SCE_END

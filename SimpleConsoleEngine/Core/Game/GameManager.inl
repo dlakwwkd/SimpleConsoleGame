@@ -15,7 +15,7 @@ void GameManager::Run()
         InitGame();
         MainLoop();
         ReleaseGame();
-        Safe::Delete(dynamic_cast<T*>(curGame.release()));
+        curGame.reset();
     }
 }
 

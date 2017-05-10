@@ -13,16 +13,10 @@ struct _objectPoolDeleteHelper
     }
     ~_objectPoolDeleteHelper()
     {
-        DeleteAll();
-    }
-    /////////////////////////////////////////////////////////////////////////////////////
-    static void DeleteAll()
-    {
         for (auto& pool : poolList)
         {
             delete[] pool;
         }
-        poolList.clear();
     }
 };
 

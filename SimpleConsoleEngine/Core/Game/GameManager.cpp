@@ -116,7 +116,7 @@ void GameManager::RegisterBuiltSection(const SectionPtr& _section, const POINT& 
     pimpl->sectionMap.insert(std::make_pair(_pos, SectionRef(_section)));
 
     // 섹션 생성 과정을 눈으로 보기 위한 임시 코드
-    for (int y = _pos.y - 10; y < _pos.y + 10; ++y)
+/*    for (int y = _pos.y - 10; y < _pos.y + 10; ++y)
     {
         for (int x = _pos.x - 10; x < _pos.x + 10; ++x)
         {
@@ -133,7 +133,7 @@ void GameManager::RegisterBuiltSection(const SectionPtr& _section, const POINT& 
                 AddRender(temp, 0.5f);
             }
         }
-    }
+    }*/
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,7 @@ class Scheduler;
 class Section;
 class IRenderObject;
 class ICollisionObject;
-__interface IGame;
+class IGame;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 class GameManager

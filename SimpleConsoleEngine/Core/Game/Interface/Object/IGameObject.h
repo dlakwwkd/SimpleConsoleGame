@@ -3,9 +3,10 @@
 SCE_START
 
 /////////////////////////////////////////////////////////////////////////////////////////
-__interface IGameObject : public IObject
+class IGameObject : public IObject
 {
-    void Update(float _dt);
+public:
+    virtual void Update(float _dt) = 0;
 };
 
 SCE_END

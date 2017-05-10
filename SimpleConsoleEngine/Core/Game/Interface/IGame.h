@@ -2,12 +2,14 @@
 SCE_START
 
 /////////////////////////////////////////////////////////////////////////////////////////
-__interface IGame
+class IGame
 {
-    void Init();
-    void Release();
-    void Update(float _dt);
-    void Render();
+public:
+    virtual ~IGame()                = default;
+    virtual void Init()             = 0;
+    virtual void Release()          = 0;
+    virtual void Update(float _dt)  = 0;
+    virtual void Render()           = 0;
 };
 
 SCE_END
