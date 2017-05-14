@@ -47,7 +47,9 @@ public:
     CollisionMask           GetAttackMask() const noexcept;
 
     void                    InitHp() noexcept;
-    void                    SetMaxHp(int _maxHp) noexcept;
+    void                    AddHp(int _hp, bool _isWithMax) noexcept;
+    void                    SetCurHp(int _hp) noexcept;
+    void                    SetMaxHp(int _hp) noexcept;
     void                    SetDamage(int _damage) noexcept;
     void                    SetSection(const SectionPtr& _section) noexcept;
     void                    SetHitMask(CollisionMask _mask) noexcept;

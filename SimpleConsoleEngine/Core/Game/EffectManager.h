@@ -21,9 +21,9 @@ class EffectManager
     CREATE_SINGLETON_NOEXCEPT(EffectManager)
 public:
     void PlayEffect(
-        const Unit& _owner,
-        const Vec2& _pos,
-        EffectType _type) const noexcept;
+            const Unit& _owner,
+            const Vec2& _pos,
+            EffectType _type) const noexcept;
 };
 
 SCE_END

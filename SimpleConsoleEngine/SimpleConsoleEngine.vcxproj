@@ -161,6 +161,7 @@
     <ClInclude Include="Core\Game\Composite\Effect\Effect.h" />
     <ClInclude Include="Core\Game\Composite\GameObject.h" />
     <ClInclude Include="Core\Game\Composite\GameObjectImpl.hpp" />
+    <ClInclude Include="Core\Game\Composite\Unit\LinkUnit\LinkedUnit.h" />
     <ClInclude Include="Core\Game\Composite\Unit\Missile\Missile.h" />
     <ClInclude Include="Core\Game\Composite\Unit\Unit.h" />
     <ClInclude Include="Core\Game\EffectManager.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="Core\Game\Composite\CompositeBase.cpp" />
     <ClCompile Include="Core\Game\Composite\Effect\Effect.cpp" />
     <ClCompile Include="Core\Game\Composite\GameObject.cpp" />
+    <ClCompile Include="Core\Game\Composite\Unit\LinkUnit\LinkedUnit.cpp" />
     <ClCompile Include="Core\Game\Composite\Unit\Missile\Missile.cpp" />
     <ClCompile Include="Core\Game\Composite\Unit\Unit.cpp" />
     <ClCompile Include="Core\Game\EffectManager.cpp" />

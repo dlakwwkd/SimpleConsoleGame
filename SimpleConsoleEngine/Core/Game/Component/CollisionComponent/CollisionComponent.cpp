@@ -141,11 +141,34 @@ void CollisionComponent::InitHp() noexcept
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CollisionComponent::SetMaxHp(int _maxHp) noexcept
+void CollisionComponent::AddHp(int _hp, bool _isWithMax) noexcept
 {
-    if (_maxHp > 0)
+    pimpl->curHp += _hp;
+    if (_isWithMax)
     {
-        pimpl->maxHp = _maxHp;
+        pimpl->maxHp += _hp;
+        if (pimpl->maxHp < 0)
+        {
+            pimpl->maxHp = 0;
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+void CollisionComponent::SetCurHp(int _hp) noexcept
+{
+    if (_hp > 0)
+    {
+        pimpl->curHp = _hp;
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+void CollisionComponent::SetMaxHp(int _hp) noexcept
+{
+    if (_hp > 0)
+    {
+        pimpl->maxHp = _hp;
     }
 }
 

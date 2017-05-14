@@ -18,12 +18,16 @@ struct Unit::impl
         : skillList{}
         , hitRenderFlag{ false }
         , deathEffect{ EffectType::UNIT_DEATH }
+        , sharedUnitList{}
     {
     }
+    using UnitRef   = std::weak_ptr<Unit>;
+    using UnitList  = std::vector<UnitRef>;
 
-    SkillList       skillList;
-    bool            hitRenderFlag;
-    EffectType      deathEffect;
+    SkillList   skillList;
+    bool        hitRenderFlag;
+    EffectType  deathEffect;
+    UnitList    sharedUnitList;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -103,6 +107,13 @@ bool Unit::Hitted(int _damage)
     if (collision->Hitted(_damage))
     {
         pimpl->hitRenderFlag = true;
+        for (auto& unitRef : pimpl->sharedUnitList)
+        {
+            if (auto unit = unitRef.lock())
+            {
+                unit->pimpl->hitRenderFlag = true;
+            }
+        }
         return true;
     }
     return false;
@@ -126,6 +137,12 @@ void Unit::Death()
 void Unit::SetDeathEffect(EffectType _type)
 {
     pimpl->deathEffect = _type;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+void Unit::AddSharedUnit(const UnitPtr& _unit)
+{
+    pimpl->sharedUnitList.push_back(_unit);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

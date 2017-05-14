@@ -5,9 +5,11 @@
 #include "Core/Console/Console.h"
 #include "Core/Console/Coord.h"
 #include "Core/Console/Color.hpp"
+#include "Core/Console/Shape.h"
 #include "Core/Game/GameManager.h"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/Component/CollisionComponent/CollisionComponent.h"
+#include "Core/Game/Composite/Unit/LinkUnit/LinkedUnit.h"
 #include "GameObject/Unit/Hero.h"
 #include "GameObject/Unit/Mob.h"
 SCE_USE
@@ -119,6 +121,10 @@ void Game::impl::GenerateMob(int _num)
             collision->InitHp();
             mob->SetSpeed(120.0f);
             mob->SetAIRatio(0.5f);
+            LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT, render->GetShape());
+            LinkedUnit::AddLinkedUnit(mob, Vec2::UP, render->GetShape());
+            LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT, render->GetShape());
+            LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN, render->GetShape());
         }
         else if (i < mobType * 2)
         {
@@ -129,6 +135,10 @@ void Game::impl::GenerateMob(int _num)
             collision->InitHp();
             mob->SetSpeed(70.0f);
             mob->SetAIRatio(1.0f);
+            LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT, render->GetShape(), false, 30);
+            LinkedUnit::AddLinkedUnit(mob, Vec2::UP, render->GetShape(), false, 30);
+            LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT, render->GetShape(), false, 30);
+            LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN, render->GetShape(), false, 30);
         }
         else if (i < mobType * 3)
         {

@@ -33,6 +33,8 @@ public:
     virtual void            Death() override;
     virtual void            SetDeathEffect(EffectType _type) override;
 
+    void                    AddSharedUnit(const UnitPtr& _unit);
+
 protected:
     void                    AddSkill(const SkillPtr& _skill);
     SkillList&              GetSkillList();

@@ -110,9 +110,6 @@ void EffectManager::impl::CreateEffect(
     float _lifeTime) const noexcept
 {
     auto effect = ObjectPool<Effect>::GetWithInit();
-    if (effect == nullptr)
-        return;
-
     if (auto& render = effect->GetRender())
     {
         render->SetCoord(Coord(_pos));

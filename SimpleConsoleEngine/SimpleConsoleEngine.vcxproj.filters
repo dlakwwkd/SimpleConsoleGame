@@ -61,6 +61,9 @@
     <Filter Include="Core\Game\Interface\Object">
       <UniqueIdentifier>{2284b036-94d2-49b8-abe4-fbcaa4e6751a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Game\Composite\Unit\LinkUnit">
+      <UniqueIdentifier>{3448cbc9-4f3c-4d64-9ad9-c84f75f28f37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -183,6 +186,9 @@
     <ClInclude Include="Core\Game\SectionImpl.hpp">
       <Filter>Core\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Game\Composite\Unit\LinkUnit\LinkedUnit.h">
+      <Filter>Core\Game\Composite\Unit\LinkUnit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\stdafx.cpp">
@@ -256,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="Core\Game\EffectManager.cpp">
       <Filter>Core\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Composite\Unit\LinkUnit\LinkedUnit.cpp">
+      <Filter>Core\Game\Composite\Unit\LinkUnit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

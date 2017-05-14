@@ -18,7 +18,7 @@ struct Missile::impl
     {
     }
 
-    std::shared_ptr<Timer>  aiTimer;
+    std::shared_ptr<Timer> aiTimer;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
