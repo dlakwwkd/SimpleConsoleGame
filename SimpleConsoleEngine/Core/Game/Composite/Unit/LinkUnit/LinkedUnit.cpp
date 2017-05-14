@@ -15,13 +15,13 @@ struct LinkedUnit::impl
     impl() noexcept
         : parent{}
         , localPos{}
-        , isDamageShared{ true }
+        , isHpShared{ true }
     {
     }
 
     UnitPtr parent;
     Vec2    localPos;
-    bool    isDamageShared;
+    bool    isHpShared;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ bool LinkedUnit::Hitted(int _damage)
 {
     if (Unit::Hitted(_damage))
     {
-        if (pimpl->isDamageShared)
+        if (pimpl->isHpShared)
         {
             return pimpl->parent->Hitted(_damage);
         }
@@ -86,7 +86,7 @@ bool LinkedUnit::Hitted(int _damage)
 /////////////////////////////////////////////////////////////////////////////////////////
 void LinkedUnit::Death()
 {
-    if (!pimpl->isDamageShared)
+    if (!pimpl->isHpShared)
     {
         Unit::Death();
     }
@@ -97,8 +97,9 @@ void LinkedUnit::AddLinkedUnit(
     const UnitPtr& _parent,
     const Vec2& _pos,
     const Shape& _shape,
-    bool _isShared,
-    int _hp)
+    bool _isHpShared,
+    int _additionalHp,
+    int _additionalDamage)
 {
     if (_parent == nullptr)
         return;
@@ -106,7 +107,7 @@ void LinkedUnit::AddLinkedUnit(
     auto newUnit = ObjectPool<LinkedUnit>::GetWithInit();
     newUnit->pimpl->parent = _parent;
     newUnit->pimpl->localPos = _pos;
-    newUnit->pimpl->isDamageShared = _isShared;
+    newUnit->pimpl->isHpShared = _isHpShared;
     newUnit->SetPos(_parent->GetPos() + _pos);
 
     auto& collision = newUnit->GetCollision();
@@ -114,23 +115,24 @@ void LinkedUnit::AddLinkedUnit(
     if (!collision || !parentCollision)
         return;
 
-    if (_isShared)
+    if (_isHpShared)
     {
-        // 데미지 공유 시 부모의 자식리스트에 추가하고 부모의 체력을 늘려준다.
+        // 체력 공유 시 부모의 자식리스트에 추가하고 부모의 체력을 늘려준다.
         _parent->AddSharedUnit(newUnit);
-        if (_hp > 0)
+        if (_additionalHp != 0)
         {
-            parentCollision->AddHp(_hp, true);
+            parentCollision->AddHp(_additionalHp, true);
         }
     }
     else
     {
         // 아닌 경우 스스로가 체력을 가진다.
-        collision->SetMaxHp(_hp);
+        collision->SetMaxHp(_additionalHp);
         collision->InitHp();
     }
     collision->SetAttackMask(parentCollision->GetAttackMask());
     collision->SetHitMask(parentCollision->GetHitMask());
+    collision->SetDamage(parentCollision->GetDamage() + _additionalDamage);
 
     if (auto& render = newUnit->GetRender())
     {

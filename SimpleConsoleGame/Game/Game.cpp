@@ -53,7 +53,7 @@ void Game::Init()
     GameManager::GetInstance().RegisterCollision(pimpl->hero);
     GameManager::GetInstance().AddRender(pimpl->hero);
 
-    pimpl->GenerateMob(50);
+    pimpl->GenerateMob(10);
 }
 
 void Game::Release()
@@ -117,14 +117,17 @@ void Game::impl::GenerateMob(int _num)
             render->SetShape(L'☠');
             render->SetColor(Color::GREY);
             collision->SetDamage(2);
-            collision->SetMaxHp(100);
+            collision->SetMaxHp(300);
             collision->InitHp();
             mob->SetSpeed(120.0f);
             mob->SetAIRatio(0.5f);
-            LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT, render->GetShape());
-            LinkedUnit::AddLinkedUnit(mob, Vec2::UP, render->GetShape());
-            LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT, render->GetShape());
-            LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN, render->GetShape());
+            for (float i = 1; i < 7; ++i)
+            {
+                LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT * i, render->GetShape());
+                LinkedUnit::AddLinkedUnit(mob, Vec2::UP * i, render->GetShape());
+                LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT * i, render->GetShape());
+                LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN * i, render->GetShape());
+            }
         }
         else if (i < mobType * 2)
         {
@@ -135,10 +138,33 @@ void Game::impl::GenerateMob(int _num)
             collision->InitHp();
             mob->SetSpeed(70.0f);
             mob->SetAIRatio(1.0f);
-            LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT, render->GetShape(), false, 30);
-            LinkedUnit::AddLinkedUnit(mob, Vec2::UP, render->GetShape(), false, 30);
-            LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT, render->GetShape(), false, 30);
-            LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN, render->GetShape(), false, 30);
+            for (float i = 1; i < 6; ++i)
+            {
+                LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT * i, render->GetShape(), false, 100);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::UP * i, render->GetShape(), false, 100);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT * i, render->GetShape(), false, 100);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN * i, render->GetShape(), false, 100);
+            }
+            auto shape2 = render->GetShape();
+            shape2.form = L'☢';
+            shape2.color = Color::YELLOW;
+            for (float i = 1; i < 5; ++i)
+            {
+                LinkedUnit::AddLinkedUnit(mob, Vec2::UP + Vec2::LEFT * i, shape2, false, 80);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::UP + Vec2::RIGHT * i, shape2, false, 80);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN + Vec2::LEFT * i, shape2, false, 80);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN + Vec2::RIGHT * i, shape2, false, 80);
+            }
+            auto shape3 = render->GetShape();
+            shape3.form = L'❄';
+            shape3.color = Color::GREEN;
+            for (float i = 2; i < 5; ++i)
+            {
+                LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT + Vec2::UP * i, shape3, false, 60);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT + Vec2::DOWN * i, shape3, false, 60);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT + Vec2::UP * i, shape3, false, 60);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT + Vec2::DOWN * i, shape3, false, 60);
+            }
         }
         else if (i < mobType * 3)
         {

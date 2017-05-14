@@ -25,8 +25,9 @@ public:
                         const UnitPtr& _parent,
                         const Vec2& _pos,
                         const Shape& _shape,
-                        bool _isShared = true,
-                        int _hp = 0);
+                        bool _isHpShared = true,
+                        int _additionalHp = 0,
+                        int _additionalDamage = 0);
 };
 
 SCE_END
