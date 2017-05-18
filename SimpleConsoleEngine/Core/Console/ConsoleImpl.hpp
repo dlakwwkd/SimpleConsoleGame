@@ -1,7 +1,7 @@
 ﻿#include "Coord.h"
 SCE_START
 
-constexpr Coord MAX_CONSOLE_SIZE    = { 238, 70 };
+constexpr Coord MAX_CONSOLE_SIZE    = { 154, 42 };
 constexpr WORD  MAX_COLOR_SIZE      = 256;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@ struct Console::impl
         : cfiOrigin{}
         , screenBuffer{}
         , screenIndex{}
-        , screenSize{}
+        , screenSize{ MAX_CONSOLE_SIZE.x - 2, MAX_CONSOLE_SIZE.y - 2 }
         , depthBuffer{}
         , shapeBuffer{}
     {
@@ -24,7 +24,7 @@ struct Console::impl
         }
     }
 
-    void                SetScreenAndFontSizeForThisDesktop(OUT SHORT& _fontSize) noexcept;
+    SHORT               SetScreenAndGetFontSizeForThisDesktop() noexcept;
     void                DrawInfoSetting() noexcept;
     void                DrawInfoPrint() noexcept;
     void                Print(const Coord& _pos, wchar_t _word) noexcept;
@@ -39,35 +39,36 @@ struct Console::impl
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void Console::impl::SetScreenAndFontSizeForThisDesktop(OUT SHORT& _fontSize) noexcept
+SHORT Console::impl::SetScreenAndGetFontSizeForThisDesktop() noexcept
 {
-    RECT desktopSize;
+    SHORT fontSize = 14;
     HWND hDesktop = ::GetDesktopWindow();
+    RECT desktopSize;
     ::GetWindowRect(hDesktop, &desktopSize);
-    if (desktopSize.bottom > 1200)
+    if (desktopSize.bottom >= 1440)
     {
-        screenSize = { 210, 63 };
-        _fontSize = 16;
+        fontSize = 32;
     }
-    else if (desktopSize.bottom > 900)
+    else if (desktopSize.bottom >= 1200)
     {
-        screenSize = { 200, 60 };
-        _fontSize = 16;
+        fontSize = 28;
+    }
+    else if (desktopSize.bottom >= 1080)
+    {
+        fontSize = 24;
+    }
+    else if (desktopSize.bottom >= 900)
+    {
+        fontSize = 20;
     }
     else if (desktopSize.bottom >= 768)
     {
-        screenSize = { 158, 42 };
-        _fontSize = 14;
-    }
-    else
-    {
-        screenSize = { 150, 40 };
-        _fontSize = 14;
+        fontSize = 16;
     }
     std::ostringstream oss;
-    oss << "mode con: lines=" << screenSize.y + 2
-        << " cols=" << screenSize.x + 2;
+    oss << "mode con: lines=" << MAX_CONSOLE_SIZE.y << " cols=" << MAX_CONSOLE_SIZE.x;
     ::system(oss.str().c_str());
+    return fontSize;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

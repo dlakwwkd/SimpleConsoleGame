@@ -33,7 +33,7 @@ void Console::Init() noexcept
     ::CopyMemory(cfi.FaceName, L"굴림체", LF_FACESIZE);
 
     // 화면 크기 및 폰트 크기 설정
-    pimpl->SetScreenAndFontSizeForThisDesktop(cfi.dwFontSize.Y);
+    cfi.dwFontSize.Y = pimpl->SetScreenAndGetFontSizeForThisDesktop();
 
     // 커서 설정
     CONSOLE_CURSOR_INFO cci;
