@@ -189,6 +189,9 @@
     <ClInclude Include="Core\Game\Composite\Unit\LinkUnit\LinkedUnit.h">
       <Filter>Core\Game\Composite\Unit\LinkUnit</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Game\Camera.h">
+      <Filter>Core\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\stdafx.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="Core\Game\Composite\Unit\LinkUnit\LinkedUnit.cpp">
       <Filter>Core\Game\Composite\Unit\LinkUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Camera.cpp">
+      <Filter>Core\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

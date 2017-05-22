@@ -49,6 +49,7 @@ void Missile::Release()
 /////////////////////////////////////////////////////////////////////////////////////////
 void Missile::Update(float _dt)
 {
+    /*
     static auto& console = Console::GetInstance();
     const Vec2 bound(Coord::ConvertToVec2(console.GetScreenSize()));
     const Vec2 curPos = GetPos();
@@ -59,6 +60,7 @@ void Missile::Update(float _dt)
     {
         Death();
     }
+    */
     Unit::Update(_dt);
 }
 

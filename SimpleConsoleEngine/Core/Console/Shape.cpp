@@ -2,6 +2,8 @@
 #include "Shape.h"
 #include "Coord.h"
 #include "Console.h"
+#include "../Game/GameManager.h"
+#include "../Math/Vec2.h"
 SCE_USE
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -23,9 +25,15 @@ Shape::Shape(wchar_t _form, Color _color, Color _bgColor) noexcept
 /////////////////////////////////////////////////////////////////////////////////////////
 void Shape::Render(const Coord& _pos, BYTE _depth) noexcept
 {
+    static auto& gm = GameManager::GetInstance();
     static auto& console = Console::GetInstance();
-    if (console.DepthCheck(_pos, _depth))
+
+    Coord fixedPos = Coord::ConvertToVec2(_pos) - gm.GetCameraPos();
+    fixedPos.x += console.GetScreenWidth() / 2;
+    fixedPos.y += console.GetScreenHeight() / 2;
+
+    if (console.DepthCheck(fixedPos, _depth))
     {
-        console.StoreShape(_pos, *this);
+        console.StoreShape(fixedPos, *this);
     }
 }

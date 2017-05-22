@@ -155,6 +155,7 @@
     <ClInclude Include="Core\Console\ConsoleImpl.hpp" />
     <ClInclude Include="Core\Console\Coord.h" />
     <ClInclude Include="Core\Console\Shape.h" />
+    <ClInclude Include="Core\Game\Camera.h" />
     <ClInclude Include="Core\Game\Component\CollisionComponent\CollisionComponent.h" />
     <ClInclude Include="Core\Game\Component\RenderComponent\CmdRenderComponent.h" />
     <ClInclude Include="Core\Game\Composite\CompositeBase.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="Core\Console\Console.cpp" />
     <ClCompile Include="Core\Console\Coord.cpp" />
     <ClCompile Include="Core\Console\Shape.cpp" />
+    <ClCompile Include="Core\Game\Camera.cpp" />
     <ClCompile Include="Core\Game\Component\CollisionComponent\CollisionComponent.cpp" />
     <ClCompile Include="Core\Game\Component\RenderComponent\CmdRenderComponent.cpp" />
     <ClCompile Include="Core\Game\Composite\CompositeBase.cpp" />

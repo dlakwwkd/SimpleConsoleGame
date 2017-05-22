@@ -67,7 +67,7 @@ void Console::Release() noexcept
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-Coord Console::GetScreenSize() const noexcept
+const Coord& Console::GetScreenSize() const noexcept
 {
     return pimpl->screenSize;
 }

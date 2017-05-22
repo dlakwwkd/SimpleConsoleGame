@@ -10,6 +10,7 @@
 #include "../Console/Color.hpp"
 #include "../Console/Console.h"
 #include "../Timer/Timer.h"
+#include "../Math/Vec2.h"
 SCE_USE
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -144,6 +145,25 @@ GameManager::SectionPtr GameManager::FindSection(const POINT& _pos) const
         return nullptr;
 
     return iter->second.lock();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+const Vec2& GameManager::GetCameraPos() const
+{
+    return pimpl->camera.GetPos();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+void GameManager::SetCameraPos(const Vec2& _pos, float _speed)
+{
+    if (_speed < 0.01f)
+    {
+        pimpl->camera.SetPos(_pos);
+    }
+    else
+    {
+        pimpl->camera.MoveTo(_pos);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

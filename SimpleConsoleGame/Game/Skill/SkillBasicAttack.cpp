@@ -56,6 +56,7 @@ void SkillBasicAttack::OnBeginUse()
             static auto& gm = GameManager::GetInstance();
             gm.RegisterCollision(missile, ownerCollision->GetSection());
             gm.AddRender(missile);
+            gm.CallFuncAfterP(5.f, missile, &Missile::Death);
         }
     }
 }

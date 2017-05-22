@@ -6,6 +6,7 @@ class Section;
 class IRenderObject;
 class ICollisionObject;
 class IGame;
+class Vec2;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 class GameManager
@@ -39,6 +40,9 @@ public:
 
     void                        RegisterBuiltSection(const SectionPtr& _section, const POINT& _pos);
     SectionPtr                  FindSection(const POINT& _pos) const;
+
+    const Vec2&                 GetCameraPos() const;
+    void                        SetCameraPos(const Vec2& _pos, float _speed = 0.f);
 
 private:
     void                        InitGame();

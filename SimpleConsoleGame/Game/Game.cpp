@@ -91,7 +91,11 @@ void Game::Update(float _dt)
 
 void Game::Render()
 {
+    static auto& gm = GameManager::GetInstance();
     static auto& console = Console::GetInstance();
+
+    gm.SetCameraPos(pimpl->hero->GetPos());
+
     std::wostringstream oss;
     oss << L"MobNum: " << pimpl->mobList.size();
     size_t posX = (console.GetScreenWidth() - oss.str().length()) / 2;

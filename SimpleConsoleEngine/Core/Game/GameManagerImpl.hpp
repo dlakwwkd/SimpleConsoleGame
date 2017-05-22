@@ -1,6 +1,7 @@
 ﻿#include "../Console/Console.h"
 #include "../Console/Coord.h"
 #include "../Timer/Timer.h"
+#include "Camera.h"
 SCE_START
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -10,11 +11,12 @@ struct GameManager::impl
         : frameCount{}
         , renderCount{}
         , renderLimit{}
-        , renderList{}
-        , collisionList{}
+        , rootSection{}
         , sectionList{}
         , sectionMap{}
-        , rootSection{}
+        , renderList{}
+        , collisionList{}
+        , camera{}
     {
     }
 
@@ -29,6 +31,7 @@ struct GameManager::impl
     std::map<POINT, SectionRef> sectionMap;
     std::list<RenderObjPtr>     renderList;
     std::list<CollisionObjPtr>  collisionList;
+    Camera                      camera;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
