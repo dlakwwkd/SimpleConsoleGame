@@ -23,14 +23,14 @@ void Console::Init() noexcept
     Release();
 
     // 화면 좌상단으로 콘솔 위치 설정
-    HWND hConsole = ::GetConsoleWindow();
-    ::MoveWindow(hConsole, 0, 0, 0, 0, TRUE);
+    HWND hConsole = GetConsoleWindow();
+    MoveWindow(hConsole, 0, 0, 0, 0, TRUE);
 
     // 기존 폰트 설정 보관 및 교체할 폰트 설정
     CONSOLE_FONT_INFOEX cfi{ sizeof(cfi) };
-    ::GetCurrentConsoleFontEx(::GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
-    ::CopyMemory(&pimpl->cfiOrigin, &cfi, sizeof(cfi));
-    ::CopyMemory(cfi.FaceName, L"굴림체", LF_FACESIZE);
+    GetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+    CopyMemory(&pimpl->cfiOrigin, &cfi, sizeof(cfi));
+    CopyMemory(cfi.FaceName, L"굴림체", LF_FACESIZE);
 
     // 화면 크기 및 폰트 크기 설정
     cfi.dwFontSize.Y = pimpl->SetScreenAndGetFontSizeForThisDesktop();
@@ -43,15 +43,15 @@ void Console::Init() noexcept
     // 더블버퍼 모두에 설정 적용
     for (auto& buffer : pimpl->screenBuffer)
     {
-        buffer = ::CreateConsoleScreenBuffer(
+        buffer = CreateConsoleScreenBuffer(
             GENERIC_READ | GENERIC_WRITE,
             0,
             nullptr,
             CONSOLE_TEXTMODE_BUFFER,
             nullptr);
-        ::SetConsoleActiveScreenBuffer(buffer);
-        ::SetCurrentConsoleFontEx(buffer, FALSE, &cfi);
-        ::SetConsoleCursorInfo(buffer, &cci);
+        SetConsoleActiveScreenBuffer(buffer);
+        SetCurrentConsoleFontEx(buffer, FALSE, &cfi);
+        SetConsoleCursorInfo(buffer, &cci);
     }
 }
 
@@ -60,10 +60,10 @@ void Console::Release() noexcept
 {
     for (auto& buffer : pimpl->screenBuffer)
     {
-        ::CloseHandle(buffer);
+        CloseHandle(buffer);
     }
     // 기존 폰트 설정으로 복구
-    ::SetCurrentConsoleFontEx(::GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &pimpl->cfiOrigin);
+    SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &pimpl->cfiOrigin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -89,11 +89,11 @@ void Console::Clear() noexcept
 {
     DWORD dw;
     DWORD screenSize = (pimpl->screenSize.x + 2) * (pimpl->screenSize.y + 2);
-    ::FillConsoleOutputCharacter(pimpl->screenBuffer[pimpl->screenIndex], L' ', screenSize, { 0,0 }, &dw);
-    ::FillConsoleOutputAttribute(pimpl->screenBuffer[pimpl->screenIndex], NULL, screenSize, { 0,0 }, &dw);
-    ::SetConsoleTextAttribute(pimpl->screenBuffer[pimpl->screenIndex], Color::WHITE);
-    ::ZeroMemory(pimpl->depthBuffer, sizeof(pimpl->depthBuffer));
-    ::ZeroMemory(pimpl->shapeBuffer, sizeof(pimpl->shapeBuffer));
+    FillConsoleOutputCharacter(pimpl->screenBuffer[pimpl->screenIndex], L' ', screenSize, { 0,0 }, &dw);
+    FillConsoleOutputAttribute(pimpl->screenBuffer[pimpl->screenIndex], NULL, screenSize, { 0,0 }, &dw);
+    SetConsoleTextAttribute(pimpl->screenBuffer[pimpl->screenIndex], Color::WHITE);
+    ZeroMemory(pimpl->depthBuffer, sizeof(pimpl->depthBuffer));
+    ZeroMemory(pimpl->shapeBuffer, sizeof(pimpl->shapeBuffer));
     for (auto& drawInfo : pimpl->drawInfoBuffer)
     {
         drawInfo.clear();
@@ -106,7 +106,7 @@ void Console::SwapBuffer() noexcept
     pimpl->DrawInfoSetting();
     pimpl->DrawInfoPrint();
 
-    ::SetConsoleActiveScreenBuffer(pimpl->screenBuffer[pimpl->screenIndex]);
+    SetConsoleActiveScreenBuffer(pimpl->screenBuffer[pimpl->screenIndex]);
     pimpl->screenIndex = !pimpl->screenIndex;
 }
 
@@ -114,8 +114,8 @@ void Console::SwapBuffer() noexcept
 void Console::PrintText(const Coord& _pos, const std::wstring& _text) noexcept
 {
     DWORD dw;
-    ::SetConsoleCursorPosition(pimpl->screenBuffer[pimpl->screenIndex], { _pos.x, _pos.y });
-    ::WriteConsole(pimpl->screenBuffer[pimpl->screenIndex],
+    SetConsoleCursorPosition(pimpl->screenBuffer[pimpl->screenIndex], { _pos.x, _pos.y });
+    WriteConsole(pimpl->screenBuffer[pimpl->screenIndex],
         _text.c_str(),
         static_cast<DWORD>(_text.length()),
         &dw,

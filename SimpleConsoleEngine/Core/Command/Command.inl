@@ -39,7 +39,7 @@ template<Command::KeyType type>
 bool Command::IsKeyPress() const noexcept
 {
     static_assert(type < KeyType::TOTAL_KEY_NUM, "KeyType is invalid");
-    return ::GetAsyncKeyState(keyArr[type]) & 0x8000 ? true : false;
+    return GetAsyncKeyState(keyArr[type]) & 0x8000 ? true : false;
 }
 
 SCE_END

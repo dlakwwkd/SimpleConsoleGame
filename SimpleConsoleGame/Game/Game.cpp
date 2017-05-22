@@ -24,7 +24,7 @@ struct Game::impl
     {
     }
 
-    void        GenerateMob(int _num);
+    void        GenerateMob(size_t _num);
     void        CommandProc(float _dt) const;
 
     CommandPtr  command;
@@ -52,8 +52,14 @@ void Game::Init()
     pimpl->hero->SetDefaultAttack();
     GameManager::GetInstance().RegisterCollision(pimpl->hero);
     GameManager::GetInstance().AddRender(pimpl->hero);
-
-    pimpl->GenerateMob(10);
+    GameManager::GetInstance().CallFuncAfterS(1.f,
+        [=](int _d)
+        {
+           for (int i = 0; i < _d; ++i)
+           {
+               pimpl->GenerateMob(10);
+           }
+        }, 1);
 }
 
 void Game::Release()
@@ -94,10 +100,10 @@ void Game::Render()
 }
 
 
-void Game::impl::GenerateMob(int _num)
+void Game::impl::GenerateMob(size_t _num)
 {
-    int mobType = _num / 5;
-    for (int i = 0; i < _num; ++i)
+    size_t mobType = _num / 5;
+    for (size_t i = 0; i < _num; ++i)
     {
         auto mob = ObjectPool<Mob>::GetWithInit();
         mobList.push_back(mob);

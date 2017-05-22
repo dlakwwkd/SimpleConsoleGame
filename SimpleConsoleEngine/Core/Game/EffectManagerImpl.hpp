@@ -11,7 +11,7 @@ SCE_START
 struct EffectManager::impl
 {
     using EffectFunc    = std::function<void(impl&, const Unit&, const Vec2&)>;
-    using SequenceFunc  = std::function<void(const Vec2&, int)>;
+    using SequenceFunc  = std::function<void(const Vec2&, size_t)>;
 
     impl() noexcept
     {
@@ -136,7 +136,7 @@ void EffectManager::impl::UnitDeath(const Unit& _owner, const Vec2& _pos) const 
 void EffectManager::impl::ExplosionA(const Unit& _owner, const Vec2& _pos) const noexcept
 {
     sequenceList[Sequence::SEQUENCE_TYPE_A].Play(
-        [&](const Vec2& _squencePos, int _i)
+        [&](const Vec2& _squencePos, size_t _i)
         {
             CreateEffect(_pos + _squencePos,
                 { L'▒', Color::MAGENTA, Color::BLUE },
@@ -153,7 +153,7 @@ void EffectManager::impl::ExplosionA(const Unit& _owner, const Vec2& _pos) const
 void EffectManager::impl::ExplosionB(const Unit& _owner, const Vec2& _pos) const noexcept
 {
     sequenceList[Sequence::SEQUENCE_TYPE_A].Play(
-        [&](const Vec2& _squencePos, int _i)
+        [&](const Vec2& _squencePos, size_t _i)
         {
             CreateEffect(_pos + _squencePos,
                 { L'▨', Color::WHITE, Color::CYAN },
@@ -161,7 +161,7 @@ void EffectManager::impl::ExplosionB(const Unit& _owner, const Vec2& _pos) const
                 0.1f);
         });
     sequenceList[Sequence::SEQUENCE_TYPE_B].Play(
-        [&](const Vec2& _squencePos, int _i)
+        [&](const Vec2& _squencePos, size_t _i)
         {
             CreateEffect(_pos + _squencePos,
                 { L'▨', Color::WHITE, Color::CYAN },
@@ -174,7 +174,7 @@ void EffectManager::impl::ExplosionB(const Unit& _owner, const Vec2& _pos) const
 void EffectManager::impl::ExplosionC(const Unit& _owner, const Vec2& _pos) const noexcept
 {
     sequenceList[Sequence::SEQUENCE_TYPE_A].Play(
-        [&](const Vec2& _squencePos, int _i)
+        [&](const Vec2& _squencePos, size_t _i)
         {
             CreateEffect(_pos + _squencePos,
                 { L'▒', Color::YELLOW, Color::RED },
@@ -192,7 +192,7 @@ void EffectManager::impl::Sequence::Init(std::vector<Vec2> _posList) noexcept
 /////////////////////////////////////////////////////////////////////////////////////////
 void EffectManager::impl::Sequence::Play(SequenceFunc _func) const noexcept
 {
-    for (int i = 0; i < posList.size(); ++i)
+    for (size_t i = 0; i < posList.size(); ++i)
     {
         _func(posList[i], i);
     }

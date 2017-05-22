@@ -23,9 +23,9 @@ public:
     template<typename F, typename... Args>
     void                        CallFuncAfterS(float _after, F&& _functor, Args&&... _args);
     template<typename T, typename F, typename... Args>
-    void                        CallFuncAfterM(float _after, T* _obj, F _memfunc, Args&&... _args);
+    void                        CallFuncAfterM(float _after, T* _obj, F&& _memfunc, Args&&... _args);
     template<typename T, typename F, typename... Args>
-    void                        CallFuncAfterP(float _after, const std::shared_ptr<T>& _obj, F _memfunc, Args&&... _args);
+    void                        CallFuncAfterP(float _after, const std::shared_ptr<T>& _obj, F&& _memfunc, Args&&... _args);
 
     void                        ReturnMain();
     void                        Shutdown();

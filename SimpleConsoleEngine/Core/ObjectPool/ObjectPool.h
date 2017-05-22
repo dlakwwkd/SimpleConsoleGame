@@ -24,6 +24,7 @@ struct _objectPoolDeleteHelper
 template<typename T>
 class ObjectPool
 {
+    static constexpr size_t ALLOC_COUNT = 100;
 public:
     using value_type = T;
 
@@ -55,16 +56,14 @@ public:
     }
 
 private:
-    static uint8_t*     freeList;
-    static int          totalAllocCount;    // for tracing
-    static int          currentUseCount;    // for tracing
-    static const int    ALLOC_COUNT;
+    static uint8_t* freeList;
+    static size_t   totalAllocCount;    // for tracing
+    static int      currentUseCount;    // for tracing
 };
 
 template<typename T> uint8_t*   ObjectPool<T>::freeList         = nullptr;
-template<typename T> int        ObjectPool<T>::totalAllocCount  = 0;
+template<typename T> size_t     ObjectPool<T>::totalAllocCount  = 0;
 template<typename T> int        ObjectPool<T>::currentUseCount  = 0;
-template<typename T> const int  ObjectPool<T>::ALLOC_COUNT      = 100;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 template<typename T>
@@ -93,7 +92,7 @@ T* ObjectPool<T>::allocate(const size_t _n) const noexcept
         // 다음 여유 객체의 주소를 보관한다. (일종의 링크드 리스트)
         uint8_t*    pNext = freeList;
         uint8_t**   ppCur = reinterpret_cast<uint8_t**>(freeList);
-        for (int i = 0; i < ALLOC_COUNT - 1; ++i)
+        for (size_t i = 0; i < ALLOC_COUNT - 1; ++i)
         {
             pNext += sizeof(T);
             *ppCur = pNext;

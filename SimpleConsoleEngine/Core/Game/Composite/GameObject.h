@@ -15,9 +15,9 @@ public:
     GameObject() noexcept;
     virtual ~GameObject() override;
 
-    virtual void    Init()              override;
-    virtual void    Release()           override;
-    virtual void    Update(float _dt)   override;
+    virtual void    Init() override;
+    virtual void    Release() override;
+    virtual void    Update(float _dt) override;
 
     Vec2            GetPos() const noexcept;
     Vec2            GetDirection() const noexcept;

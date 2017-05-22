@@ -31,46 +31,41 @@ T& GameManager::GetGame() const
 template<typename F, typename... Args>
 void GameManager::CallFuncAfterS(float _after, F&& _functor, Args&&... _args)
 {
-    // args...는 클로저 안에 전부 복사해서 저장
-    // 가변인수를 퍼팩트 포워딩으로 캡쳐하는 기능은 C++14까지는 불가능하다고 함..(17에서 std::apply로 제공 예정)
-    // function()의 시그니처에 &&가 있을 경우 이동연산을 지원하기 위해 move로 넘긴다.
-    // 즉, args...는 클로저 생성시점에 최소 한번의 복사가 일어난다.( DoTask()에서는 복사없이 람다가 호출될 수 있다.(테스트 완료))
+    static_assert(!std::is_member_function_pointer_v<F>, "only allow non member function");
+
     scheduler->PushTask(_after,
-        [functor = std::forward<F>(_functor), _args...]()
-        {
-            functor(std::move(_args)...);
-        });
+        std::bind(std::forward<F>(_functor), std::forward<Args>(_args)...));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // 멤버함수를 위한 콜펑션
 template<typename T, typename F, typename... Args>
-void GameManager::CallFuncAfterM(float _after, T* _obj, F _memfunc, Args&& ..._args)
+void GameManager::CallFuncAfterM(float _after, T* _obj, F&& _memfunc, Args&& ..._args)
 {
     // 안전성을 위해 게임 매니저와 게임의 멤버함수만 콜펑션을 허락한다.
-    static_assert(std::is_member_function_pointer_v<F>
-        && (std::is_same_v<GameManager, T>
-            || std::is_base_of_v<IGame, T>),
+    static_assert(std::is_member_function_pointer_v<F> &&
+        (std::is_same_v<GameManager, T> || std::is_base_of_v<IGame, T>),
         "only allow GameManager or Game instance");
 
-    scheduler->PushTask(_after, std::bind(_memfunc, _obj, std::forward<Args>(_args)...));
+    scheduler->PushTask(_after,
+        std::bind(std::forward<F>(_memfunc), _obj, std::forward<Args>(_args)...));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // 스마트 포인터로 관리되는 객체의 멤버함수를 위한 콜펑션
 template<typename T, typename F, typename... Args>
-void GameManager::CallFuncAfterP(float _after, const std::shared_ptr<T>& _obj, F _memfunc, Args&&... _args)
+void GameManager::CallFuncAfterP(float _after, const std::shared_ptr<T>& _obj, F&& _memfunc, Args&&... _args)
 {
     static_assert(std::is_member_function_pointer_v<F>, "only allow member function");
     
     std::weak_ptr<T> objRef = _obj;
     scheduler->PushTask(_after,
-        [objRef = std::move(objRef), _memfunc, _args...]()
+        [objRef = std::move(objRef), _memfunc = std::forward<F>(_memfunc), _args...]()
         {
             // 대상 인스턴스가 살아 있을 때만, 그 멤버함수를 호출해준다.
             if (auto obj = objRef.lock())
             {
-                std::bind(_memfunc, obj, std::move(_args)...)();
+                std::bind(std::move(_memfunc), std::move(obj), std::move(_args)...)();
             }
         });
 }
