@@ -7,6 +7,8 @@
 #include "Core/Console/Color.hpp"
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/Component/CollisionComponent/CollisionComponent.h"
+#include "Core/Game/Composite/Camera/Camera.h"
+#include "Core/Game/GameManager.h"
 #include "../../Skill/SkillBasicAttack.h"
 #include "../../Skill/SkillBasicAttack2.h"
 #include "../../Skill/SkillBasicAttack3.h"
@@ -57,6 +59,11 @@ void Hero::Init()
     SetMovePowerLimit(0.25f);
     SetMovePowerFrict(4.0f);
     SetSpeed(50.0f);
+
+    static auto& gm = GameManager::GetInstance();
+    gm.GetMainCamera()->SetMovePowerLimit(GetMovePowerLimit() * 0.8f);
+    gm.GetMainCamera()->SetMovePowerFrict(GetMovePowerFrict() * 1.2f);
+    gm.GetMainCamera()->SetSpeed(GetSpeed());
 
     auto screenSize = Console::GetInstance().GetScreenSize();
     SetPos(Coord::ConvertToVec2(screenSize) / 2);

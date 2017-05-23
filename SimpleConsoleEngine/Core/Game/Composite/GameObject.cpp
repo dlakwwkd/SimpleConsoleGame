@@ -35,13 +35,13 @@ void GameObject::Update(float _dt)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-Vec2 GameObject::GetPos() const noexcept
+const Vec2& GameObject::GetPos() const noexcept
 {
     return pimpl->pos;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-Vec2 GameObject::GetDirection() const noexcept
+const Vec2& GameObject::GetDirection() const noexcept
 {
     return pimpl->dir;
 }

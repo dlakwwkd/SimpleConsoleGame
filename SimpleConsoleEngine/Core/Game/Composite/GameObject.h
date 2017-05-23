@@ -19,8 +19,8 @@ public:
     virtual void    Release() override;
     virtual void    Update(float _dt) override;
 
-    Vec2            GetPos() const noexcept;
-    Vec2            GetDirection() const noexcept;
+    const Vec2&     GetPos() const noexcept;
+    const Vec2&     GetDirection() const noexcept;
     float           GetMovePowerLimit() const noexcept;
     float           GetMovePowerFrict() const noexcept;
     float           GetSpeed() const noexcept;

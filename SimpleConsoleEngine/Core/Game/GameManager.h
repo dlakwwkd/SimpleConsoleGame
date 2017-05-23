@@ -6,7 +6,7 @@ class Section;
 class IRenderObject;
 class ICollisionObject;
 class IGame;
-class Vec2;
+class Camera;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 class GameManager
@@ -17,6 +17,7 @@ class GameManager
     using CollisionObjPtr   = std::shared_ptr<ICollisionObject>;
     using SectionPtr        = std::shared_ptr<Section>;
     using SectionRef        = std::weak_ptr<Section>;
+    using CameraPtr         = std::unique_ptr<Camera>;
 public:
     IS_BASE_OF(T, IGame) void   Run();
     IS_BASE_OF(T, IGame) T&     GetGame() const;
@@ -41,8 +42,7 @@ public:
     void                        RegisterBuiltSection(const SectionPtr& _section, const POINT& _pos);
     SectionPtr                  FindSection(const POINT& _pos) const;
 
-    const Vec2&                 GetCameraPos() const;
-    void                        SetCameraPos(const Vec2& _pos, float _speed = 0.f);
+    CameraPtr&                  GetMainCamera();
 
 private:
     void                        InitGame();

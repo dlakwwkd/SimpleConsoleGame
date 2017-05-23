@@ -148,22 +148,9 @@ GameManager::SectionPtr GameManager::FindSection(const POINT& _pos) const
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-const Vec2& GameManager::GetCameraPos() const
+GameManager::CameraPtr& GameManager::GetMainCamera()
 {
-    return pimpl->camera.GetPos();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-void GameManager::SetCameraPos(const Vec2& _pos, float _speed)
-{
-    if (_speed < 0.01f)
-    {
-        pimpl->camera.SetPos(_pos);
-    }
-    else
-    {
-        pimpl->camera.MoveTo(_pos);
-    }
+    return pimpl->mainCamera;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -172,7 +159,8 @@ void GameManager::InitGame()
     Console::GetInstance().Init();
     scheduler = std::make_unique<Scheduler>();
     gameTimer = std::make_unique<Timer>();
-    if (scheduler && gameTimer)
+    pimpl->mainCamera = std::make_unique<Camera>();
+    if (scheduler && gameTimer && pimpl->mainCamera)
     {
         isRun = true;
     }
@@ -191,6 +179,7 @@ void GameManager::ReleaseGame()
 {
     isPlay = false;
     isRun = false;
+    pimpl->mainCamera.reset();
     gameTimer.reset();
     scheduler.reset();
     Console::GetInstance().Release();
@@ -201,7 +190,7 @@ void GameManager::MainLoop()
 {
     while (isRun)
     {
-        if (!gameTimer || !curGame)
+        if (!gameTimer || !curGame || !pimpl->mainCamera)
         {
             assert(false);
             return;
@@ -218,7 +207,9 @@ void GameManager::GameLoop()
     pimpl->rootSection = ObjectPool<Section>::Get(POINT{ 0, 0 }, 10);
     RegisterBuiltSection(pimpl->rootSection, { 0, 0 });
 
+    pimpl->mainCamera->Init();
     curGame->Init();
+
     SetRenderLimit(60);
     while (isPlay)
     {
@@ -231,6 +222,7 @@ void GameManager::GameLoop()
     }
     scheduler->Release();
     curGame->Release();
+    pimpl->mainCamera->Release();
 
     pimpl->sectionMap.clear();
     pimpl->sectionList.clear();
@@ -250,6 +242,8 @@ void GameManager::UpdateProcess()
         obj->Update(dt);
     }
     CollisionCheck(dt);
+
+    pimpl->mainCamera->Update(dt);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

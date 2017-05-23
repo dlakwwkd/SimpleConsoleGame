@@ -45,11 +45,11 @@ SHORT Console::impl::SetScreenAndGetFontSizeForThisDesktop() noexcept
     HWND hDesktop = GetDesktopWindow();
     RECT desktopSize;
     GetWindowRect(hDesktop, &desktopSize);
-    if (desktopSize.bottom >= 1440)
+    if (desktopSize.bottom > 1440)
     {
         fontSize = 32;
     }
-    else if (desktopSize.bottom >= 1200)
+    else if (desktopSize.bottom > 1200)
     {
         fontSize = 28;
     }

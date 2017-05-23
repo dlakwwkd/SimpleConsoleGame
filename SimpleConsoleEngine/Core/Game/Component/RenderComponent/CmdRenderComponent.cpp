@@ -68,13 +68,13 @@ BYTE CmdRenderComponent::GetDepth() const noexcept
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-Coord CmdRenderComponent::GetCoord() const noexcept
+const Coord& CmdRenderComponent::GetCoord() const noexcept
 {
     return pimpl->coord;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-Shape CmdRenderComponent::GetShape() const noexcept
+const Shape& CmdRenderComponent::GetShape() const noexcept
 {
     return pimpl->shape;
 }

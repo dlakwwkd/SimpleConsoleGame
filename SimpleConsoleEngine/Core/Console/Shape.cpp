@@ -3,6 +3,7 @@
 #include "Coord.h"
 #include "Console.h"
 #include "../Game/GameManager.h"
+#include "../Game/Composite/Camera/Camera.h"
 #include "../Math/Vec2.h"
 SCE_USE
 
@@ -28,7 +29,7 @@ void Shape::Render(const Coord& _pos, BYTE _depth) noexcept
     static auto& gm = GameManager::GetInstance();
     static auto& console = Console::GetInstance();
 
-    Coord fixedPos = Coord::ConvertToVec2(_pos) - gm.GetCameraPos();
+    Coord fixedPos = Coord::ConvertToVec2(_pos) - gm.GetMainCamera()->GetPos();
     fixedPos.x += console.GetScreenWidth() / 2;
     fixedPos.y += console.GetScreenHeight() / 2;
 

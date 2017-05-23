@@ -20,8 +20,8 @@ public:
 
     bool                    IsShow() const noexcept;
     BYTE                    GetDepth() const noexcept;
-    Coord                   GetCoord() const noexcept;
-    Shape                   GetShape() const noexcept;
+    const Coord&            GetCoord() const noexcept;
+    const Shape&            GetShape() const noexcept;
     wchar_t                 GetForm() const noexcept;
     Color                   GetColor() const noexcept;
     Color                   GetBGColor() const noexcept;

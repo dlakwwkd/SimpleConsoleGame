@@ -64,6 +64,9 @@
     <Filter Include="Core\Game\Composite\Unit\LinkUnit">
       <UniqueIdentifier>{3448cbc9-4f3c-4d64-9ad9-c84f75f28f37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Game\Composite\Camera">
+      <UniqueIdentifier>{77af2c3b-4f3c-4742-b3e3-195b52e397d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -189,8 +192,8 @@
     <ClInclude Include="Core\Game\Composite\Unit\LinkUnit\LinkedUnit.h">
       <Filter>Core\Game\Composite\Unit\LinkUnit</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Game\Camera.h">
-      <Filter>Core\Game</Filter>
+    <ClInclude Include="Core\Game\Composite\Camera\Camera.h">
+      <Filter>Core\Game\Composite\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -269,8 +272,8 @@
     <ClCompile Include="Core\Game\Composite\Unit\LinkUnit\LinkedUnit.cpp">
       <Filter>Core\Game\Composite\Unit\LinkUnit</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Game\Camera.cpp">
-      <Filter>Core\Game</Filter>
+    <ClCompile Include="Core\Game\Composite\Camera\Camera.cpp">
+      <Filter>Core\Game\Composite\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

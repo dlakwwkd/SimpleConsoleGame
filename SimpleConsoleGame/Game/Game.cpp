@@ -10,6 +10,7 @@
 #include "Core/Game/Component/RenderComponent/CmdRenderComponent.h"
 #include "Core/Game/Component/CollisionComponent/CollisionComponent.h"
 #include "Core/Game/Composite/Unit/LinkUnit/LinkedUnit.h"
+#include "Core/Game/Composite/Camera/Camera.h"
 #include "GameObject/Unit/Hero.h"
 #include "GameObject/Unit/Mob.h"
 SCE_USE
@@ -50,9 +51,11 @@ void Game::Init()
     pimpl->command = std::make_unique<Command>();
     pimpl->hero = ObjectPool<Hero>::GetWithInit();
     pimpl->hero->SetDefaultAttack();
-    GameManager::GetInstance().RegisterCollision(pimpl->hero);
-    GameManager::GetInstance().AddRender(pimpl->hero);
-    GameManager::GetInstance().CallFuncAfterS(1.f,
+    static auto& gm = GameManager::GetInstance();
+    gm.RegisterCollision(pimpl->hero);
+    gm.AddRender(pimpl->hero);
+    gm.GetMainCamera()->AttachToObject(pimpl->hero);
+    gm.CallFuncAfterS(1.f,
         [=](int _d)
         {
            for (int i = 0; i < _d; ++i)
@@ -91,11 +94,7 @@ void Game::Update(float _dt)
 
 void Game::Render()
 {
-    static auto& gm = GameManager::GetInstance();
     static auto& console = Console::GetInstance();
-
-    gm.SetCameraPos(pimpl->hero->GetPos());
-
     std::wostringstream oss;
     oss << L"MobNum: " << pimpl->mobList.size();
     size_t posX = (console.GetScreenWidth() - oss.str().length()) / 2;
@@ -150,10 +149,10 @@ void Game::impl::GenerateMob(size_t _num)
             mob->SetAIRatio(1.0f);
             for (float i = 1; i < 6; ++i)
             {
-                LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT * i, render->GetShape(), false, 100);
-                LinkedUnit::AddLinkedUnit(mob, Vec2::UP * i, render->GetShape(), false, 100);
-                LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT * i, render->GetShape(), false, 100);
-                LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN * i, render->GetShape(), false, 100);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT * i, render->GetShape(), true, 100);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::UP * i, render->GetShape(), true, 100);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::RIGHT * i, render->GetShape(), true, 100);
+                LinkedUnit::AddLinkedUnit(mob, Vec2::DOWN * i, render->GetShape(), true, 100);
             }
             auto shape2 = render->GetShape();
             shape2.form = L'☢';
@@ -244,5 +243,10 @@ void Game::impl::CommandProc(float _dt) const
     if (command->IsKeyPress<Command::BUTTON_B>())
     {
         hero->SwapMissile();
+    }
+    if (command->IsKeyPress<Command::BUTTON_C>())
+    {
+        static auto& gm = GameManager::GetInstance();
+        gm.GetMainCamera()->ChangeMoveTypeToNext();
     }
 }
