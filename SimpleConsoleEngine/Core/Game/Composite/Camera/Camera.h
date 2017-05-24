@@ -13,8 +13,9 @@ public:
     enum class MoveType
     {
         FIX_TO_OBJECT,
-        LINEAR,
+        NON_TRACKING,
         EASE_IN_OUT,
+        LINEAR,
         END
     };
 public:

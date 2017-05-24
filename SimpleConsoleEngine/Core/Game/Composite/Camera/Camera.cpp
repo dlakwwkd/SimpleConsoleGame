@@ -10,7 +10,7 @@ struct Camera::impl
     impl() noexcept
         : moveMode{ MoveType::FIX_TO_OBJECT }
         , attachedObj{}
-        , trackingDistance{ 15.f, 7.5f }
+        , trackingDistance{ 18.f, 6.f }
     {
     }
 
@@ -97,14 +97,8 @@ void Camera::MoveToAttachedObject(float _dt)
             SetPos(pObj->GetPos());
         }
         break;
-    case MoveType::LINEAR:
+    case MoveType::NON_TRACKING:
         {
-            Vec2 displacement = pObj->GetPos() - GetPos();
-            if (std::abs(displacement.GetX()) > pimpl->trackingDistance.GetX() ||
-                std::abs(displacement.GetY()) > pimpl->trackingDistance.GetY())
-            {
-                SetMovePower(displacement);
-            }
         }
         break;
     case MoveType::EASE_IN_OUT:
@@ -114,6 +108,16 @@ void Camera::MoveToAttachedObject(float _dt)
                 std::abs(displacement.GetY()) > pimpl->trackingDistance.GetY())
             {
                 AddMovePower(displacement.Normalize() * _dt);
+            }
+        }
+        break;
+    case MoveType::LINEAR:
+        {
+            Vec2 displacement = pObj->GetPos() - GetPos();
+            if (std::abs(displacement.GetX()) > pimpl->trackingDistance.GetX() ||
+                std::abs(displacement.GetY()) > pimpl->trackingDistance.GetY())
+            {
+                SetMovePower(displacement);
             }
         }
         break;
