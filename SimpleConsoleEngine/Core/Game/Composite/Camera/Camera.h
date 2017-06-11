@@ -12,10 +12,9 @@ class Camera : public GameObject
 public:
     enum class MoveType
     {
-        FIX_TO_OBJECT,
         NON_TRACKING,
+        FIX_TO_OBJECT,
         EASE_IN_OUT,
-        LINEAR,
         END
     };
 public:

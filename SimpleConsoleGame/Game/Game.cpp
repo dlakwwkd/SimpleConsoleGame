@@ -60,7 +60,7 @@ void Game::Init()
         {
            for (int i = 0; i < _d; ++i)
            {
-               pimpl->GenerateMob(10);
+               pimpl->GenerateMob(20);
            }
         }, 1);
 }
@@ -166,7 +166,7 @@ void Game::impl::GenerateMob(size_t _num)
             }
             auto shape3 = render->GetShape();
             shape3.form = L'❄';
-            shape3.color = Color::GREEN;
+            shape3.color = Color::CYAN;
             for (float i = 2; i < 5; ++i)
             {
                 LinkedUnit::AddLinkedUnit(mob, Vec2::LEFT + Vec2::UP * i, shape3, false, 60);
@@ -178,18 +178,8 @@ void Game::impl::GenerateMob(size_t _num)
         else if (i < mobType * 3)
         {
             render->SetShape(L'☯');
-            render->SetColor(Color::MAGENTA);
-            collision->SetDamage(6);
-            collision->SetMaxHp(100);
-            collision->InitHp();
-            mob->SetSpeed(30.0f);
-            mob->SetAIRatio(1.5f);
-        }
-        else if (i < mobType * 4)
-        {
-            render->SetShape(L'♋');
             render->SetColor(Color::CYAN);
-            collision->SetDamage(8);
+            collision->SetDamage(6);
             collision->SetMaxHp(100);
             collision->InitHp();
             mob->SetSpeed(30.0f);

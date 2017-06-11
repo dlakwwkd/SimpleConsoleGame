@@ -55,7 +55,7 @@ SHORT Console::impl::SetScreenAndGetFontSizeForThisDesktop() noexcept
     }
     else if (desktopSize.bottom >= 1080)
     {
-        fontSize = 21;
+        fontSize = 22;
     }
     else if (desktopSize.bottom >= 900)
     {

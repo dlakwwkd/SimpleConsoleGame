@@ -51,12 +51,14 @@ void Camera::Update(float _dt)
 /////////////////////////////////////////////////////////////////////////////////////////
 void Camera::ChangeMoveTypeToNext()
 {
+    static bool isFirst = true;
     static Timer timer(0.5f);
     timer.Tick();
     timer.AccumDt();
-    if (!timer.DurationCheck())
+    if (!timer.DurationCheck() && !isFirst)
         return;
 
+    isFirst = false;
     size_t idx = static_cast<size_t>(pimpl->moveMode);
     if (++idx == static_cast<size_t>(MoveType::END))
     {
@@ -92,13 +94,13 @@ void Camera::MoveToAttachedObject(float _dt)
 
     switch (pimpl->moveMode)
     {
+    case MoveType::NON_TRACKING:
+        {
+        }
+        break;
     case MoveType::FIX_TO_OBJECT:
         {
             SetPos(pObj->GetPos());
-        }
-        break;
-    case MoveType::NON_TRACKING:
-        {
         }
         break;
     case MoveType::EASE_IN_OUT:
@@ -108,16 +110,6 @@ void Camera::MoveToAttachedObject(float _dt)
                 std::abs(displacement.GetY()) > pimpl->trackingDistance.GetY())
             {
                 AddMovePower(displacement.Normalize() * _dt);
-            }
-        }
-        break;
-    case MoveType::LINEAR:
-        {
-            Vec2 displacement = pObj->GetPos() - GetPos();
-            if (std::abs(displacement.GetX()) > pimpl->trackingDistance.GetX() ||
-                std::abs(displacement.GetY()) > pimpl->trackingDistance.GetY())
-            {
-                SetMovePower(displacement);
             }
         }
         break;
