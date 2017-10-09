@@ -7,6 +7,7 @@ class IRenderObject;
 class ICollisionObject;
 class IGame;
 class Camera;
+class Command;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 class GameManager
@@ -18,6 +19,7 @@ class GameManager
     using SectionPtr        = std::shared_ptr<Section>;
     using SectionRef        = std::weak_ptr<Section>;
     using CameraPtr         = std::unique_ptr<Camera>;
+    using CommandPtr        = std::unique_ptr<Command>;
 public:
     IS_BASE_OF(T, IGame) void   Run();
     IS_BASE_OF(T, IGame) T&     GetGame() const;
@@ -43,6 +45,8 @@ public:
     SectionPtr                  FindSection(const POINT& _pos) const;
 
     CameraPtr&                  GetMainCamera();
+    CommandPtr&                 GetCommand();
+    void                        CommandProc(float dt);
 
 private:
     void                        InitGame();
@@ -61,6 +65,9 @@ private:
     void                        RemoveCollision(const CollisionObjPtr& _obj);
 
     void                        CollisionCheck(float _dt);
+    void                        ChangeRenderMode();
+
+    static void                 WindowMain();
 
 private:
     std::unique_ptr<Scheduler>  scheduler;

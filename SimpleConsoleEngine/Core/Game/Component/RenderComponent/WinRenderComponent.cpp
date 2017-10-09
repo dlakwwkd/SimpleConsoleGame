@@ -1,11 +1,11 @@
 ﻿#include "stdafx.h"
-#include "CmdRenderComponent.h"
+#include "WinRenderComponent.h"
 #include "../../../Console/Coord.h"
 #include "../../../Console/Shape.h"
 SCE_USE
 
 /////////////////////////////////////////////////////////////////////////////////////////
-struct CmdRenderComponent::impl
+struct WinRenderComponent::impl
 {
     impl(const CompositeRef& _owner) noexcept
         : owner{ _owner }
@@ -24,36 +24,36 @@ struct CmdRenderComponent::impl
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-CmdRenderComponent::CmdRenderComponent(const CompositeRef& _owner) noexcept
+WinRenderComponent::WinRenderComponent(const CompositeRef& _owner) noexcept
     : pimpl{ std::make_unique<impl>(_owner) }
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-CmdRenderComponent::~CmdRenderComponent()
+WinRenderComponent::~WinRenderComponent()
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-std::string CmdRenderComponent::GetComponentName() const
+std::string WinRenderComponent::GetComponentName() const
 {
-    return CONVERT_STRING(CmdRenderComponent);
+    return CONVERT_STRING(WinRenderComponent);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-IComponent::CompositePtr CmdRenderComponent::GetOwner() const
+IComponent::CompositePtr WinRenderComponent::GetOwner() const
 {
     return pimpl->owner.lock();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-IRenderComponent::RenderType CmdRenderComponent::GetRenderType() const
+IRenderComponent::RenderType WinRenderComponent::GetRenderType() const
 {
-    return RenderType::CmdConsole;
+    return RenderType::Window;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CmdRenderComponent::Render()
+void WinRenderComponent::Render()
 {
     if (pimpl->isShow)
     {
@@ -62,92 +62,92 @@ void CmdRenderComponent::Render()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-bool CmdRenderComponent::IsShow() const noexcept
+bool WinRenderComponent::IsShow() const noexcept
 {
     return pimpl->isShow;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-BYTE CmdRenderComponent::GetDepth() const noexcept
+BYTE WinRenderComponent::GetDepth() const noexcept
 {
     return pimpl->depth;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-const Coord& CmdRenderComponent::GetCoord() const noexcept
+const Coord& WinRenderComponent::GetCoord() const noexcept
 {
     return pimpl->coord;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-const Shape& CmdRenderComponent::GetShape() const noexcept
+const Shape& WinRenderComponent::GetShape() const noexcept
 {
     return pimpl->shape;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-wchar_t CmdRenderComponent::GetForm() const noexcept
+wchar_t WinRenderComponent::GetForm() const noexcept
 {
     return pimpl->shape.form;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-Color CmdRenderComponent::GetColor() const noexcept
+Color WinRenderComponent::GetColor() const noexcept
 {
     return pimpl->shape.color;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-Color CmdRenderComponent::GetBGColor() const noexcept
+Color WinRenderComponent::GetBGColor() const noexcept
 {
     return pimpl->shape.bgColor;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CmdRenderComponent::SetShow(bool _isShow) noexcept
+void WinRenderComponent::SetShow(bool _isShow) noexcept
 {
     pimpl->isShow = _isShow;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CmdRenderComponent::SetDepth(BYTE _depth) noexcept
+void WinRenderComponent::SetDepth(BYTE _depth) noexcept
 {
     pimpl->depth = _depth;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CmdRenderComponent::SetCoord(const Coord& _coord) noexcept
+void WinRenderComponent::SetCoord(const Coord& _coord) noexcept
 {
     pimpl->coord = _coord;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CmdRenderComponent::SetCoord(short _x, short _y) noexcept
+void WinRenderComponent::SetCoord(short _x, short _y) noexcept
 {
     pimpl->coord.x = _x;
     pimpl->coord.y = _y;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CmdRenderComponent::SetShape(const Shape& _shape) noexcept
+void WinRenderComponent::SetShape(const Shape& _shape) noexcept
 {
     pimpl->shape = _shape;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CmdRenderComponent::SetShape(wchar_t _form) noexcept
+void WinRenderComponent::SetShape(wchar_t _form) noexcept
 {
     pimpl->shape.form = _form;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CmdRenderComponent::SetColor(Color _color) noexcept
+void WinRenderComponent::SetColor(Color _color) noexcept
 {
     pimpl->shape.color = _color;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void CmdRenderComponent::SetBGColor(Color _bgColor) noexcept
+void WinRenderComponent::SetBGColor(Color _bgColor) noexcept
 {
     pimpl->shape.bgColor = _bgColor;
 }

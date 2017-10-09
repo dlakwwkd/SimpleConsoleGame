@@ -6,13 +6,13 @@ struct Coord;
 struct Shape;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-class CmdRenderComponent : public IRenderComponent
+class WinRenderComponent : public IRenderComponent
 {
     DECLARE_PIMPL
-    SPECIALFUNC_MOVE_SET(CmdRenderComponent, default)
+    SPECIALFUNC_MOVE_SET(WinRenderComponent, default)
 public:
-    CmdRenderComponent(const CompositeRef& _owner) noexcept;
-    virtual ~CmdRenderComponent() override;
+    WinRenderComponent(const CompositeRef& _owner) noexcept;
+    virtual ~WinRenderComponent() override;
 
     virtual std::string     GetComponentName() const override;
     virtual CompositePtr    GetOwner() const override;

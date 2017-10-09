@@ -19,8 +19,7 @@ SCE_USE
 struct Game::impl
 {
     impl() noexcept
-        : command{}
-        , hero{}
+        : hero{}
         , mobList{}
     {
     }
@@ -28,7 +27,6 @@ struct Game::impl
     void        GenerateMob(size_t _num);
     void        CommandProc(float _dt) const;
 
-    CommandPtr  command;
     HeroPtr     hero;
     MobList     mobList;
 };
@@ -48,7 +46,6 @@ void Game::Init()
 {
     srand((unsigned int)time(NULL));
 
-    pimpl->command = std::make_unique<Command>();
     pimpl->hero = ObjectPool<Hero>::GetWithInit();
     pimpl->hero->SetDefaultAttack();
     static auto& gm = GameManager::GetInstance();
@@ -72,7 +69,6 @@ void Game::Release()
     GameManager::GetInstance().RemoveRender(pimpl->hero);
     GameManager::GetInstance().UnRegisterCollision(pimpl->hero);
     pimpl->hero.reset();
-    pimpl->command.reset();
 }
 
 void Game::Update(float _dt)
@@ -200,41 +196,32 @@ void Game::impl::GenerateMob(size_t _num)
 
 void Game::impl::CommandProc(float _dt) const
 {
-    if (command->IsKeyPress<Command::ESC>())
-    {
-        GameManager::GetInstance().Shutdown();
-        return;
-    }
-    if (command->IsKeyPress<Command::ENTER>())
-    {
-        GameManager::GetInstance().ReturnMain();
-        return;
-    }
-    if (command->IsKeyPress<Command::UP>())
+    auto& cmd = *GameManager::GetInstance().GetCommand();
+    if (cmd.IsKeyPress<Command::UP>())
     {
         hero->AddMovePower(Vec2::UP * _dt);
     }
-    if (command->IsKeyPress<Command::DOWN>())
+    if (cmd.IsKeyPress<Command::DOWN>())
     {
         hero->AddMovePower(Vec2::DOWN * _dt);
     }
-    if (command->IsKeyPress<Command::LEFT>())
+    if (cmd.IsKeyPress<Command::LEFT>())
     {
         hero->AddMovePower(Vec2::LEFT * _dt);
     }
-    if (command->IsKeyPress<Command::RIGHT>())
+    if (cmd.IsKeyPress<Command::RIGHT>())
     {
         hero->AddMovePower(Vec2::RIGHT * _dt);
     }
-    if (command->IsKeyPress<Command::BUTTON_A>())
+    if (cmd.IsKeyPress<Command::BUTTON_A>())
     {
         hero->ShootMissile();
     }
-    if (command->IsKeyPress<Command::BUTTON_B>())
+    if (cmd.IsKeyPress<Command::BUTTON_B>())
     {
         hero->SwapMissile();
     }
-    if (command->IsKeyPress<Command::BUTTON_C>())
+    if (cmd.IsKeyPress<Command::BUTTON_C>())
     {
         static auto& gm = GameManager::GetInstance();
         gm.GetMainCamera()->ChangeMoveTypeToNext();

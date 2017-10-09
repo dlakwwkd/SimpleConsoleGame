@@ -195,6 +195,9 @@
     <ClInclude Include="Core\Game\Composite\Camera\Camera.h">
       <Filter>Core\Game\Composite\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Game\Component\RenderComponent\WinRenderComponent.h">
+      <Filter>Core\Game\Component\RenderComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\stdafx.cpp">
@@ -274,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="Core\Game\Composite\Camera\Camera.cpp">
       <Filter>Core\Game\Composite\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Game\Component\RenderComponent\WinRenderComponent.cpp">
+      <Filter>Core\Game\Component\RenderComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

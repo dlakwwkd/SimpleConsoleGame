@@ -13,6 +13,7 @@ public:
         DOWN,
         LEFT,
         RIGHT,
+        F12,
         BUTTON_A,
         BUTTON_B,
         BUTTON_C,

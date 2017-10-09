@@ -1,7 +1,9 @@
 ﻿#include "../Console/Console.h"
 #include "../Console/Coord.h"
 #include "../Timer/Timer.h"
+#include "../Command/Command.h"
 #include "Composite/Camera/Camera.h"
+#include "Interface/Component/IRenderComponent.h"
 SCE_START
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -17,21 +19,27 @@ struct GameManager::impl
         , renderList{}
         , collisionList{}
         , mainCamera{}
+        , command{}
+        , renderType{ IRenderComponent::RenderType::CmdConsole }
+        , windowThreadPtr{}
     {
     }
 
-    void                        PrintFrame();
-    void                        SectionNumPrint() const;
+    void                            PrintFrame();
+    void                            SectionNumPrint() const;
 
-    size_t                      frameCount;
-    size_t                      renderCount;
-    size_t                      renderLimit;
-    SectionPtr                  rootSection;
-    std::vector<SectionPtr>     sectionList;
-    std::map<POINT, SectionRef> sectionMap;
-    std::list<RenderObjPtr>     renderList;
-    std::list<CollisionObjPtr>  collisionList;
-    CameraPtr                   mainCamera;
+    size_t                          frameCount;
+    size_t                          renderCount;
+    size_t                          renderLimit;
+    SectionPtr                      rootSection;
+    std::vector<SectionPtr>         sectionList;
+    std::map<POINT, SectionRef>     sectionMap;
+    std::list<RenderObjPtr>         renderList;
+    std::list<CollisionObjPtr>      collisionList;
+    CameraPtr                       mainCamera;
+    CommandPtr                      command;
+    IRenderComponent::RenderType    renderType;
+    std::unique_ptr<std::thread>    windowThreadPtr;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

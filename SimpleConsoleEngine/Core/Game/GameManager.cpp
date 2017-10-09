@@ -11,7 +11,13 @@
 #include "../Console/Console.h"
 #include "../Timer/Timer.h"
 #include "../Math/Vec2.h"
+#include "../Command/Command.h"
 SCE_USE
+
+LRESULT CALLBACK    WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM IParam);
+LPCTSTR             lpszClass = TEXT("SimpleGame");
+HINSTANCE           g_Inst = nullptr;
+HWND                g_hWnd = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 GameManager::GameManager() noexcept
@@ -154,13 +160,41 @@ GameManager::CameraPtr& GameManager::GetMainCamera()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+GameManager::CommandPtr& GameManager::GetCommand()
+{
+    return pimpl->command;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+void GameManager::CommandProc(float dt)
+{
+    auto& cmd = *pimpl->command;
+    if (cmd.IsKeyPress<Command::ESC>())
+    {
+        Shutdown();
+    }
+    else if (cmd.IsKeyPress<Command::ENTER>())
+    {
+        ReturnMain();
+    }
+    else if (cmd.IsKeyPress<Command::F12>())
+    {
+        ChangeRenderMode();
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::InitGame()
 {
     Console::GetInstance().Init();
     scheduler = std::make_unique<Scheduler>();
     gameTimer = std::make_unique<Timer>();
     pimpl->mainCamera = std::make_unique<Camera>();
-    if (scheduler && gameTimer && pimpl->mainCamera)
+    pimpl->command = std::make_unique<Command>();
+    if (scheduler
+        && gameTimer
+        && pimpl->mainCamera
+        && pimpl->command)
     {
         isRun = true;
     }
@@ -179,7 +213,14 @@ void GameManager::ReleaseGame()
 {
     isPlay = false;
     isRun = false;
+    pimpl->command.reset();
     pimpl->mainCamera.reset();
+    if (pimpl->windowThreadPtr)
+    {
+        PostMessage(g_hWnd, WM_DESTROY, 0, 0);
+        pimpl->windowThreadPtr->detach();
+        pimpl->windowThreadPtr.reset();
+    }
     gameTimer.reset();
     scheduler.reset();
     Console::GetInstance().Release();
@@ -190,7 +231,10 @@ void GameManager::MainLoop()
 {
     while (isRun)
     {
-        if (!gameTimer || !curGame || !pimpl->mainCamera)
+        if (!gameTimer
+            || !curGame
+            || !pimpl->mainCamera
+            || !pimpl->command)
         {
             assert(false);
             return;
@@ -236,6 +280,7 @@ void GameManager::UpdateProcess()
 {
     float dt = FrameProgress();
 
+    CommandProc(dt);
     curGame->Update(dt);
     for (auto& obj : pimpl->collisionList)
     {
@@ -331,4 +376,80 @@ void GameManager::CollisionCheck(float _dt)
     {
         section->CollisionCheck();
     }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+void GameManager::ChangeRenderMode()
+{
+    static Timer timer(1);
+    timer.Tick();
+    timer.AccumDt();
+    if (!timer.DurationCheck())
+        return;
+
+    if (pimpl->renderType == IRenderComponent::RenderType::CmdConsole)
+    {
+        pimpl->renderType = IRenderComponent::RenderType::Window;
+        Console::GetInstance().Clear();
+        Console::GetInstance().SwapBuffer();
+
+        if (!pimpl->windowThreadPtr)
+        {
+            pimpl->windowThreadPtr = std::make_unique<std::thread>(&GameManager::WindowMain);
+        }
+    }
+    else
+    {
+        pimpl->renderType = IRenderComponent::RenderType::CmdConsole;
+
+        if (pimpl->windowThreadPtr)
+        {
+            PostMessage(g_hWnd, WM_DESTROY, 0, 0);
+            pimpl->windowThreadPtr->detach();
+            pimpl->windowThreadPtr.reset();
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+void GameManager::WindowMain()
+{
+    g_Inst = GetModuleHandle(NULL);
+
+    WNDCLASS WndClass;
+    WndClass.cbClsExtra = 0;
+    WndClass.cbWndExtra = 0;
+    WndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    WndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+    WndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    WndClass.hInstance = g_Inst;
+    WndClass.lpszClassName = lpszClass;
+    WndClass.lpszMenuName = NULL;
+    WndClass.style = CS_HREDRAW | CS_VREDRAW;
+    WndClass.lpfnWndProc = WndProc;
+    RegisterClass(&WndClass);
+
+    g_hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW,
+        0, 0, 640, 480, NULL, (HMENU)NULL, g_Inst, NULL);
+
+    ShowWindow(g_hWnd, SW_SHOW);
+
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0))
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM IParam)
+{
+    switch (iMessage)
+    {
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
+    }
+    return DefWindowProc(hWnd, iMessage, wParam, IParam);
 }

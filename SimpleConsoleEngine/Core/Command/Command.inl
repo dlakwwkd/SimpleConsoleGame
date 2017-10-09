@@ -10,6 +10,7 @@ constexpr Command::Command() noexcept
             VK_DOWN,
             VK_LEFT,
             VK_RIGHT,
+            VK_F12,
             'Z',
             'X',
             'C',
