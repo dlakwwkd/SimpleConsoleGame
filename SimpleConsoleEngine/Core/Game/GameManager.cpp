@@ -12,12 +12,14 @@
 #include "../Timer/Timer.h"
 #include "../Math/Vec2.h"
 #include "../Command/Command.h"
+#include <atomic>
 SCE_USE
 
 LRESULT CALLBACK    WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM IParam);
 LPCTSTR             lpszClass = TEXT("SimpleGame");
 HINSTANCE           g_Inst = nullptr;
 HWND                g_hWnd = nullptr;
+std::atomic<bool>   g_waitForRenderToWindow = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 GameManager::GameManager() noexcept
@@ -294,6 +296,9 @@ void GameManager::UpdateProcess()
 /////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::RenderProcess()
 {
+    if (g_waitForRenderToWindow)
+        return;
+
     static auto& console = Console::GetInstance();
     console.Clear();
 
@@ -305,7 +310,15 @@ void GameManager::RenderProcess()
     pimpl->PrintFrame();
     pimpl->SectionNumPrint();
 
-    console.SwapBuffer();
+    if (pimpl->renderType == IRenderComponent::RenderType::CmdConsole)
+    {
+        console.SwapBuffer();
+    }
+    else
+    {
+        g_waitForRenderToWindow = true;
+        RedrawWindow(g_hWnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -381,7 +394,7 @@ void GameManager::CollisionCheck(float _dt)
 /////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::ChangeRenderMode()
 {
-    static Timer timer(1);
+    static Timer timer(0.3f);
     timer.Tick();
     timer.AccumDt();
     if (!timer.DurationCheck())
@@ -397,6 +410,7 @@ void GameManager::ChangeRenderMode()
         {
             pimpl->windowThreadPtr = std::make_unique<std::thread>(&GameManager::WindowMain);
         }
+        ShowWindow(GetConsoleWindow(), 0);
     }
     else
     {
@@ -408,6 +422,7 @@ void GameManager::ChangeRenderMode()
             pimpl->windowThreadPtr->detach();
             pimpl->windowThreadPtr.reset();
         }
+        ShowWindow(GetConsoleWindow(), 1);
     }
 }
 
@@ -419,7 +434,7 @@ void GameManager::WindowMain()
     WNDCLASS WndClass;
     WndClass.cbClsExtra = 0;
     WndClass.cbWndExtra = 0;
-    WndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    WndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     WndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
     WndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     WndClass.hInstance = g_Inst;
@@ -429,8 +444,14 @@ void GameManager::WindowMain()
     WndClass.lpfnWndProc = WndProc;
     RegisterClass(&WndClass);
 
+    RECT rect;
+    GetWindowRect(GetConsoleWindow(), &rect);
     g_hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW,
-        0, 0, 640, 480, NULL, (HMENU)NULL, g_Inst, NULL);
+        rect.left,
+        rect.top,
+        rect.right - rect.left,
+        rect.bottom - rect.top,
+        NULL, (HMENU)NULL, g_Inst, NULL);
 
     ShowWindow(g_hWnd, SW_SHOW);
 
@@ -447,9 +468,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM IParam)
 {
     switch (iMessage)
     {
+    case WM_PAINT:
+        {
+            if (g_waitForRenderToWindow)
+            {
+                Console::GetInstance().RenderToWindow(hWnd);
+                g_waitForRenderToWindow = false;
+            }
+        }
+        break;
     case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
+        {
+            PostQuitMessage(0);
+        }
+        break;
+    default:
+        return DefWindowProc(hWnd, iMessage, wParam, IParam);
     }
-    return DefWindowProc(hWnd, iMessage, wParam, IParam);
+    return 0;
 }

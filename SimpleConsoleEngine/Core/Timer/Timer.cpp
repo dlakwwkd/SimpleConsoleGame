@@ -17,7 +17,7 @@ Timer::Timer(float _duration) noexcept
     : prevTime{ std::chrono::system_clock::now() }
     , curTime{}
     , deltaTime{}
-    , accumDt{}
+    , accumDt{ _duration + 1.f }
     , duration{ _duration }
 {
 }

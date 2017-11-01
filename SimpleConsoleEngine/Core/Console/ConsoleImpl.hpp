@@ -12,6 +12,7 @@ struct Console::impl
 
     impl() noexcept
         : cfiOrigin{}
+        , fontHandle{}
         , screenBuffer{}
         , screenIndex{}
         , screenSize{ MAX_CONSOLE_SIZE.x - 2, MAX_CONSOLE_SIZE.y - 2 }
@@ -30,6 +31,7 @@ struct Console::impl
     void                Print(const Coord& _pos, wchar_t _word) noexcept;
 
     CONSOLE_FONT_INFOEX cfiOrigin;
+    HFONT               fontHandle;
     HANDLE              screenBuffer[2];
     BYTE                screenIndex;
     Coord               screenSize;

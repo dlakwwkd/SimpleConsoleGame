@@ -30,10 +30,14 @@ void Console::Init() noexcept
     CONSOLE_FONT_INFOEX cfi{ sizeof(cfi) };
     GetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
     CopyMemory(&pimpl->cfiOrigin, &cfi, sizeof(cfi));
-    CopyMemory(cfi.FaceName, L"굴림체", LF_FACESIZE);
+    CopyMemory(cfi.FaceName, TEXT("굴림체"), LF_FACESIZE);
 
     // 화면 크기 및 폰트 크기 설정
     cfi.dwFontSize.Y = pimpl->SetScreenAndGetFontSizeForThisDesktop();
+
+    // 윈도우 렌더링을 위한 폰트 생성
+    pimpl->fontHandle = CreateFont(cfi.dwFontSize.Y, 0, 0, 0, 0, 0, 0, 0,
+        HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, cfi.FaceName);
 
     // 커서 설정
     CONSOLE_CURSOR_INFO cci;
@@ -64,6 +68,9 @@ void Console::Release() noexcept
     }
     // 기존 폰트 설정으로 복구
     SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &pimpl->cfiOrigin);
+
+    // 폰트 핸들 릴리즈
+    DeleteObject(pimpl->fontHandle);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -145,4 +152,45 @@ void Console::StoreShape(const Coord& _pos, const Shape& _shape) noexcept
         return;
     }
     assert(!"color size is overflow!");
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+void Console::RenderToWindow(HWND hWnd) const noexcept
+{
+    RECT rect;
+    GetWindowRect(hWnd, &rect);
+    int width = rect.right - rect.left;
+    int height = rect.bottom - rect.top;
+
+    PAINTSTRUCT ps;
+    HDC hdc = BeginPaint(hWnd, &ps);
+    {
+        auto hdcMem = CreateCompatibleDC(hdc);
+        auto hbmMem = CreateCompatibleBitmap(hdc, width, height);
+        auto oldMem = SelectObject(hdcMem, hbmMem);
+        auto oldFont = SelectObject(hdcMem, pimpl->fontHandle);
+
+        for (short y = 0; y < MAX_CONSOLE_SIZE.y; ++y)
+        {
+            for (short x = 0; x < MAX_CONSOLE_SIZE.x; ++x)
+            {
+                auto& shape = pimpl->shapeBuffer[y][x];
+                if (std::get<0>(shape) == false)
+                    continue;
+
+                auto form = std::get<1>(shape);
+                auto color = std::get<2>(shape);
+                SetTextColor(hdcMem, GetRGBColor(static_cast<Color>(color & 0xF)));
+                SetBkColor(hdcMem, GetRGBColor(static_cast<Color>(color >> 4)));
+                TextOut(hdcMem, x * 11, y * 22, &form, 1);
+            }
+        }
+        BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
+
+        SelectObject(hdcMem, oldFont);
+        SelectObject(hdcMem, oldMem);
+        DeleteObject(hbmMem);
+        DeleteDC(hdcMem);
+    }
+    EndPaint(hWnd, &ps);
 }

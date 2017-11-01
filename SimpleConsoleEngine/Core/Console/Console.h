@@ -21,6 +21,8 @@ public:
     void            PrintText(const Coord& _pos, const std::wstring& _text) noexcept;
     bool            DepthCheck(const Coord& _pos, BYTE _depth = 0) noexcept;
     void            StoreShape(const Coord& _pos, const Shape& _shape) noexcept;
+
+    void            RenderToWindow(HWND hWnd) const noexcept;
 };
 
 SCE_END
