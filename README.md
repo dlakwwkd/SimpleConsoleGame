@@ -3,4 +3,5 @@
 
 ## 주의
 Windows 10 이상인 OS에서는 콘솔 옵션에서 레거시 콘솔 사용을 체크해야 합니다.
+
 ![Console Option](consoleOption.PNG)
