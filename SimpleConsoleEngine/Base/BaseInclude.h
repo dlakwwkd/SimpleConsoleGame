@@ -3,6 +3,7 @@
 #include <cassert>
 #include <memory>
 #include <thread>
+#include <concepts>
 
 #include <time.h>
 #include <chrono>
