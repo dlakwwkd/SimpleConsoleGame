@@ -16,7 +16,7 @@ protected:
         USING,
         COOLTIME,
     };
-    using TimerPtr  = std::unique_ptr<SCE::Timer>;
+    using TimerPtr  = std::unique_ptr<Timer>;
     using UnitRef   = std::weak_ptr<Unit>;
 public:
     Skill() noexcept;
