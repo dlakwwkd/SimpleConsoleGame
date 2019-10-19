@@ -21,8 +21,8 @@ class GameManager
     using CameraPtr         = std::unique_ptr<Camera>;
     using CommandPtr        = std::unique_ptr<Command>;
 public:
-    IS_BASE_OF(T, IGame) void   Run();
-    IS_BASE_OF(T, IGame) T&     GetGame() const;
+    template<typename T> void   Run()           requires std::derived_from<T, IGame>;
+    template<typename T> T&     GetGame() const requires std::derived_from<T, IGame>;
 
     template<typename F, typename... Args>
     void                        CallFuncAfterS(float _after, F&& _functor, Args&&... _args);

@@ -2,8 +2,8 @@
 SCE_START
 
 /////////////////////////////////////////////////////////////////////////////////////////
-CHECKED_T(T)
-void GameManager::Run()
+template<typename T>
+void GameManager::Run() requires std::derived_from<T, IGame>
 {
     if (isRun || curGame)
     {
@@ -20,8 +20,8 @@ void GameManager::Run()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-CHECKED_T(T)
-T& GameManager::GetGame() const
+template<typename T>
+T& GameManager::GetGame() const requires std::derived_from<T, IGame>
 {
     return dynamic_cast<T&>(*curGame);
 }

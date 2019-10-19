@@ -1,7 +1,8 @@
 ﻿SCE_START
 
 /////////////////////////////////////////////////////////////////////////////////////////
-CHECKED_T(T) std::shared_ptr<T> CompositeBase::GetComponent() noexcept
+template<typename T>
+std::shared_ptr<T> CompositeBase::GetComponent() noexcept requires std::derived_from<T, IComponent>
 {
     static auto componentId = T::GetComponentId();
     auto iter = componentMap.find(componentId);
@@ -12,7 +13,8 @@ CHECKED_T(T) std::shared_ptr<T> CompositeBase::GetComponent() noexcept
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-CHECKED_T(T) std::shared_ptr<T> CompositeBase::AddComponent() noexcept
+template<typename T>
+std::shared_ptr<T> CompositeBase::AddComponent() noexcept requires std::derived_from<T, IComponent>
 {
     RemoveComponent<T>();
     auto component = ObjectPool<T>::Get(shared_from_this());
@@ -25,7 +27,8 @@ CHECKED_T(T) std::shared_ptr<T> CompositeBase::AddComponent() noexcept
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-CHECKED_T(T) void CompositeBase::RemoveComponent() noexcept
+template<typename T>
+void CompositeBase::RemoveComponent() noexcept requires std::derived_from<T, IComponent>
 {
     static auto componentId = T::GetComponentId();
     auto iter = componentMap.find(componentId);

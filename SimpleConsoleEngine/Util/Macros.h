@@ -95,11 +95,5 @@ protected:                          \
 private:
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// - 템플릿 태그 체크 (Refer to Effective Modern C++)
-#define CHECKED_T(T)        template<typename T, typename>
-#define IS_SAME(T, Other)   template<typename T, typename = std::enable_if_t<std::is_same_v<Other, T>>>
-#define IS_BASE_OF(T, Base) template<typename T, typename = std::enable_if_t<std::is_base_of_v<Base, T>>>
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // - 기타
 #define CONVERT_STRING(T) std::string(#T)
