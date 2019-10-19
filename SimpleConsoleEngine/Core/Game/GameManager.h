@@ -9,6 +9,9 @@ class IGame;
 class Camera;
 class Command;
 
+template<typename T>
+concept Game = std::derived_from<T, IGame>;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 class GameManager
 {
@@ -21,8 +24,8 @@ class GameManager
     using CameraPtr         = std::unique_ptr<Camera>;
     using CommandPtr        = std::unique_ptr<Command>;
 public:
-    template<typename T> void   Run()           requires std::derived_from<T, IGame>;
-    template<typename T> T&     GetGame() const requires std::derived_from<T, IGame>;
+    template<Game T> void       Run();
+    template<Game T> T&         GetGame() const;
 
     template<typename F, typename... Args>
     void                        CallFuncAfterS(float _after, F&& _functor, Args&&... _args);

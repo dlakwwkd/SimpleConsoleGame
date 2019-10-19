@@ -3,6 +3,9 @@
 SCE_START
 class IComponent;
 
+template<typename T>
+concept Compnent = std::derived_from<T, IComponent>;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 class CompositeBase : public std::enable_shared_from_this<CompositeBase>
 {
@@ -12,17 +15,12 @@ public:
     CompositeBase() noexcept;
     virtual ~CompositeBase() = default;
 
-    template<typename T>
-    std::shared_ptr<T>      GetComponent() noexcept requires std::derived_from<T, IComponent>;
-
-    template<typename T>
-    std::shared_ptr<T>      AddComponent() noexcept requires std::derived_from<T, IComponent>;
-
-    template<typename T>
-    void                    RemoveComponent() noexcept requires std::derived_from<T, IComponent>;
+    template<Compnent T> std::shared_ptr<T> GetComponent() noexcept;
+    template<Compnent T> std::shared_ptr<T> AddComponent() noexcept;
+    template<Compnent T> void               RemoveComponent() noexcept;
 
 private:
-    ComponentMap            componentMap;
+    ComponentMap                            componentMap;
 };
 
 SCE_END
