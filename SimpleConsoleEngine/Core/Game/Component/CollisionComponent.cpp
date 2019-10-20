@@ -1,8 +1,10 @@
 ﻿#include "stdafx.h"
 #include "CollisionComponent.h"
-#include "../../GameManager.h"
-#include "../../Composite/Unit/Unit.h"
+#include "../GameManager.h"
+#include "../Composite/Unit/Unit.h"
 SCE_USE
+
+_identifier IComponentCRTP<CollisionComponent>::s_Identifier;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 struct CollisionComponent::impl

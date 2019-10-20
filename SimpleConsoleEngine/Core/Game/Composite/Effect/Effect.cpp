@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Effect.h"
-#include "../../Component/RenderComponent/CmdRenderComponent.h"
+#include "../../Component/RenderComponent.h"
 SCE_USE
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -17,13 +17,13 @@ Effect::~Effect()
 /////////////////////////////////////////////////////////////////////////////////////////
 void Effect::Init()
 {
-    render = AddComponent<CmdRenderComponent>();
+    render = AddComponent<RenderComponent>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 void Effect::Release()
 {
-    RemoveComponent<CmdRenderComponent>();
+    RemoveComponent<RenderComponent>();
     render.reset();
 }
 

@@ -3,7 +3,7 @@
 #include "../Timer/Timer.h"
 #include "../Command/Command.h"
 #include "Composite/Camera/Camera.h"
-#include "Interface/Component/IRenderComponent.h"
+#include "Component/RenderComponent.h"
 SCE_START
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ struct GameManager::impl
         , collisionList{}
         , mainCamera{}
         , command{}
-        , renderType{ IRenderComponent::RenderType::CmdConsole }
+        , renderType{ RenderComponent::RenderType::CmdConsole }
         , windowThreadPtr{}
     {
     }
@@ -38,7 +38,7 @@ struct GameManager::impl
     std::list<CollisionObjPtr>      collisionList;
     CameraPtr                       mainCamera;
     CommandPtr                      command;
-    IRenderComponent::RenderType    renderType;
+    RenderComponent::RenderType     renderType;
     std::unique_ptr<std::thread>    windowThreadPtr;
 };
 

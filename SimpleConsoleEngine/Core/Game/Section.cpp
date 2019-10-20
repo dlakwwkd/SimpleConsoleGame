@@ -2,7 +2,7 @@
 #include "Section.h"
 #include "SectionImpl.hpp"
 #include "Composite/Unit/Unit.h"
-#include "Component/CollisionComponent/CollisionComponent.h"
+#include "Component/CollisionComponent.h"
 #include "../Math/Vec2.h"
 SCE_USE
 

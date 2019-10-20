@@ -160,9 +160,8 @@
     <ClInclude Include="Core\Console\ConsoleImpl.hpp" />
     <ClInclude Include="Core\Console\Coord.h" />
     <ClInclude Include="Core\Console\Shape.h" />
-    <ClInclude Include="Core\Game\Component\CollisionComponent\CollisionComponent.h" />
-    <ClInclude Include="Core\Game\Component\RenderComponent\CmdRenderComponent.h" />
-    <ClInclude Include="Core\Game\Component\RenderComponent\WinRenderComponent.h" />
+    <ClInclude Include="Core\Game\Component\CollisionComponent.h" />
+    <ClInclude Include="Core\Game\Component\RenderComponent.h" />
     <ClInclude Include="Core\Game\Composite\Camera\Camera.h" />
     <ClInclude Include="Core\Game\Composite\CompositeBase.h" />
     <ClInclude Include="Core\Game\Composite\Effect\Effect.h" />
@@ -175,8 +174,6 @@
     <ClInclude Include="Core\Game\EffectManagerImpl.hpp" />
     <ClInclude Include="Core\Game\GameManager.h" />
     <ClInclude Include="Core\Game\GameManagerImpl.hpp" />
-    <ClInclude Include="Core\Game\Interface\Component\ICollisionComponent.h" />
-    <ClInclude Include="Core\Game\Interface\Component\IRenderComponent.h" />
     <ClInclude Include="Core\Game\Interface\IComponent.h" />
     <ClInclude Include="Core\Game\Interface\IGame.h" />
     <ClInclude Include="Core\Game\Interface\IObject.h" />
@@ -205,9 +202,8 @@
     <ClCompile Include="Core\Console\Console.cpp" />
     <ClCompile Include="Core\Console\Coord.cpp" />
     <ClCompile Include="Core\Console\Shape.cpp" />
-    <ClCompile Include="Core\Game\Component\CollisionComponent\CollisionComponent.cpp" />
-    <ClCompile Include="Core\Game\Component\RenderComponent\CmdRenderComponent.cpp" />
-    <ClCompile Include="Core\Game\Component\RenderComponent\WinRenderComponent.cpp" />
+    <ClCompile Include="Core\Game\Component\CollisionComponent.cpp" />
+    <ClCompile Include="Core\Game\Component\RenderComponent.cpp" />
     <ClCompile Include="Core\Game\Composite\Camera\Camera.cpp" />
     <ClCompile Include="Core\Game\Composite\CompositeBase.cpp" />
     <ClCompile Include="Core\Game\Composite\Effect\Effect.cpp" />
@@ -217,8 +213,6 @@
     <ClCompile Include="Core\Game\Composite\Unit\Unit.cpp" />
     <ClCompile Include="Core\Game\EffectManager.cpp" />
     <ClCompile Include="Core\Game\GameManager.cpp" />
-    <ClCompile Include="Core\Game\Interface\Component\ICollisionComponent.cpp" />
-    <ClCompile Include="Core\Game\Interface\Component\IRenderComponent.cpp" />
     <ClCompile Include="Core\Game\Scheduler.cpp" />
     <ClCompile Include="Core\Game\Section.cpp" />
     <ClCompile Include="Core\Game\Skill.cpp" />
@@ -233,6 +227,7 @@
     <None Include="Core\Game\Composite\CompositeBase.inl" />
     <None Include="Core\Game\GameManager.inl" />
     <None Include="Core\Math\Vec2.inl" />
+    <None Include="cpp.hint" />
     <None Include="Util\AssertPack.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

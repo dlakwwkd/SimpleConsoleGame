@@ -5,14 +5,13 @@
 #include "Interface/IGame.h"
 #include "Composite/Unit/Unit.h"
 #include "Composite/Effect/Effect.h"
-#include "Component/RenderComponent/CmdRenderComponent.h"
-#include "Component/CollisionComponent/CollisionComponent.h"
+#include "Component/RenderComponent.h"
+#include "Component/CollisionComponent.h"
 #include "../Console/Color.hpp"
 #include "../Console/Console.h"
 #include "../Timer/Timer.h"
 #include "../Math/Vec2.h"
 #include "../Command/Command.h"
-#include <atomic>
 SCE_USE
 
 LRESULT CALLBACK    WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM IParam);
@@ -310,7 +309,7 @@ void GameManager::RenderProcess()
     pimpl->PrintFrame();
     pimpl->SectionNumPrint();
 
-    if (pimpl->renderType == IRenderComponent::RenderType::CmdConsole)
+    if (pimpl->renderType == RenderComponent::RenderType::CmdConsole)
     {
         console.SwapBuffer();
     }
@@ -400,9 +399,9 @@ void GameManager::ChangeRenderMode()
     if (!timer.DurationCheck())
         return;
 
-    if (pimpl->renderType == IRenderComponent::RenderType::CmdConsole)
+    if (pimpl->renderType == RenderComponent::RenderType::CmdConsole)
     {
-        pimpl->renderType = IRenderComponent::RenderType::Window;
+        pimpl->renderType = RenderComponent::RenderType::Window;
         Console::GetInstance().Clear();
         Console::GetInstance().SwapBuffer();
 
@@ -414,7 +413,7 @@ void GameManager::ChangeRenderMode()
     }
     else
     {
-        pimpl->renderType = IRenderComponent::RenderType::CmdConsole;
+        pimpl->renderType = RenderComponent::RenderType::CmdConsole;
 
         if (pimpl->windowThreadPtr)
         {

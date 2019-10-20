@@ -1,7 +1,7 @@
 ﻿#include "GameManager.h"
 #include "Composite/Unit/Unit.h"
 #include "Composite/Effect/Effect.h"
-#include "Component/RenderComponent/CmdRenderComponent.h"
+#include "Component/RenderComponent.h"
 #include "../Math/Vec2.h"
 #include "../Console/Coord.h"
 #include "../Console/Shape.h"

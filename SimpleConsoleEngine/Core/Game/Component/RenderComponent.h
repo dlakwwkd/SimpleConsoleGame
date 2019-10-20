@@ -1,23 +1,29 @@
 ﻿#pragma once
-#include "../../Interface/Component/IRenderComponent.h"
+#include "../Interface/IComponent.h"
 SCE_START
-enum Color : unsigned short;
+enum Color : uint16_t;
 struct Coord;
 struct Shape;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-class CmdRenderComponent : public IRenderComponent
+class RenderComponent : public IComponentCRTP<RenderComponent>
 {
     DECLARE_PIMPL
-    SPECIALFUNC_MOVE_SET(CmdRenderComponent, default)
+    SPECIALFUNC_MOVE_SET(RenderComponent, default)
 public:
-    CmdRenderComponent(const CompositeRef& _owner) noexcept;
-    virtual ~CmdRenderComponent() override;
+    enum class RenderType
+    {
+        CmdConsole,
+        Window,
+    };
+public:
+    RenderComponent(const CompositeRef& _owner) noexcept;
+    virtual ~RenderComponent() override;
 
     virtual std::string     GetComponentName() const override;
     virtual CompositePtr    GetOwner() const override;
-    virtual RenderType      GetRenderType() const override;
-    virtual void            Render() override;
+
+    void                    Render();
 
     bool                    IsShow() const noexcept;
     BYTE                    GetDepth() const noexcept;

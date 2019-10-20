@@ -4,7 +4,7 @@
 #include "../GameObject.h"
 SCE_START
 class Skill;
-class CmdRenderComponent;
+class RenderComponent;
 class CollisionComponent;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ class Unit
     using UnitPtr       = std::shared_ptr<Unit>;
     using SkillPtr      = std::shared_ptr<Skill>;
     using SkillList     = std::vector<SkillPtr>;
-    using RenderPtr     = std::shared_ptr<CmdRenderComponent>;
+    using RenderPtr     = std::shared_ptr<RenderComponent>;
     using CollisionPtr  = std::shared_ptr<CollisionComponent>;
 public:
     Unit() noexcept;

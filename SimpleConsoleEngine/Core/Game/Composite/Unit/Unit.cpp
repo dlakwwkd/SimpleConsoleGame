@@ -4,8 +4,8 @@
 #include "../../Skill.h"
 #include "../../GameManager.h"
 #include "../../EffectManager.h"
-#include "../../Component/RenderComponent/CmdRenderComponent.h"
-#include "../../Component/CollisionComponent/CollisionComponent.h"
+#include "../../Component/RenderComponent.h"
+#include "../../Component/CollisionComponent.h"
 #include "../../../Console/Coord.h"
 #include "../../../Console/Color.hpp"
 #include "../../../Math/Vec2.h"
@@ -46,14 +46,14 @@ Unit::~Unit()
 /////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Init()
 {
-    render = AddComponent<CmdRenderComponent>();
+    render = AddComponent<RenderComponent>();
     collision = AddComponent<CollisionComponent>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 void Unit::Release()
 {
-    RemoveComponent<CmdRenderComponent>();
+    RemoveComponent<RenderComponent>();
     RemoveComponent<CollisionComponent>();
     render.reset();
     collision.reset();

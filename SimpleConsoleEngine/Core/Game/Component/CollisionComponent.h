@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "../../Interface/Component/ICollisionComponent.h"
+#include "../Interface/IComponent.h"
 SCE_START
 class Section;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-class CollisionComponent : public ICollisionComponent
+class CollisionComponent : public IComponentCRTP<CollisionComponent>
 {
     DECLARE_PIMPL
     SPECIALFUNC_MOVE_SET(CollisionComponent, default)
@@ -12,7 +12,7 @@ class CollisionComponent : public ICollisionComponent
     using SectionPtr    = std::shared_ptr<Section>;
     using SectionRef    = std::weak_ptr<Section>;
 public:
-    enum CollisionMask : unsigned char
+    enum CollisionMask : uint8_t
     {
         NONE    = 0,
         PLAYER  = 1 << 0,

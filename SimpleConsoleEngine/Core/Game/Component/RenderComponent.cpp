@@ -1,11 +1,13 @@
 ﻿#include "stdafx.h"
-#include "WinRenderComponent.h"
-#include "../../../Console/Coord.h"
-#include "../../../Console/Shape.h"
+#include "RenderComponent.h"
+#include "../../Console/Coord.h"
+#include "../../Console/Shape.h"
 SCE_USE
 
+_identifier IComponentCRTP<RenderComponent>::s_Identifier;
+
 /////////////////////////////////////////////////////////////////////////////////////////
-struct WinRenderComponent::impl
+struct RenderComponent::impl
 {
     impl(const CompositeRef& _owner) noexcept
         : owner{ _owner }
@@ -24,36 +26,30 @@ struct WinRenderComponent::impl
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-WinRenderComponent::WinRenderComponent(const CompositeRef& _owner) noexcept
+RenderComponent::RenderComponent(const CompositeRef& _owner) noexcept
     : pimpl{ std::make_unique<impl>(_owner) }
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-WinRenderComponent::~WinRenderComponent()
+RenderComponent::~RenderComponent()
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-std::string WinRenderComponent::GetComponentName() const
+std::string RenderComponent::GetComponentName() const
 {
-    return TO_STRING(WinRenderComponent);
+    return TO_STRING(RenderComponent);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-IComponent::CompositePtr WinRenderComponent::GetOwner() const
+IComponent::CompositePtr RenderComponent::GetOwner() const
 {
     return pimpl->owner.lock();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-IRenderComponent::RenderType WinRenderComponent::GetRenderType() const
-{
-    return RenderType::Window;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-void WinRenderComponent::Render()
+void RenderComponent::Render()
 {
     if (pimpl->isShow)
     {
@@ -62,92 +58,92 @@ void WinRenderComponent::Render()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-bool WinRenderComponent::IsShow() const noexcept
+bool RenderComponent::IsShow() const noexcept
 {
     return pimpl->isShow;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-BYTE WinRenderComponent::GetDepth() const noexcept
+BYTE RenderComponent::GetDepth() const noexcept
 {
     return pimpl->depth;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-const Coord& WinRenderComponent::GetCoord() const noexcept
+const Coord& RenderComponent::GetCoord() const noexcept
 {
     return pimpl->coord;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-const Shape& WinRenderComponent::GetShape() const noexcept
+const Shape& RenderComponent::GetShape() const noexcept
 {
     return pimpl->shape;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-wchar_t WinRenderComponent::GetForm() const noexcept
+wchar_t RenderComponent::GetForm() const noexcept
 {
     return pimpl->shape.form;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-Color WinRenderComponent::GetColor() const noexcept
+Color RenderComponent::GetColor() const noexcept
 {
     return pimpl->shape.color;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-Color WinRenderComponent::GetBGColor() const noexcept
+Color RenderComponent::GetBGColor() const noexcept
 {
     return pimpl->shape.bgColor;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void WinRenderComponent::SetShow(bool _isShow) noexcept
+void RenderComponent::SetShow(bool _isShow) noexcept
 {
     pimpl->isShow = _isShow;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void WinRenderComponent::SetDepth(BYTE _depth) noexcept
+void RenderComponent::SetDepth(BYTE _depth) noexcept
 {
     pimpl->depth = _depth;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void WinRenderComponent::SetCoord(const Coord& _coord) noexcept
+void RenderComponent::SetCoord(const Coord& _coord) noexcept
 {
     pimpl->coord = _coord;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void WinRenderComponent::SetCoord(short _x, short _y) noexcept
+void RenderComponent::SetCoord(short _x, short _y) noexcept
 {
     pimpl->coord.x = _x;
     pimpl->coord.y = _y;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void WinRenderComponent::SetShape(const Shape& _shape) noexcept
+void RenderComponent::SetShape(const Shape& _shape) noexcept
 {
     pimpl->shape = _shape;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void WinRenderComponent::SetShape(wchar_t _form) noexcept
+void RenderComponent::SetShape(wchar_t _form) noexcept
 {
     pimpl->shape.form = _form;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void WinRenderComponent::SetColor(Color _color) noexcept
+void RenderComponent::SetColor(Color _color) noexcept
 {
     pimpl->shape.color = _color;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void WinRenderComponent::SetBGColor(Color _bgColor) noexcept
+void RenderComponent::SetBGColor(Color _bgColor) noexcept
 {
     pimpl->shape.bgColor = _bgColor;
 }

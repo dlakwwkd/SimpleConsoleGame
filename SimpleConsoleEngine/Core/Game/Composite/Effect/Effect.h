@@ -2,7 +2,7 @@
 #include "../../Interface/Object/IRenderObject.h"
 #include "../GameObject.h"
 SCE_START
-class CmdRenderComponent;
+class RenderComponent;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 class Effect
@@ -10,7 +10,7 @@ class Effect
     , public GameObject
 {
     SPECIALFUNC_MOVE_SET(Effect, default)
-    using RenderPtr = std::shared_ptr<CmdRenderComponent>;
+    using RenderPtr = std::shared_ptr<RenderComponent>;
 public:
     Effect() noexcept;
     virtual ~Effect() override;
