@@ -295,5 +295,8 @@
     <None Include="Core\Game\Composite\CompositeBase.inl">
       <Filter>Core\Game\Composite</Filter>
     </None>
+    <None Include="Core\Math\Vec2.inl">
+      <Filter>Core\Math</Filter>
+    </None>
   </ItemGroup>
 </Project>

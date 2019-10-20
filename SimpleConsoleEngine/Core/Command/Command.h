@@ -7,7 +7,7 @@ class Command
 public:
     enum KeyType
     {
-        ENTER = 0,
+        ENTER,
         ESC,
         UP,
         DOWN,

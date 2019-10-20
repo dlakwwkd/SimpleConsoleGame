@@ -29,7 +29,7 @@ void Shape::Render(const Coord& _pos, BYTE _depth) noexcept
     static auto& gm = GameManager::GetInstance();
     static auto& console = Console::GetInstance();
 
-    Coord fixedPos = Coord::ConvertToVec2(_pos) - gm.GetMainCamera()->GetPos();
+    Coord fixedPos = _pos.ConvertToVec2() - gm.GetMainCamera()->GetPos();
     fixedPos.x += console.GetScreenWidth() / 2;
     fixedPos.y += console.GetScreenHeight() / 2;
 

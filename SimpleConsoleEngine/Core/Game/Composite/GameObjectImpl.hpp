@@ -47,7 +47,7 @@ void GameObject::impl::MovePowerFixInLimit() noexcept
 void GameObject::impl::PosFixInScreanBoundary() noexcept
 {
     static auto& console = Console::GetInstance();
-    Vec2 bound(Coord::ConvertToVec2(console.GetScreenSize()));
+    Vec2 bound = console.GetScreenSize().ConvertToVec2();
 
     if (pos.GetX() < 0.0f)
     {

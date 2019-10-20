@@ -232,6 +232,7 @@
     <None Include="Core\Command\Command.inl" />
     <None Include="Core\Game\Composite\CompositeBase.inl" />
     <None Include="Core\Game\GameManager.inl" />
+    <None Include="Core\Math\Vec2.inl" />
     <None Include="Util\AssertPack.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -66,7 +66,7 @@ void Hero::Init()
     gm.GetMainCamera()->SetSpeed(GetSpeed());
 
     auto screenSize = Console::GetInstance().GetScreenSize();
-    SetPos(Coord::ConvertToVec2(screenSize) / 2);
+    SetPos(screenSize.ConvertToVec2() / 2);
 }
 
 void Hero::Release()
