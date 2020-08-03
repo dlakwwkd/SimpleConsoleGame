@@ -25,10 +25,10 @@ struct Console::impl
         }
     }
 
-    SHORT               SetScreenAndGetFontSizeForThisDesktop() noexcept;
     void                DrawInfoSetting() noexcept;
     void                DrawInfoPrint() noexcept;
     void                Print(const Coord& _pos, wchar_t _word) noexcept;
+    bool                IsShadeWord(wchar_t _word) noexcept;
 
     CONSOLE_FONT_INFOEX cfiOrigin;
     HFONT               fontHandle;
@@ -39,39 +39,6 @@ struct Console::impl
     ShapeInfo           shapeBuffer[MAX_CONSOLE_SIZE.y][MAX_CONSOLE_SIZE.x];
     DrawInfo            drawInfoBuffer[MAX_COLOR_SIZE];
 };
-
-/////////////////////////////////////////////////////////////////////////////////////////
-SHORT Console::impl::SetScreenAndGetFontSizeForThisDesktop() noexcept
-{
-    SHORT fontSize = 14;
-    HWND hDesktop = GetDesktopWindow();
-    RECT desktopSize;
-    GetWindowRect(hDesktop, &desktopSize);
-    if (desktopSize.bottom > 1440)
-    {
-        fontSize = 28;
-    }
-    else if (desktopSize.bottom > 1200)
-    {
-        fontSize = 24;
-    }
-    else if (desktopSize.bottom >= 1080)
-    {
-        fontSize = 22;
-    }
-    else if (desktopSize.bottom >= 900)
-    {
-        fontSize = 18;
-    }
-    else if (desktopSize.bottom >= 768)
-    {
-        fontSize = 16;
-    }
-    std::ostringstream oss;
-    oss << "mode con: lines=" << MAX_CONSOLE_SIZE.y << " cols=" << MAX_CONSOLE_SIZE.x;
-    system(oss.str().c_str());
-    return fontSize;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 void Console::impl::DrawInfoSetting() noexcept
@@ -113,9 +80,31 @@ void Console::impl::DrawInfoPrint() noexcept
 /////////////////////////////////////////////////////////////////////////////////////////
 void Console::impl::Print(const Coord& _pos, wchar_t _word) noexcept
 {
-    DWORD dw;
     SetConsoleCursorPosition(screenBuffer[screenIndex], { _pos.x, _pos.y });
-    WriteConsole(screenBuffer[screenIndex], &_word, 1U, &dw, nullptr);
+
+    DWORD dummy;
+    if (IsShadeWord(_word))
+    {
+        wchar_t dup[] = { _word, _word };
+        WriteConsole(screenBuffer[screenIndex], dup, 2U, &dummy, nullptr);
+    }
+    else
+    {
+        WriteConsole(screenBuffer[screenIndex], &_word, 1U, &dummy, nullptr);
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+bool Console::impl::IsShadeWord(wchar_t _word) noexcept
+{
+    switch (_word)
+    {
+    case L'░':
+    case L'▒':
+    case L'▓':
+        return true;
+    }
+    return false;
 }
 
 SCE_END

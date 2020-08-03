@@ -421,7 +421,6 @@ void GameManager::ChangeRenderMode()
             pimpl->windowThreadPtr->detach();
             pimpl->windowThreadPtr.reset();
         }
-        ShowWindow(GetConsoleWindow(), 1);
     }
 }
 
@@ -478,6 +477,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM IParam)
         break;
     case WM_DESTROY:
         {
+            ShowWindow(GetConsoleWindow(), 1);
             PostQuitMessage(0);
         }
         break;

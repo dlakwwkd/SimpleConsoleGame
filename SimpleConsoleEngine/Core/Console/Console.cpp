@@ -22,18 +22,19 @@ void Console::Init() noexcept
 {
     Release();
 
-    // 화면 좌상단으로 콘솔 위치 설정
-    HWND hConsole = GetConsoleWindow();
-    MoveWindow(hConsole, 0, 0, 0, 0, TRUE);
+    // 화면 크기 설정
+    std::ostringstream oss;
+    oss << "mode con: lines=" << MAX_CONSOLE_SIZE.y << " cols=" << MAX_CONSOLE_SIZE.x;
+    system(oss.str().c_str());
 
     // 기존 폰트 설정 보관 및 교체할 폰트 설정
     CONSOLE_FONT_INFOEX cfi{ sizeof(cfi) };
     GetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
     CopyMemory(&pimpl->cfiOrigin, &cfi, sizeof(cfi));
-    CopyMemory(cfi.FaceName, TEXT("굴림체"), LF_FACESIZE);
+//  CopyMemory(cfi.FaceName, TEXT("굴림체"), LF_FACESIZE);
 
     // 화면 크기 및 폰트 크기 설정
-    cfi.dwFontSize.Y = pimpl->SetScreenAndGetFontSizeForThisDesktop();
+//  cfi.dwFontSize.Y = 16;
 
     // 윈도우 렌더링을 위한 폰트 생성
     pimpl->fontHandle = CreateFont(cfi.dwFontSize.Y, 0, 0, 0, 0, 0, 0, 0,
@@ -169,6 +170,7 @@ void Console::RenderToWindow(HWND hWnd) const noexcept
         auto hbmMem = CreateCompatibleBitmap(hdc, width, height);
         auto oldMem = SelectObject(hdcMem, hbmMem);
         auto oldFont = SelectObject(hdcMem, pimpl->fontHandle);
+        auto fontSize = pimpl->cfiOrigin.dwFontSize.Y;
 
         for (short y = 0; y < MAX_CONSOLE_SIZE.y; ++y)
         {
@@ -182,7 +184,7 @@ void Console::RenderToWindow(HWND hWnd) const noexcept
                 auto color = std::get<2>(shape);
                 SetTextColor(hdcMem, GetRGBColor(static_cast<Color>(color & 0xF)));
                 SetBkColor(hdcMem, GetRGBColor(static_cast<Color>(color >> 4)));
-                TextOut(hdcMem, x * 11, y * 22, &form, 1);
+                TextOut(hdcMem, (x * fontSize) / 2, y * fontSize, &form, 1);
             }
         }
         BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
